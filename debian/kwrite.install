@@ -1,0 +1,7 @@
+usr/bin/kwrite
+usr/share/applications/org.kde.kwrite.desktop
+usr/share/doc/HTML/*/kwrite/
+usr/share/icons/hicolor/*/apps/kwrite.png
+usr/share/icons/hicolor/scalable/apps/kwrite.svgz
+usr/share/locale/*/LC_MESSAGES/kwrite.mo
+usr/share/metainfo/org.kde.kwrite.appdata.xml
