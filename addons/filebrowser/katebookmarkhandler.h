@@ -7,11 +7,10 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef KATE_BOOKMARK_HANDLER_H
-#define KATE_BOOKMARK_HANDLER_H
+#pragma once
 
-#include <KBookmarkManager>
 #include <KBookmarkMenu>
+#include <KBookmarkOwner>
 
 class KateFileBrowser;
 class QMenu;
@@ -42,6 +41,3 @@ private:
     QMenu *m_menu;
     KBookmarkMenu *m_bookmarkMenu;
 };
-
-#endif // KATE_BOOKMARK_HANDLER_H
-// kate: space-indent on; indent-width 2; replace-tabs on;

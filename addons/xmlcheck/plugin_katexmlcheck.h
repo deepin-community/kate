@@ -22,18 +22,17 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  ***************************************************************************/
 
-#ifndef PLUGIN_KATEXMLCHECK_H
-#define PLUGIN_KATEXMLCHECK_H
+#pragma once
 
-#include <QProcess>
+#include "diagnostics/diagnosticview.h"
 
+#include <KTextEditor/Document>
 #include <ktexteditor/application.h>
 #include <ktexteditor/mainwindow.h>
 #include <ktexteditor/plugin.h>
-
-#include <ktexteditor/document.h>
 #include <ktexteditor/view.h>
 
+#include <QProcess>
 #include <QString>
 #include <QVariantList>
 
@@ -43,40 +42,31 @@ class QTemporaryFile;
 
 class PluginKateXMLCheckView : public QObject, public KXMLGUIClient
 {
-    Q_OBJECT
-
 public:
     PluginKateXMLCheckView(KTextEditor::Plugin *plugin, KTextEditor::MainWindow *mainwin);
     ~PluginKateXMLCheckView() override;
 
     KTextEditor::MainWindow *m_mainWindow;
-    QWidget *dock;
 
-public Q_SLOTS:
+public:
     bool slotValidate();
-    void slotClicked(QTreeWidgetItem *item, int column);
     void slotProcExited(int exitCode, QProcess::ExitStatus exitStatus);
-    void slotUpdate();
+    static void slotUpdate();
 
 private:
     QTemporaryFile *m_tmp_file;
-    KParts::ReadOnlyPart *part = nullptr;
     bool m_validating = false;
     QProcess m_proc;
     QString m_proc_stderr;
     QString m_dtdname;
-    QTreeWidget *listview;
+    DiagnosticsProvider m_provider;
 };
 
 class PluginKateXMLCheck : public KTextEditor::Plugin
 {
-    Q_OBJECT
-
 public:
     explicit PluginKateXMLCheck(QObject *parent = nullptr, const QVariantList & = QVariantList());
 
     ~PluginKateXMLCheck() override;
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
 };
-
-#endif // PLUGIN_KATEXMLCHECK_H

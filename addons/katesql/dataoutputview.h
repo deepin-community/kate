@@ -4,20 +4,15 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef DATAOUTPUTVIEW_H
-#define DATAOUTPUTVIEW_H
+#pragma once
 
 #include <QTableView>
 
 class DataOutputView : public QTableView
 {
-    Q_OBJECT
-
 public:
-    DataOutputView(QWidget *parent = nullptr);
+    explicit DataOutputView(QWidget *parent = nullptr);
 
-private Q_SLOTS:
+private:
     void slotCustomContextMenuRequested(const QPoint &pos);
 };
-
-#endif // DATAOUTPUTVIEW_H

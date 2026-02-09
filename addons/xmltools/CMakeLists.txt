@@ -1,11 +1,6 @@
-remove_definitions(-DQT_NO_CAST_TO_ASCII)
-remove_definitions(-DQT_NO_CAST_FROM_ASCII)
-remove_definitions(-DQT_NO_URL_CAST_FROM_STRING)
-remove_definitions(-DQT_NO_CAST_FROM_BYTEARRAY)
-
-add_library(katexmltoolsplugin MODULE "")
+kate_add_plugin(katexmltoolsplugin)
 target_compile_definitions(katexmltoolsplugin PRIVATE TRANSLATION_DOMAIN="katexmltools")
-target_link_libraries(katexmltoolsplugin PRIVATE KF5::I18n KF5::TextEditor)
+target_link_libraries(katexmltoolsplugin PRIVATE KF6::I18n KF6::TextEditor KF6::KIOWidgets)
 
 target_sources(
   katexmltoolsplugin 
@@ -15,9 +10,9 @@ target_sources(
     plugin.qrc
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(katexmltoolsplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS katexmltoolsplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(katexmltoolsplugin REUSE_FROM katepch)
+endif()
 
 install(
   FILES 

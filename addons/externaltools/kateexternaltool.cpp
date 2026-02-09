@@ -6,6 +6,8 @@
  */
 #include "kateexternaltool.h"
 
+#include "hostprocess.h"
+
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <QStandardPaths>
@@ -92,16 +94,44 @@ KateExternalTool::OutputMode toOutputMode(const QString &mode)
     }
     return KateExternalTool::OutputMode::Ignore;
 }
+
+KateExternalTool::Trigger toTrigger(const QString &trigger)
+{
+    if (trigger == QStringLiteral("None")) {
+        return KateExternalTool::Trigger::None;
+    }
+    if (trigger == QStringLiteral("BeforeSave")) {
+        return KateExternalTool::Trigger::BeforeSave;
+    }
+    if (trigger == QStringLiteral("AfterSave")) {
+        return KateExternalTool::Trigger::AfterSave;
+    }
+    return KateExternalTool::Trigger::None;
+}
+
+QString toString(KateExternalTool::Trigger trigger)
+{
+    if (trigger == KateExternalTool::Trigger::None) {
+        return QStringLiteral("None");
+    }
+    if (trigger == KateExternalTool::Trigger::BeforeSave) {
+        return QStringLiteral("BeforeSave");
+    }
+    if (trigger == KateExternalTool::Trigger::AfterSave) {
+        return QStringLiteral("AfterSave");
+    }
+    return QStringLiteral("None");
+}
 }
 
 bool KateExternalTool::checkExec() const
 {
-    return !QStandardPaths::findExecutable(executable).isEmpty();
+    return !safeExecutableName(executable).isEmpty();
 }
 
 bool KateExternalTool::matchesMimetype(const QString &mt) const
 {
-    return mimetypes.isEmpty() || mimetypes.contains(mt);
+    return mimetypes.contains(mt);
 }
 
 void KateExternalTool::load(const KConfigGroup &cg)
@@ -119,33 +149,38 @@ void KateExternalTool::load(const KConfigGroup &cg)
     saveMode = toSaveMode(cg.readEntry("save", "None"));
     reload = cg.readEntry("reload", false);
     outputMode = toOutputMode(cg.readEntry("output", "Ignore"));
+    trigger = toTrigger(cg.readEntry("trigger", "None"));
 
-    hasexec = checkExec();
+    hasexec = executable.contains(QLatin1Char('$')) ? std::nullopt : std::optional<bool>(checkExec());
 }
 
-static inline void writeStringEntry(KConfigGroup &cg, const char *key, const QString &value)
+template<class Value>
+static inline void writeEntryMaybe(KConfigGroup &cg, const char *key, const Value &value)
 {
-    if (!value.isEmpty()) {
+    if (value.isEmpty()) {
+        cg.deleteEntry(key);
+    } else {
         cg.writeEntry(key, value);
     }
 }
 
 void KateExternalTool::save(KConfigGroup &cg) const
 {
-    writeStringEntry(cg, "category", category);
-    writeStringEntry(cg, "name", name);
-    writeStringEntry(cg, "icon", icon);
-    writeStringEntry(cg, "executable", executable);
-    writeStringEntry(cg, "arguments", arguments);
-    writeStringEntry(cg, "input", input);
-    writeStringEntry(cg, "workingDir", workingDir);
-    if (!mimetypes.empty()) {
-        cg.writeEntry("mimetypes", mimetypes);
-    }
-    writeStringEntry(cg, "actionName", actionName);
-    writeStringEntry(cg, "cmdname", cmdname);
-    writeStringEntry(cg, "save", toString(saveMode));
-    writeStringEntry(cg, "output", toString(outputMode));
+    writeEntryMaybe(cg, "category", category);
+    writeEntryMaybe(cg, "name", name);
+    writeEntryMaybe(cg, "icon", icon);
+    writeEntryMaybe(cg, "executable", executable);
+    writeEntryMaybe(cg, "arguments", arguments);
+    writeEntryMaybe(cg, "input", input);
+    writeEntryMaybe(cg, "workingDir", workingDir);
+    writeEntryMaybe(cg, "mimetypes", mimetypes);
+    writeEntryMaybe(cg, "actionName", actionName);
+    writeEntryMaybe(cg, "cmdname", cmdname);
+    writeEntryMaybe(cg, "save", toString(saveMode));
+    writeEntryMaybe(cg, "output", toString(outputMode));
+    writeEntryMaybe(cg, "trigger", toString(trigger));
+
+    // a logical value is never empty
     cg.writeEntry("reload", reload);
 }
 
@@ -163,7 +198,8 @@ bool operator==(const KateExternalTool &lhs, const KateExternalTool &rhs)
 {
     return lhs.category == rhs.category && lhs.name == rhs.name && lhs.icon == rhs.icon && lhs.executable == rhs.executable && lhs.arguments == rhs.arguments
         && lhs.input == rhs.input && lhs.workingDir == rhs.workingDir && lhs.mimetypes == rhs.mimetypes && lhs.actionName == rhs.actionName
-        && lhs.cmdname == rhs.cmdname && lhs.saveMode == rhs.saveMode && lhs.reload == rhs.reload && lhs.outputMode == rhs.outputMode;
+        && lhs.cmdname == rhs.cmdname && lhs.saveMode == rhs.saveMode && lhs.reload == rhs.reload && lhs.outputMode == rhs.outputMode
+        && lhs.trigger == rhs.trigger;
 }
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

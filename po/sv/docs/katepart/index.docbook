@@ -85,9 +85,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2020-10-10</date>
+>2022-05-02</date>
 <releaseinfo
->&frameworks; 5.75</releaseinfo>
+>&frameworks; 5.94</releaseinfo>
 
 <abstract>
 <para
@@ -138,7 +138,7 @@
 >Tack till och licens</title>
 
 <para
->&katepart; och &kwrite; Copyright 2001-2021 av &kate;-gruppen.</para>
+>&katepart; och &kwrite; Copyright 2001-2022 av &kate;-gruppen.</para>
 
 <para
 >Baserad på den ursprungliga &kwrite;, som var copyright 2000 av Jochen Wilhelmy <email

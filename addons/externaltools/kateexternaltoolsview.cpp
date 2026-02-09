@@ -7,9 +7,12 @@
 #include "kateexternaltoolsview.h"
 #include "externaltoolsplugin.h"
 #include "kateexternaltool.h"
+#include "ktexteditor_utils.h"
 #include "ui_toolview.h"
 
+#include <KTextEditor/Application>
 #include <KTextEditor/Document>
+#include <KTextEditor/Editor>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
 
@@ -65,12 +68,13 @@ void KateExternalToolsMenuAction::reload()
 
     // first add categorized actions, such that the submenus appear at the top
     for (auto tool : m_plugin->tools()) {
-        if (tool->hasexec) {
+        // !tool->hasexec => tool exe has an expandable variable and thus cannot be checked reliably, consider it true
+        if (tool->canExecute()) {
             auto a = new QAction(tool->translatedName().replace(QLatin1Char('&'), QLatin1String("&&")), this);
             a->setIcon(QIcon::fromTheme(tool->icon));
             a->setData(QVariant::fromValue(tool));
 
-            connect(a, &QAction::triggered, [this, a]() {
+            connect(a, &QAction::triggered, a, [this, a]() {
                 m_plugin->runTool(*a->data().value<KateExternalTool *>(), m_mainwindow->activeView());
             });
 
@@ -100,21 +104,22 @@ void KateExternalToolsMenuAction::reload()
     connect(cfgAction, &QAction::triggered, this, &KateExternalToolsMenuAction::showConfigPage, Qt::QueuedConnection);
 
     // load shortcuts
-    KSharedConfig::Ptr pConfig = KSharedConfig::openConfig(QStringLiteral("externaltools"), KConfig::NoGlobals, QStandardPaths::ApplicationsLocation);
-    KConfigGroup config(pConfig, "Global");
-    config = KConfigGroup(pConfig, "Shortcuts");
-    m_actionCollection->readSettings(&config);
+    KSharedConfigPtr pConfig = m_plugin->config();
+    KConfigGroup group(pConfig, QStringLiteral("Global"));
+    group = KConfigGroup(pConfig, QStringLiteral("Shortcuts"));
+    m_actionCollection->readSettings(&group);
     slotViewChanged(m_mainwindow->activeView());
 }
 
 void KateExternalToolsMenuAction::slotViewChanged(KTextEditor::View *view)
 {
     // no active view, oh oh
+    disconnect(m_docUrlChangedConnection);
     if (!view) {
+        updateActionState(nullptr);
         return;
     }
 
-    disconnect(m_docUrlChangedConnection);
     m_docUrlChangedConnection = connect(view->document(), &KTextEditor::Document::documentUrlChanged, this, [this](KTextEditor::Document *doc) {
         updateActionState(doc);
     });
@@ -124,17 +129,13 @@ void KateExternalToolsMenuAction::slotViewChanged(KTextEditor::View *view)
 
 void KateExternalToolsMenuAction::updateActionState(KTextEditor::Document *activeDoc)
 {
-    if (!activeDoc) {
-        return;
-    }
-
-    // try to enable/disable to match current mime type
-    const QString mimeType = activeDoc->mimeType();
+    // try to enable/disable to match current mime type or if we have no doc
+    const QString mimeType = activeDoc ? activeDoc->mimeType() : QString();
     const auto actions = m_actionCollection->actions();
     for (QAction *action : actions) {
         if (action && action->data().value<KateExternalTool *>()) {
             auto tool = action->data().value<KateExternalTool *>();
-            action->setEnabled(tool->matchesMimetype(mimeType));
+            action->setEnabled(activeDoc && (tool->matchesMimetype(mimeType) || tool->mimetypes.isEmpty()));
         }
     }
 }
@@ -167,6 +168,8 @@ KateExternalToolsPluginView::KateExternalToolsPluginView(KTextEditor::MainWindow
 
     // ESC should close & hide ToolView
     connect(m_mainWindow, &KTextEditor::MainWindow::unhandledShortcutOverride, this, &KateExternalToolsPluginView::handleEsc);
+    connect(m_mainWindow, &KTextEditor::MainWindow::viewChanged, this, &KateExternalToolsPluginView::slotViewChanged);
+    slotViewChanged(m_mainWindow->activeView());
 }
 
 KateExternalToolsPluginView::~KateExternalToolsPluginView()
@@ -257,12 +260,90 @@ void KateExternalToolsPluginView::deleteToolView()
 
 void KateExternalToolsPluginView::handleEsc(QEvent *event)
 {
-    auto keyEvent = dynamic_cast<QKeyEvent *>(event);
+    if (event->type() != QEvent::ShortcutOverride)
+        return;
+
+    auto keyEvent = static_cast<QKeyEvent *>(event);
     if (keyEvent && keyEvent->key() == Qt::Key_Escape && keyEvent->modifiers() == Qt::NoModifier) {
         deleteToolView();
     }
 }
 
+QAction *KateExternalToolsPluginView::externalToolsForDocumentAction(KTextEditor::Document *doc)
+{
+    if (!doc || doc->views().isEmpty())
+        return nullptr;
+
+    auto *ret = new KActionMenu(this);
+    ret->setText(i18n("External Tools"));
+    auto menu = ret->menu();
+    connect(menu, &QMenu::aboutToShow, this, [doc, this, menu] {
+        const auto mime = doc->mimeType();
+        const QList<KateExternalTool *> &tools = m_plugin->tools();
+        QPointer<KTextEditor::View> view = doc->views().first();
+        for (auto tool : tools) {
+            if (!tool->mimetypes.isEmpty() && !tool->matchesMimetype(mime)) {
+                continue;
+            }
+            auto a = menu->addAction(QIcon::fromTheme(tool->icon), tool->translatedName());
+            connect(a, &QAction::triggered, this, [this, tool, view] {
+                m_plugin->runTool(*tool, view);
+            });
+        }
+    });
+    return ret;
+}
+
+void KateExternalToolsPluginView::slotViewChanged(KTextEditor::View *v)
+{
+    if (m_currentView) {
+        disconnect(m_currentView->document(), &KTextEditor::Document::documentSavedOrUploaded, this, &KateExternalToolsPluginView::onDocumentSaved);
+        disconnect(m_currentView->document(), &KTextEditor::Document::aboutToSave, this, &KateExternalToolsPluginView::onDocumentAboutToSave);
+    }
+    m_currentView = v;
+
+    if (!m_currentView) {
+        return;
+    }
+
+    connect(v->document(), &KTextEditor::Document::documentSavedOrUploaded, this, &KateExternalToolsPluginView::onDocumentSaved, Qt::UniqueConnection);
+    connect(v->document(), &KTextEditor::Document::aboutToSave, this, &KateExternalToolsPluginView::onDocumentAboutToSave, Qt::UniqueConnection);
+}
+
+void KateExternalToolsPluginView::onDocumentSaved(KTextEditor::Document *doc)
+{
+    // We only want to run this in the current active mainwindow
+    if (KTextEditor::Editor::instance()->application()->activeMainWindow() != m_mainWindow) {
+        return;
+    }
+
+    const auto tools = m_plugin->tools();
+    for (KateExternalTool *tool : tools) {
+        const bool hasSaveTrigger = tool->trigger == KateExternalTool::Trigger::AfterSave;
+        if (hasSaveTrigger && tool->matchesMimetype(doc->mimeType())) {
+            m_plugin->runTool(*tool, m_currentView, /*exec save trigger=*/true);
+        }
+    }
+}
+
+void KateExternalToolsPluginView::onDocumentAboutToSave(KTextEditor::Document *doc)
+{
+    // We only want to run this in the current active mainwindow
+    if (KTextEditor::Editor::instance()->application()->activeMainWindow() != m_mainWindow) {
+        return;
+    }
+
+    const auto tools = m_plugin->tools();
+    for (KateExternalTool *tool : tools) {
+        const bool hasSaveTrigger = tool->trigger == KateExternalTool::Trigger::BeforeSave;
+        if (hasSaveTrigger && tool->matchesMimetype(doc->mimeType())) {
+            m_plugin->blockingRunTool(*tool, m_currentView, /*exec save trigger=*/true);
+        }
+    }
+}
+
 // END KateExternalToolsPluginView
+
+#include "moc_kateexternaltoolsview.cpp"
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

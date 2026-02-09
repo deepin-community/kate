@@ -4,14 +4,18 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef CONNECTION_H
-#define CONNECTION_H
+#pragma once
 
 #include <QMetaType>
 #include <QString>
 
 struct Connection {
-    enum Status { UNKNOWN = 0, ONLINE = 1, OFFLINE = 2, REQUIRE_PASSWORD = 3 };
+    enum Status {
+        UNKNOWN = 0,
+        ONLINE = 1,
+        OFFLINE = 2,
+        REQUIRE_PASSWORD = 3
+    };
 
     QString name;
     QString driver;
@@ -25,5 +29,3 @@ struct Connection {
 };
 
 Q_DECLARE_METATYPE(Connection)
-
-#endif // CONNECTION_H

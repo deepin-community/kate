@@ -2,13 +2,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Andrej Mernik <andrejm@ubuntu.si>, 2016.
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2020-07-08 07:45+0200\n"
-"Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
+"POT-Creation-Date: 2024-12-17 00:43+0000\n"
+"PO-Revision-Date: 2023-01-16 14:20+0100\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -16,49 +17,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Lokalize 22.12.1\n"
 
-#: plugin_katexmlcheck.cpp:106
+#: plugin_katexmlcheck.cpp:94
 #, kde-format
-msgid "Kate XML check"
-msgstr "Preverjanje XML za Kate"
+msgid "XML Check"
+msgstr "Preverjanje XML"
 
-#: plugin_katexmlcheck.cpp:113
-#, kde-format
-msgid "XML Checker Output"
-msgstr "Izhod preverjalnika XML"
-
-#: plugin_katexmlcheck.cpp:117
+#: plugin_katexmlcheck.cpp:99
 #, kde-format
 msgid "Validate XML"
 msgstr "Potrdi veljavnost XML"
 
-#: plugin_katexmlcheck.cpp:125
+#: plugin_katexmlcheck.cpp:129
 #, kde-format
-msgid "#"
-msgstr "#"
+msgid "Validate process crashed"
+msgstr "Postopek validacije se je sesul"
 
-#: plugin_katexmlcheck.cpp:126
+#: plugin_katexmlcheck.cpp:129 plugin_katexmlcheck.cpp:147
+#: plugin_katexmlcheck.cpp:207 plugin_katexmlcheck.cpp:232
+#: plugin_katexmlcheck.cpp:252 plugin_katexmlcheck.cpp:335
 #, kde-format
-msgid "Line"
-msgstr "Vrstica"
+msgid "XMLCheck"
+msgstr "XMLCheck"
 
-#: plugin_katexmlcheck.cpp:127
+#: plugin_katexmlcheck.cpp:143
 #, kde-format
-msgid "Column"
-msgstr "Stolpec"
+msgid "No DOCTYPE found, will only check well-formedness."
+msgstr "Ni najden DOCTYPE, preverjali bomo samo pravilno obliko."
 
-#: plugin_katexmlcheck.cpp:128
+#: plugin_katexmlcheck.cpp:145
 #, kde-format
-msgid "Message"
-msgstr "Sporočilo"
+msgctxt "%1 refers to the XML DTD"
+msgid "'%1' not found, will only check well-formedness."
+msgstr "Ni najden '%1', preverjali bomo samo pravilno obliko."
 
-#: plugin_katexmlcheck.cpp:299
+#: plugin_katexmlcheck.cpp:231
 #, kde-format
 msgid "<b>Error:</b> Could not create temporary file '%1'."
 msgstr "<b>Napaka:</b> ni bilo mogoče ustvariti začasne datoteke '%1'."
 
-#: plugin_katexmlcheck.cpp:393
+#: plugin_katexmlcheck.cpp:250
+#, kde-format
+msgid ""
+"<b>Error:</b> Failed to find xmllint. Please make sure that xmllint is "
+"installed. It is part of libxml2."
+msgstr ""
+"<b>Napaka:</b> ni bilo mogoče najti programa xmllint. Prepričajte se, da je "
+"xmllint nameščen. Gre za del libxml2."
+
+#: plugin_katexmlcheck.cpp:333
 #, kde-format
 msgid ""
 "<b>Error:</b> Failed to execute xmllint. Please make sure that xmllint is "
@@ -72,3 +80,21 @@ msgstr ""
 #, kde-format
 msgid "&XML"
 msgstr "&XML"
+
+#~ msgid "XML Checker"
+#~ msgstr "Preverjalnik XML"
+
+#~ msgid "#"
+#~ msgstr "#"
+
+#~ msgid "Line"
+#~ msgstr "Vrstica"
+
+#~ msgid "Column"
+#~ msgstr "Stolpec"
+
+#~ msgid "Message"
+#~ msgstr "Sporočilo"
+
+#~ msgid "Kate XML check"
+#~ msgstr "Preverjanje XML za Kate"

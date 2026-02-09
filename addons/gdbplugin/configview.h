@@ -9,26 +9,36 @@
 //
 //  SPDX-License-Identifier: LGPL-2.0-only
 
-#ifndef CONFIGVIEW_H
-#define CONFIGVIEW_H
+#pragma once
 
-#include "advanced_settings.h"
-
-#include <QBoxLayout>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QLabel>
-#include <QLineEdit>
-#include <QResizeEvent>
-#include <QToolButton>
+#include <QJsonObject>
 #include <QWidget>
 
-#include <QList>
+#include <optional>
 
-#include <KActionCollection>
-#include <KConfigGroup>
-#include <KSelectAction>
-#include <KTextEditor/MainWindow>
+class QPushButton;
+class QComboBox;
+class QFrame;
+class QSpinBox;
+class QResizeEvent;
+class QBoxLayout;
+class QCheckBox;
+class QLineEdit;
+class QLabel;
+class KSelectAction;
+class QToolButton;
+class KActionCollection;
+class KConfigGroup;
+class KatePluginGDB;
+namespace DebugPluginSessionConfig
+{
+struct ConfigData;
+}
+
+namespace KTextEditor
+{
+class MainWindow;
+}
 
 struct GDBTargetConf {
     QString targetName;
@@ -40,24 +50,39 @@ struct GDBTargetConf {
     QStringList srcPaths;
 };
 
+struct DAPAdapterSettings {
+    int index{};
+    QJsonObject settings;
+    QStringList variables;
+};
+
+struct DAPTargetConf {
+    QString targetName;
+    QString debugger;
+    QString debuggerProfile;
+    QVariantHash variables;
+    std::optional<DAPAdapterSettings> dapSettings;
+};
+
 class ConfigView : public QWidget
 {
     Q_OBJECT
 public:
-    enum TargetStringOrder { NameIndex = 0, ExecIndex, WorkDirIndex, ArgsIndex, GDBIndex, CustomStartIndex };
-
-    ConfigView(QWidget *parent, KTextEditor::MainWindow *mainWin);
+    ConfigView(QWidget *parent, KTextEditor::MainWindow *mainWin, KatePluginGDB *plugin, KSelectAction *targetsAction);
     ~ConfigView() override;
 
 public:
-    void registerActions(KActionCollection *actionCollection);
+    void readConfig(const DebugPluginSessionConfig::ConfigData &config);
+    void writeConfig(DebugPluginSessionConfig::ConfigData &config);
 
-    void readConfig(const KConfigGroup &config);
-    void writeConfig(KConfigGroup &config);
-
-    const GDBTargetConf currentTarget() const;
+    const GDBTargetConf currentGDBTarget() const;
+    /**
+     * When `full` is true, a DAP launch request will be computed.
+     */
+    const DAPTargetConf currentDAPTarget(bool full = false) const;
     bool takeFocusAlways() const;
     bool showIOTab() const;
+    QUrl dapConfigPath;
 
 Q_SIGNALS:
     void showIO(bool show);
@@ -70,25 +95,38 @@ private Q_SLOTS:
     void slotAddTarget();
     void slotCopyTarget();
     void slotDeleteTarget();
-    void slotAdvancedClicked();
     void slotBrowseExec();
     void slotBrowseDir();
+    void readTargetsFromLaunchJson();
+    void clearClosedProjectLaunchJsonTargets(const QString &baseDir, const QString &name);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
     void saveCurrentToIndex(int index);
-    void loadFromIndex(int index);
-    void setAdvancedOptions();
+    int loadFromIndex(int index);
+    struct Field {
+        QLabel *label;
+        QLineEdit *input;
+    };
+    Field &getDapField(const QString &fieldName);
+    void refreshUI();
+    void readDAPSettings();
+    void initProjectPlugin();
+    void setTargetsAction(KSelectAction *action);
 
 private:
     KTextEditor::MainWindow *m_mainWindow;
+
+    QComboBox *m_clientCombo;
+
     QComboBox *m_targetCombo;
     int m_currentTarget = 0;
     QToolButton *m_addTarget;
     QToolButton *m_copyTarget;
     QToolButton *m_deleteTarget;
+    QToolButton *m_reloadLaunchJsonTargets;
     QFrame *m_line;
 
     QLineEdit *m_executable;
@@ -96,21 +134,23 @@ private:
 
     QLineEdit *m_workingDirectory;
     QToolButton *m_browseDir;
+    QSpinBox *m_processId;
 
     QLineEdit *m_arguments;
 
     QCheckBox *m_takeFocus;
     QCheckBox *m_redirectTerminal;
-    QPushButton *m_advancedSettings;
     QBoxLayout *m_checBoxLayout;
 
     bool m_useBottomLayout;
     QLabel *m_execLabel;
     QLabel *m_workDirLabel;
     QLabel *m_argumentsLabel;
+    QLabel *m_processIdLabel;
     KSelectAction *m_targetSelectAction = nullptr;
 
-    AdvancedGDBSettings *m_advanced;
-};
+    QHash<QString, Field> m_dapFields;
+    QHash<QString, QHash<QString, DAPAdapterSettings>> m_dapAdapterSettings;
 
-#endif
+    QUrl m_dapConfigPath;
+};

@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KATEFILETREEMODEL_H
-#define KATEFILETREEMODEL_H
+#pragma once
 
 #include <unordered_map>
 
@@ -13,10 +12,12 @@
 #include <QBrush>
 #include <QColor>
 
-#include <ktexteditor/modificationinterface.h>
+#include <KTextEditor/Document>
+
 namespace KTextEditor
 {
 class Document;
+class MainWindow;
 }
 
 class ProxyItem;
@@ -30,9 +31,15 @@ class KateFileTreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    enum { DocumentRole = Qt::UserRole + 1, PathRole, OpeningOrderRole, DocumentTreeRole };
+    enum {
+        DocumentRole = Qt::UserRole + 1,
+        PathRole,
+        OpeningOrderRole,
+        DocumentTreeRole,
+        WidgetRole,
+    };
 
-    KateFileTreeModel(QObject *p);
+    KateFileTreeModel(KTextEditor::MainWindow *mainWindow, QObject *p);
     ~KateFileTreeModel() override;
 
     /* QAbstractItemModel implementations */
@@ -48,10 +55,15 @@ public:
 
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
+    Qt::DropActions supportedDropActions() const override;
+
     /* extra api for view */
     QModelIndex docIndex(const KTextEditor::Document *) const;
 
+    QModelIndex widgetIndex(QWidget *) const;
+
     bool isDir(const QModelIndex &index) const;
+    bool isWidgetDir(const QModelIndex &index) const;
 
     bool listMode() const;
     void setListMode(bool);
@@ -71,35 +83,44 @@ public:
     void documentEdited(const KTextEditor::Document *);
     void resetHistory();
 
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+    bool canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
+
 public Q_SLOTS:
     void documentOpened(KTextEditor::Document *);
     void documentClosed(KTextEditor::Document *);
     void documentNameChanged(KTextEditor::Document *);
     void documentModifiedChanged(KTextEditor::Document *);
-    void documentModifiedOnDisc(KTextEditor::Document *, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason);
+    void documentModifiedOnDisc(KTextEditor::Document *, bool, KTextEditor::Document::ModifiedOnDiskReason);
+
+    void addWidget(QWidget *w);
+    void removeWidget(QWidget *w);
 
 Q_SIGNALS:
     void triggerViewChangeAfterNameChange();
 
 private:
     ProxyItemDir *findRootNode(const QString &name, const int r = 1) const;
-    ProxyItemDir *findChildNode(const ProxyItemDir *parent, const QString &name) const;
-    void insertItemInto(ProxyItemDir *root, ProxyItem *item);
+    static ProxyItemDir *findChildNode(const ProxyItemDir *parent, const QString &name);
+    void insertItemInto(ProxyItemDir *root, ProxyItem *item, bool move = false, ProxyItemDir **moveDest = nullptr);
     void handleInsert(ProxyItem *item);
     void handleNameChange(ProxyItem *item);
     void handleEmptyParents(ProxyItemDir *item);
-    void setupIcon(ProxyItem *item) const;
-    void updateItemPathAndHost(ProxyItem *item) const;
+    static void setupIcon(ProxyItem *item);
+    static void updateItemPathAndHost(ProxyItem *item);
     void handleDuplicitRootDisplay(ProxyItemDir *item);
 
     void updateBackgrounds(bool force = false);
 
     void initModel();
     void clearModel();
-    void connectDocument(const KTextEditor::Document *);
+    void connectDocument(const KTextEditor::Document *) const;
+    ProxyItem *itemForIndex(const QModelIndex &index) const;
 
 private:
+    class KTextEditor::MainWindow *const m_mainWindow = nullptr;
     ProxyItemDir *m_root;
+    ProxyItem *m_widgetsRoot = nullptr;
     QHash<const KTextEditor::Document *, ProxyItem *> m_docmap;
 
     bool m_shadingEnabled;
@@ -110,8 +131,9 @@ private:
 
     QColor m_editShade;
     QColor m_viewShade;
+    QColor m_inactiveDocColor;
 
     bool m_listMode;
 };
 
-#endif /* KATEFILETREEMODEL_H */
+Q_DECLARE_METATYPE(QList<KTextEditor::Document *>)

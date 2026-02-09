@@ -8,16 +8,9 @@
 #include "tstestapp.h"
 #include "../tabswitcherfilesmodel.h"
 
-#include <QAbstractTableModel>
 #include <QApplication>
-#include <QDebug>
-#include <QIcon>
-#include <QLabel>
 #include <QListView>
-#include <QMenu>
 #include <QPushButton>
-#include <QStandardItem>
-#include <QStringRef>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -36,7 +29,7 @@ class TsTestApp::Impl
 public:
     void insert_1_item()
     {
-        model.insertDocument(0, addDoc(QStringLiteral("/home/user2/folder1/abc.d")));
+        model.insertDocuments(0, {addDoc(QStringLiteral("/home/user2/folder1/abc.d"))});
         treeview1->resizeColumnToContents(0);
     }
 
@@ -50,13 +43,16 @@ public:
     {
         model.clear();
 
-        model.insertDocument(model.rowCount(), addDoc(QStringLiteral("/home/gregor/logs/notifications/multimedia-system.log")));
-        model.insertDocument(model.rowCount(), addDoc(QStringLiteral("/home/gregor/dev/src/kservicemenueditor-0.2a/servicemenueditor")));
-        model.insertDocument(model.rowCount(), addDoc(QStringLiteral("/home/gregor/kde/src/kdesrc-build/kdesrc-build")));
-        model.insertDocument(model.rowCount(), addDoc(QStringLiteral("/home/gregor/node_modules/autolinker/README.md")));
-        model.insertDocument(model.rowCount(), addDoc(QStringLiteral("/home/gregor/node_modules/autolinker/package.json")));
-        model.insertDocument(model.rowCount(), addDoc(QStringLiteral("/home/gregor/node_modules/autolinker/LICENSE")));
-        model.insertDocument(model.rowCount(), addDoc(QStringLiteral("/home/gregor/node_modules/asynckit/package.json")));
+        model.insertDocuments(model.rowCount(),
+                              {
+                                  addDoc(QStringLiteral("/home/gregor/logs/notifications/multimedia-system.log")),
+                                  addDoc(QStringLiteral("/home/gregor/dev/src/kservicemenueditor-0.2a/servicemenueditor")),
+                                  addDoc(QStringLiteral("/home/gregor/kde/src/kdesrc-build/kdesrc-build")),
+                                  addDoc(QStringLiteral("/home/gregor/node_modules/autolinker/README.md")),
+                                  addDoc(QStringLiteral("/home/gregor/node_modules/autolinker/package.json")),
+                                  addDoc(QStringLiteral("/home/gregor/node_modules/autolinker/LICENSE")),
+                                  addDoc(QStringLiteral("/home/gregor/node_modules/asynckit/package.json")),
+                              });
 
         treeview1->resizeColumnToContents(0);
     }
@@ -79,19 +75,19 @@ TsTestApp::TsTestApp(QWidget *parent)
     l->addLayout(hl);
 
     auto buttonInsert1 = new QPushButton(QStringLiteral("Ins 1 item"), this);
-    connect(buttonInsert1, &QPushButton::clicked, this, [=] {
+    connect(buttonInsert1, &QPushButton::clicked, this, [this] {
         impl_->insert_1_item();
     });
     hl->addWidget(buttonInsert1);
 
     auto buttonRemove1 = new QPushButton(QStringLiteral("Del 1 item"), this);
-    connect(buttonRemove1, &QPushButton::clicked, this, [=] {
+    connect(buttonRemove1, &QPushButton::clicked, this, [this] {
         impl_->remove_1_item();
     });
     hl->addWidget(buttonRemove1);
 
     auto buttonSetTestSet1 = new QPushButton(QStringLiteral("set_items_cutoff_bug"), this);
-    connect(buttonSetTestSet1, &QPushButton::clicked, this, [=] {
+    connect(buttonSetTestSet1, &QPushButton::clicked, this, [this] {
         impl_->set_items_cutoff_bug();
     });
     hl->addWidget(buttonSetTestSet1);
@@ -101,11 +97,14 @@ TsTestApp::TsTestApp(QWidget *parent)
     impl_->treeview1->setHeaderHidden(true);
     impl_->treeview1->setRootIsDecorated(false);
 
-    impl_->model.insertDocument(impl_->model.rowCount(), addDoc(QStringLiteral("/home/gm/projects/proj1/src/file1.h")));
-    impl_->model.insertDocument(impl_->model.rowCount(), addDoc(QStringLiteral("/home/gm/projects/proj1/src/file2.cpp")));
-    impl_->model.insertDocument(impl_->model.rowCount(), addDoc(QStringLiteral("/home/gm/dev/file3.py")));
-    impl_->model.insertDocument(impl_->model.rowCount(), addDoc(QStringLiteral("/home/gm/dev/file3kjaskdfkljasdfklj089asdfkjklasdjf90asdfsdfkj.py")));
-    impl_->model.insertDocument(impl_->model.rowCount(), addDoc(QStringLiteral("/home/gm/dev/proj2/asldfkjasdfk/asdlfkjasd;faf/;ajsdkfgjaskdfgasdf/file3.py")));
+    impl_->model.insertDocuments(impl_->model.rowCount(),
+                                 {
+                                     addDoc(QStringLiteral("/home/gm/projects/proj1/src/file1.h")),
+                                     addDoc(QStringLiteral("/home/gm/projects/proj1/src/file2.cpp")),
+                                     addDoc(QStringLiteral("/home/gm/dev/file3.py")),
+                                     addDoc(QStringLiteral("/home/gm/dev/file3kjaskdfkljasdfklj089asdfkjklasdjf90asdfsdfkj.py")),
+                                     addDoc(QStringLiteral("/home/gm/dev/proj2/asldfkjasdfk/asdlfkjasd;faf/;ajsdkfgjaskdfgasdf/file3.py")),
+                                 });
     // impl_->insert_a_item();
     // impl_->remove_a_item();
 
@@ -137,3 +136,5 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
+
+#include "moc_tstestapp.cpp"

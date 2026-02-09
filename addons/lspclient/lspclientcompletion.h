@@ -4,8 +4,7 @@
     SPDX-License-Identifier: MIT
 */
 
-#ifndef LSPCLIENTCOMPLETION_H
-#define LSPCLIENTCOMPLETION_H
+#pragma once
 
 #include "lspclientserver.h"
 #include "lspclientservermanager.h"
@@ -21,17 +20,17 @@ class LSPClientCompletion : public KTextEditor::CodeCompletionModel, public KTex
 
 public:
     // implementation factory method
-    static LSPClientCompletion *new_(QSharedPointer<LSPClientServerManager> manager);
+    static LSPClientCompletion *new_(std::shared_ptr<LSPClientServerManager> manager);
 
     LSPClientCompletion(QObject *parent)
         : KTextEditor::CodeCompletionModel(parent)
     {
     }
 
-    virtual void setServer(QSharedPointer<LSPClientServer> server) = 0;
+    virtual void setServer(std::shared_ptr<LSPClientServer> server) = 0;
     virtual void setSelectedDocumentation(bool) = 0;
     virtual void setSignatureHelp(bool) = 0;
     virtual void setCompleteParens(bool) = 0;
+    virtual void setAutoImport(bool) = 0;
+    virtual void setShowCompletion(bool) = 0;
 };
-
-#endif

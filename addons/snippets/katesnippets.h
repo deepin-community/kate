@@ -5,10 +5,8 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef __KATE_SNIPPETS_H__
-#define __KATE_SNIPPETS_H__
+#pragma once
 
-#include <KTextEditor/Application>
 #include <KTextEditor/Editor>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/Plugin>
@@ -20,12 +18,10 @@ class KateSnippetsPluginView;
 
 class KateSnippetsPlugin : public KTextEditor::Plugin
 {
-    Q_OBJECT
-
     friend class KateSnippetsPluginView;
 
 public:
-    explicit KateSnippetsPlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KateSnippetsPlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KateSnippetsPlugin() override;
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
@@ -36,8 +32,6 @@ private:
 
 class KateSnippetsPluginView : public QObject, public KXMLGUIClient
 {
-    Q_OBJECT
-
 public:
     /**
      * Constructor.
@@ -51,7 +45,7 @@ public:
 
     void readConfig();
 
-private Q_SLOTS:
+private:
     /**
      * New view got created, we need to update our connections
      * @param view new created view
@@ -69,7 +63,5 @@ private:
     /**
      * remember for which text views we might need to cleanup stuff
      */
-    QVector<QPointer<KTextEditor::View>> m_textViews;
+    QList<QPointer<KTextEditor::View>> m_textViews;
 };
-
-#endif

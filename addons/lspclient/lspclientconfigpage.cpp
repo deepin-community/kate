@@ -19,6 +19,7 @@
 
 #include <QJsonDocument>
 #include <QJsonParseError>
+#include <QMenu>
 #include <QPalette>
 
 LSPClientConfigPage::LSPClientConfigPage(QWidget *parent, LSPClientPlugin *plugin)
@@ -27,6 +28,7 @@ LSPClientConfigPage::LSPClientConfigPage(QWidget *parent, LSPClientPlugin *plugi
 {
     ui = new Ui::LspConfigWidget();
     ui->setupUi(this);
+    ui->tabWidget->setDocumentMode(true);
 
     // fix-up our two text edits to be proper JSON file editors
     updateHighlighters();
@@ -46,31 +48,38 @@ LSPClientConfigPage::LSPClientConfigPage(QWidget *parent, LSPClientPlugin *plugi
 
     reset();
 
-    for (const auto &cb : {ui->chkSymbolDetails,
-                           ui->chkSymbolExpand,
-                           ui->chkSymbolSort,
-                           ui->chkSymbolTree,
-                           ui->chkComplDoc,
-                           ui->chkRefDeclaration,
-                           ui->chkComplParens,
-                           ui->chkDiagnostics,
-                           ui->chkDiagnosticsMark,
-                           ui->chkDiagnosticsHover,
-                           ui->chkMessages,
-                           ui->chkOnTypeFormatting,
-                           ui->chkIncrementalSync,
-                           ui->chkHighlightGoto,
-                           ui->chkSemanticHighlighting,
-                           ui->chkAutoHover,
-                           ui->chkSignatureHelp}) {
+    for (const auto &cb : {
+             ui->chkSymbolDetails,
+             ui->chkSymbolExpand,
+             ui->chkSymbolSort,
+             ui->chkSymbolTree,
+             ui->chkComplDoc,
+             ui->chkRefDeclaration,
+             ui->chkComplParens,
+             ui->chkMessages,
+             ui->chkDiagnostics,
+             ui->chkOnTypeFormatting,
+             ui->chkIncrementalSync,
+             ui->chkHighlightGoto,
+             ui->chkSemanticHighlighting,
+             ui->chkAutoHover,
+             ui->chkSignatureHelp,
+             ui->chkAutoImport,
+             ui->chkFmtOnSave,
+             ui->chkInlayHint,
+             ui->chkShowCompl,
+         }) {
         connect(cb, &QCheckBox::toggled, this, &LSPClientConfigPage::changed);
     }
-    auto ch = [this](int) {
-        this->changed();
-    };
-    connect(ui->spinDiagnosticsSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, ch);
+
     connect(ui->edtConfigPath, &KUrlRequester::textChanged, this, &LSPClientConfigPage::configUrlChanged);
     connect(ui->edtConfigPath, &KUrlRequester::urlSelected, this, &LSPClientConfigPage::configUrlChanged);
+
+    connect(ui->allowedAndBlockedServers, &QListWidget::itemChanged, this, &LSPClientConfigPage::changed);
+
+    // own context menu to delete entries
+    ui->allowedAndBlockedServers->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->allowedAndBlockedServers, &QWidget::customContextMenuRequested, this, &LSPClientConfigPage::showContextMenuAllowedBlocked);
 
     auto cfgh = [this](int position, int added, int removed) {
         Q_UNUSED(position);
@@ -81,18 +90,6 @@ LSPClientConfigPage::LSPClientConfigPage(QWidget *parent, LSPClientPlugin *plugi
         }
     };
     connect(ui->userConfig->document(), &QTextDocument::contentsChange, this, cfgh);
-
-    // custom control logic
-    auto h = [this]() {
-        bool enabled = ui->chkDiagnostics->isChecked();
-        ui->chkDiagnosticsHighlight->setEnabled(enabled);
-        ui->chkDiagnosticsMark->setEnabled(enabled);
-        ui->chkDiagnosticsHover->setEnabled(enabled);
-        enabled = enabled && ui->chkDiagnosticsHover->isChecked();
-        ui->spinDiagnosticsSize->setEnabled(enabled);
-        enabled = ui->chkMessages->isChecked();
-    };
-    connect(this, &LSPClientConfigPage::changed, this, h);
 }
 
 LSPClientConfigPage::~LSPClientConfigPage()
@@ -112,7 +109,7 @@ QString LSPClientConfigPage::fullName() const
 
 QIcon LSPClientConfigPage::icon() const
 {
-    return QIcon::fromTheme(QLatin1String("code-context"));
+    return QIcon::fromTheme(QLatin1String("format-text-code"));
 }
 
 void LSPClientConfigPage::apply()
@@ -122,15 +119,10 @@ void LSPClientConfigPage::apply()
     m_plugin->m_symbolExpand = ui->chkSymbolExpand->isChecked();
     m_plugin->m_symbolSort = ui->chkSymbolSort->isChecked();
 
+    m_plugin->m_showCompl = ui->chkShowCompl->isChecked();
     m_plugin->m_complDoc = ui->chkComplDoc->isChecked();
     m_plugin->m_refDeclaration = ui->chkRefDeclaration->isChecked();
     m_plugin->m_complParens = ui->chkComplParens->isChecked();
-
-    m_plugin->m_diagnostics = ui->chkDiagnostics->isChecked();
-    m_plugin->m_diagnosticsHighlight = ui->chkDiagnosticsHighlight->isChecked();
-    m_plugin->m_diagnosticsMark = ui->chkDiagnosticsMark->isChecked();
-    m_plugin->m_diagnosticsHover = ui->chkDiagnosticsHover->isChecked();
-    m_plugin->m_diagnosticsSize = ui->spinDiagnosticsSize->value();
 
     m_plugin->m_autoHover = ui->chkAutoHover->isChecked();
     m_plugin->m_onTypeFormatting = ui->chkOnTypeFormatting->isChecked();
@@ -138,10 +130,20 @@ void LSPClientConfigPage::apply()
     m_plugin->m_highlightGoto = ui->chkHighlightGoto->isChecked();
     m_plugin->m_semanticHighlighting = ui->chkSemanticHighlighting->isChecked();
     m_plugin->m_signatureHelp = ui->chkSignatureHelp->isChecked();
+    m_plugin->m_autoImport = ui->chkAutoImport->isChecked();
+    m_plugin->m_fmtOnSave = ui->chkFmtOnSave->isChecked();
+    m_plugin->m_inlayHints = ui->chkInlayHint->isChecked();
 
+    m_plugin->m_diagnostics = ui->chkDiagnostics->isChecked();
     m_plugin->m_messages = ui->chkMessages->isChecked();
 
     m_plugin->m_configPath = ui->edtConfigPath->url();
+
+    m_plugin->m_serverCommandLineToAllowedState.clear();
+    for (int i = 0; i < ui->allowedAndBlockedServers->count(); ++i) {
+        const auto item = ui->allowedAndBlockedServers->item(i);
+        m_plugin->m_serverCommandLineToAllowedState.emplace(item->text(), item->checkState() == Qt::Checked);
+    }
 
     // own scope to ensure file is flushed before we signal below in writeConfig!
     {
@@ -162,15 +164,10 @@ void LSPClientConfigPage::reset()
     ui->chkSymbolExpand->setChecked(m_plugin->m_symbolExpand);
     ui->chkSymbolSort->setChecked(m_plugin->m_symbolSort);
 
+    ui->chkShowCompl->setChecked(m_plugin->m_showCompl);
     ui->chkComplDoc->setChecked(m_plugin->m_complDoc);
     ui->chkRefDeclaration->setChecked(m_plugin->m_refDeclaration);
     ui->chkComplParens->setChecked(m_plugin->m_complParens);
-
-    ui->chkDiagnostics->setChecked(m_plugin->m_diagnostics);
-    ui->chkDiagnosticsHighlight->setChecked(m_plugin->m_diagnosticsHighlight);
-    ui->chkDiagnosticsMark->setChecked(m_plugin->m_diagnosticsMark);
-    ui->chkDiagnosticsHover->setChecked(m_plugin->m_diagnosticsHover);
-    ui->spinDiagnosticsSize->setValue(m_plugin->m_diagnosticsSize);
 
     ui->chkAutoHover->setChecked(m_plugin->m_autoHover);
     ui->chkOnTypeFormatting->setChecked(m_plugin->m_onTypeFormatting);
@@ -178,12 +175,23 @@ void LSPClientConfigPage::reset()
     ui->chkHighlightGoto->setChecked(m_plugin->m_highlightGoto);
     ui->chkSemanticHighlighting->setChecked(m_plugin->m_semanticHighlighting);
     ui->chkSignatureHelp->setChecked(m_plugin->m_signatureHelp);
+    ui->chkAutoImport->setChecked(m_plugin->m_autoImport);
+    ui->chkFmtOnSave->setChecked(m_plugin->m_fmtOnSave);
+    ui->chkInlayHint->setChecked(m_plugin->m_inlayHints);
 
+    ui->chkDiagnostics->setChecked(m_plugin->m_diagnostics);
     ui->chkMessages->setChecked(m_plugin->m_messages);
 
     ui->edtConfigPath->setUrl(m_plugin->m_configPath);
 
     readUserConfig(m_plugin->configPath().toLocalFile());
+
+    // fill in the allowed and blocked servers
+    ui->allowedAndBlockedServers->clear();
+    for (const auto &it : m_plugin->m_serverCommandLineToAllowedState) {
+        auto item = new QListWidgetItem(it.first, ui->allowedAndBlockedServers);
+        item->setCheckState(it.second ? Qt::Checked : Qt::Unchecked);
+    }
 }
 
 void LSPClientConfigPage::defaults()
@@ -246,13 +254,13 @@ void LSPClientConfigPage::configUrlChanged()
 
 void LSPClientConfigPage::updateHighlighters()
 {
-    for (auto textEdit : {ui->userConfig, static_cast<QTextEdit *>(ui->defaultConfig)}) {
+    for (auto textEdit : {ui->userConfig, ui->defaultConfig}) {
         // setup JSON highlighter for the default json stuff
         auto highlighter = new KSyntaxHighlighting::SyntaxHighlighter(textEdit->document());
         highlighter->setDefinition(KTextEditor::Editor::instance()->repository().definitionForFileName(QStringLiteral("settings.json")));
 
         // we want mono-spaced font
-        textEdit->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+        textEdit->setFont(KTextEditor::Editor::instance()->font());
 
         // we want to have the proper theme for the current palette
         const auto theme = KTextEditor::Editor::instance()->theme();
@@ -263,4 +271,22 @@ void LSPClientConfigPage::updateHighlighters()
         highlighter->setTheme(theme);
         highlighter->rehighlight();
     }
+}
+
+void LSPClientConfigPage::showContextMenuAllowedBlocked(const QPoint &pos)
+{
+    // allow deletion of stuff
+    QMenu myMenu(this);
+
+    auto currentDelete = myMenu.addAction(i18n("Delete selected entries"), this, [this]() {
+        qDeleteAll(ui->allowedAndBlockedServers->selectedItems());
+    });
+    currentDelete->setEnabled(!ui->allowedAndBlockedServers->selectedItems().isEmpty());
+
+    auto allDelete = myMenu.addAction(i18n("Delete all entries"), this, [this]() {
+        ui->allowedAndBlockedServers->clear();
+    });
+    allDelete->setEnabled(ui->allowedAndBlockedServers->count() > 0);
+
+    myMenu.exec(ui->allowedAndBlockedServers->mapToGlobal(pos));
 }

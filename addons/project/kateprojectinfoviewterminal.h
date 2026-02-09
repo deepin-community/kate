@@ -5,14 +5,14 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_INFO_VIEW_TERMINAL_H
-#define KATE_PROJECT_INFO_VIEW_TERMINAL_H
+#pragma once
 
 #include <QKeyEvent>
 #include <QVBoxLayout>
 
 #include <kparts/readonlypart.h>
 
+#include <QPointer>
 #include <QWidget>
 
 class KateProjectPluginView;
@@ -52,6 +52,10 @@ public:
 
     void respawn(const QString &dirPath);
 
+    bool eventFilter(QObject *o, QEvent *e) override;
+
+    void runCommand(const QString &workingDir, const QString &cmd);
+
 private Q_SLOTS:
     /**
      * Construct a new terminal for this view
@@ -78,6 +82,11 @@ private:
      */
     static KPluginFactory *pluginFactory();
 
+    bool hasKonsole() const
+    {
+        return pluginFactory() != nullptr;
+    }
+
 private:
     /**
      * plugin factory for the terminal
@@ -102,7 +111,7 @@ private:
     /**
      * konsole part
      */
-    KParts::ReadOnlyPart *m_konsolePart;
-};
+    KParts::ReadOnlyPart *m_konsolePart = nullptr;
 
-#endif
+    QPointer<QAction> m_showProjectInfoViewAction;
+};

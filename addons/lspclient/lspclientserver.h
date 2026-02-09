@@ -4,8 +4,7 @@
     SPDX-License-Identifier: MIT
 */
 
-#ifndef LSPCLIENTSERVER_H
-#define LSPCLIENTSERVER_H
+#pragma once
 
 #include "lspclientprotocol.h"
 
@@ -15,7 +14,6 @@
 #include <QPointer>
 #include <QString>
 #include <QUrl>
-#include <QVector>
 
 #include <functional>
 #include <optional>
@@ -54,11 +52,12 @@ template<typename T>
 using ReplyHandler = std::function<void(const T &)>;
 
 using ErrorReplyHandler = ReplyHandler<LSPResponseError>;
-using DocumentSymbolsReplyHandler = ReplyHandler<QList<LSPSymbolInformation>>;
+using DocumentSymbolsReplyHandler = ReplyHandler<std::list<LSPSymbolInformation>>;
 using DocumentDefinitionReplyHandler = ReplyHandler<QList<LSPLocation>>;
 using DocumentHighlightReplyHandler = ReplyHandler<QList<LSPDocumentHighlight>>;
 using DocumentHoverReplyHandler = ReplyHandler<LSPHover>;
 using DocumentCompletionReplyHandler = ReplyHandler<QList<LSPCompletionItem>>;
+using DocumentCompletionResolveReplyHandler = ReplyHandler<LSPCompletionItem>;
 using SignatureHelpReplyHandler = ReplyHandler<LSPSignatureHelp>;
 using FormattingReplyHandler = ReplyHandler<QList<LSPTextEdit>>;
 using CodeActionReplyHandler = ReplyHandler<QList<LSPCodeAction>>;
@@ -66,17 +65,30 @@ using WorkspaceEditReplyHandler = ReplyHandler<LSPWorkspaceEdit>;
 using ApplyEditReplyHandler = ReplyHandler<LSPApplyWorkspaceEditResponse>;
 using WorkspaceFoldersReplyHandler = ReplyHandler<QList<LSPWorkspaceFolder>>;
 using SwitchSourceHeaderHandler = ReplyHandler<QString>;
+using MemoryUsageHandler = ReplyHandler<QString>;
+using ExpandMacroHandler = ReplyHandler<LSPExpandedMacro>;
 using SemanticTokensDeltaReplyHandler = ReplyHandler<LSPSemanticTokensDelta>;
 using WorkspaceSymbolsReplyHandler = ReplyHandler<std::vector<LSPSymbolInformation>>;
+using SelectionRangeReplyHandler = ReplyHandler<QList<std::shared_ptr<LSPSelectionRange>>>;
+using InlayHintsReplyHandler = ReplyHandler<std::vector<LSPInlayHint>>;
 
 class LSPClientPlugin;
+
+struct LSPClientCapabilities {
+    bool snippetSupport = false;
+};
 
 class LSPClientServer : public QObject
 {
     Q_OBJECT
 
 public:
-    enum class State { None, Started, Running, Shutdown };
+    enum class State {
+        None,
+        Started,
+        Running,
+        Shutdown
+    };
 
     class LSPClientServerPrivate;
     class RequestHandle
@@ -96,16 +108,32 @@ public:
     };
 
     using FoldersType = std::optional<QList<LSPWorkspaceFolder>>;
+
+    // optionally adjust server provided/suggest trigger characters
+    struct TriggerCharactersOverride {
+        QList<QChar> exclude;
+        QList<QChar> include;
+    };
+
+    // collect additional tweaks into a helper struct to avoid ever growing parameter list
+    // (which then also needs to be duplicated in a few places)
+    struct ExtraServerConfig {
+        FoldersType folders;
+        LSPClientCapabilities caps;
+        TriggerCharactersOverride completion;
+        TriggerCharactersOverride signature;
+    };
+
     LSPClientServer(const QStringList &server,
                     const QUrl &root,
                     const QString &langId = QString(),
                     const QJsonValue &init = QJsonValue(),
-                    const FoldersType &folders = std::nullopt);
+                    const ExtraServerConfig = {});
     ~LSPClientServer() override;
 
     // server management
     // request start
-    bool start();
+    bool start(bool forwardStdError);
     // request shutdown/stop
     // if to_xxx >= 0 -> send signal if not exit'ed after timeout
     void stop(int to_term_ms, int to_kill_ms);
@@ -130,10 +158,12 @@ public:
     RequestHandle documentHover(const QUrl &document, const LSPPosition &pos, const QObject *context, const DocumentHoverReplyHandler &h);
     RequestHandle documentReferences(const QUrl &document, const LSPPosition &pos, bool decl, const QObject *context, const DocumentDefinitionReplyHandler &h);
     RequestHandle documentCompletion(const QUrl &document, const LSPPosition &pos, const QObject *context, const DocumentCompletionReplyHandler &h);
+    RequestHandle documentCompletionResolve(const LSPCompletionItem &c, const QObject *context, const DocumentCompletionResolveReplyHandler &h);
     RequestHandle signatureHelp(const QUrl &document, const LSPPosition &pos, const QObject *context, const SignatureHelpReplyHandler &h);
-
+    RequestHandle selectionRange(const QUrl &document, const QList<LSPPosition> &positions, const QObject *context, const SelectionRangeReplyHandler &h);
     // clangd specific
     RequestHandle clangdSwitchSourceHeader(const QUrl &document, const QObject *context, const SwitchSourceHeaderHandler &h);
+    RequestHandle clangdMemoryUsage(const QObject *context, const MemoryUsageHandler &h);
 
     RequestHandle documentFormatting(const QUrl &document, const LSPFormattingOptions &options, const QObject *context, const FormattingReplyHandler &h);
     RequestHandle documentRangeFormatting(const QUrl &document,
@@ -157,14 +187,19 @@ public:
                                      const QObject *context,
                                      const CodeActionReplyHandler &h);
 
-    RequestHandle documentSemanticTokensFull(const QUrl &document, const QString requestId, const QObject *context, const SemanticTokensDeltaReplyHandler &h);
+    RequestHandle documentSemanticTokensFull(const QUrl &document, const QString &requestId, const QObject *context, const SemanticTokensDeltaReplyHandler &h);
 
     RequestHandle
-    documentSemanticTokensFullDelta(const QUrl &document, const QString requestId, const QObject *context, const SemanticTokensDeltaReplyHandler &h);
+    documentSemanticTokensFullDelta(const QUrl &document, const QString &requestId, const QObject *context, const SemanticTokensDeltaReplyHandler &h);
 
     RequestHandle documentSemanticTokensRange(const QUrl &document, const LSPRange &range, const QObject *context, const SemanticTokensDeltaReplyHandler &h);
 
-    void executeCommand(const QString &command, const QJsonValue &args);
+    RequestHandle documentInlayHint(const QUrl &document, const LSPRange &range, const QObject *context, const InlayHintsReplyHandler &h);
+
+    void executeCommand(const LSPCommand &command);
+
+    // rust-analyzer specific
+    RequestHandle rustAnalyzerExpandMacro(const QObject *context, const QUrl &document, const LSPPosition &pos, const ExpandMacroHandler &h);
 
     // sync
     void didOpen(const QUrl &document, int version, const QString &langId, const QString &text);
@@ -183,14 +218,17 @@ Q_SIGNALS:
     void showMessage(const LSPShowMessageParams &);
     void logMessage(const LSPLogMessageParams &);
     void publishDiagnostics(const LSPPublishDiagnosticsParams &);
+    void workDoneProgress(const LSPWorkDoneProgressParams &);
 
     // request = signal
     void applyEdit(const LSPApplyWorkspaceEditParams &req, const ApplyEditReplyHandler &h, bool &handled);
     void workspaceFolders(const WorkspaceFoldersReplyHandler &h, bool &handled);
+    void showMessageRequest(const LSPShowMessageParams &message,
+                            const QList<LSPMessageRequestAction> &actions,
+                            const std::function<void()> chooseNothing,
+                            bool &handled);
 
 private:
     // pimpl data holder
     LSPClientServerPrivate *const d;
 };
-
-#endif

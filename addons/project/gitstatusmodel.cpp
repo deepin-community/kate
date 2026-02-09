@@ -6,7 +6,6 @@
 #include "gitstatusmodel.h"
 
 #include <KColorScheme>
-#include <QDebug>
 #include <QFileInfo>
 #include <QFont>
 #include <QIcon>
@@ -115,15 +114,22 @@ QVariant GitStatusModel::data(const QModelIndex &index, int role) const
 
         if (role == Qt::DisplayRole) {
             if (index.column() == 0) {
-                const auto filename = QFileInfo(QString::fromUtf8(m_nodes[rootIndex].at(row).file)).fileName();
+                auto fileStr = QString::fromUtf8(m_nodes[rootIndex].at(row).file);
+                QFileInfo fi(fileStr);
+                const auto filename = fi.fileName();
                 if (filename.isEmpty()) {
                     return m_nodes[rootIndex].at(row).file;
                 }
+                if (rootIndex < Untrack && m_nonUniqueFileNames.contains(filename)) {
+                    const auto path = fi.path();
+                    const auto i = path.lastIndexOf(QLatin1Char('/'));
+                    if (i != -1) {
+                        return path.mid(i + 1).append(QLatin1Char('/')).append(filename);
+                    }
+                    return fileStr;
+                }
                 return filename;
             } else {
-                if (!m_showNumStat) {
-                    return QString(QLatin1Char(m_nodes[rootIndex].at(row).statusChar));
-                }
                 int a = m_nodes[rootIndex].at(row).linesAdded;
                 int r = m_nodes[rootIndex].at(row).linesRemoved;
                 auto add = QString::number(a);
@@ -155,29 +161,39 @@ QVariant GitStatusModel::data(const QModelIndex &index, int role) const
             } else if (index.column() == 1 && rootIndex == 0) {
                 return KColorScheme().foreground(KColorScheme::PositiveText).color();
             }
+        } else if (role == Role::GitItemType) {
+            return (ItemType)rootIndex;
         }
     }
 
     return {};
 }
-void GitStatusModel::addItems(GitUtils::GitParsedStatus status, bool numStat)
+
+QModelIndex GitStatusModel::indexForFilename(const QString &file)
+{
+    const auto ba = file.toUtf8();
+    bool checkUntracked = m_nodes[Untrack].size() < 500;
+    for (int i = 0; i < Untrack + int(checkUntracked); ++i) {
+        const auto &items = m_nodes[i];
+        int r = 0;
+        for (const auto &item : items) {
+            if (ba.endsWith(item.file)) {
+                // match
+                return index(r, 0, getModelIndex(static_cast<ItemType>(i)));
+            }
+            r++;
+        }
+    }
+    return {};
+}
+
+void GitStatusModel::setStatusItems(GitUtils::GitParsedStatus status)
 {
     beginResetModel();
     m_nodes[Staged] = std::move(status.staged);
     m_nodes[Changed] = std::move(status.changed);
     m_nodes[Conflict] = std::move(status.unmerge);
     m_nodes[Untrack] = std::move(status.untracked);
-    m_showNumStat = numStat;
+    m_nonUniqueFileNames = std::move(status.nonUniqueFileNames);
     endResetModel();
-}
-
-QVector<int> GitStatusModel::emptyRows()
-{
-    QVector<int> empty;
-    for (int i = 0; i < 4; ++i) {
-        if (m_nodes[i].isEmpty()) {
-            empty.append(i);
-        }
-    }
-    return empty;
 }

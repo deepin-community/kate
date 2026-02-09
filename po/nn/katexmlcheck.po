@@ -1,12 +1,11 @@
 # Translation of katexmlcheck to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2016-07-20 20:58+0100\n"
+"POT-Creation-Date: 2024-12-17 00:43+0000\n"
+"PO-Revision-Date: 2024-08-04 10:02+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -14,52 +13,59 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 24.11.70\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: plugin_katexmlcheck.cpp:106
+#: plugin_katexmlcheck.cpp:94
 #, kde-format
-msgid "Kate XML check"
-msgstr "Kate XML-kontroll"
+msgid "XML Check"
+msgstr "XML-kontroll"
 
-#: plugin_katexmlcheck.cpp:113
-#, kde-format
-msgid "XML Checker Output"
-msgstr "Resultat av XML-kontroll"
-
-#: plugin_katexmlcheck.cpp:117
+#: plugin_katexmlcheck.cpp:99
 #, kde-format
 msgid "Validate XML"
 msgstr "Valider XML"
 
-#: plugin_katexmlcheck.cpp:125
+#: plugin_katexmlcheck.cpp:129
 #, kde-format
-msgid "#"
-msgstr "#"
+msgid "Validate process crashed"
+msgstr "Valideringsprosessen krasja"
 
-#: plugin_katexmlcheck.cpp:126
+#: plugin_katexmlcheck.cpp:129 plugin_katexmlcheck.cpp:147
+#: plugin_katexmlcheck.cpp:207 plugin_katexmlcheck.cpp:232
+#: plugin_katexmlcheck.cpp:252 plugin_katexmlcheck.cpp:335
 #, kde-format
-msgid "Line"
-msgstr "Linje"
+msgid "XMLCheck"
+msgstr "XMLCheck"
 
-#: plugin_katexmlcheck.cpp:127
+#: plugin_katexmlcheck.cpp:143
 #, kde-format
-msgid "Column"
-msgstr "Kolonne"
+msgid "No DOCTYPE found, will only check well-formedness."
+msgstr "Fann ikkje DOCTYPE. Vil derfor berre sjekka om dokumentet er velforma."
 
-#: plugin_katexmlcheck.cpp:128
+#: plugin_katexmlcheck.cpp:145
 #, kde-format
-msgid "Message"
-msgstr "Melding"
+msgctxt "%1 refers to the XML DTD"
+msgid "'%1' not found, will only check well-formedness."
+msgstr "Fann ikkje «%1». Vil derfor berre sjekka om dokumentet er velforma."
 
-#: plugin_katexmlcheck.cpp:299
+#: plugin_katexmlcheck.cpp:231
 #, kde-format
 msgid "<b>Error:</b> Could not create temporary file '%1'."
-msgstr "<b>Feil:</b> Klarte ikkje laga mellombels fil «%1»."
+msgstr "<b>Feil:</b> Klarte ikkje laga den mellombelse fila «%1»."
 
-#: plugin_katexmlcheck.cpp:393
+#: plugin_katexmlcheck.cpp:250
+#, kde-format
+msgid ""
+"<b>Error:</b> Failed to find xmllint. Please make sure that xmllint is "
+"installed. It is part of libxml2."
+msgstr ""
+"<b>Feil:</b> Fann ikkje «xmllint». Sjå til at programmet er installert. Det "
+"følgjer med libxml2."
+
+#: plugin_katexmlcheck.cpp:333
 #, kde-format
 msgid ""
 "<b>Error:</b> Failed to execute xmllint. Please make sure that xmllint is "

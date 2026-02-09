@@ -4,406 +4,591 @@
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2011, 2012, 2014, 2015.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013.
 # Kiszel Kristóf <kiszel.kristof@gmail.com>, 2017.
+# SPDX-FileCopyrightText: 2021, 2022, 2024 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-29 00:20+0000\n"
-"PO-Revision-Date: 2017-03-01 17:39+0100\n"
-"Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
+"POT-Creation-Date: 2025-03-02 00:43+0000\n"
+"PO-Revision-Date: 2024-02-13 10:47+0100\n"
+"Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 24.01.95\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Kiszel Kristóf"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "ulysses@kubuntu.org"
-
-#: KateSearchCommand.cpp:83
+#: KateSearchCommand.cpp:80
 #, kde-format
 msgid "Usage: grep [pattern to search for in folder]"
 msgstr "Használat: grep [a mappában keresendő minta]"
 
-#: KateSearchCommand.cpp:85
+#: KateSearchCommand.cpp:82
 #, kde-format
 msgid "Usage: newGrep [pattern to search for in folder]"
 msgstr "Használat: newGrep [a mappában keresendő minta]"
 
-#: KateSearchCommand.cpp:89 KateSearchCommand.cpp:91
+#: KateSearchCommand.cpp:86 KateSearchCommand.cpp:88
 #, kde-format
 msgid "Usage: search [pattern to search for in open files]"
 msgstr "Használat: serch [a megnyitott fájlokban keresendő minta]"
 
-#: KateSearchCommand.cpp:95
+#: KateSearchCommand.cpp:92
 #, kde-format
 msgid "Usage: pgrep [pattern to search for in current project]"
 msgstr "Használat: pgrep [a jelenlegi projektben keresendő minta]"
 
-#: KateSearchCommand.cpp:97
+#: KateSearchCommand.cpp:94
 #, kde-format
 msgid "Usage: newPGrep [pattern to search for in current project]"
 msgstr "Használat: newPGrep [a jelenlegi projektben keresendő minta]"
 
-#: KateSearchCommand.cpp:101
-#, fuzzy, kde-format
-#| msgid "Usage: pgrep [pattern to search for in current project]"
+#: KateSearchCommand.cpp:98
+#, kde-format
 msgid "Usage: preg [regex pattern to search for in current project]"
-msgstr "Használat: pgrep [a jelenlegi projektben keresendő minta]"
+msgstr "Használat: preg [a jelenlegi projektben keresendő minta]"
 
-#: MatchModel.cpp:487 MatchModel.cpp:489
-#, fuzzy, kde-format
-#| msgid "<b><i>Results in folder %1</i></b>"
+#: MatchExportDialog.cpp:20
+#, kde-format
+msgid "Export Search Result Matches"
+msgstr "Találatok exportálása"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, exportPatternText)
+#: MatchExportDialog.ui:31
+#, kde-format
+msgid "Export Pattern"
+msgstr "Minta exportálása"
+
+#. i18n: ectx: property (text), widget (QPushButton, pushButton)
+#: MatchExportDialog.ui:38
+#, kde-format
+msgid "Generate"
+msgstr "Létrehozás"
+
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, exportResultText)
+#: MatchExportDialog.ui:50
+#, kde-format
+msgid "Result"
+msgstr "Eredmény"
+
+#: MatchModel.cpp:563 MatchModel.cpp:565
+#, kde-format
 msgid "<b><i>Generating file list: ...%1</i></b>"
-msgstr "<b><i>Találatok a(z) %1 mappában</i></b>"
+msgstr "<b><i>Fájllista generálása: …%1</i></b>"
 
-#: MatchModel.cpp:497
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in folder %2</i></b>"
-#| msgid_plural "<b><i>%1 matches found in folder %2</i></b>"
+#: MatchModel.cpp:573
+#, kde-format
 msgid "<b><i>One match found, searching: ...%2</i></b>"
 msgid_plural "<b><i>%1 matches found, searching: ...%2</i></b>"
-msgstr[0] "<b><i>Egy találat ebben a mappában: %2</i></b>"
-msgstr[1] "<b><i>%1 találat ebben a mappában: %2</i></b>"
+msgstr[0] "<b><i>Egy találat, keresés: …%2</i></b>"
+msgstr[1] "<b><i>%1 találat, keresés: …%2</i></b>"
 
-#: MatchModel.cpp:502
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in folder %2</i></b>"
-#| msgid_plural "<b><i>%1 matches found in folder %2</i></b>"
+#: MatchModel.cpp:578
+#, kde-format
 msgid "<b><i>One match found, searching: %2</i></b>"
 msgid_plural "<b><i>%1 matches found, searching: %2</i></b>"
-msgstr[0] "<b><i>Egy találat ebben a mappában: %2</i></b>"
-msgstr[1] "<b><i>%1 találat ebben a mappában: %2</i></b>"
+msgstr[0] "<b><i>Egy találat, keresés: %2</i></b>"
+msgstr[1] "<b><i>%1 találat, keresés: %2</i></b>"
 
-#: MatchModel.cpp:506 MatchModel.cpp:632
-#, fuzzy, kde-format
-#| msgid "Replace checked"
+#: MatchModel.cpp:585 MatchModel.cpp:740
+#, kde-format
 msgid "One checked"
 msgid_plural "%1 checked"
-msgstr[0] "Kijelöltek cseréje"
-msgstr[1] "Kijelöltek cseréje"
+msgstr[0] "Egy ellenőrizve"
+msgstr[1] "%1 ellenőrizve"
 
-#: MatchModel.cpp:510
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found</i></b>"
-#| msgid_plural "<b><i>%1 matches found</i></b>"
+#: MatchModel.cpp:589
+#, kde-format
 msgid "<b><i>One match (%2) found in file</i></b>"
 msgid_plural "<b><i>%1 matches (%2) found in current file</i></b>"
-msgstr[0] "<b><i>Egy találat</i></b>"
-msgstr[1] "<b><i>%1 találat</i></b>"
+msgstr[0] "<b><i>Egy találat (%2) a fájlban</i></b>"
+msgstr[1] "<b><i>%1 találat (%2) a jelenlegi fájlban</i></b>"
 
-#: MatchModel.cpp:512
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in open files</i></b>"
-#| msgid_plural "<b><i>%1 matches found in open files</i></b>"
+#: MatchModel.cpp:591
+#, kde-format
 msgid "<b><i>One match (%2) found in open files</i></b>"
 msgid_plural "<b><i>%1 matches (%2) found in open files</i></b>"
-msgstr[0] "<b><i>Egy találat a megnyitott fájlokban</i></b>"
-msgstr[1] "<b><i>%1 találat a megnyitott fájlokban</i></b>"
+msgstr[0] "<b><i>Egy találat (%2) a megnyitott fájlokban</i></b>"
+msgstr[1] "<b><i>%1 találat (%2) a megnyitott fájlokban</i></b>"
 
-#: MatchModel.cpp:515
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in folder %2</i></b>"
-#| msgid_plural "<b><i>%1 matches found in folder %2</i></b>"
+#: MatchModel.cpp:594
+#, kde-format
 msgid "<b><i>One match (%3) found in folder %2</i></b>"
 msgid_plural "<b><i>%1 matches (%3) found in folder %2</i></b>"
-msgstr[0] "<b><i>Egy találat ebben a mappában: %2</i></b>"
-msgstr[1] "<b><i>%1 találat ebben a mappában: %2</i></b>"
+msgstr[0] "<b><i>Egy találat (%3) ebben a mappában: %2</i></b>"
+msgstr[1] "<b><i>%1 találat (%3) ebben a mappában: %2</i></b>"
 
-#: MatchModel.cpp:522
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in project %2 (%3)</i></b>"
-#| msgid_plural "<b><i>%1 matches found in project %2 (%3)</i></b>"
+#: MatchModel.cpp:601
+#, kde-format
 msgid "<b><i>One match (%4) found in project %2 (%3)</i></b>"
 msgid_plural "<b><i>%1 matches (%4) found in project %2 (%3)</i></b>"
-msgstr[0] "<b><i>Egy találat ebben a projektben: %2 (%3)</i></b>"
-msgstr[1] "<b><i>%1 találat ebben a projektben: %2 (%3)</i></b>"
+msgstr[0] "<b><i>Egy találat (%4) ebben a projektben: %2 (%3)</i></b>"
+msgstr[1] "<b><i>%1 találat (%4) ebben a projektben: %2 (%3)</i></b>"
 
-#: MatchModel.cpp:531
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b><i>One match found in all open projects (common parent: %2)</i></b>"
-#| msgid_plural ""
-#| "<b><i>%1 matches found in all open projects (common parent: %2)</i></b>"
+#: MatchModel.cpp:610
+#, kde-format
 msgid ""
 "<b><i>One match (%3) found in all open projects (common parent: %2)</i></b>"
 msgid_plural ""
 "<b><i>%1 matches (%3) found in all open projects (common parent: %2)</i></b>"
 msgstr[0] ""
-"<b><i>Egy találat az összes megnyitott projektben (közös szülő: %2)</i></b>"
+"<b><i>Egy találat (%3) az összes megnyitott projektben (közös szülő: %2)</"
+"i></b>"
 msgstr[1] ""
-"<b><i>%1 találat az összes megnyitott projektben (közös szülő: %2)</i></b>"
+"<b><i>%1 találat (%3) az összes megnyitott projektben (közös szülő: %2)</i></"
+"b>"
 
-#: MatchModel.cpp:616 MatchModel.cpp:618
+#: MatchModel.cpp:724 MatchModel.cpp:726
 #, kde-format
 msgid "Generating file list: ...%1"
-msgstr ""
+msgstr "Fájllista generálása: …%1"
 
-#: MatchModel.cpp:626
+#: MatchModel.cpp:734
 #, kde-format
 msgid "One match found, searching: ...%2"
 msgid_plural "%1 matches found, searching: ...%2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Egy találat, keresés: …%2"
+msgstr[1] "%1 találat, keresés: …%2"
 
-#: MatchModel.cpp:628
+#: MatchModel.cpp:736
 #, kde-format
 msgid "One match found, searching: %2"
 msgid_plural "%1 matches found, searching: %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Egy találat, keresés: %2"
+msgstr[1] "%1 találat, keresés: %2"
 
-#: MatchModel.cpp:636
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found</i></b>"
-#| msgid_plural "<b><i>%1 matches found</i></b>"
+#: MatchModel.cpp:744
+#, kde-format
 msgid "One match (%2) found in file"
 msgid_plural "%1 matches (%2) found in current file"
-msgstr[0] "<b><i>Egy találat</i></b>"
-msgstr[1] "<b><i>%1 találat</i></b>"
+msgstr[0] "Egy találat (%2) a fájlban"
+msgstr[1] "%1 találat (%2) a jelenlegi fájlban"
 
-#: MatchModel.cpp:638
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in open files</i></b>"
-#| msgid_plural "<b><i>%1 matches found in open files</i></b>"
+#: MatchModel.cpp:746
+#, kde-format
 msgid "One match (%2) found in open files"
 msgid_plural "%1 matches (%2) found in open files"
-msgstr[0] "<b><i>Egy találat a megnyitott fájlokban</i></b>"
-msgstr[1] "<b><i>%1 találat a megnyitott fájlokban</i></b>"
+msgstr[0] "Egy találat (%2) a megnyitott fájlokban"
+msgstr[1] "%1 találat (%2) a megnyitott fájlokban"
 
-#: MatchModel.cpp:641
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in folder %2</i></b>"
-#| msgid_plural "<b><i>%1 matches found in folder %2</i></b>"
+#: MatchModel.cpp:749
+#, kde-format
 msgid "One match (%3) found in folder %2"
 msgid_plural "%1 matches (%3) found in folder %2"
-msgstr[0] "<b><i>Egy találat ebben a mappában: %2</i></b>"
-msgstr[1] "<b><i>%1 találat ebben a mappában: %2</i></b>"
+msgstr[0] "Egy találat (%3) ebben a mappában: %2"
+msgstr[1] "%1 találat (%3) ebben a mappában: %2"
 
-#: MatchModel.cpp:644
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in project %2 (%3)</i></b>"
-#| msgid_plural "<b><i>%1 matches found in project %2 (%3)</i></b>"
+#: MatchModel.cpp:752
+#, kde-format
 msgid "One match (%4) found in project %2 (%3)"
 msgid_plural "%1 matches (%4) found in project %2 (%3)"
-msgstr[0] "<b><i>Egy találat ebben a projektben: %2 (%3)</i></b>"
-msgstr[1] "<b><i>%1 találat ebben a projektben: %2 (%3)</i></b>"
+msgstr[0] "Egy találat (%4) ebben a projektben: %2 (%3)"
+msgstr[1] "%1 találat (%4) ebben a projektben: %2 (%3)"
 
-#: MatchModel.cpp:653
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b><i>One match found in all open projects (common parent: %2)</i></b>"
-#| msgid_plural ""
-#| "<b><i>%1 matches found in all open projects (common parent: %2)</i></b>"
+#: MatchModel.cpp:761
+#, kde-format
 msgid "One match (%3) found in all open projects (common parent: %2)"
 msgid_plural "%1 matches (%3) found in all open projects (common parent: %2)"
-msgstr[0] ""
-"<b><i>Egy találat az összes megnyitott projektben (közös szülő: %2)</i></b>"
-msgstr[1] ""
-"<b><i>%1 találat az összes megnyitott projektben (közös szülő: %2)</i></b>"
+msgstr[0] "Egy találat (%3) az összes megnyitott projektben (közös szülő: %2)"
+msgstr[1] "%1 találat (%3) az összes megnyitott projektben (közös szülő: %2)"
 
-#: plugin_search.cpp:85 plugin_search.cpp:118
+#: Results.cpp:32
+#, fuzzy, kde-format
+#| msgid "Filter:"
+msgid "Filter…"
+msgstr "Szűrő:"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, searchButton)
+#: search.ui:37
+#, kde-format
+msgid "Search in current tab; press and hold Ctrl to search in a new tab."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, searchButton)
+#: search.ui:40 SearchPlugin.cpp:294
+#, kde-format
+msgid "Search"
+msgstr "Keresés"
+
+#. i18n: ectx: property (text), widget (QPushButton, replaceCheckedBtn)
+#: search.ui:50
+#, kde-format
+msgctxt ""
+"Checked here refers to the items  on the list below that can have a "
+"checkmark or not. It's not about any verification or similar, plainly about "
+"user interface"
+msgid "Replace Checked"
+msgstr "Kijelöltek cseréje"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, nextButton)
+#. i18n: ectx: property (text), widget (QPushButton, nextButton)
+#: search.ui:70 search.ui:73
+#, kde-format
+msgid "Next"
+msgstr "Következő"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, stopButton)
+#. i18n: ectx: property (text), widget (QPushButton, stopButton)
+#: search.ui:78 search.ui:81
+#, kde-format
+msgid "Stop"
+msgstr "Leállítás"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, matchCase)
+#: search.ui:118
+#, kde-format
+msgid "Match case"
+msgstr "Kis– és nagybetűk egyeztetése"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, useRegExp)
+#: search.ui:134
+#, kde-format
+msgid ""
+"<html><head/><body><p>Enable regular expressions. Find help for regex syntax "
+"by using the buttons in the search and replace text fields.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Reguláris kifejezések engedélyezése. A reguláris "
+"kifejezések szintaxisával kapcsolatban használja a keresés és csere "
+"szövegmezőinek gombjait.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, expandResults)
+#: search.ui:163
+#, kde-format
+msgid "Expand results"
+msgstr "Találatok bővítése"
+
+#. i18n: ectx: property (text), widget (QToolButton, filterBtn)
+#. i18n: ectx: property (text), widget (QToolButton, displayOptions)
+#. i18n: ectx: property (text), widget (QToolButton, newTabButton)
+#: search.ui:179 search.ui:249 search.ui:262
+#, kde-format
+msgid "..."
+msgstr "…"
+
+#. i18n: ectx: property (text), widget (QPushButton, replaceButton)
+#: search.ui:195 SearchPlugin.cpp:507
+#, kde-format
+msgid "Replace"
+msgstr "Csere"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
+#: search.ui:218
+#, kde-format
+msgid "In Current File"
+msgstr "Az aktuális fájlban"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
+#: search.ui:223
+#, kde-format
+msgid "In Open Files"
+msgstr "A megnyitott fájlokban"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
+#: search.ui:228
+#, kde-format
+msgid "In Folder"
+msgstr "A mappában"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, currentFolderButton)
+#: search.ui:236
+#, kde-format
+msgid "Use the current document's path."
+msgstr "Az aktuális dokumentum elérési útja."
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, displayOptions)
+#: search.ui:246
+#, kde-format
+msgid "Show more search options"
+msgstr "További keresési beállítások"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, newTabButton)
+#: search.ui:259
+#, kde-format
+msgid "Add new search tab"
+msgstr "Új keresési fül hozzáadása"
+
+#. i18n: ectx: property (text), widget (QLabel, folderLabel)
+#: search.ui:350
+#, kde-format
+msgid "Folder:"
+msgstr "Mappa:"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, folderUpButton)
+#: search.ui:368
+#, kde-format
+msgid "Go one folder up."
+msgstr "Egy mappával feljebb."
+
+#. i18n: ectx: property (text), widget (QLabel, filterLabel)
+#: search.ui:377
+#, kde-format
+msgid "Filter:"
+msgstr "Szűrő:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, filterCombo)
+#: search.ui:399
+#, kde-format
+msgid "*"
+msgstr "*"
+
+#. i18n: ectx: property (text), widget (QLabel, excludeLabel)
+#: search.ui:407
+#, kde-format
+msgid "Exclude:"
+msgstr "Kizárás:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, recursiveCheckBox)
+#: search.ui:428
+#, kde-format
+msgid "Recursive"
+msgstr "Rekurzív keresés"
+
+#. i18n: ectx: property (text), widget (QCheckBox, hiddenCheckBox)
+#: search.ui:438
+#, kde-format
+msgid "Include hidden"
+msgstr "Rejtett fájlokban is"
+
+#. i18n: ectx: property (text), widget (QCheckBox, symLinkCheckBox)
+#: search.ui:445
+#, kde-format
+msgid "Follow symbolic links"
+msgstr "Szimbolikus linkek követése"
+
+#. i18n: ectx: property (text), widget (QCheckBox, binaryCheckBox)
+#: search.ui:452
+#, kde-format
+msgid "Include binary files"
+msgstr "Bináris fájlokban is"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, sizeLimitSpinBox)
+#: search.ui:459
+#, kde-format
+msgid "MB"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: search.ui:472
+#, kde-format
+msgid "Size limit"
+msgstr ""
+
+#: SearchPlugin.cpp:81 SearchPlugin.cpp:114
 #, kde-format
 msgid "Line break"
 msgstr "Sortörés"
 
-#: plugin_search.cpp:86 plugin_search.cpp:119
+#: SearchPlugin.cpp:82 SearchPlugin.cpp:115
 #, kde-format
 msgid "Tab"
 msgstr "Tab"
 
-#: plugin_search.cpp:97
+#: SearchPlugin.cpp:93
 #, kde-format
 msgid "Beginning of line"
 msgstr "Sor eleje"
 
-#: plugin_search.cpp:98
+#: SearchPlugin.cpp:94
 #, kde-format
 msgid "End of line"
 msgstr "Sor vége"
 
-#: plugin_search.cpp:100
+#: SearchPlugin.cpp:96
 #, kde-format
 msgid "Any single character (excluding line breaks)"
 msgstr "Egyetlen karakter (kivéve a sorvég jeleket)"
 
-#: plugin_search.cpp:101
+#: SearchPlugin.cpp:97
 #, kde-format
 msgid "Literal dot"
-msgstr ""
+msgstr "Literál pont"
 
-#: plugin_search.cpp:103
+#: SearchPlugin.cpp:99
 #, kde-format
 msgid "One or more occurrences"
 msgstr "Egy vagy több előfordulás"
 
-#: plugin_search.cpp:104
+#: SearchPlugin.cpp:100
 #, kde-format
 msgid "Zero or more occurrences"
 msgstr "Nulla vagy több előfordulás"
 
-#: plugin_search.cpp:105
+#: SearchPlugin.cpp:101
 #, kde-format
 msgid "Zero or one occurrences"
 msgstr "Nulla vagy egy előfordulás"
 
-#: plugin_search.cpp:107
+#: SearchPlugin.cpp:103
 #, kde-format
 msgid "<a> through <b> occurrences"
 msgstr "<a> és <b> előfordulás között"
 
-#: plugin_search.cpp:109
+#: SearchPlugin.cpp:105
 #, kde-format
 msgid "Group, capturing"
 msgstr "Csoport vagy együttes"
 
-#: plugin_search.cpp:110
+#: SearchPlugin.cpp:106
 #, kde-format
 msgid "Or"
 msgstr "Vagy"
 
-#: plugin_search.cpp:111
+#: SearchPlugin.cpp:107
 #, kde-format
 msgid "Set of characters"
 msgstr "Karakterek"
 
-#: plugin_search.cpp:112
+#: SearchPlugin.cpp:108
 #, kde-format
 msgid "Negative set of characters"
 msgstr "Kivétel karakterek"
 
-#: plugin_search.cpp:113
+#: SearchPlugin.cpp:109
 #, kde-format
 msgid "Group, non-capturing"
 msgstr "Csoport, de nem együttes"
 
-#: plugin_search.cpp:114
+#: SearchPlugin.cpp:110
 #, kde-format
 msgid "Lookahead"
 msgstr "Előre néző karakter"
 
-#: plugin_search.cpp:115
+#: SearchPlugin.cpp:111
 #, kde-format
 msgid "Negative lookahead"
 msgstr "Visszafelé néző karakter"
 
-#: plugin_search.cpp:120
+#: SearchPlugin.cpp:116
 #, kde-format
 msgid "Word boundary"
 msgstr "Szóhatár"
 
-#: plugin_search.cpp:121
+#: SearchPlugin.cpp:117
 #, kde-format
 msgid "Not word boundary"
 msgstr "Nem szóhatár"
 
-#: plugin_search.cpp:122
+#: SearchPlugin.cpp:118
 #, kde-format
 msgid "Digit"
 msgstr "Számjegy"
 
-#: plugin_search.cpp:123
+#: SearchPlugin.cpp:119
 #, kde-format
 msgid "Non-digit"
 msgstr "Nem számjegy"
 
-#: plugin_search.cpp:124
+#: SearchPlugin.cpp:120
 #, kde-format
 msgid "Whitespace (excluding line breaks)"
 msgstr "Üres karakter (kivéve a sorvég jeleket)"
 
-#: plugin_search.cpp:125
+#: SearchPlugin.cpp:121
 #, kde-format
 msgid "Non-whitespace (excluding line breaks)"
 msgstr "Nem üres karakter (kivéve a sorvég jeleket)"
 
-#: plugin_search.cpp:126
+#: SearchPlugin.cpp:122
 #, kde-format
 msgid "Word character (alphanumerics plus '_')"
 msgstr "Szóalkotó karakter (betű, szám vagy '_')"
 
-#: plugin_search.cpp:127
+#: SearchPlugin.cpp:123
 #, kde-format
 msgid "Non-word character"
 msgstr "Szóelválasztó karakter"
 
-#: plugin_search.cpp:139
+#: SearchPlugin.cpp:135
 #, kde-format
 msgid "Regular expression capture 0 (whole match)"
-msgstr ""
+msgstr "Reguláris kifejezés rögzítés 0 (teljes egyezés)"
 
-#: plugin_search.cpp:140
-#, fuzzy, kde-format
-#| msgid "Use regular expressions"
+#: SearchPlugin.cpp:136
+#, kde-format
 msgid "Regular expression capture 1-9"
-msgstr "Reguláris kifejezések használata"
+msgstr "Reguláis kifejezés rögzítés 1-9"
 
-#: plugin_search.cpp:141
-#, fuzzy, kde-format
-#| msgid "Use regular expressions"
+#: SearchPlugin.cpp:137
+#, kde-format
 msgid "Regular expression capture 0-999"
-msgstr "Reguláris kifejezések használata"
+msgstr "Reguláis kifejezés rögzítés 0-999"
 
-#: plugin_search.cpp:143
+#: SearchPlugin.cpp:139
 #, kde-format
 msgid "Upper-cased capture 0-9"
-msgstr ""
+msgstr "Nagybetűs rögzítés 0-9"
 
-#: plugin_search.cpp:144
+#: SearchPlugin.cpp:140
 #, kde-format
 msgid "Upper-cased capture 0-999"
-msgstr ""
+msgstr "Nagybetűs rögzítés 0-999"
 
-#: plugin_search.cpp:145
+#: SearchPlugin.cpp:141
 #, kde-format
 msgid "Lower-cased capture 0-9"
-msgstr ""
+msgstr "Kisbetűs rögzítés 0-9"
 
-#: plugin_search.cpp:146
+#: SearchPlugin.cpp:142
 #, kde-format
 msgid "Lower-cased capture 0-999"
-msgstr ""
+msgstr "Kisbetűs rögzítés 0-999"
 
-#: plugin_search.cpp:331
+#: SearchPlugin.cpp:287
 #, kde-format
-msgid "Kate Search & Replace"
-msgstr "Kate keresés és csere"
-
-#: plugin_search.cpp:338
-#, kde-format
-msgid "Search and Replace"
+msgid "Search & Replace"
 msgstr "Keresés és csere"
 
-#: plugin_search.cpp:347
+#: SearchPlugin.cpp:328
 #, kde-format
-msgid "Search in Files"
+msgid "Find in Files"
 msgstr "Keresés fájlokban"
 
-#: plugin_search.cpp:351
+#: SearchPlugin.cpp:334
 #, kde-format
-msgid "Search in Files (in new tab)"
+msgid "Find in Files (in a New Tab)"
 msgstr "Keresés fájlokban (új lapon)"
 
-#: plugin_search.cpp:357
+#: SearchPlugin.cpp:340
 #, kde-format
 msgid "Go to Next Match"
 msgstr "Ugrás a következő találatra"
 
-#: plugin_search.cpp:362
+#: SearchPlugin.cpp:346
 #, kde-format
 msgid "Go to Previous Match"
 msgstr "Ugrás az előző találatra"
 
-#: plugin_search.cpp:391
+#: SearchPlugin.cpp:352
+#, kde-format
+msgid "Cut Matching Lines"
+msgstr "Illeszkedő sorok kivágása"
+
+#: SearchPlugin.cpp:354
+#, kde-format
+msgid ""
+"This will cut all highlighted search match lines from the current document "
+"to the clipboard"
+msgstr ""
+"Ezzel az összes kiemelt keresési találati sort kivágja a jelenlegi "
+"dokumentumból  a vágólapra"
+
+#: SearchPlugin.cpp:359
+#, kde-format
+msgid "Copy Matching Lines"
+msgstr "Illeszkedő sorok másolása"
+
+#: SearchPlugin.cpp:361
+#, kde-format
+msgid ""
+"This will copy all highlighted search match lines in the current document to "
+"the clipboard"
+msgstr ""
+"Ezzel az összes kiemelt keresési találati sort másolja a jelenlegi "
+"dokumentumból  a vágólapra"
+
+#: SearchPlugin.cpp:394
 #, kde-format
 msgid ""
 "Comma separated list of file types to search in. Example: \"*.cpp,*.h\"\n"
@@ -411,7 +596,7 @@ msgstr ""
 "Azon fájlok vesszővel elválasztott listája, amelyekben keresni kell. "
 "Például: „*.cpp,*.h”\n"
 
-#: plugin_search.cpp:392
+#: SearchPlugin.cpp:395
 #, kde-format
 msgid ""
 "Comma separated list of files and directories to exclude from the search. "
@@ -420,229 +605,105 @@ msgstr ""
 "Azon fájlok és könyvtárak vesszővel elválasztott listája, amelyeket ki kell "
 "zárni a keresésből. Például: „build*”"
 
-#: plugin_search.cpp:481
-#, fuzzy, kde-format
-#| msgid "Find:"
-msgid "Find"
-msgstr "Keresés:"
-
-#. i18n: ectx: property (text), widget (QPushButton, replaceButton)
-#: plugin_search.cpp:501 search.ui:170
+#: SearchPlugin.cpp:397
 #, kde-format
-msgid "Replace"
-msgstr "Csere"
+msgid "Click to filter through results"
+msgstr "Kattintson a találatok szűréséhez"
 
-#: plugin_search.cpp:1223
+#: SearchPlugin.cpp:487
+#, kde-format
+msgid "Find"
+msgstr "Keresés"
+
+#: SearchPlugin.cpp:1169
+#, kde-format
+msgid "Search was not started as directory '%1' to search in doesn't exist."
+msgstr ""
+
+#: SearchPlugin.cpp:1342
 #, kde-format
 msgid "Searching while you type was interrupted. It would have taken too long."
 msgstr "A keresés megszakadt gépelés közben, túl sokáig tartott volna."
 
-#: plugin_search.cpp:1546
-#, fuzzy, kde-format
-#| msgid "Search More"
+#: SearchPlugin.cpp:1675
+#, kde-format
 msgid "Search Match"
-msgstr "Keresés tovább"
+msgstr "Találatok"
 
-#: plugin_search.cpp:1716 plugin_search.cpp:1793
+#: SearchPlugin.cpp:1852 SearchPlugin.cpp:1928
 #, kde-format
 msgid "Next from cursor"
-msgstr ""
+msgstr "A kurzor után következő"
 
-#: plugin_search.cpp:1733
-#, fuzzy, kde-format
-#| msgid "Continuing from first match"
+#: SearchPlugin.cpp:1869
+#, kde-format
 msgid "Starting from first match"
-msgstr "Folytatás az első találattól"
+msgstr "Kezdés az első találattól"
 
-#: plugin_search.cpp:1753
+#: SearchPlugin.cpp:1889
 #, kde-format
 msgid "Continuing from first match"
 msgstr "Folytatás az első találattól"
 
-#: plugin_search.cpp:1810
-#, fuzzy, kde-format
-#| msgid "Continuing from first match"
+#: SearchPlugin.cpp:1945
+#, kde-format
 msgid "Starting from last match"
-msgstr "Folytatás az első találattól"
+msgstr "Kezdés az utolsó találattól"
 
-#: plugin_search.cpp:1830
+#: SearchPlugin.cpp:1965
 #, kde-format
 msgid "Continuing from last match"
 msgstr "Folytatás az utolsó találattól"
 
-#: plugin_search.cpp:2076
+#: SearchPlugin.cpp:2126
+#, kde-format
+msgid "Search: %1"
+msgstr "Keresés: %1"
+
+#: SearchPlugin.cpp:2269
 #, kde-format
 msgid "Copy all"
-msgstr ""
+msgstr "Összes másolása"
 
-#: plugin_search.cpp:2081
+#: SearchPlugin.cpp:2274
 #, kde-format
 msgid "Copy expanded"
-msgstr ""
+msgstr "Bővített másolás"
 
-#: plugin_search.cpp:2172 plugin_search.cpp:2194
+#: SearchPlugin.cpp:2277
+#, kde-format
+msgid "Export matches"
+msgstr "Találatok exportálása"
+
+#: SearchPlugin.cpp:2282
+#, kde-format
+msgid "Open as Editor Tab"
+msgstr "Megnyitás a szerkesztőben lapként"
+
+#: SearchPlugin.cpp:2290
+#, kde-format
+msgid "Clear"
+msgstr "Törlés"
+
+#: SearchPlugin.cpp:2400 SearchPlugin.cpp:2434
 #, kde-format
 msgid "Add..."
 msgstr "Hozzáadás…"
 
-#: plugin_search.cpp:2243
+#: SearchPlugin.cpp:2412
+#, kde-format
+msgid "Search As You Type"
+msgstr "Keresés gépelés közben"
+
+#: SearchPlugin.cpp:2483
 #, kde-format
 msgid "In Current Project"
 msgstr "Jelenlegi projektben"
 
-#: plugin_search.cpp:2245
+#: SearchPlugin.cpp:2485
 #, kde-format
 msgid "In All Open Projects"
 msgstr "Minden megnyitott projektben"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, searchButton)
-#. i18n: ectx: property (text), widget (QPushButton, searchButton)
-#: search.ui:22 search.ui:25
-#, kde-format
-msgid "Search"
-msgstr "Keresés"
-
-#. i18n: ectx: property (text), widget (QPushButton, replaceCheckedBtn)
-#: search.ui:35
-#, fuzzy, kde-format
-#| msgid "Replace checked"
-msgid "Replace Checked"
-msgstr "Kijelöltek cseréje"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, nextButton)
-#. i18n: ectx: property (text), widget (QPushButton, nextButton)
-#: search.ui:55 search.ui:58
-#, kde-format
-msgid "Next"
-msgstr "Következő"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, stopButton)
-#. i18n: ectx: property (text), widget (QPushButton, stopButton)
-#: search.ui:63 search.ui:66
-#, kde-format
-msgid "Stop"
-msgstr "Leállítás"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, matchCase)
-#: search.ui:103
-#, fuzzy, kde-format
-#| msgid "Match Case"
-msgid "Match case"
-msgstr "Kis– és nagybetűk egyeztetése"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, useRegExp)
-#: search.ui:119
-#, kde-format
-msgid ""
-"<html><head/><body><p>Enable regular expressions. Find help for regex syntax "
-"by using the buttons in the search and replace text fields.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, expandResults)
-#: search.ui:148
-#, kde-format
-msgid "Expand results"
-msgstr "Találatok bővítése"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:193
-#, kde-format
-msgid "In Current File"
-msgstr "Jelenlegi fájlban"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:198
-#, fuzzy, kde-format
-#| msgid "in Open Files"
-msgid "In Open Files"
-msgstr "Megnyitott fájlokban"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:203
-#, fuzzy, kde-format
-#| msgid "in Folder"
-msgid "In Folder"
-msgstr "a mappában"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, currentFolderButton)
-#: search.ui:211
-#, kde-format
-msgid "Use the current document's path."
-msgstr "Az aktuális dokumentum mappája."
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, displayOptions)
-#: search.ui:221
-#, fuzzy, kde-format
-#| msgid "Search in:"
-msgid "Show more search options"
-msgstr "Keresés itt:"
-
-#. i18n: ectx: property (text), widget (QToolButton, displayOptions)
-#. i18n: ectx: property (text), widget (QToolButton, newTabButton)
-#: search.ui:224 search.ui:237
-#, kde-format
-msgid "..."
-msgstr "…"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, newTabButton)
-#: search.ui:234
-#, kde-format
-msgid "Add new search tab"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, folderLabel)
-#: search.ui:338
-#, kde-format
-msgid "Folder:"
-msgstr "Mappa:"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, folderUpButton)
-#: search.ui:356
-#, kde-format
-msgid "Go one folder up."
-msgstr "Egy mappával feljebb."
-
-#. i18n: ectx: property (text), widget (QLabel, filterLabel)
-#: search.ui:365
-#, kde-format
-msgid "Filter:"
-msgstr "Szűrő:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, filterCombo)
-#: search.ui:387
-#, kde-format
-msgid "*"
-msgstr "*"
-
-#. i18n: ectx: property (text), widget (QLabel, excludeLabel)
-#: search.ui:395
-#, kde-format
-msgid "Exclude:"
-msgstr "Kizárás:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, recursiveCheckBox)
-#: search.ui:416
-#, kde-format
-msgid "Recursive"
-msgstr "Rekurzív keresés"
-
-#. i18n: ectx: property (text), widget (QCheckBox, hiddenCheckBox)
-#: search.ui:426
-#, kde-format
-msgid "Include hidden"
-msgstr "Rejtett fájlokban is"
-
-#. i18n: ectx: property (text), widget (QCheckBox, symLinkCheckBox)
-#: search.ui:433
-#, kde-format
-msgid "Follow symbolic links"
-msgstr "Szimbolikus linkek követése"
-
-#. i18n: ectx: property (text), widget (QCheckBox, binaryCheckBox)
-#: search.ui:440
-#, kde-format
-msgid "Include binary files"
-msgstr "Bináris fájlokban is"
 
 #. i18n: ectx: Menu (edit)
 #: ui.rc:6
@@ -653,8 +714,31 @@ msgstr "Sz&erkesztés"
 #. i18n: ectx: Menu (search_more)
 #: ui.rc:9
 #, kde-format
-msgid "Search More"
-msgstr "Keresés tovább"
+msgid "Find in Files Variants"
+msgstr "Keresés fájlváltozatokban"
+
+#~ msgid "Filter..."
+#~ msgstr "Szűrő…"
+
+#~ msgid "Kate Search & Replace"
+#~ msgstr "Kate keresés és csere"
+
+#~ msgid "Search in Files"
+#~ msgstr "Keresés fájlokban"
+
+#~ msgid "Search More"
+#~ msgstr "Keresés tovább"
+
+#~ msgid "Type to filter through results..."
+#~ msgstr "Gépeljen a találatok szűréséhez…"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kiszel Kristóf"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "ulysses@fsf.hu"
 
 #~ msgid "<b>Searching: ...%1</b>"
 #~ msgstr "<b>Keresés: …%1</b>"
@@ -756,9 +840,6 @@ msgstr "Keresés tovább"
 
 #~ msgid "Options"
 #~ msgstr "Beállítások"
-
-#~ msgid "Find in open files plugin"
-#~ msgstr "A megnyitott fájlokban kereső bővítmény"
 
 #~ msgid "File"
 #~ msgstr "Fájl"

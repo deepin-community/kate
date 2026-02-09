@@ -71,9 +71,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2020-10-10</date>
+>2022-05-02</date>
 <releaseinfo
->&frameworks; 5.75</releaseinfo>
+>&frameworks; 5.94</releaseinfo>
 
 <abstract>
 <para
@@ -124,7 +124,7 @@
 >Dankbetuigingen en licentie</title>
 
 <para
->&katepart; en &kwrite; Copyright 2001-2021 door het team van &kate;.</para>
+>&katepart; en &kwrite; Copyright 2001-2022 door het team van &kate;.</para>
 
 <para
 >Gebaseerd op het originele &kwrite;, waarvoor geldt: Copyright 2000 door Jochen Wilhelmy <email

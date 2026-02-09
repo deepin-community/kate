@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trunk-kf 5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-07 00:21+0000\n"
+"POT-Creation-Date: 2025-04-16 02:33+0000\n"
 "PO-Revision-Date: 2017-10-02 10:25+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -20,98 +20,90 @@ msgstr ""
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
 "X-Generator: Lokalize 2.0\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Liudas Ališauskas"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "liudas@aksioma.lt"
-
-#: katefiletree.cpp:96
+#: katefiletree.cpp:122
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Reloa&d"
 msgstr "Įkelti iš &naujo"
 
-#: katefiletree.cpp:98
+#: katefiletree.cpp:124
 #, kde-format
 msgid "Reload selected document(s) from disk."
 msgstr "Įkelti iš naujo pažymėtą dokumentą(-us) iš disko."
 
-#: katefiletree.cpp:100
+#: katefiletree.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close"
 msgstr "Užverti"
 
-#: katefiletree.cpp:102
+#: katefiletree.cpp:128
 #, kde-format
 msgid "Close the current document."
 msgstr "Užverti dabartinį dokumentą."
 
-#: katefiletree.cpp:104
-#, kde-format
+#: katefiletree.cpp:130
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Expand recursively"
 msgctxt "@action:inmenu"
-msgid "Expand recursively"
+msgid "Expand Recursively"
 msgstr "Išskleisti rekursyviai"
 
-#: katefiletree.cpp:106
+#: katefiletree.cpp:132
 #, kde-format
 msgid "Expand the file list sub tree recursively."
 msgstr ""
 
-#: katefiletree.cpp:108
-#, kde-format
+#: katefiletree.cpp:134
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Collapse recursively"
 msgctxt "@action:inmenu"
-msgid "Collapse recursively"
+msgid "Collapse Recursively"
 msgstr "Suskleisti rekursyviai"
 
-#: katefiletree.cpp:110
+#: katefiletree.cpp:136
 #, kde-format
 msgid "Collapse the file list sub tree recursively."
 msgstr ""
 
-#: katefiletree.cpp:112
+#: katefiletree.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other"
 msgstr "Užverti kitus"
 
-#: katefiletree.cpp:114
+#: katefiletree.cpp:140
 #, kde-format
 msgid "Close other documents in this folder."
 msgstr "Užverti kitus dokumentus šiame aplanke."
 
-#: katefiletree.cpp:117
+#: katefiletree.cpp:143
 #, fuzzy, kde-format
 #| msgid "Opening Order"
 msgctxt "@action:inmenu"
 msgid "Open Containing Folder"
 msgstr "Atvėrimo tvarka"
 
-#: katefiletree.cpp:119
+#: katefiletree.cpp:145
 #, kde-format
 msgid "Open the folder this file is located in."
 msgstr ""
 
-#: katefiletree.cpp:121
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy Filename"
+#: katefiletree.cpp:147
+#, kde-format
 msgctxt "@action:inmenu"
-msgid "Copy File Path"
-msgstr "Kopijuoti failo vardą"
+msgid "Copy Location"
+msgstr ""
 
-#: katefiletree.cpp:123
+#: katefiletree.cpp:149
 #, fuzzy, kde-format
 #| msgid "Copy the filename of the file."
 msgid "Copy path and filename to the clipboard."
 msgstr "Kopijuoti vardą dabar redaguojamo failo."
 
-#: katefiletree.cpp:125
+#: katefiletree.cpp:151
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename File"
@@ -119,224 +111,210 @@ msgctxt "@action:inmenu"
 msgid "Rename..."
 msgstr "Pervadinti failą"
 
-#: katefiletree.cpp:127
+#: katefiletree.cpp:153
 #, kde-format
 msgid "Rename the selected file."
 msgstr "Pervadinti šį pažymėtą failą."
 
-#: katefiletree.cpp:130
+#: katefiletree.cpp:156
 #, kde-format
 msgid "Print selected document."
 msgstr "Spausdinti pažymėtą dokumentą."
 
-#: katefiletree.cpp:133
+#: katefiletree.cpp:159
 #, kde-format
 msgid "Show print preview of current document"
 msgstr "Rodyti dabartinio dokumento spausdinimo peržiūrą"
 
-#: katefiletree.cpp:135
+#: katefiletree.cpp:161
 #, fuzzy, kde-format
 #| msgid "Delete file?"
 msgctxt "@action:inmenu"
 msgid "Delete"
 msgstr "Pašalinti failą?"
 
-#: katefiletree.cpp:137
+#: katefiletree.cpp:163
 #, kde-format
 msgid "Close and delete selected file from storage."
 msgstr "Uždaryti ir ištrinti pažymėtą failą iš talpyklos."
 
-#: katefiletree.cpp:143
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Tree Mode"
-msgstr "Medžio veiksena"
-
-#: katefiletree.cpp:144
-#, kde-format
-msgid "Set view style to Tree Mode"
-msgstr "Nustatyti rodinio stilių į medžio veikseną"
-
-#: katefiletree.cpp:150
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "List Mode"
-msgstr "Sąrašo veiksena"
-
-#: katefiletree.cpp:151
-#, kde-format
-msgid "Set view style to List Mode"
-msgstr "Nustatyti rodinio stilių į sąrašo veikseną"
-
-#: katefiletree.cpp:158
-#, kde-format
-msgctxt "@action:inmenu sorting option"
-msgid "Document Name"
-msgstr "Dokumento vardas"
-
-#: katefiletree.cpp:158
-#, kde-format
-msgid "Sort by Document Name"
-msgstr "Rikiuoti pagal dokumento pavadinimą"
-
-#: katefiletree.cpp:161
-#, kde-format
-msgctxt "@action:inmenu sorting option"
-msgid "Document Path"
-msgstr "Dokumento kelias"
-
-#: katefiletree.cpp:161
-#, kde-format
-msgid "Sort by Document Path"
-msgstr "Rikiuoti pagal dokumento kelią"
-
-#: katefiletree.cpp:165
-#, kde-format
-msgctxt "@action:inmenu sorting option"
-msgid "Opening Order"
-msgstr "Atvėrimo tvarka"
-
-#: katefiletree.cpp:166
-#, kde-format
-msgid "Sort by Opening Order"
-msgstr "Rikiuoti pagal atvėrimo tvarką"
-
-#: katefiletree.cpp:170
+#: katefiletree.cpp:167
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Clear History"
 msgstr "Išvalyti istoriją"
 
-#: katefiletree.cpp:172
+#: katefiletree.cpp:169
 #, kde-format
 msgid "Clear edit/view history."
 msgstr "Išvalyti redagavimo/peržiūros istoriją."
 
-#: katefiletree.cpp:308
+#: katefiletree.cpp:242
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Tree Mode"
+msgstr "Medžio veiksena"
+
+#: katefiletree.cpp:243
+#, kde-format
+msgid "Set view style to Tree Mode"
+msgstr "Nustatyti rodinio stilių į medžio veikseną"
+
+#: katefiletree.cpp:249
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "List Mode"
+msgstr "Sąrašo veiksena"
+
+#: katefiletree.cpp:250
+#, kde-format
+msgid "Set view style to List Mode"
+msgstr "Nustatyti rodinio stilių į sąrašo veikseną"
+
+#: katefiletree.cpp:257
+#, kde-format
+msgctxt "@action:inmenu sorting option"
+msgid "Document Name"
+msgstr "Dokumento vardas"
+
+#: katefiletree.cpp:258
+#, kde-format
+msgid "Sort by Document Name"
+msgstr "Rikiuoti pagal dokumento pavadinimą"
+
+#: katefiletree.cpp:263
+#, kde-format
+msgctxt "@action:inmenu sorting option"
+msgid "Document Path"
+msgstr "Dokumento kelias"
+
+#: katefiletree.cpp:263
+#, kde-format
+msgid "Sort by Document Path"
+msgstr "Rikiuoti pagal dokumento kelią"
+
+#: katefiletree.cpp:267
+#, kde-format
+msgctxt "@action:inmenu sorting option"
+msgid "Opening Order"
+msgstr "Atvėrimo tvarka"
+
+#: katefiletree.cpp:268
+#, kde-format
+msgid "Sort by Opening Order"
+msgstr "Rikiuoti pagal atvėrimo tvarką"
+
+#: katefiletree.cpp:271 katefiletreeconfigpage.cpp:72
+#, kde-format
+msgid "Custom Sorting"
+msgstr ""
+
+#: katefiletree.cpp:402
+#, kde-format
+msgid "Open..."
+msgstr ""
+
+#: katefiletree.cpp:406
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open With"
+msgid "Open File"
+msgstr "Atverti su"
+
+#: katefiletree.cpp:416
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open With"
 msgstr "Atverti su"
 
-#: katefiletree.cpp:321
+#: katefiletree.cpp:432
+#, kde-format
+msgid "Show File Git History"
+msgstr ""
+
+#: katefiletree.cpp:482
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "View Mode"
 msgstr "Rodymo būdas"
 
-#: katefiletree.cpp:325
+#: katefiletree.cpp:486
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Sort By"
 msgstr "Rikiuoti pagal"
 
-#: katefiletree.cpp:366
-#, kde-format
-msgid "&Other..."
-msgstr "&Kita..."
-
-#: katefiletree.cpp:511
-#, kde-format
-msgid "Rename file"
-msgstr "Pervadinti failą"
-
-#: katefiletree.cpp:511
-#, kde-format
-msgid "New file name"
-msgstr "Naujas failo pavadinimas"
-
-#: katefiletree.cpp:539
-#, kde-format
-msgid "File \"%1\" could not be moved to \"%2\""
-msgstr "Negalima „%1“ perkelti į „%2“"
-
-#: katefiletree.cpp:751
-#, kde-format
-msgid "Do you really want to delete file \"%1\" from storage?"
-msgstr "Ar tikrai norite pašalinti failą „%1“ iš laikmenos?"
-
-#: katefiletree.cpp:752
-#, kde-format
-msgid "Delete file?"
-msgstr "Pašalinti failą?"
-
-#: katefiletree.cpp:769
-#, kde-format
-msgid "File \"%1\" could not be deleted."
-msgstr "Nepavyko ištrinti failo „%1“."
-
-#: katefiletreeconfigpage.cpp:45
+#: katefiletreeconfigpage.cpp:43
 #, kde-format
 msgid "Background Shading"
 msgstr "Fono šešėliai"
 
-#: katefiletreeconfigpage.cpp:52
+#: katefiletreeconfigpage.cpp:50
 #, kde-format
 msgid "&Viewed documents' shade:"
 msgstr "&Peržiūrimo dokumento šešėlis:"
 
-#: katefiletreeconfigpage.cpp:58
+#: katefiletreeconfigpage.cpp:56
 #, kde-format
 msgid "&Modified documents' shade:"
 msgstr "&Pakeisto dokumento šešėlis:"
 
-#: katefiletreeconfigpage.cpp:66
+#: katefiletreeconfigpage.cpp:64
 #, kde-format
 msgid "&Sort by:"
 msgstr "&Rikiuoti pagal:"
 
-#: katefiletreeconfigpage.cpp:71
+#: katefiletreeconfigpage.cpp:69
 #, kde-format
 msgid "Opening Order"
 msgstr "Atvėrimo tvarka"
 
-#: katefiletreeconfigpage.cpp:72
+#: katefiletreeconfigpage.cpp:70
 #, kde-format
 msgid "Document Name"
 msgstr "Dokumento vardas"
 
-#: katefiletreeconfigpage.cpp:73
+#: katefiletreeconfigpage.cpp:71
 #, kde-format
 msgid "Url"
 msgstr "Url"
 
-#: katefiletreeconfigpage.cpp:78
+#: katefiletreeconfigpage.cpp:77
 #, kde-format
 msgid "&View Mode:"
 msgstr "&Rodymo būdas:"
 
-#: katefiletreeconfigpage.cpp:83
+#: katefiletreeconfigpage.cpp:82
 #, kde-format
 msgid "Tree View"
 msgstr "Medžio vaizdas"
 
-#: katefiletreeconfigpage.cpp:84
+#: katefiletreeconfigpage.cpp:83
 #, kde-format
 msgid "List View"
 msgstr "Sąrašo vaizdas"
 
-#: katefiletreeconfigpage.cpp:89
+#: katefiletreeconfigpage.cpp:88
 #, kde-format
 msgid "&Show Full Path"
 msgstr "Rodyti pilną &kelią"
 
-#: katefiletreeconfigpage.cpp:94
+#: katefiletreeconfigpage.cpp:93
 #, kde-format
 msgid "Show &Toolbar"
 msgstr ""
 
-#: katefiletreeconfigpage.cpp:97
+#: katefiletreeconfigpage.cpp:96
 #, kde-format
-msgid "Show Close Button"
+msgid "Show Close Button On Hovering"
 msgstr ""
 
 #: katefiletreeconfigpage.cpp:99
 #, kde-format
-msgid ""
-"When enabled, this will show a close button for opened documents on hover."
+msgid "Middle Click To Close Documents"
 msgstr ""
 
-#: katefiletreeconfigpage.cpp:104
+#: katefiletreeconfigpage.cpp:105
 #, kde-format
 msgid ""
 "When background shading is enabled, documents that have been viewed or "
@@ -347,12 +325,12 @@ msgstr ""
 "einamojoje sesijoje, bus rodomi su šešėliu fone. naujausių dokumentų šešėlis "
 "bus stipriausias."
 
-#: katefiletreeconfigpage.cpp:107
+#: katefiletreeconfigpage.cpp:108
 #, kde-format
 msgid "Set the color for shading viewed documents."
 msgstr "Nurodyti spalvą peržiūrimų dokumentų šešėliams."
 
-#: katefiletreeconfigpage.cpp:109
+#: katefiletreeconfigpage.cpp:110
 #, kde-format
 msgid ""
 "Set the color for modified documents. This color is blended into the color "
@@ -362,7 +340,7 @@ msgstr ""
 "dokumentų spalvą. Dokumentai, kurie buvo redaguoti paskutiniai, turės "
 "daugiausiai šio atspalvio."
 
-#: katefiletreeconfigpage.cpp:114
+#: katefiletreeconfigpage.cpp:115
 #, kde-format
 msgid ""
 "When enabled, in tree mode, top level folders will show up with their full "
@@ -371,75 +349,139 @@ msgstr ""
 "Įjungus šią parinktį, medžio veiksenoje, viršutinio lygmens aplankai bus "
 "rodomi su pilnu keliu, o ne tik aplanko pavadinimu."
 
-#: katefiletreeconfigpage.cpp:117
+#: katefiletreeconfigpage.cpp:118
 #, kde-format
 msgid ""
 "When enabled, a toolbar with actions like “Save” are displayed above the "
 "list of documents."
 msgstr ""
 
-#: katefiletreeconfigpage.cpp:136 katefiletreeplugin.cpp:137
+#: katefiletreeconfigpage.cpp:154 katefiletreeplugin.cpp:130
+#: katefiletreeplugin.cpp:137
 #, kde-format
 msgid "Documents"
 msgstr "Dokumentai"
 
-#: katefiletreeconfigpage.cpp:141
+#: katefiletreeconfigpage.cpp:159
 #, kde-format
 msgid "Configure Documents"
 msgstr "Konfigūruoti dokumentus"
 
-#: katefiletreemodel.cpp:547
+#: katefiletreemodel.cpp:493
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open With"
+msgctxt ""
+"Open here is a description, i.e. 'list of widgets that are open' not a verb"
+msgid "Open Widgets"
+msgstr "Atverti su"
+
+#: katefiletreemodel.cpp:644
 #, kde-format
 msgctxt "%1 is the full path"
 msgid ""
 "<p><b>%1</b></p><p>The document has been modified by another application.</p>"
 msgstr "<p><b>%1</b></p><p>Dokumentas buvo pakeistas kitos programos.</p>"
 
-#: katefiletreeplugin.cpp:130
-#, kde-format
-msgid "Kate File Tree"
-msgstr "Kate Failų medis"
+#: katefiletreeplugin.cpp:174
+#, fuzzy, kde-format
+#| msgid "&Other..."
+msgid "Filter…"
+msgstr "&Kita..."
 
-#: katefiletreeplugin.cpp:237
+#: katefiletreeplugin.cpp:253
 #, kde-format
 msgid "Previous Document"
 msgstr "Ankstesnis dokumentas"
 
-#: katefiletreeplugin.cpp:243
+#: katefiletreeplugin.cpp:259
 #, kde-format
 msgid "Next Document"
 msgstr "Kitas dokumentas"
 
-#: katefiletreeplugin.cpp:249
-#, kde-format
-msgid "&Show Active"
+#: katefiletreeplugin.cpp:265
+#, fuzzy, kde-format
+#| msgid "&Show Active"
+msgid "&Show Active Document"
 msgstr "Rodyti &aktyvius"
 
-#: katefiletreeplugin.cpp:254
+#: katefiletreeplugin.cpp:271
 #, kde-format
-msgid "Save Current Document"
-msgstr "Įrašyti esamą dokumentą"
+msgid "Save"
+msgstr ""
 
-#: katefiletreeplugin.cpp:255
+#: katefiletreeplugin.cpp:272
 #, kde-format
 msgid "Save the current document"
 msgstr "Įrašyti esamą dokumentą"
 
-#: katefiletreeplugin.cpp:259
+#: katefiletreeplugin.cpp:277
 #, kde-format
-msgid "Save Current Document As"
-msgstr "Įrašyti esamą dokumentą kaip"
+msgid "Save As"
+msgstr ""
 
-#: katefiletreeplugin.cpp:260
-#, kde-format
-msgid "Save current document under new name"
+#: katefiletreeplugin.cpp:278
+#, fuzzy, kde-format
+#| msgid "Save current document under new name"
+msgid "Save the current document under a new name"
 msgstr "Įrašyti esamą dokumentą nauju pavadinimu"
 
-#. i18n: ectx: Menu (view)
+#. i18n: ectx: Menu (go)
 #: ui.rc:7
 #, kde-format
-msgid "&View"
-msgstr "&Rodymas"
+msgid "&Go"
+msgstr ""
+
+#~ msgid "Do you really want to delete file \"%1\" from storage?"
+#~ msgstr "Ar tikrai norite pašalinti failą „%1“ iš laikmenos?"
+
+#~ msgid "Delete file?"
+#~ msgstr "Pašalinti failą?"
+
+#~ msgid "File \"%1\" could not be deleted."
+#~ msgstr "Nepavyko ištrinti failo „%1“."
+
+#~ msgid "Rename file"
+#~ msgstr "Pervadinti failą"
+
+#~ msgid "New file name"
+#~ msgstr "Naujas failo pavadinimas"
+
+#~ msgid "File \"%1\" could not be moved to \"%2\""
+#~ msgstr "Negalima „%1“ perkelti į „%2“"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Liudas Ališauskas"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "liudas@aksioma.lt"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu"
+#~| msgid "Close Other"
+#~ msgid "Close Widget"
+#~ msgstr "Užverti kitus"
+
+#~ msgid "Kate File Tree"
+#~ msgstr "Kate Failų medis"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu"
+#~| msgid "Copy Filename"
+#~ msgctxt "@action:inmenu"
+#~ msgid "Copy File Path"
+#~ msgstr "Kopijuoti failo vardą"
+
+#~ msgid "&View"
+#~ msgstr "&Rodymas"
+
+#~ msgid "Save Current Document"
+#~ msgstr "Įrašyti esamą dokumentą"
+
+#~ msgid "Save Current Document As"
+#~ msgstr "Įrašyti esamą dokumentą kaip"
 
 #~ msgid "Application '%1' not found."
 #~ msgstr "Programa „%1“ nerasta."

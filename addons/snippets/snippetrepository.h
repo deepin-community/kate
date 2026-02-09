@@ -8,17 +8,12 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef __SNIPPETREPOSITORY_H__
-#define __SNIPPETREPOSITORY_H__
+#pragma once
 
-#include <QDir>
-#include <QObject>
 #include <QStandardItem>
 #include <QStringList>
 
-namespace KTextEditor
-{
-}
+class QDir;
 
 /**
  * Each object of this type represents a repository of snippets. Each repository
@@ -34,23 +29,36 @@ namespace KTextEditor
  * @author Robert Gruber <rgruber@users.sourceforge.net>
  * @author Milian Wolff <mail@milianw.de>
  */
-class SnippetRepository : public QObject, public QStandardItem
+class SnippetRepository : public QStandardItem
 {
-    Q_OBJECT
-
 public:
     /**
      * Creates a new SnippetRepository. When @p file exists it will be parsed (XML).
      *
      * @param file Location of the snippet's repository file.
      */
-    SnippetRepository(const QString &file);
+    explicit SnippetRepository(const QString &file);
     ~SnippetRepository() override;
 
     /**
      * Creates a snippet repository for the given name and adds it to the SnippetStore.
      */
     static SnippetRepository *createRepoFromName(const QString &name);
+
+    static constexpr inline int RepoItemType = QStandardItem::UserType + 1;
+
+    int type() const override
+    {
+        return RepoItemType;
+    }
+
+    static SnippetRepository *fromItem(QStandardItem *item)
+    {
+        if (item && item->type() == RepoItemType) {
+            return static_cast<SnippetRepository *>(item);
+        }
+        return nullptr;
+    }
 
     /**
      * The license for the snippets contained in this repository.
@@ -130,9 +138,8 @@ public:
     QVariant data(int role = Qt::UserRole + 1) const override;
     void setData(const QVariant &value, int role = Qt::UserRole + 1) override;
 
-private Q_SLOTS:
     /// parses the XML file and load the containing snippets.
-    void slotParseFile();
+    void parseFile();
 
 private:
     /// path to the repository file
@@ -148,5 +155,3 @@ private:
     /// QtScript with functions to be used in the snippets; common to all snippets
     QString m_script;
 };
-
-#endif

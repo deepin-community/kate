@@ -7,8 +7,12 @@
 
 #include "kateprojectindex.h"
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QProcess>
+#include <QStandardPaths>
+
+#include "hostprocess.h"
 
 /**
  * include ctags reading
@@ -28,8 +32,13 @@ KateProjectIndex::KateProjectIndex(const QString &baseDir, const QString &indexD
         }
         m_ctagsIndexFile.reset(new QFile(path));
     } else {
+        if (baseDir == QDir::homePath() || baseDir == QDir::rootPath()) {
+            // avoid dumb stuff, dont index the full home/root dir
+            return;
+        }
         // indexDir is typically QDir::tempPath() or otherwise specified in configuration
-        m_ctagsIndexFile.reset(new QTemporaryFile(indexDir + QStringLiteral("/kate.project.ctags")));
+        m_ctagsIndexFile.reset(new QTemporaryFile(
+            indexDir + QStringLiteral("/kate.project.ctags.%1.%2").arg(QDir(baseDir).dirName(), QString::number(QCoreApplication::applicationPid()))));
     }
 
     /**
@@ -73,6 +82,12 @@ void KateProjectIndex::loadCtags(const QStringList &files, const QVariantMap &ct
      */
     m_ctagsIndexFile->close();
 
+    // only use ctags from PATH
+    static const auto fullExecutablePath = safeExecutableName(QStringLiteral("ctags"));
+    if (fullExecutablePath.isEmpty()) {
+        return;
+    }
+
     /**
      * try to run ctags for all files in this project
      * output to our ctags index file
@@ -81,10 +96,11 @@ void KateProjectIndex::loadCtags(const QStringList &files, const QVariantMap &ct
     QStringList args;
     args << QStringLiteral("-L") << QStringLiteral("-") << QStringLiteral("-f") << m_ctagsIndexFile->fileName() << QStringLiteral("--fields=+K+n");
     const QString keyOptions = QStringLiteral("options");
-    for (const QVariant &optVariant : ctagsMap[keyOptions].toList()) {
+    const auto opts = ctagsMap[keyOptions].toList();
+    for (const QVariant &optVariant : opts) {
         args << optVariant.toString();
     }
-    ctags.start(QStringLiteral("ctags"), args);
+    startHostProcess(ctags, fullExecutablePath, args);
     if (!ctags.waitForStarted()) {
         return;
     }

@@ -6,11 +6,12 @@
 
 #include "replicodeview.h"
 
+#include "hostprocess.h"
 #include "replicodeconfig.h"
 #include "replicodesettings.h"
+
 #include <QPushButton>
-#include <QTemporaryFile>
-#include <QtGlobal>
+#include <QStandardPaths>
 
 #include <KLocalizedString>
 #include <KXMLGUIFactory>
@@ -20,11 +21,8 @@
 #include <QFileInfo>
 #include <QFormLayout>
 #include <QListWidget>
-#include <QLocale>
 #include <QMessageBox>
-#include <QVBoxLayout>
 
-#include <KAboutData>
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -50,7 +48,7 @@ ReplicodeView::ReplicodeView(KTextEditor::Plugin *plugin, KTextEditor::MainWindo
                                                   QStringLiteral("kate_private_plugin_katereplicodeplugin_run"),
                                                   KTextEditor::MainWindow::Bottom,
                                                   QIcon::fromTheme(QStringLiteral("code-block")),
-                                                  i18n("Replicode Output")));
+                                                  i18n("Replicode")));
     m_replicodeOutput = new QListWidget(m_toolview.get());
     m_replicodeOutput->setSelectionMode(QAbstractItemView::ContiguousSelection);
     connect(m_replicodeOutput, &QListWidget::itemActivated, this, &ReplicodeView::outputClicked);
@@ -63,11 +61,11 @@ ReplicodeView::ReplicodeView(KTextEditor::Plugin *plugin, KTextEditor::MainWindo
                                                        i18n("Replicode Config")));
     m_configView = new ReplicodeConfig(m_configSidebar.get());
 
-    m_runButton = new QPushButton(i18nc("shortcut for action", "Run (%1)", m_runAction->shortcut().toString()));
-    m_stopButton = new QPushButton(i18nc("shortcut for action", "Stop (%1)", m_stopAction->shortcut().toString()));
+    m_runButton = new QPushButton(i18nc("shortcut for action", "Run (%1)", m_runAction->shortcut().toString(QKeySequence::NativeText)));
+    m_stopButton = new QPushButton(i18nc("shortcut for action", "Stop (%1)", m_stopAction->shortcut().toString(QKeySequence::NativeText)));
     m_stopButton->setEnabled(false);
 
-    QFormLayout *l = qobject_cast<QFormLayout *>(m_configView->widget(0)->layout());
+    auto *l = qobject_cast<QFormLayout *>(m_configView->widget(0)->layout());
     Q_ASSERT(l);
     l->addRow(m_runButton, m_stopButton);
     connect(m_runButton, &QPushButton::clicked, m_runAction, &QAction::trigger);
@@ -116,7 +114,14 @@ void ReplicodeView::runReplicode()
     }
 
     KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("Replicode"));
-    QString executorPath = config.readEntry<QString>("replicodePath", QString());
+
+    auto executorPath = config.readEntry<QString>("replicodePath", QString());
+
+    // ensure we only call replicode from PATH if not given as absolute path already
+    if (!executorPath.isEmpty() && !QFileInfo(executorPath).isAbsolute()) {
+        executorPath = safeExecutableName(executorPath);
+    }
+
     if (executorPath.isEmpty()) {
         QMessageBox::warning(m_mainWindow->window(),
                              i18nc("@title:window", "Replicode Executable Not Found"),
@@ -149,7 +154,7 @@ void ReplicodeView::runReplicode()
     connect(m_executor, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::errorOccurred), this, &ReplicodeView::runErrored);
     qDebug() << executorPath << sourceFile.canonicalPath();
     m_completed = false;
-    m_executor->start(executorPath, QStringList(), QProcess::ReadOnly);
+    startHostProcess(*m_executor, executorPath, {}, QProcess::ReadOnly);
 
     m_runAction->setEnabled(false);
     m_runButton->setEnabled(false);
@@ -193,7 +198,7 @@ void ReplicodeView::outputClicked(QListWidgetItem *item)
 void ReplicodeView::runErrored(QProcess::ProcessError error)
 {
     Q_UNUSED(error);
-    QListWidgetItem *item = new QListWidgetItem(i18n("Replicode execution failed: %1", m_executor->errorString()));
+    auto *item = new QListWidgetItem(i18n("Replicode execution failed: %1", m_executor->errorString()));
     item->setForeground(Qt::red);
     m_replicodeOutput->addItem(item);
     m_replicodeOutput->scrollToBottom();
@@ -203,7 +208,7 @@ void ReplicodeView::runErrored(QProcess::ProcessError error)
 void ReplicodeView::replicodeFinished()
 {
     if (!m_completed) {
-        QListWidgetItem *item = new QListWidgetItem(i18n("Replicode execution finished."));
+        auto *item = new QListWidgetItem(i18n("Replicode execution finished."));
         item->setForeground(Qt::blue);
         m_replicodeOutput->addItem(item);
         m_replicodeOutput->scrollToBottom();
@@ -228,7 +233,7 @@ void ReplicodeView::gotStderr()
         if (line.isEmpty()) {
             continue;
         }
-        QListWidgetItem *item = new QListWidgetItem(QString::fromLocal8Bit(line));
+        auto *item = new QListWidgetItem(QString::fromLocal8Bit(line));
         item->setForeground(Qt::red);
         m_replicodeOutput->addItem(item);
     }
@@ -244,7 +249,7 @@ void ReplicodeView::gotStdout()
         if (line.isEmpty()) {
             continue;
         }
-        QListWidgetItem *item = new QListWidgetItem(QString::fromLocal8Bit(' ' + line));
+        auto *item = new QListWidgetItem(QString::fromLocal8Bit(' ' + line));
         if (line[0] == '>') {
             item->setForeground(Qt::gray);
         }
@@ -252,3 +257,5 @@ void ReplicodeView::gotStdout()
     }
     m_replicodeOutput->scrollToBottom();
 }
+
+#include "moc_replicodeview.cpp"

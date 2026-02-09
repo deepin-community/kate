@@ -22,8 +22,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SRC__CLOSE_CONFIRM_DIALOG_H__
-#define __SRC__CLOSE_CONFIRM_DIALOG_H__
+#pragma once
 
 // Project specific includes
 
@@ -31,12 +30,10 @@
 #include "ui_close_confirm_dialog.h"
 #include <KTextEditor/Document>
 #include <KToggleAction>
-#include <KWindowConfig>
 #include <QCheckBox>
 #include <QDialog>
 #include <QList>
 #include <QTreeWidget>
-#include <QTreeWidgetItem>
 
 namespace kate
 {
@@ -48,7 +45,6 @@ namespace kate
  */
 class CloseConfirmDialog : public QDialog, public Ui::CloseConfirmDialog
 {
-    Q_OBJECT
 public:
     /// Default constructor
     explicit CloseConfirmDialog(QList<KTextEditor::Document *> &, KToggleAction *, QWidget *const = nullptr);
@@ -62,4 +58,3 @@ private:
 };
 
 } // namespace kate
-#endif // __SRC__CLOSE_CONFIRM_DIALOG_H__

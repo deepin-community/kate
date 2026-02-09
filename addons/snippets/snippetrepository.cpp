@@ -17,6 +17,7 @@
 #include <QFileInfo>
 #include <QTimer>
 
+#include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
 
@@ -53,10 +54,12 @@ SnippetRepository::SnippetRepository(const QString &file)
 
     if (QFile::exists(file)) {
         // Tell the new repository to load it's snippets
-        QTimer::singleShot(0, this, &SnippetRepository::slotParseFile);
+        QTimer::singleShot(0, model(), [this] {
+            parseFile();
+        });
     }
 
-    qDebug() << "created new snippet repo" << file << this;
+    // qDebug() << "created new snippet repo" << file << this;
 }
 
 SnippetRepository::~SnippetRepository()
@@ -82,9 +85,9 @@ SnippetRepository *SnippetRepository::createRepoFromName(const QString &name)
 
     const auto &dir = dataPath();
     const auto &path = dir.absoluteFilePath(cleanName + QLatin1String(".xml"));
-    qDebug() << "repo path:" << path << cleanName;
+    //     qDebug() << "repo path:" << path << cleanName;
 
-    SnippetRepository *repo = new SnippetRepository(path);
+    auto *repo = new SnippetRepository(path);
     repo->setText(name);
     repo->setCheckState(Qt::Checked);
     KUser user;
@@ -170,7 +173,7 @@ static void addAndCreateElement(QDomDocument &doc, QDomElement &item, const QStr
 
 void SnippetRepository::save()
 {
-    qDebug() << "*** called";
+    //     qDebug() << "*** called";
     /// based on the code from snippets_tng/lib/completionmodel.cpp
     ///@copyright 2009 Joseph Wenninger <jowenn@kde.org>
     /*
@@ -205,7 +208,7 @@ void SnippetRepository::save()
     addAndCreateElement(doc, root, QStringLiteral("script"), m_script);
 
     for (int i = 0; i < rowCount(); ++i) {
-        Snippet *snippet = dynamic_cast<Snippet *>(child(i));
+        Snippet *snippet = Snippet::fromItem(child(i));
         if (!snippet) {
             continue;
         }
@@ -241,9 +244,9 @@ void SnippetRepository::save()
     m_file = outname;
 
     // save shortcuts
-    KConfigGroup config = SnippetStore::self()->getConfig().group(QLatin1String("repository ") + m_file);
+    KConfigGroup config = SnippetStore::getConfig().group(QLatin1String("repository ") + m_file);
     for (int i = 0; i < rowCount(); ++i) {
-        Snippet *snippet = dynamic_cast<Snippet *>(child(i));
+        Snippet *snippet = Snippet::fromItem(child(i));
         if (!snippet) {
             continue;
         }
@@ -260,7 +263,7 @@ void SnippetRepository::save()
     config.sync();
 }
 
-void SnippetRepository::slotParseFile()
+void SnippetRepository::parseFile()
 {
     /// based on the code from snippets_tng/lib/completionmodel.cpp
     ///@copyright 2009 Joseph Wenninger <jowenn@kde.org>
@@ -273,15 +276,13 @@ void SnippetRepository::slotParseFile()
     }
 
     QDomDocument doc;
-    QString errorMsg;
-    int line, col;
-    bool success = doc.setContent(&f, &errorMsg, &line, &col);
-    f.close();
-
-    if (!success) {
-        KMessageBox::error(
-            QApplication::activeWindow(),
-            i18n("<qt>The error <b>%4</b><br /> has been detected in the file %1 at %2/%3</qt>", m_file, line, col, i18nc("QXml", errorMsg.toUtf8().data())));
+    if (const auto result = doc.setContent(&f); !result) {
+        KMessageBox::error(QApplication::activeWindow(),
+                           i18n("<qt>The error <b>%4</b><br /> has been detected in the file %1 at %2/%3</qt>",
+                                m_file,
+                                QString::number(result.errorLine),
+                                QString::number(result.errorColumn),
+                                i18nc("QXml", result.errorMessage.toUtf8().data())));
         return;
     }
 
@@ -293,16 +294,12 @@ void SnippetRepository::slotParseFile()
     }
     setLicense(docElement.attribute(QStringLiteral("license")));
     setAuthors(docElement.attribute(QStringLiteral("authors")));
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    setFileTypes(docElement.attribute(QStringLiteral("filetypes")).split(QLatin1Char(';'), QString::SkipEmptyParts));
-#else
     setFileTypes(docElement.attribute(QStringLiteral("filetypes")).split(QLatin1Char(';'), Qt::SkipEmptyParts));
-#endif
     setText(docElement.attribute(QStringLiteral("name")));
     setCompletionNamespace(docElement.attribute(QStringLiteral("namespace")));
 
     // load shortcuts
-    KConfigGroup config = SnippetStore::self()->getConfig().group(QLatin1String("repository ") + m_file);
+    KConfigGroup config = SnippetStore::getConfig().group(QLatin1String("repository ") + m_file);
 
     // parse children, i.e. <item>'s
     const QDomNodeList &nodes = docElement.childNodes();
@@ -318,7 +315,7 @@ void SnippetRepository::slotParseFile()
         if (item.tagName() != QLatin1String("item")) {
             continue;
         }
-        Snippet *snippet = new Snippet;
+        auto *snippet = new Snippet;
         const QDomNodeList &children = node.childNodes();
         for (int j = 0; j < children.size(); ++j) {
             const QDomNode &childNode = children.at(j);
@@ -375,7 +372,7 @@ void SnippetRepository::setData(const QVariant &value, int role)
     if (role == Qt::CheckStateRole) {
         const int state = value.toInt();
         if (state != checkState()) {
-            KConfigGroup config = SnippetStore::self()->getConfig();
+            KConfigGroup config = SnippetStore::getConfig();
             QStringList currentlyEnabled = config.readEntry("enabledRepositories", QStringList());
             bool shouldSave = false;
             if (state == Qt::Checked && !currentlyEnabled.contains(m_file)) {

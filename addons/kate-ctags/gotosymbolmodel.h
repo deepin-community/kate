@@ -3,13 +3,11 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef GOTOSYMBOLMODEL_H
-#define GOTOSYMBOLMODEL_H
+#pragma once
 
 #include <QAbstractTableModel>
 #include <QIcon>
 #include <QString>
-#include <QVector>
 
 struct SymbolItem {
     QString name;
@@ -19,8 +17,6 @@ struct SymbolItem {
 
 class GotoSymbolModel : public QAbstractTableModel
 {
-    Q_OBJECT
-
 public:
     explicit GotoSymbolModel(QObject *parent = nullptr);
 
@@ -31,7 +27,5 @@ public:
     void refresh(const QString &filePath);
 
 private:
-    QVector<SymbolItem> m_rows;
+    QList<SymbolItem> m_rows;
 };
-
-#endif // GOTOSYMBOLMODEL_H

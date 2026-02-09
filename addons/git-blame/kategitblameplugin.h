@@ -4,12 +4,10 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KateGitBlamePlugin_h
-#define KateGitBlamePlugin_h
+#pragma once
 
 #include "gitblametooltip.h"
 
-#include <KTextEditor/ConfigPage>
 #include <KTextEditor/InlineNoteProvider>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/Plugin>
@@ -20,18 +18,28 @@
 #include <QHash>
 #include <QList>
 #include <QLocale>
-#include <QRegularExpression>
+#include <QPointer>
+#include <QTimer>
+#include <QUrl>
 #include <QVariant>
-#include <QVector>
 
-enum class KateGitBlameMode { None, SingleLine, AllLines, Count = AllLines };
+enum class KateGitBlameMode {
+    None,
+    SingleLine,
+    AllLines,
+    Count = AllLines
+};
 
-struct KateGitBlameInfo {
-    QString commitHash;
-    QString name;
-    QDateTime date;
-    QString title;
-    QString line;
+struct CommitInfo {
+    QByteArray hash;
+    QString authorName;
+    QDateTime authorDate;
+    QByteArray summary;
+};
+
+struct BlamedLine {
+    QByteArray shortCommitHash;
+    QByteArray lineText;
 };
 
 class KateGitBlamePluginView;
@@ -39,14 +47,14 @@ class GitBlameTooltip;
 
 class GitBlameInlineNoteProvider : public KTextEditor::InlineNoteProvider
 {
-    Q_OBJECT
 public:
-    GitBlameInlineNoteProvider(KateGitBlamePluginView *view);
-    ~GitBlameInlineNoteProvider();
+    explicit GitBlameInlineNoteProvider(KateGitBlamePluginView *view);
+    ~GitBlameInlineNoteProvider() override;
 
-    QVector<int> inlineNotes(int line) const override;
+    QList<int> inlineNotes(int line) const override;
     QSize inlineNoteSize(const KTextEditor::InlineNote &note) const override;
-    void paintInlineNote(const KTextEditor::InlineNote &note, QPainter &painter) const override;
+    void paintInlineNote(const KTextEditor::InlineNote &note, QPainter &painter, Qt::LayoutDirection) const override;
+
     void inlineNoteActivated(const KTextEditor::InlineNote &note, Qt::MouseButtons buttons, const QPoint &globalPos) override;
     void cycleMode();
     void setMode(KateGitBlameMode mode);
@@ -59,17 +67,14 @@ private:
 
 class KateGitBlamePlugin : public KTextEditor::Plugin
 {
-    Q_OBJECT
 public:
-    explicit KateGitBlamePlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
-    ~KateGitBlamePlugin() override;
+    explicit KateGitBlamePlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
 };
 
 class KateGitBlamePluginView : public QObject, public KXMLGUIClient
 {
-    Q_OBJECT
 public:
     KateGitBlamePluginView(KateGitBlamePlugin *plugin, KTextEditor::MainWindow *mainwindow);
     ~KateGitBlamePluginView() override;
@@ -79,29 +84,36 @@ public:
 
     bool hasBlameInfo() const;
 
-    const KateGitBlameInfo &blameInfo(int lineNr);
+    const CommitInfo &blameInfo(int lineNr);
 
     void showCommitInfo(const QString &hash, KTextEditor::View *view);
 
-    void setToolTipIgnoreKeySequence(QKeySequence sequence);
+    void setToolTipIgnoreKeySequence(const QKeySequence &sequence);
+
+    void showCommitTreeView(const QUrl &url);
 
 private:
-    struct CommitInfo {
-        QString m_hash;
-        QString m_title;
-        QString m_content;
-        void clear();
+    enum Command {
+        RevParse,
+        Config,
+        Blame,
+        IgnoreRevsFile
     };
+    Q_ENUM(Command)
 
-    void viewChanged(KTextEditor::View *view);
+    void sendMessage(const QString &text, bool error);
+
+    void startGitBlameForActiveView();
 
     void startBlameProcess(const QUrl &url);
-    void blameFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void commandFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void parseGitBlameStdOutput();
 
     void startShowProcess(const QUrl &url, const QString &hash);
     void showFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void onErrorOccurred(QProcess::ProcessError e);
 
-    const KateGitBlameInfo &blameGetUpdateInfo(int lineNr);
+    const CommitInfo &blameGetUpdateInfo(int lineNr);
 
     KTextEditor::MainWindow *m_mainWindow;
 
@@ -109,13 +121,18 @@ private:
 
     QProcess m_blameInfoProc;
     QProcess m_showProc;
-    QVector<KateGitBlameInfo> m_blameInfo;
-    QUrl m_blameUrl;
+    QHash<QByteArray, CommitInfo> m_blameInfoForHash;
+    std::vector<BlamedLine> m_blamedLines;
     QPointer<KTextEditor::View> m_lastView;
     int m_lineOffset{0};
     GitBlameTooltip m_tooltip;
     QString m_showHash;
-    CommitInfo m_activeCommitInfo;
+    class CommitDiffTreeView *m_commitFilesView;
+    QPointer<KTextEditor::View> m_diffView;
+    QTimer m_startBlameTimer;
+    QString m_parentPath;
+    Command m_currentCommand;
+    QString m_root;
+    QString m_ignoreRevsFile;
+    QString m_absoluteFilePath;
 };
-
-#endif // KateGitBlamePlugin_h

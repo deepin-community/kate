@@ -816,7 +816,7 @@
 ><guimenu
 >Strumenti</guimenu
 ><guimenuitem
->Allinea</guimenuitem
+>Rientro formato</guimenuitem
 ></menuchoice
 > che ricalcola il rientro della riga selezionata o di quella corrente. In questo modo puoi far rientrare nuovamente il documento selezionando tutto il testo e attivando tale azione.</para>
 
@@ -974,6 +974,99 @@
 > o impostarla permanentemente nella <link linkend="appearance-borders"
 >sezione Aspetto della configurazione di &kappname;</link
 >.</para>
+
+</sect1>
+
+<sect1 id="kate-part-multiple-cursors">
+<title
+>Cursori multipli</title>
+
+<para
+>Il supporto per i cursori multipli è stato introdotto nella versione 5.93 di katepart.</para>
+
+<sect2 id="kate-part-create-multiple-cursors">
+<title
+>Creazione di più cursori</title>
+
+<itemizedlist>
+<listitem
+><para
+>Per crearli col mouse, usa &Alt; + &LMB;. Il modificatore è configurabile, vedi <link linkend="multicursor-modifier-configure"
+>Configurare il modificatore multi cursore</link
+></para
+></listitem>
+
+<listitem
+><para
+>Per crearli con la tastiera, premi <keycombo action="simul"
+>&Ctrl;&Alt;&Up;</keycombo
+> per creare un cursore sopra al primario, e <keycombo action="simul"
+>&Ctrl;&Alt;&Down;</keycombo
+> per crearne uno sotto. Anche queste scorciatoie sono configurabili</para
+></listitem>
+
+<listitem
+><para
+>Per creare dei cursori da una selezione, per prima cosa seleziona del testo, poi premi <keycombo action="simul"
+>&Shift;&Alt;<keycap
+>I</keycap
+></keycombo
+>: ciò creerà un cursore alla fine di ogni riga nella selezione.</para
+></listitem>
+
+<listitem
+><para
+>Usa <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> per trovare la successiva occorrenza della parola sotto il cursore, e seleziona + per creare un cursore. Premi <keycombo action="simul"
+>&Alt;<keycap
+>K</keycap
+></keycombo
+> se vuoi saltare la parola attualmente sotto al cursore: in questo modo questa verrà marcata come saltata. Se premi nuovamente <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+>, ciò deselezionerà la parola corrente e passerai alla successiva.</para>
+</listitem>
+
+<listitem
+><para
+>Usa <keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>J</keycap
+></keycombo
+> per cercare tutte le occorrenze della parola sotto il cursore, poi selezionale con un cursore alla fine di ogni selezione. Puoi usare<keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> per passare ciclicamente tra le parole selezionate, e, come menzionato nel paragrafo precedente, <keycombo action="simul"
+>&Alt;<keycap
+>K</keycap
+></keycombo
+> per deselezionare tutte le parole.</para
+></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2
+><title
+>Lavorare con più cursori</title>
+<para
+>Una volta che hai creato alcuni cursori puoi eseguire la maggior parte delle operazioni di modifica su di essi come le faresti con uno singolo. Ad esempio, digitando una lettera, questa verrà digitata per ogni cursore. Allo stesso modo puoi eseguire le trasformazioni di testo, &eg; la capitalizzazione di tutte le posizioni o le selezioni.</para>
+
+<para
+>A volte vorrai rimuovere i cursori; per farlo, premi &Alt; + &LMB; su quello che vuoi rimuovere. Se vuoi solamente rimuovere i cursori nelle righe vuote c'è già un'azione pronta che lo farà per te. Per invocarla, apri la barra dei comandi usando <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>I</keycap
+></keycombo
+> e cerca <guimenuitem
+>Rimuovi i cursori dalle righe vuote</guimenuitem
+>, poi premi &Enter;. Puoi anche configurare una scorciatoia per questa azione.</para>
+
+</sect2>
 
 </sect1>
 

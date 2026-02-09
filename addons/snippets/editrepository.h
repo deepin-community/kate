@@ -8,8 +8,7 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef EDITREPOSITORY_H
-#define EDITREPOSITORY_H
+#pragma once
 
 #include "ui_editrepository.h"
 
@@ -25,8 +24,6 @@ class SnippetRepository;
  */
 class EditRepository : public QDialog, public Ui::EditRepositoryBase
 {
-    Q_OBJECT
-
 public:
     /// @p repo set to 0 when you want to create a new repository.
     explicit EditRepository(SnippetRepository *repo, QWidget *parent = nullptr);
@@ -39,5 +36,3 @@ private Q_SLOTS:
     void validate();
     void updateFileTypes();
 };
-
-#endif

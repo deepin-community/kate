@@ -3,239 +3,520 @@
 #
 # Jure Repinc <jlp@holodeck1.com>, 2011.
 # Andrej Mernik <andrejm@ubuntu.si>, 2012, 2013, 2014.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2020.
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-05-06 00:20+0000\n"
-"PO-Revision-Date: 2020-10-02 20:35+0200\n"
+"POT-Creation-Date: 2025-02-27 00:43+0000\n"
+"PO-Revision-Date: 2025-02-26 06:53+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.12.2\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 3.5\n"
 
+#: backend.cpp:24 dapbackend.cpp:168
 #, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Jure Repinc,Andrej Mernik,Matjaž Jeran"
+msgid ""
+"A debugging session is on course. Please, use re-run or stop the current "
+"session."
+msgstr ""
+"Seja za odpravljanje napak je v teku. Prosimo, uporabite ponovni zagon ali "
+"ustavite tekočo sejo."
 
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "jlp@holodeck1.com,andrejm@ubuntu.si,matjaz.jeran@amis.net"
-
-#. i18n: ectx: property (text), widget (QLabel, u_gdbLabel)
-#: advanced_settings.ui:17
-#, kde-format
-msgid "GDB command"
-msgstr "Ukaz GDB"
-
-#. i18n: ectx: property (text), widget (QToolButton, u_gdbBrowse)
-#. i18n: ectx: property (text), widget (QToolButton, u_addSrcPath)
-#. i18n: ectx: property (text), widget (QToolButton, u_delSrcPath)
-#. i18n: ectx: property (text), widget (QToolButton, u_setSoPrefix)
-#. i18n: ectx: property (text), widget (QToolButton, u_addSoSearchPath)
-#. i18n: ectx: property (text), widget (QToolButton, u_delSoSearchPath)
-#: advanced_settings.ui:30 advanced_settings.ui:62 advanced_settings.ui:69
-#: advanced_settings.ui:241 advanced_settings.ui:274 advanced_settings.ui:281
-#, kde-format
-msgid "..."
-msgstr "..."
-
-#. i18n: ectx: property (text), widget (QLabel, u_srcPathsLabel)
-#: advanced_settings.ui:37
-#, kde-format
-msgid "Source file search paths"
-msgstr "Iskalne poti za datoteke z izvorno kodo"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, u_localRemote)
-#: advanced_settings.ui:92
-#, kde-format
-msgid "Local application"
-msgstr "Krajevni program"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, u_localRemote)
-#: advanced_settings.ui:97
-#, kde-format
-msgid "Remote TCP"
-msgstr "Oddaljeni TCP"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, u_localRemote)
-#: advanced_settings.ui:102
-#, kde-format
-msgid "Remote Serial Port"
-msgstr "Oddaljena zaporedna vrata"
-
-#. i18n: ectx: property (text), widget (QLabel, u_hostLabel)
-#: advanced_settings.ui:127
-#, kde-format
-msgid "Host"
-msgstr "Gostitelj"
-
-#. i18n: ectx: property (text), widget (QLabel, u_tcpPortLabel)
-#. i18n: ectx: property (text), widget (QLabel, u_ttyLabel)
-#: advanced_settings.ui:141 advanced_settings.ui:166
-#, kde-format
-msgid "Port"
-msgstr "Vrata"
-
-#. i18n: ectx: property (text), widget (QLabel, u_ttyBaudLabel)
-#: advanced_settings.ui:183
-#, kde-format
-msgid "Baud"
-msgstr "Baud"
-
-#. i18n: ectx: property (text), widget (QLabel, u_soAbsPrefixLabel)
-#: advanced_settings.ui:231
-#, kde-format
-msgid "solib-absolute-prefix"
-msgstr "solib-absolute-prefix"
-
-#. i18n: ectx: property (text), widget (QLabel, u_soSearchLabel)
-#: advanced_settings.ui:248
-#, kde-format
-msgid "solib-search-path"
-msgstr "solib-search-path"
-
-#. i18n: ectx: property (title), widget (QGroupBox, u_customInitGB)
-#: advanced_settings.ui:317
-#, kde-format
-msgid "Custom Init Commands"
-msgstr "Ukazi Init po meri"
-
-#: configview.cpp:46
+#: configview.cpp:90
 #, kde-format
 msgid "Add new target"
 msgstr "Dodaj nov cilj"
 
-#: configview.cpp:50
+#: configview.cpp:94
 #, kde-format
 msgid "Copy target"
 msgstr "Kopiraj cilj"
 
-#: configview.cpp:54
+#: configview.cpp:98
 #, kde-format
 msgid "Delete target"
 msgstr "Izbriši cilj"
 
-#: configview.cpp:59
+#: configview.cpp:102
+#, kde-format
+msgid "Reload launch.json targets"
+msgstr "Ponovno naloži cilje launch.json"
+
+#: configview.cpp:107
 #, kde-format
 msgid "Executable:"
 msgstr "Izvedljiva datoteka:"
 
-#: configview.cpp:79
+#: configview.cpp:127
 #, kde-format
 msgid "Working Directory:"
 msgstr "Delovna mapa:"
 
-#: configview.cpp:86
+#: configview.cpp:135
+#, kde-format
+msgid "Process Id:"
+msgstr "Id procesa:"
+
+#: configview.cpp:140
 #, kde-format
 msgctxt "Program argument list"
 msgid "Arguments:"
 msgstr "Argumenti:"
 
-#: configview.cpp:89
+#: configview.cpp:143
 #, kde-format
 msgctxt "Checkbox to for keeping focus on the command line"
 msgid "Keep focus"
 msgstr "Ohrani žarišče"
 
-#: configview.cpp:90
+#: configview.cpp:144
 #, kde-format
 msgid "Keep the focus on the command line"
 msgstr "Ohrani žarišče na ukazni vrstici"
 
-#: configview.cpp:92
+#: configview.cpp:146
 #, kde-format
 msgid "Redirect IO"
 msgstr "Preusmeri V/I"
 
-#: configview.cpp:93
+#: configview.cpp:147
 #, kde-format
 msgid "Redirect the debugged programs IO to a separate tab"
 msgstr "V/I razhroščevanih programov preusmeri v ločen zavihek"
 
-#: configview.cpp:95
-#, kde-format
-msgid "Advanced Settings"
-msgstr "Napredne nastavitve"
-
-#: configview.cpp:126
-#, kde-format
-msgid "Targets"
-msgstr "Cilji"
-
-#: configview.cpp:320 configview.cpp:336
+#: configview.cpp:462 configview.cpp:475
 #, kde-format
 msgid "Target %1"
 msgstr "Cilj %1"
 
-#: debugview.cpp:123
+#: dapbackend.cpp:182
 #, kde-format
-msgid "Could not start debugger process"
-msgstr "Razhroščevalnega procesa ni bilo mogoče zagnati"
+msgid "DAP backend '%1' failed"
+msgstr "Zaledje DAP '%1' ni uspelo"
 
-#: debugview.cpp:166
+#: dapbackend.cpp:232
 #, kde-format
-msgid "*** gdb exited normally ***"
-msgstr "*** gdb se je končal brez težav ***"
+msgid "program terminated"
+msgstr "program se je končal"
 
-#: localsview.cpp:17
+#: dapbackend.cpp:237
+#, kde-format
+msgid "Failed to terminate. Forcing shutdown..."
+msgstr "Prekinitev ni uspela. Prisilna zaustavitev..."
+
+#: dapbackend.cpp:248
+#, kde-format
+msgid "requesting disconnection"
+msgstr "zahtevan odklop"
+
+#: dapbackend.cpp:262
+#, kde-format
+msgid "requesting shutdown"
+msgstr "zahtevana ustavitev sistema"
+
+#: dapbackend.cpp:286
+#, kde-format
+msgid "DAP backend: %1"
+msgstr "Ozadje DAP: %1"
+
+#: dapbackend.cpp:295
+#, kde-format
+msgid "stopped (%1)."
+msgstr "ustavljen (%1)."
+
+#: dapbackend.cpp:303
+#, kde-format
+msgid "Active thread: %1 (all threads stopped)."
+msgstr "Aktivna nit: %1 (vse niti ustavljene)."
+
+#: dapbackend.cpp:305
+#, kde-format
+msgid "Active thread: %1."
+msgstr "Aktivna nit: %1."
+
+#: dapbackend.cpp:310
+#, kde-format
+msgid "Breakpoint(s) reached:"
+msgstr "Dosežena prekinitvena točka:"
+
+#: dapbackend.cpp:336
+#, kde-format
+msgid "(continued) thread %1"
+msgstr "(nadaljevana) nit %1"
+
+#: dapbackend.cpp:338
+#, kde-format
+msgid "all threads continued"
+msgstr "vse niti se nadaljujejo"
+
+#: dapbackend.cpp:345
+#, kde-format
+msgid "(running)"
+msgstr "(teče)"
+
+#: dapbackend.cpp:407
+#, kde-format
+msgid "*** connection with server closed ***"
+msgstr "*** povezava s strežnikom zaprta ***"
+
+#: dapbackend.cpp:414
+#, kde-format
+msgid "program exited with code %1"
+msgstr "program je končal s kodo %1"
+
+#: dapbackend.cpp:432
+#, kde-format
+msgid "*** waiting for user actions ***"
+msgstr "*** čakanje na uporabnikove aktivnosti ***"
+
+#: dapbackend.cpp:437
+#, kde-format
+msgid "error on response: %1"
+msgstr "napaka na odgovoru: %1"
+
+#: dapbackend.cpp:452
+#, kde-format
+msgid "important"
+msgstr "pomembno"
+
+#: dapbackend.cpp:455
+#, kde-format
+msgid "telemetry"
+msgstr "telemetrija"
+
+#: dapbackend.cpp:474
+#, kde-format
+msgid "debugging process [%1] %2"
+msgstr "proces odpravljanja napak [%1] %2"
+
+#: dapbackend.cpp:476
+#, kde-format
+msgid "debugging process %1"
+msgstr "proces odpravljanja napak %1"
+
+#: dapbackend.cpp:479
+#, kde-format
+msgid "Start method: %1"
+msgstr "Začni metodo: %1"
+
+#: dapbackend.cpp:494
+#, kde-format
+msgid "thread %1"
+msgstr "nit %1"
+
+#: dapbackend.cpp:632
+#, kde-format
+msgid "breakpoint set"
+msgstr "prekinitvena točka postavljena"
+
+#: dapbackend.cpp:640
+#, kde-format
+msgid "breakpoint cleared"
+msgstr "prekinitvena točka izbrisana"
+
+#: dapbackend.cpp:699
+#, kde-format
+msgid "(%1) breakpoint"
+msgstr "(%1) prekinitvena točka"
+
+#: dapbackend.cpp:716
+#, kde-format
+msgid "<not evaluated>"
+msgstr "<ni ovrednoteno>"
+
+#: dapbackend.cpp:738
+#, kde-format
+msgid "server capabilities"
+msgstr "zmogljivosti strežnika"
+
+#: dapbackend.cpp:741
+#, kde-format
+msgid "supported"
+msgstr "podprto"
+
+#: dapbackend.cpp:741
+#, kde-format
+msgid "unsupported"
+msgstr "nepodprto"
+
+#: dapbackend.cpp:744
+#, kde-format
+msgid "conditional breakpoints"
+msgstr "pogojne prekinitvene točke"
+
+#: dapbackend.cpp:745
+#, kde-format
+msgid "function breakpoints"
+msgstr "funkcijske prekinitvene točke"
+
+#: dapbackend.cpp:746
+#, kde-format
+msgid "hit conditional breakpoints"
+msgstr "zadeta prekinitvena točka"
+
+#: dapbackend.cpp:747
+#, kde-format
+msgid "log points"
+msgstr "točka dnevnika"
+
+#: dapbackend.cpp:747
+#, kde-format
+msgid "modules request"
+msgstr "zahteva modula"
+
+#: dapbackend.cpp:748
+#, kde-format
+msgid "goto targets request"
+msgstr "pojdi na ciljni zahtevek"
+
+#: dapbackend.cpp:749
+#, kde-format
+msgid "terminate request"
+msgstr "zaključi zahtevek"
+
+#: dapbackend.cpp:750
+#, kde-format
+msgid "terminate debuggee"
+msgstr "zaključi testiranca"
+
+#: dapbackend.cpp:978
+#, kde-format
+msgid "syntax error: expression not found"
+msgstr "napaka skladnje: izraz ni bil najden"
+
+#: dapbackend.cpp:996 dapbackend.cpp:1031 dapbackend.cpp:1069
+#: dapbackend.cpp:1103 dapbackend.cpp:1139 dapbackend.cpp:1175
+#: dapbackend.cpp:1211 dapbackend.cpp:1311 dapbackend.cpp:1373
+#, kde-format
+msgid "syntax error: %1"
+msgstr "napaka skladnje: %1"
+
+#: dapbackend.cpp:1004 dapbackend.cpp:1039 dapbackend.cpp:1318
+#: dapbackend.cpp:1381
+#, kde-format
+msgid "invalid line: %1"
+msgstr "neveljavna vrstica: %1"
+
+#: dapbackend.cpp:1011 dapbackend.cpp:1016 dapbackend.cpp:1046
+#: dapbackend.cpp:1051 dapbackend.cpp:1342 dapbackend.cpp:1347
+#: dapbackend.cpp:1388 dapbackend.cpp:1393
+#, kde-format
+msgid "file not specified: %1"
+msgstr "ni določene datoteke: %1"
+
+#: dapbackend.cpp:1081 dapbackend.cpp:1115 dapbackend.cpp:1151
+#: dapbackend.cpp:1187 dapbackend.cpp:1223
+#, kde-format
+msgid "invalid thread id: %1"
+msgstr "neveljaven id niti: %1"
+
+#: dapbackend.cpp:1087 dapbackend.cpp:1121 dapbackend.cpp:1157
+#: dapbackend.cpp:1193 dapbackend.cpp:1229
+#, kde-format
+msgid "thread id not specified: %1"
+msgstr "ni določen id niti: %1"
+
+#: dapbackend.cpp:1240
+#, kde-format
+msgid "Available commands:"
+msgstr "Razpoložljivi ukazi:"
+
+#: dapbackend.cpp:1328
+#, kde-format
+msgid "conditional breakpoints are not supported by the server"
+msgstr "pogojne prekinitvene točke niso podprte na strežniku"
+
+#: dapbackend.cpp:1336
+#, kde-format
+msgid "hit conditional breakpoints are not supported by the server"
+msgstr "zadete pogojne prekinitvene točke niso podprte na strežniku"
+
+#: dapbackend.cpp:1356
+#, kde-format
+msgid "line %1 already has a breakpoint"
+msgstr "vrstica %1 že ima prekinitveno točko"
+
+#: dapbackend.cpp:1401
+#, kde-format
+msgid "breakpoint not found (%1:%2)"
+msgstr "prekinitvena točka ni najdena (%1:%2)"
+
+#: dapbackend.cpp:1407
+#, kde-format
+msgid "Current thread: "
+msgstr "Trenutna nit: "
+
+#: dapbackend.cpp:1412 dapbackend.cpp:1419 dapbackend.cpp:1440
+#, kde-format
+msgid "none"
+msgstr "nobena"
+
+#: dapbackend.cpp:1415
+#, kde-format
+msgid "Current frame: "
+msgstr "Trenutni okvir: "
+
+#: dapbackend.cpp:1422
+#, kde-format
+msgid "Session state: "
+msgstr "Stanje seje: "
+
+#: dapbackend.cpp:1425
+#, kde-format
+msgid "initializing"
+msgstr "inicializacija"
+
+#: dapbackend.cpp:1428
+#, kde-format
+msgid "running"
+msgstr "v teku"
+
+#: dapbackend.cpp:1431
+#, kde-format
+msgid "stopped"
+msgstr "zaustavljena"
+
+#: dapbackend.cpp:1434
+#, kde-format
+msgid "terminated"
+msgstr "zaključena"
+
+#: dapbackend.cpp:1437
+#, kde-format
+msgid "disconnected"
+msgstr "odklopljena"
+
+#: dapbackend.cpp:1493
+#, kde-format
+msgid "command not found"
+msgstr "ni mogoče najti ukaza"
+
+#: dapbackend.cpp:1527
+#, kde-format
+msgid "missing thread id"
+msgstr "neveljaven id niti"
+
+#: dapbackend.cpp:1666
+#, kde-format
+msgid "Current frame [%3]: %1:%2 (%4)"
+msgstr "Trenutni okvir [%3]: %1:%2 (%4)"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: debugconfig.ui:33
+#, kde-format
+msgid "User Debug Adapter Settings"
+msgstr "Nastavitve uporabniškega adapterja razhoroščevanja"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: debugconfig.ui:41
+#, kde-format
+msgid "Settings File:"
+msgstr "Datoteka nastavitev:"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: debugconfig.ui:68
+#, kde-format
+msgid "Default Debug Adapter Settings"
+msgstr "Privzete nastavitve adapterja razhroščevanja"
+
+#: debugconfigpage.cpp:72 debugconfigpage.cpp:77
+#, kde-format
+msgid "Debugger"
+msgstr "Razhroščevalnik"
+
+#: debugconfigpage.cpp:128
+#, kde-format
+msgid "No JSON data to validate."
+msgstr "Ni podatkov JSON za validacijo."
+
+#: debugconfigpage.cpp:136
+#, kde-format
+msgid "JSON data is valid."
+msgstr "Podatki JSON so veljavni."
+
+#: debugconfigpage.cpp:138
+#, kde-format
+msgid "JSON data is invalid: no JSON object"
+msgstr "Podatki JSON so neveljavni: ni predmeta JSON"
+
+#: debugconfigpage.cpp:141
+#, kde-format
+msgid "JSON data is invalid: %1"
+msgstr "Podatki JSON so neveljavni: %1"
+
+#: localsview.cpp:22
 #, kde-format
 msgid "Symbol"
 msgstr "Simbol"
 
-#: localsview.cpp:18
+#: localsview.cpp:23
+#, kde-format
+msgid "Type"
+msgstr "Vrsta"
+
+#: localsview.cpp:24
 #, kde-format
 msgid "Value"
 msgstr "Vrednost"
 
-#: plugin_kategdb.cpp:69
+#: localsview.cpp:51
 #, kde-format
-msgid "Kate GDB"
-msgstr "GDB za Kate"
+msgid "type"
+msgstr "vrsta"
 
-#: plugin_kategdb.cpp:73 plugin_kategdb.cpp:76
+#: localsview.cpp:60
+#, kde-format
+msgid "indexed items"
+msgstr "indeksirane postavke"
+
+#: localsview.cpp:63
+#, kde-format
+msgid "named items"
+msgstr "poimenovane postavke"
+
+#: localsview.cpp:79 localsview.cpp:80
+#, kde-format
+msgid "Loading..."
+msgstr "Nalaganje..."
+
+#: localsview.cpp:167
+#, kde-format
+msgid "Copy Symbol"
+msgstr "Kopiraj simbol"
+
+#: localsview.cpp:181
+#, kde-format
+msgid "Copy Value"
+msgstr "Kopiraj vrednost"
+
+#: plugin_kategdb.cpp:108
+#, kde-format
+msgid "Kate Debug"
+msgstr "Razhrošči Kate"
+
+#: plugin_kategdb.cpp:112
 #, kde-format
 msgid "Debug View"
 msgstr "Razhroščevalni prikaz"
 
-#: plugin_kategdb.cpp:79 plugin_kategdb.cpp:82
+#: plugin_kategdb.cpp:112 plugin_kategdb.cpp:385
+#, kde-format
+msgid "Debug"
+msgstr "Razhrošči"
+
+#: plugin_kategdb.cpp:115 plugin_kategdb.cpp:118
 #, kde-format
 msgid "Locals and Stack"
 msgstr "Krajevno in skladi"
 
-#: plugin_kategdb.cpp:127
-#, kde-format
-msgctxt "Column label (frame number)"
-msgid "Nr"
-msgstr "Št."
-
-#: plugin_kategdb.cpp:127
-#, kde-format
-msgctxt "Column label"
-msgid "Frame"
-msgstr "Okvir"
-
-#: plugin_kategdb.cpp:150
-#, kde-format
-msgctxt "Tab label"
-msgid "GDB Output"
-msgstr "Izhod GDB"
-
-#: plugin_kategdb.cpp:151
-#, kde-format
-msgctxt "Tab label"
-msgid "Settings"
-msgstr "Nastavitve"
-
-#: plugin_kategdb.cpp:184
+#: plugin_kategdb.cpp:250
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -245,106 +526,166 @@ msgstr ""
 "<title>Ni mogoče odpreti datoteke:</title><nl/>%1<br/>Poskusite dodati "
 "iskalno pot v Napredne nastavitve -> Iskalne poti za datoteke z izvorno kodo"
 
-#: plugin_kategdb.cpp:202
+#: plugin_kategdb.cpp:267
+#, kde-format
+msgid "Targets"
+msgstr "Cilji"
+
+#: plugin_kategdb.cpp:272
 #, kde-format
 msgid "Start Debugging"
 msgstr "Začni z razhroščevanjem"
 
-#: plugin_kategdb.cpp:207
+#: plugin_kategdb.cpp:282
 #, kde-format
 msgid "Kill / Stop Debugging"
 msgstr "Ubij/zaustavi razhroščevanje"
 
-#: plugin_kategdb.cpp:212
+#: plugin_kategdb.cpp:289
 #, kde-format
-msgid "Restart Debugging"
-msgstr "Znova zaženi razhroščevanje"
+msgid "Continue"
+msgstr "Nadaljuj"
 
-#: plugin_kategdb.cpp:217
+#: plugin_kategdb.cpp:295
 #, kde-format
 msgid "Toggle Breakpoint / Break"
 msgstr "Preklopi prekinitveno točko/prekinitev"
 
-#: plugin_kategdb.cpp:222
+#: plugin_kategdb.cpp:302
+#, kde-format
+msgid "Clear All Breakpoints"
+msgstr "Počisti vse prekinitvene točke"
+
+#: plugin_kategdb.cpp:307
 #, kde-format
 msgid "Step In"
 msgstr "Vstopi"
 
-#: plugin_kategdb.cpp:227
+#: plugin_kategdb.cpp:314
 #, kde-format
 msgid "Step Over"
 msgstr "Prestopi"
 
-#: plugin_kategdb.cpp:232
+#: plugin_kategdb.cpp:321
 #, kde-format
 msgid "Step Out"
 msgstr "Izstopi"
 
-#: plugin_kategdb.cpp:237 plugin_kategdb.cpp:265
+#: plugin_kategdb.cpp:328 plugin_kategdb.cpp:392
+#, kde-format
+msgid "Run To Cursor"
+msgstr "Zaženi do kazalke"
+
+#: plugin_kategdb.cpp:335
+#, kde-format
+msgid "Restart Debugging"
+msgstr "Znova zaženi razhroščevanje"
+
+#: plugin_kategdb.cpp:342
+#, kde-format
+msgid "Clear Output"
+msgstr "Počisti izhod"
+
+#: plugin_kategdb.cpp:350
+#, kde-format
+msgid "Hot Reload"
+msgstr "Vroče ponovno nalaganje"
+
+#: plugin_kategdb.cpp:357
+#, kde-format
+msgid "Hot Restart"
+msgstr "Vroči ponovni zagon"
+
+#: plugin_kategdb.cpp:366
+#, kde-format
+msgid "Enable Hot Reload on Save"
+msgstr "Omogoči vroče nalaganje pri shranjevanju"
+
+#: plugin_kategdb.cpp:375 plugin_kategdb.cpp:394
 #, kde-format
 msgctxt "Move Program Counter (next execution)"
 msgid "Move PC"
 msgstr "Premakni PC"
 
-#: plugin_kategdb.cpp:241 plugin_kategdb.cpp:263
-#, kde-format
-msgid "Run To Cursor"
-msgstr "Zaženi do kazalke"
-
-#: plugin_kategdb.cpp:246
-#, kde-format
-msgid "Continue"
-msgstr "Nadaljuj"
-
-#: plugin_kategdb.cpp:251
+#: plugin_kategdb.cpp:380
 #, kde-format
 msgid "Print Value"
 msgstr "Izpiši vrednost"
 
-#: plugin_kategdb.cpp:256
-#, kde-format
-msgid "Debug"
-msgstr "Razhrošči"
-
-#: plugin_kategdb.cpp:260
-#, kde-format
-msgid "popup_breakpoint"
-msgstr "popup_breakpoint"
-
-#: plugin_kategdb.cpp:262
-#, kde-format
-msgid "popup_run_to_cursor"
-msgstr "popup_run_to_cursor"
-
-#: plugin_kategdb.cpp:331 plugin_kategdb.cpp:347
+#: plugin_kategdb.cpp:469 plugin_kategdb.cpp:485
 #, kde-format
 msgid "Insert breakpoint"
 msgstr "Vstavi prekinitveno točko"
 
-#: plugin_kategdb.cpp:345
+#: plugin_kategdb.cpp:483
 #, kde-format
 msgid "Remove breakpoint"
 msgstr "Odstrani prekinitveno točko"
 
-#: plugin_kategdb.cpp:369
-#, kde-format
-msgid "Breakpoint"
-msgstr "Prekinitvena točka"
-
-#: plugin_kategdb.cpp:464
+#: plugin_kategdb.cpp:655
 #, kde-format
 msgid "Execution point"
 msgstr "Izvajalna točka"
 
-#: plugin_kategdb.cpp:581 plugin_kategdb.cpp:583
+#: plugin_kategdb.cpp:776 plugin_kategdb.cpp:808
 #, kde-format
 msgid "Thread %1"
 msgstr "Nit %1"
 
-#: plugin_kategdb.cpp:676
+#: plugin_kategdb.cpp:904
+#, kde-format
+msgctxt "Tab label"
+msgid "Debug Output"
+msgstr "Razhrošči izhod"
+
+#: plugin_kategdb.cpp:905
+#, kde-format
+msgctxt "Tab label"
+msgid "Settings"
+msgstr "Nastavitve"
+
+#: plugin_kategdb.cpp:940
 #, kde-format
 msgid "IO"
 msgstr "V/I"
+
+#: plugin_kategdb.cpp:1029
+#, kde-format
+msgid "Breakpoint"
+msgstr "Prekinitvena točka"
+
+#: plugin_kategdb.cpp:1105
+#, kde-format
+msgid "Copy Stack Trace"
+msgstr "Kopiraj sled sklada"
+
+#: plugin_kategdb.cpp:1124
+#, kde-format
+msgid "Open Location"
+msgstr "Odpri lokacijo"
+
+#: plugin_kategdb.cpp:1134
+#, kde-format
+msgid "Copy Location"
+msgstr "Kopiraj lokacijo"
+
+#: stackframe_model.cpp:78
+#, kde-format
+msgctxt "Column label (frame number)"
+msgid "Nr"
+msgstr "Št."
+
+#: stackframe_model.cpp:80
+#, kde-format
+msgctxt "Column label"
+msgid "Function"
+msgstr "Funkcija"
+
+#: stackframe_model.cpp:82
+#, kde-format
+msgctxt "Column label"
+msgid "Location"
+msgstr "Lokacija"
 
 #. i18n: ectx: Menu (debug)
 #: ui.rc:6
@@ -353,10 +694,127 @@ msgid "&Debug"
 msgstr "&Razhrošči"
 
 #. i18n: ectx: ToolBar (gdbplugin)
-#: ui.rc:29
+#: ui.rc:33
 #, kde-format
-msgid "GDB Plugin"
-msgstr "Vstavek GDB"
+msgid "Debug Plugin"
+msgstr "Razhrošči vtičnik"
+
+#~ msgctxt "Column label"
+#~ msgid "Frame"
+#~ msgstr "Okvir"
+
+#~ msgid "killing backend"
+#~ msgstr "pobijam zaledje"
+
+#~ msgid "GDB command"
+#~ msgstr "Ukaz GDB"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "Source file search paths"
+#~ msgstr "Iskalne poti za datoteke z izvorno kodo"
+
+#~ msgid "Local application"
+#~ msgstr "Krajevni program"
+
+#~ msgid "Remote TCP"
+#~ msgstr "Oddaljeni TCP"
+
+#~ msgid "Remote Serial Port"
+#~ msgstr "Oddaljena zaporedna vrata"
+
+#~ msgid "Host"
+#~ msgstr "Gostitelj"
+
+#~ msgid "Port"
+#~ msgstr "Vrata"
+
+#~ msgid "Baud"
+#~ msgstr "Baud"
+
+#~ msgid "solib-absolute-prefix"
+#~ msgstr "solib-absolute-prefix"
+
+#~ msgid "solib-search-path"
+#~ msgstr "solib-search-path"
+
+#~ msgid "Custom Init Commands"
+#~ msgstr "Ukazi Init po meri"
+
+#~ msgid "Advanced Settings"
+#~ msgstr "Napredne nastavitve"
+
+#~ msgid "Locals"
+#~ msgstr "Lokalci"
+
+#~ msgid "CPU registers"
+#~ msgstr "Registri CPE"
+
+#~ msgid ""
+#~ "Please set the executable in the 'Settings' tab in the 'Debug' panel."
+#~ msgstr ""
+#~ "Nastavite izvajalni program v zavihku 'Nastavitve' na plošči "
+#~ "'Razhroščevanje'."
+
+#~ msgid ""
+#~ "No debugger selected. Please select one in the 'Settings' tab in the "
+#~ "'Debug' panel."
+#~ msgstr ""
+#~ "Ni izbranega razhroščevalnika. Izberite enega v zavihku 'Nastavitve' na "
+#~ "plošči 'Razhročevanje'."
+
+#~ msgid ""
+#~ "Debugger not found. Please make sure you have it installed in your "
+#~ "system. The selected debugger is '%1'"
+#~ msgstr ""
+#~ "Razhroščevalnika ni bilo mogoče najti. Preverite, če ste ga namestili v "
+#~ "vaš sistem. Izbran razhroščevalnik je '%1'"
+
+#~ msgid "Could not start debugger process"
+#~ msgstr "Razhroščevalnega procesa ni bilo mogoče zagnati"
+
+#~ msgid "*** gdb exited normally ***"
+#~ msgstr "*** gdb se je končal brez težav ***"
+
+#~ msgid "all threads running"
+#~ msgstr "vse niti so v teku"
+
+#~ msgid "thread(s) running: %1"
+#~ msgstr "niti v teku: %1"
+
+#~ msgid "Current frame: %1:%2"
+#~ msgstr "Trenutni okvir: %1:%2"
+
+#~ msgid "Host: %1. Target: %1"
+#~ msgstr "Gostitelj: %1. Cilj %1"
+
+#~ msgid ""
+#~ "gdb-mi: Could not parse last response: %1. Too many consecutive errors. "
+#~ "Shutting down."
+#~ msgstr ""
+#~ "gdb-mi: Ni bilo mogoče razčleniti zadnjega odziva: %1. Preveč zaporednih "
+#~ "napak. Zaustavljam."
+
+#~ msgid "gdb-mi: Could not parse last response: %1"
+#~ msgstr "gdb-mi: Ni bilo mogoče razčleniti zadnjega odziva: %1"
+
+#~ msgid "post mortem"
+#~ msgstr "obdukcija"
+
+#~ msgid "popup_breakpoint"
+#~ msgstr "popup_breakpoint"
+
+#~ msgid "popup_run_to_cursor"
+#~ msgstr "popup_run_to_cursor"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Jure Repinc,Andrej Mernik,Matjaž Jeran"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "jlp@holodeck1.com,andrejm@ubuntu.si,matjaz.jeran@amis.net"
 
 #~ msgid "GDB Integration"
 #~ msgstr "Podpora GDB"

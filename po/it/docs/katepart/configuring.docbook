@@ -46,9 +46,17 @@
 <title
 >Aspetto</title>
 
-<sect3 id="prefcolors-fonts">
+<sect3 id="appearance-general">
 <title
->Carattere</title>
+>Generale</title>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Carattere dell'editor</guilabel
+></term>
+<listitem>
 <para
 >Qui puoi scegliere il tipo di carattere dell'editor di testo. È possibile scegliere qualsiasi carattere disponibile nel sistema ed impostare una dimensione predefinita. Un testo di esempio è mostrato nella parte inferiore della finestra, per valutare gli effetti delle tue scelte. </para>
 <para
@@ -59,75 +67,30 @@
 >Fondamentali di &kde;</emphasis
 ></ulink
 >.</para>
-</sect3>
-
-<sect3 id="appearance-general">
-<title
->Generale</title>
-
-<variablelist>
-<varlistentry>
-<term
-><guilabel
->A capo automatico dinamico</guilabel
-></term>
-<listitem>
-<para
->Se quest'opzione è spuntata, le righe proseguiranno a capo quando raggiungeranno il bordo della finestra sullo schermo.</para>
-<variablelist>
-<varlistentry>
-<term
-><guilabel
->Indicatori di a capo automatico dinamico (se applicabile)</guilabel
-></term>
-<listitem
-><para
->Scegli quando mostrare gli indicatori di a capo automatico dinamico, <guilabel
->Spenti</guilabel
->, <guilabel
->Dopo i numeri di riga</guilabel
-> o <guilabel
->Sempre attivi</guilabel
->. </para
-></listitem
-></varlistentry>
-<varlistentry>
-<term
-><guilabel
->Allinea le righe mandate a capo dinamicamente alla profondità di rientro: </guilabel
-></term>
-<listitem
-><para
->Abilita l'allineamento verticale delle righe mandate a capo dinamicamente al livello di rientro della prima riga. Ciò può aiutare a rendere il codice e i marcatori più leggibili.</para
-><para
->Inoltre permette di impostare la massima larghezza dello schermo come percentuale dopo la quale le righe andate a capo dinamicamente non saranno più allineate verticalmente. Ad esempio, a 50% le righe il cui livello di rientro è più profondo del 50% della larghezza dello schermo non saranno allineate verticalmente alle righe seguenti che sono andate a capo automaticamente.</para
-></listitem>
-</varlistentry>
-</variablelist>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Evidenziazione degli spazi</guilabel
+>Mostra gli indicatori degli spazi</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Evidenzia le tabulazioni</guilabel
+>Mai</guilabel
 ></term>
 <listitem
 ><para
->L'editor mostra un simbolo &raquo; per indicare la presenza di una tabulazione nel testo.</para
+>L'editor non mostrerà mai dei punti per indicare la presenza di spazi.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
 <term
 ><guilabel
->Evidenziazione degli spazi finali</guilabel
+>Alla fine di una riga</guilabel
 ></term>
 <listitem
 ><para
@@ -137,35 +100,45 @@
 <varlistentry>
 <term
 ><guilabel
->Dimensione marcatore di evidenziazione</guilabel
+>Sempre</guilabel
 ></term>
 <listitem
 ><para
->Usa il cursore per modificare la dimensione del marcatore di evidenziazione visibile.</para
+>L'editor mostrerà sempre dei punti per indicare la presenza di spazi.</para
 ></listitem>
 </varlistentry>
 </variablelist>
 </listitem>
 </varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Dimensioni indicatore degli spazi</guilabel
+></term>
+<listitem
+><para
+>Usa il cursore per modificare la dimensione del marcatore dell'indicatore visibile.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Mostra indicatori delle schede</guilabel
+></term>
+<listitem
+><para
+>Se spuntato l'editor mostra un simbolo &raquo; per indicare la presenza di una tabulazione nel testo.</para
+></listitem>
+</varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Avanzate </guilabel
+>Verifica delle parentesi </guilabel
 ></term>
 <listitem
 ><para>
 <variablelist>
-<varlistentry>
-<term
-><guilabel
->Mostra righe di rientro </guilabel
-></term>
-<listitem
-><para
->Se spuntata, l'editor mostrerà delle righe verticali per favorire l'identificazione delle righe rientrate.</para
-></listitem>
-</varlistentry>
 <varlistentry>
 <term
 ><guilabel
@@ -176,14 +149,20 @@
 >Se abilitato, l'intervallo tra le parentesi selezionate corrispondenti sarà evidenziato.</para
 ></listitem>
 </varlistentry>
-</variablelist>
-</para
+<varlistentry>
+<term
+><guilabel
+>Mostra un'anteprima della parentesi aperta corrispondente </guilabel
+></term>
+<listitem
+><para
+>Se abilitato, l'editor mostra un suggerimento della parentesi aperta corrispondente.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
 <term
 ><guilabel
->Anima le parentesi corrispondenti </guilabel
+>Fai lampeggiare la parentesi corrispondente quando il cursore si sposta sull'altra parentesi della coppia </guilabel
 ></term>
 <listitem
 ><para
@@ -199,19 +178,33 @@
 >(</keycap
 > or <keycap
 >)</keycap
->) animerà rapidamente la parentesi corrispondente.</para
+>) farà lampeggiare rapidamente la parentesi corrispondente.</para
 ></listitem>
 </varlistentry>
+</variablelist>
+</para
+></listitem>
+</varlistentry>
+
 <varlistentry>
 <term
 ><guilabel
->Contrai la prima riga </guilabel
+>Mostra righe di rientro </guilabel
 ></term>
 <listitem
 ><para
->Se abilitato, la prima riga è contratta, se possibile. Questo è utile se il file inizia con un commento, ad esempio un copyright.</para
+>Se spuntata, l'editor mostrerà delle righe verticali per favorire l'identificazione delle righe rientrate.</para
 ></listitem>
 </varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Conteggi </guilabel
+></term>
+<listitem
+><para>
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
@@ -233,6 +226,94 @@
 ></listitem>
 </varlistentry>
 </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Contrai la prima riga </guilabel
+></term>
+<listitem
+><para
+>Se abilitato, la prima riga è contratta, se possibile. Questo è utile se il file inizia con un commento, ad esempio un copyright.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>A capo automatico dinamico</guilabel
+></term>
+<listitem>
+<para
+>Se quest'opzione è spuntata, le righe proseguiranno a capo quando raggiungeranno il bordo della finestra sullo schermo.</para>
+<para>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Ritorno a capo dinamico al marcatore di ritorno a capo statico </guilabel
+></term>
+<listitem
+><para
+>Se abilitato, l'editor fa andare a capo dinamicamente nella <link linkend="pref-word-wrap"
+>posizione dell'andata a capo dinamica</link
+>.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Ignora i limiti delle parole per il ritorno a capo dinamico </guilabel
+></term>
+<listitem
+><para
+>Se selezionato, l'editor non terrà conto dei limiti delle parole facendo andare a capo le righe di testo.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Indicatori dinamici di ritorno a capo</guilabel
+></term>
+<listitem
+><para
+>Scegli quando mostrare gli indicatori di a capo automatico dinamico, <guilabel
+>Spenti</guilabel
+>, <guilabel
+>Dopo i numeri di riga</guilabel
+> o <guilabel
+>Sempre attivi</guilabel
+>. </para
+></listitem
+></varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Rientra righe a capo </guilabel
+></term>
+<listitem
+><para
+>Inoltre permette di impostare la massima larghezza dello schermo come percentuale dopo la quale le righe andate a capo dinamicamente non saranno più allineate verticalmente. Ad esempio, a 50% le righe il cui livello di rientro è più profondo del 50% della larghezza dello schermo non saranno allineate verticalmente alle righe seguenti che sono andate a capo automaticamente.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Moltiplicatore dell'altezza della linea </guilabel
+></term>
+<listitem
+><para
+>Questo valore sarà moltiplicato per l'altezza della linea predefinita del carattere. Un valore di 1,0 significa che sarà utilizzata l'altezza predefinita.</para
+></listitem
+></varlistentry>
+</variablelist>
 </sect3>
 
 <sect3 id="appearance-borders">
@@ -243,14 +324,14 @@
 <varlistentry>
 <term
 ><guilabel
->Bordi</guilabel
+>Raggruppamento dei blocchi di codice</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Mostra segni di raggruppamento </guilabel
+>Mostra le frecce per contrarre i blocchi di codice </guilabel
 ></term>
 <listitem
 ><para
@@ -260,17 +341,47 @@
 <varlistentry>
 <term
 ><guilabel
->Mostra l'anteprima del codice ripiegato </guilabel
+>Mostra un'anteprima del codice raggruppato al passaggio del puntatore </guilabel
 ></term>
 <listitem
 ><para
 >Se spuntata, l'anteprima del testo ripiegato viene mostrata in una finestra a comparsa al passaggio sopra ad una regione ripiegata</para
 ></listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Mostra bordo per le icone </guilabel
+>Visibilità delle frecce di espansione</guilabel
+></term>
+<listitem
+><para
+>Cambia le frecce di espansione tra <guimenuitem
+>Mostra al passaggio del puntatore</guimenuitem
+> e <guimenuitem
+>Mostra sempre</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Lato sinistro</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Mostra i marcatori </guilabel
 ></term>
 <listitem
 ><para
@@ -290,17 +401,30 @@
 <varlistentry>
 <term
 ><guilabel
->Mostra segni di modifica delle righe </guilabel
+>Evidenzia le righe modificate e non salvate </guilabel
 ></term>
 <listitem
 ><para
 >Se attivata, saranno visibili i segni di modifica delle righe. Per maggiori informazioni, vedi <xref linkend="kate-part-line-modification"/>. </para
 ></listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Mostra i segni nella barra di scorrimento </guilabel
+>Barre di scorrimento</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Mostra i marcatori </guilabel
 ></term>
 <listitem
 ><para
@@ -310,17 +434,30 @@
 <varlistentry>
 <term
 ><guilabel
->Mostra l'anteprima del testo nella barra di scorrimento</guilabel
+>Mostra un'anteprima passando sulla barra di scorrimento</guilabel
 ></term>
 <listitem
 ><para
 >Se questa opzione è spuntata e passi con il cursore del mouse sopra la barra di scorrimento, verrà visualizzata una piccola anteprima del testo di alcune righe intorno la posizione del cursore. Questo ti permette di passare rapidamente ad un'altra parte del documento.</para>
 </listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Mostra minimappa di scorrimento</guilabel
+>Minimappa</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Mostra la minimappa</guilabel
 ></term>
 <listitem
 ><para
@@ -352,18 +489,20 @@
 </variablelist>
 </listitem>
 </varlistentry>
+</variablelist>
 
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Ordina il menu dei segnalibri </guilabel
+>Ordina il menu dei segnalibri</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Per creazione </guilabel
+>Per data di creazione </guilabel
 ></term>
 <listitem
 ><para
@@ -373,7 +512,7 @@
 <varlistentry>
 <term
 ><guilabel
->Per posizione </guilabel
+>Per numero di riga </guilabel
 ></term>
 <listitem
 ><para
@@ -393,22 +532,18 @@
 >Temi di colori</title>
 
 <para
->Questa sezione della finestra ti permette di configurare tutti i colori in qualsiasi tema tu abbia, e di creare nuovi schemi o a eliminare quelli esistenti. Ciascuno schema ha impostazioni per i colori, i tipi di carattere e per gli stili di evidenziazione del testo. </para>
+>Questa sezione della finestra ti permette di configurare tutti i colori in qualsiasi tema tu abbia, di creare nuovi schemi o di eliminare quelli esistenti, oppure semplicemente di <guilabel
+>Seguire lo schema di colori di sistema</guilabel
+>. Ciascuno schema ha le impostazioni per i colori, per i tipi di carattere e per gli stili del testo normale o evidenziato. </para>
 
 <para
 >&kappname; preselezionerà per te il tema attualmente attivo. Se vuoi lavorare su uno schema diverso, inizia selezionandolo dalla casella combinata <guilabel
->Tema</guilabel
+>Seleziona tema</guilabel
 >. Con i pulsanti <guibutton
 >Copia</guibutton
 > ed <guibutton
 >Elimina</guibutton
 > puoi creare nuovi temi ed eliminare quelli esistenti.</para>
-<para
->Nella parte bassa della pagina puoi selezionare lo <guilabel
->schema predefinito per <replaceable
->Applicazione</replaceable
-></guilabel
->.</para>
 
 <para
 >È descritto nei dettagli in <xref linkend="color-themes-gui"/>.</para>
@@ -427,7 +562,7 @@
 <varlistentry>
 <term id="pref-word-wrap"
 ><guilabel
->A capo automatico statico</guilabel
+>A capo automatico</guilabel
 ></term>
 <listitem
 ><para
@@ -438,7 +573,7 @@
 <varlistentry>
 <term
 ><guilabel
->Abilita ritorno a capo statico</guilabel
+>Ritorna a capo a una colonna prefissata</guilabel
 ></term>
 <listitem>
 <para
@@ -448,7 +583,7 @@
 <varlistentry>
 <term
 ><guilabel
->Mostra indicatore di a capo statico (se applicabile)</guilabel
+>Disegna una linea verticale alla colonna di ritorno a capo</guilabel
 ></term>
 <listitem>
 <para
@@ -469,8 +604,8 @@
 <listitem>
 <para
 >Se l'opzione <link linkend="pref-word-wrap"
->Abilita ritorno a capo statico</link
-> è spuntata, questa casella determina la lunghezza (in caratteri) alla quale l'editor comincerà automaticamente una nuova riga.</para>
+>Ritorna a capo a una colonna prefissata</link
+> è selezionata, questa voce determina la lunghezza (in caratteri) dopo la quale l'editor inizierà automaticamente una nuova riga.</para>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -479,7 +614,7 @@
 <varlistentry>
 <term
 ><guilabel
->Modalità di inserimento</guilabel
+>Modalità di inserimento predefinita</guilabel
 ></term
 > <listitem
 ><para
@@ -488,25 +623,38 @@
 >. </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term
 ><guilabel
->Parentesi automatiche</guilabel
+>Parentesi</guilabel
 ></term
-> <listitem
-><para
->Quando l'utente digita una parentesi sinistra (<keycap
+> <listitem>
+<para
+>Se l'opzione <guilabel
+>Chiudi automaticamente le parentesi quando si digita la parentesi aperta</guilabel
+>, quando l'utente digita una parentesi sinistra (<keycap
 >[</keycap
 >, <keycap
 >(</keycap
 >, o <keycap
 >{</keycap
 >) &kappname; inserirà automaticamente la parentesi destra (}, ) o ]) alla destra del cursore.</para>
-<para
->Quando c'è del testo selezionato, la digitazione di uno dei caratteri spezza il testo selezionato.</para>
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term
+><guilabel
+>Caratteri di delimitazione</guilabel
+></term
+> <listitem>
+<para
+>È possibile selezionare i caratteri di delimitazione usando l'elenco a tendina corrispondente.</para>
+<para
+>Quando il testo è selezionato, la digitazione di uno di questi caratteri spezza il testo selezionato.</para>
+</listitem>
+</varlistentry>
 
 <varlistentry>
 <term
@@ -518,11 +666,31 @@
 <varlistentry>
 <term
 ><guilabel
->Copia o taglia la riga attuale se non c'è una selezione</guilabel
+>Sposta il testo selezionato con il trascinamento</guilabel
+></term
+> <listitem>
+<para
+>Questa opzione abilita il trascinamento del testo selezionato nella finestra dell'editor.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Copia/taglia la riga attuale senza un testo selezionato</guilabel
 ></term
 > <listitem>
 <para
 >Se questa opzione è abilitata e la selezione è vuota, le operazioni di copia e taglia sono effettuate sulla riga in cui si trova il cursore.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Non spostare il cursore del testo quando si incolla con il mouse</guilabel
+></term
+> <listitem>
+<para
+>Se questa opzione è abilitata e incolli del testo nella finestra dell'editor con un clic sul &MMB;, &kappname; non sposterà il cursore del testo alla posizione in cui hai fatto clic.</para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -646,6 +814,19 @@
 </varlistentry>
 
 </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry id="multicursor-modifier-configure">
+<term
+><guilabel
+>Modificatore multi cursore</guilabel
+></term>
+<listitem>
+<para
+>Questa opzione ti permette di impostare il modificatore che verrà usato per creare più cursori con un clic del &LMB;: devi premerlo e fare clic sul &LMB; per creare un cursore alla posizione desiderata. Vedi <link linkend="kate-part-create-multiple-cursors"
+>Creazione di più cursori</link
+> per scoprire altre modalità per creare più cursori.</para>
 </listitem>
 </varlistentry>
 
@@ -800,7 +981,7 @@
 <listitem>
 <para
 >Se vuoi che &Tab; allinei la riga attuale nel blocco di codice attuale come in &Emacs;, puoi rendere &Tab; una scorciatoia per l'azione <guimenuitem
->Allinea</guimenuitem
+>Rientro formato</guimenuitem
 >. </para>
 <variablelist>
 <varlistentry>
@@ -1156,6 +1337,42 @@ Remove selected Add new mapping Import from vimrc file-->
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term
+><guilabel
+>Abilita il salvataggio automatico (solo file locali)</guilabel
+></term>
+<listitem>
+<para
+>Spuntalo se vuoi che l'editor salvi automaticamente i documenti mentre ci stai lavorando. </para>
+<variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Salva automaticamente il documento quando il fuoco lascia l'editor</guilabel
+></term>
+<listitem>
+<para
+>L'editor salverà automaticamente i documenti quando passi ad un elemento al di fuori di esso, &eg;, il pannello del terminale di &kate;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Intervallo di salvataggio automatico</guilabel
+></term>
+<listitem>
+<para
+>Qui puoi determinare l'intervallo per il salvataggio automatico in secondi: se è 0, il documento non verrà salvato automaticamente dopo tale intervallo.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect3>
 
@@ -1167,13 +1384,13 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Copia di sicurezza al quando si salva</guilabel
+>Scrivi una copia di sicurezza al salvataggio di</guilabel
 ></term>
 <listitem
 ><para
->La copia di sicurezza al salvataggio fa copiare a &kappname; il file su disco in &lt;prefisso&gt;&lt;nomefile&gt;&lt;suffisso&gt; prima di salvare le modifiche. Il suffisso predefinito è <emphasis role="bold"
+>La copia di sicurezza al salvataggio fa copiare a &kappname; il file su disco (la sua versione precedentemente salvata) in &lt;prefisso&gt;&lt;nomefile&gt;&lt;suffisso&gt; prima di salvare le nuove modifiche. Una copia di sicurezza può aiutarti a recuperare il lavoro se qualcosa va storto nel salvataggio, oppure se in seguito vuoi recuperare la versione precedente al salvataggio. Il suffisso predefinito è <emphasis role="bold"
 >~</emphasis
-> ed il prefisso è vuoto. </para>
+>, ed il prefisso è vuoto. </para>
 <variablelist>
 <varlistentry>
 <term
@@ -1198,7 +1415,7 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Prefisso</guilabel
+>Prefisso per le copie di sicurezza</guilabel
 ></term>
 <listitem>
 <para
@@ -1208,7 +1425,7 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Suffisso</guilabel
+>Suffisso per le copie di sicurezza</guilabel
 ></term>
 <listitem>
 <para
@@ -1218,22 +1435,44 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Opzioni dei file di swap</guilabel
+>Modalità file di swap</guilabel
 ></term>
 <listitem>
 <para
->&kappname; può recuperare (la maggior parte di) ciò che è stato scritto dall'ultimo salvataggio in caso di errore o di mancanza di corrente. Alla prima azione di modifica di un documento viene creato un file di swap (<filename
->.swp.&lt;nome_file&gt;</filename
->): se l'utente non salva le modifiche e &kappname; va in crash, questo rimane invece sul disco. All'apertura di un file &kappname; controlla se c'è un file di swap associato; in caso affermativo chiede all'utente se voglia o meno recuperare i dati persi. C'è anche la possibilità di vedere le differenze tra il file originale e quello recuperato. Il file di swap viene eliminato dopo ogni salvataggio e alla normale uscita dal programma.</para>
+>&kappname; può recuperare (la maggior parte) del lavoro non salvato in caso di arresto anomalo o di mancanza di corrente. Quando un documento viene modificato viene creato un file di swap (.&lt;nomefile&gt;.kate-swp): se l'utente non salva le modifiche e &kappname; subisce un arresto anomalo, questo rimane invece sul disco. All'apertura di un file &kappname; controlla se c'è un file di swap associato: in caso affermativo chiede all'utente se voglia o meno recuperare i dati persi. C'è anche la possibilità di vedere le differenze tra il file originale e quello recuperato. Il file di swap viene eliminato dopo ogni salvataggio, e alla normale uscita dal programma.</para>
 <para
 >&kappname; sincronizza i file di swap sul disco ogni 15 secondi, ma solo se sono cambiati dall'ultima sincronizzazione. L'utente può scegliere di disabilitare la sincronizzazione, spuntando la casella <guilabel
 >Disabilita</guilabel
 >, ma ciò può portare a una perdita di dati maggiore.</para>
 <para
->Quando abilitati, i file di swap vengono salvati nella stessa cartella del file. Se viene scelta una <guilabel
->Cartella alternativa</guilabel
->, essi vengono creati invece nella cartella specificata. Questo è utile nei filesystem di rete, per da evitare traffico di rete non necessario.</para>
+>Quando il file di swap è abilitato, è possibile passare tra due modalità, chiamate <guilabel
+>Abilitata, archivia nella cartella predefinita</guilabel
+> e <guilabel
+>Abilitata, archivia in una cartella personalizzata</guilabel
+>. </para>
 </listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Archivia i file di swap in</guilabel
+></term>
+<listitem
+><para
+>Per impostazione predefinita i file di swap vengono salvati nella stessa cartella del file. Se viene come modalità di file di swap viene scelta <guilabel
+>Abilitata, archivia in una cartella personalizzata</guilabel
+>, essi vengono creati nella cartella specificata. Questo è utile nei filesystem di rete, per evitare del traffico di rete non necessario.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Salva file di swap ogni</guilabel
+></term>
+<listitem
+><para
+>&kappname; sincronizza i file di swap sul disco ogni 15 secondi, ma solo se sono cambiati dall'ultima sincronizzazione. Ad ogni modo puoi scegliere un intervallo di sincronizzazione a tuo piacimento.</para
+></listitem>
 </varlistentry>
 
 </variablelist>

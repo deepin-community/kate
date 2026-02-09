@@ -8,8 +8,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef KATE_FILEBROWSER_CONFIG_H
-#define KATE_FILEBROWSER_CONFIG_H
+#pragma once
 
 #include <ktexteditor/configpage.h>
 
@@ -18,8 +17,6 @@ class KActionSelector;
 
 class KateFileBrowserConfigPage : public KTextEditor::ConfigPage
 {
-    Q_OBJECT
-
 public:
     explicit KateFileBrowserConfigPage(QWidget *parent = nullptr, KateFileBrowser *kfb = nullptr);
     ~KateFileBrowserConfigPage() override
@@ -47,7 +44,3 @@ private:
 
     bool m_changed = false;
 };
-
-#endif // KATE_FILEBROWSER_CONFIG_H
-
-// kate: space-indent on; indent-width 2; replace-tabs on;

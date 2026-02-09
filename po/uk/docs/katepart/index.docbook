@@ -85,9 +85,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->10 жовтня 2020 року</date>
+>2 травня 2022 року</date>
 <releaseinfo
->&frameworks; 5.75</releaseinfo>
+>&frameworks; 5.94</releaseinfo>
 
 <abstract>
 <para
@@ -138,7 +138,7 @@
 >Подяки і ліцензування</title>
 
 <para
->Авторські права на &katepart; та &kwrite; належать Команді &kate;, 2001–2021.</para>
+>Авторські права на &katepart; та &kwrite; належать Команді &kate;, 2001–2022.</para>
 
 <para
 >Код програми засновано на початковому коді &kwrite;, авторські права на який належали Jochen Wilhelmy <email

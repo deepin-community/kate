@@ -3,7 +3,7 @@
     <qresource prefix="/kxmlgui5/kategdb">
         <file>ui.rc</file>
     </qresource>
-    <qresource prefix="/kategdb">
-        <file>22-actions-debug-kategdb.png</file>
+    <qresource prefix="/debugger">
+        <file alias="dap.json">dap/servers.json</file>
     </qresource>
 </RCC>

@@ -3,9 +3,15 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
+
 #include "comparebranchesview.h"
+#include "diffparams.h"
+#include "hostprocess.h"
+#include "kateprojectitem.h"
 #include "kateprojectpluginview.h"
 #include "kateprojectworker.h"
+#include "ktexteditor_utils.h"
+#include <gitprocess.h>
 
 #include <QDir>
 #include <QPainter>
@@ -15,11 +21,13 @@
 
 #include <KColorScheme>
 #include <KLocalizedString>
+#include <utility>
 
-class DiffStyleDelegate : public QStyledItemDelegate
+// TODO: this is duplicated in libkateprivate as DiffStyleDelegate
+class CompareBranchesDiffStyleDelegate : public QStyledItemDelegate
 {
 public:
-    DiffStyleDelegate(QObject *parent)
+    CompareBranchesDiffStyleDelegate(QObject *parent)
         : QStyledItemDelegate(parent)
     {
     }
@@ -89,13 +97,13 @@ public:
     }
 };
 
-static void createFileTree(QStandardItem *parent, const QString &basePath, const QVector<GitUtils::StatusItem> &files)
+static void createFileTree(QStandardItem *parent, const QString &basePath, const QList<GitUtils::StatusItem> &files)
 {
     QDir dir(basePath);
     const QString dirPath = dir.path() + QLatin1Char('/');
     QHash<QString, QStandardItem *> dir2Item;
     dir2Item[QString()] = parent;
-    for (const auto &file : qAsConst(files)) {
+    for (const auto &file : std::as_const(files)) {
         const QString filePath = QString::fromUtf8(file.file);
         /**
          * cheap file name computation
@@ -110,8 +118,7 @@ static void createFileTree(QStandardItem *parent, const QString &basePath, const
          * construct the item with right directory prefix
          * already hang in directories in tree
          */
-        KateProjectItem *fileItem = new KateProjectItem(KateProjectItem::File, fileName);
-        fileItem->setData(fullFilePath, Qt::UserRole);
+        auto *fileItem = new KateProjectItem(KateProjectItem::File, fileName, fullFilePath);
         fileItem->setData(file.statusChar, Qt::UserRole + 1);
         fileItem->setData(file.linesAdded, Qt::UserRole + 2);
         fileItem->setData(file.linesRemoved, Qt::UserRole + 3);
@@ -121,10 +128,10 @@ static void createFileTree(QStandardItem *parent, const QString &basePath, const
     }
 }
 
-CompareBranchesView::CompareBranchesView(QWidget *parent, const QString &gitPath, const QString fromB, const QString &toBr, QVector<GitUtils::StatusItem> items)
+CompareBranchesView::CompareBranchesView(QWidget *parent, const QString &gitPath, QString fromB, const QString &toBr, const QList<GitUtils::StatusItem> &items)
     : QWidget(parent)
     , m_gitDir(gitPath)
-    , m_fromBr(fromB)
+    , m_fromBr(std::move(fromB))
     , m_toBr(toBr)
 {
     setLayout(new QVBoxLayout);
@@ -145,7 +152,7 @@ CompareBranchesView::CompareBranchesView(QWidget *parent, const QString &gitPath
 
     m_tree.setHeaderHidden(true);
     m_tree.setEditTriggers(QTreeView::NoEditTriggers);
-    m_tree.setItemDelegate(new DiffStyleDelegate(this));
+    m_tree.setItemDelegate(new CompareBranchesDiffStyleDelegate(this));
     m_tree.expandAll();
 
     connect(&m_tree, &QTreeView::clicked, this, &CompareBranchesView::showDiff);
@@ -155,14 +162,22 @@ void CompareBranchesView::showDiff(const QModelIndex &idx)
 {
     auto file = idx.data(Qt::UserRole).toString().remove(m_gitDir + QLatin1Char('/'));
     QProcess git;
-    git.setWorkingDirectory(m_gitDir);
-    QStringList args{QStringLiteral("diff"), QStringLiteral("%1...%2").arg(m_fromBr).arg(m_toBr), QStringLiteral("--"), file};
-    git.start(QStringLiteral("git"), args, QProcess::ReadOnly);
+    if (!setupGitProcess(git, m_gitDir, {QStringLiteral("diff"), QStringLiteral("%1...%2").arg(m_fromBr).arg(m_toBr), QStringLiteral("--"), file})) {
+        return;
+    }
+    startHostProcess(git, QProcess::ReadOnly);
 
     if (git.waitForStarted() && git.waitForFinished(-1)) {
         if (git.exitStatus() != QProcess::NormalExit || git.exitCode() != 0) {
             return;
         }
     }
-    m_pluginView->showDiffInFixedView(git.readAllStandardOutput());
+
+    DiffParams d;
+    d.tabTitle = QStringLiteral("Diff %1[%2 .. %3]").arg(Utils::fileNameFromPath(file)).arg(m_fromBr).arg(m_toBr);
+    d.workingDir = m_gitDir;
+    d.arguments = git.arguments();
+    Utils::showDiff(git.readAllStandardOutput(), d, m_pluginView->mainWindow());
 }
+
+#include "moc_comparebranchesview.cpp"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-14 17:32+0000\n"
+"POT-Creation-Date: 2025-03-03 00:43+0000\n"
 "PO-Revision-Date: 2021-01-22 07:39+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 
-#: colorpickerconfigpage.cpp:38
+#: colorpickerconfigpage.cpp:34
 #, kde-format
 msgid "Show preview for known color names"
 msgstr "Pokaži predogled znanih imen barv"
 
-#: colorpickerconfigpage.cpp:40
+#: colorpickerconfigpage.cpp:36
 #, kde-format
 msgid ""
 "Also show the color picker for known color names (e.g. skyblue).\n"
@@ -33,57 +33,57 @@ msgstr ""
 "Pokaži tudi izbirnik barv za znana imena barv (npr. Skyblue).\n"
 "Glejte https://www.w3.org/TR/SVG11/types.html#ColorKeywords za seznam barv."
 
-#: colorpickerconfigpage.cpp:43
+#: colorpickerconfigpage.cpp:39
 #, kde-format
 msgid "Place preview after text color"
 msgstr "Postavi predogled za besedilo barve"
 
-#: colorpickerconfigpage.cpp:49
+#: colorpickerconfigpage.cpp:53
 #, kde-format
 msgid "Hex color matching"
 msgstr "Šestnajstiško ujemanje barv"
 
-#: colorpickerconfigpage.cpp:52
+#: colorpickerconfigpage.cpp:56
 #, kde-format
 msgid "12 digits (#RRRRGGGGBBBB)"
 msgstr "12 števk (#RRRRGGGGBBBB)"
 
-#: colorpickerconfigpage.cpp:53
+#: colorpickerconfigpage.cpp:57
 #, kde-format
 msgid "9 digits (#RRRGGGBBB)"
 msgstr "9 števk (#RRRGGGBBB)"
 
-#: colorpickerconfigpage.cpp:54
+#: colorpickerconfigpage.cpp:58
 #, kde-format
 msgid "8 digits (#AARRGGBB)"
 msgstr "8 števk (#AARRGGBB)"
 
-#: colorpickerconfigpage.cpp:55
+#: colorpickerconfigpage.cpp:59
 #, kde-format
 msgid "6 digits (#RRGGBB)"
 msgstr "6 števk (#RRGGBB)"
 
-#: colorpickerconfigpage.cpp:56
+#: colorpickerconfigpage.cpp:60
 #, kde-format
 msgid "3 digits (#RGB)"
 msgstr "3 števke (#RGB)"
 
-#: colorpickerconfigpage.cpp:76
+#: colorpickerconfigpage.cpp:84
 #, kde-format
 msgid "Color Picker"
 msgstr "Izbirnik barv"
 
-#: colorpickerconfigpage.cpp:81
+#: colorpickerconfigpage.cpp:89
 #, kde-format
 msgid "Color Picker Settings"
 msgstr "Nastavitve izbirnika barv"
 
-#: katecolorpickerplugin.cpp:238
+#: katecolorpickerplugin.cpp:256
 #, kde-format
 msgid "Select Color (Hex output)"
 msgstr "Izberi barvo (Šestnajstiški izhod)"
 
-#: katecolorpickerplugin.cpp:241
+#: katecolorpickerplugin.cpp:259
 #, kde-format
 msgid "View Color [Read only]"
 msgstr "Oglejte si barvo (Samo za branje)"

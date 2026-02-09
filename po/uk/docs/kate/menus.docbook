@@ -1056,6 +1056,27 @@
 </listitem>
 </varlistentry>
 
+<varlistentry id="reopen-latest-closed-document">
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Перегляд</guimenu
+> <guimenuitem
+>Повторно відкрити останні закриті документи</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Повторно відкриває останній закритий документ або документи.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry id="view-quick-open">
 <term
 ><menuchoice
@@ -1081,7 +1102,7 @@
 <para
 >Виконати цю дію можна за допомогою натискання кнопки <inlinemediaobject
 ><imageobject
-><imagedata fileref="tab-duplicate-22.png" format="PNG"/></imageobject
+><imagedata fileref="quickopen-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > у верхній правій частині вікна редактора.</para>
 </listitem>
@@ -1128,6 +1149,74 @@
 ><listitem>
 <para
 >Перевести фокус на наступний перегляд документа, якщо ви розділили вікно редактора на декілька областей перегляду.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-left">
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+> <guisubmenu
+>Розділений перегляд</guisubmenu
+><guimenuitem
+>Лівий розділ перегляду</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Пересунути фокус на ліву панель розділеного перегляду з використанням, якщо потрібно для усування неоднозначності, позиції курсора.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-right">
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+> <guisubmenu
+>Розділений перегляд</guisubmenu
+><guimenuitem
+>Правий розділ перегляду</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Пересунути фокус на праву панель розділеного перегляду з використанням, якщо потрібно для усування неоднозначності, позиції курсора.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-upward">
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+> <guisubmenu
+>Розділений перегляд</guisubmenu
+><guimenuitem
+>Верхній розділ перегляду</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Пересунути фокус на верхню панель розділеного перегляду з використанням, якщо потрібно для усування неоднозначності, позиції курсора.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-downward">
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+> <guisubmenu
+>Розділений перегляд</guisubmenu
+><guimenuitem
+>Нижній розділ перегляду</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Пересунути фокус на нижню панель розділеного перегляду з використанням, якщо потрібно для усування неоднозначності, позиції курсора.</para>
 </listitem>
 </varlistentry>
 
@@ -1185,13 +1274,55 @@
 </listitem>
 </varlistentry>
 
+<varlistentry id="move-document-to-new-vertical-split">
+<term>
+<menuchoice
+><guimenu
+>Перегляд</guimenu
+> <guisubmenu
+>Розділений перегляд</guisubmenu
+><guimenuitem
+>Пересунути документ до нового горизонтального поділу</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+>Вертикально розбиває поточний перегляд на два і пересунути поточний активний документ на праву панель.</para>
+<para
+>Див. також <link linkend="kate-mdi"
+>Робота з багатовіконним інтерфейсом &kate;</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="move-document-to-new-horizontal-split">
+<term>
+<menuchoice
+><guimenu
+>Перегляд</guimenu
+> <guisubmenu
+>Розділений перегляд</guisubmenu
+><guimenuitem
+>Пересунути документ до нового горизонтального поділу</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+>Розбиває поточний перегляд на два перегляди вертикально і пересунути поточний активний документ на нижню панель.</para>
+<para
+>Див. також <link linkend="kate-mdi"
+>Робота з багатовіконним інтерфейсом &kate;</link
+></para>
+</listitem>
+</varlistentry>
+
 <varlistentry id="view-split-toggle-orientation">
 <term>
 <menuchoice
 ><guimenu
 >Перегляд</guimenu
 > <guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 ><guimenuitem
 >Перемкнути орієнтацію</guimenuitem
 > </menuchoice>
@@ -1241,7 +1372,7 @@
 ><guimenu
 >Перегляд</guimenu
 > <guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 ><guimenuitem
 >Закрити неактивні панелі перегляду</guimenuitem
 > </menuchoice>
@@ -1264,7 +1395,7 @@
 ><guimenu
 >Перегляд</guimenu
 > <guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 ><guimenuitem
 >Приховати неактивні панелі перегляду</guimenuitem
 > </menuchoice>
@@ -1281,7 +1412,7 @@
 ><guimenu
 >Перегляд</guimenu
 > <guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 ><guimenuitem
 >Пересунути розділювач ліворуч</guimenuitem
 > </menuchoice>
@@ -1298,7 +1429,7 @@
 ><guimenu
 >Перегляд</guimenu
 > <guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 ><guimenuitem
 >Пересунути розділювач праворуч</guimenuitem
 > </menuchoice>
@@ -1315,7 +1446,7 @@
 ><guimenu
 >Перегляд</guimenu
 > <guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 ><guimenuitem
 >Пересунути розділювач вгору</guimenuitem
 > </menuchoice>
@@ -1332,7 +1463,7 @@
 ><guimenu
 >Перегляд</guimenu
 > <guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 ><guimenuitem
 >Пересунути розділювач вниз</guimenuitem
 > </menuchoice>
@@ -1350,7 +1481,7 @@
 >Доступ до частини типових дій із панелями розділеного перегляду у меню <guimenu
 >Перегляд</guimenu
 ><guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 > можна отримати за допомогою кнопки <guiicon
 ><inlinemediaobject
 ><imageobject
@@ -2336,184 +2467,236 @@ depends on the <link linkend="pref-edit-indent"
 </listitem>
 </varlistentry>
 -->
+
+<!-- <Pablo
+> These are in the selection menu now, and are documented in doc/katepart/menus.docbook -->
+<!--
 <varlistentry id="tools-cleanindent">
 <term
-><menuchoice
-><guimenu
->Інструменти</guimenu
-> <guimenuitem
->Очистити відступ</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Clean Indentation</guimenuitem>
+</menuchoice
 ></term>
 <listitem>
 <para
->За допомогою цього пункту можна прибрати відступ у поточній виділеній ділянці документа або у рядку, де зараз знаходиться курсор. За допомогою прибирання відступу можна встановити обраний вами режим відступу для всього тексту.</para>
+>This cleans the indentation for the current selection or for the
+line the cursor is currently in. Cleaning the indentation ensures that
+all your selected text follows the indentation mode you choose.</para>
 </listitem>
 </varlistentry>
 
-<varlistentry id="tools-align">
+<varlistentry id="tools-formatindent">
 <term
-><menuchoice
-><guimenu
->Інструменти</guimenu
-> <guimenuitem
->Вирівняти</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Format Indent</guimenuitem>
+</menuchoice
 ></term>
 <listitem>
 <para
->За допомогою цього пункту можна вирівняти поточний рядок або вибрані рядки відповідно до режиму відступу і параметрів відступу, встановлених для документа.</para>
+>Causes a realign of the current line or selected lines using the
+indentation mode and indentation settings in the document.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="tools-alignon">
+<term
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Align On...</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>This command aligns lines in the selected block or whole document on the column given by a regular expression that you will be prompted for.</para>
+<para
+>If you give an empty pattern it will align on the first non-blank character by default.</para>
+<para
+>If the pattern has a capture it will indent on the captured match.</para>
+<para
+><emphasis
+>Examples:</emphasis
+></para>
+<para
+>With '<userinput
+>-</userinput
+>' it will insert spaces before the first '-' of each lines to align them all on the same column.</para>
+<para
+>With '<userinput
+>alignon :\\s+(.)</userinput
+>' it will insert spaces before the first non-blank character that occurs after a colon to align them all on the same column.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry id="tools-comment">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >D</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Інструменти</guimenu
-> <guimenuitem
->Закоментувати</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Comment</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->За допомогою цього пункту можна додати один пробіл на початку рядка, де знаходить курсор, або на початку всіх вибраних рядків.</para>
+>This adds one space to the beginning of the line
+where the text cursor is located or to the beginning of any
+selected lines.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry id="tools-uncomment">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;&Shift;<keycap
 >D</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Інструменти</guimenu
-> <guimenuitem
->Розкоментувати</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Uncomment</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->За допомогою цього пункту можна прибрати один пробіл (якщо він є) на початку рядка, де знаходить курсор, або на початку всіх вибраних рядків.</para
+>This removes one space (if any exist) from the beginning of the
+line where the text cursor is located or from the beginning of any
+selected lines.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-uppercase">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Інструменти</guimenu
-> <guimenuitem
->Верхній регістр</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Uppercase</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Переводить вибраний текст або літеру, розташовану одразу за курсором у верхній регістр.</para
+>Put the selected text or the letter after the cursor in
+uppercase.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-lowercase">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;&Shift;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Інструменти</guimenu
-> <guimenuitem
->Нижній регістр</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Lowercase</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Переводить вибраний текст або літеру, розташовану одразу за курсором у нижній регістр.</para
+>Put the selected text or the letter after the cursor in
+lowercase.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-capitalize">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;&Alt;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Інструменти</guimenu
-> <guimenuitem
->З великої літери</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Capitalize</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Переводить першу літеру вибраного тексту або поточного слова у верхній регістр.</para
+>Capitalize the selected text or the current
+word.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-join-lines">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >J</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Інструменти</guimenu
-> <guimenuitem
->Об’єднати рядки</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Join Lines</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->За допомогою цього пункту меню можна об’єднати вибрані рядки або поточний рядок з рядком, розташованим нижче. Старі рядки в межах нового об’єднаного рядка буде відокремлено пробілом. Початкові і кінцеві пробіли у рядках, що об’єднуються буде прибрано.</para
+>Joins the selected lines, or the current line and the line below
+with one white space character as a separator. Leading/trailing white space on
+joined lines is removed in the affected ends.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-word-wrap-document">
 <term
-><menuchoice
-><guimenu
->Інструменти</guimenu
-> <guimenuitem
->Застосувати перенесення слів</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Apply Word Wrap</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Застосовує статичне перенесення слід до всього тексту документа. Це означає, що редактор автоматично починатиме новий рядок тексту після того, як кількість символів у поточному рядку перевищить довжину рядка, вказану у параметрі <guilabel
->Переносити слова на</guilabel
-> вкладки «Редагування» вікна, яке відкривається за допомогою пункту меню <menuchoice
-> <guimenu
->Параметри</guimenu
-> <guimenuitem
->Налаштувати редактор...</guimenuitem
+>Apply static word wrapping on all the document. That means that
+a new line of text will automatically start when the current
+line exceeds the length specified by the <guilabel
+>Wrap words at</guilabel
+> option
+in the Editing tab in <menuchoice>
+<guimenu
+>Settings</guimenu
+><guimenuitem
+>Configure
+Editor...</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
 </varlistentry>
+-->
 
 </variablelist>
 </sect1>
@@ -2565,7 +2748,7 @@ depends on the <link linkend="pref-edit-indent"
 ><para
 >Вкладки можна пересувати за допомогою перетягування із одночасним затисканням лівої кнопки миші, для них передбачено пункти дій контекстного меню для закриття документів, копіювання шляху до буфера обміну даними та відкриття теки документа у програмі для керування файлами. За допомогою кнопки <inlinemediaobject
 ><imageobject
-><imagedata fileref="tab-duplicate-22.png" format="PNG"/></imageobject
+><imagedata fileref="quickopen-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > <link linkend="view-quick-open"
 ><guibutton
@@ -2578,7 +2761,7 @@ depends on the <link linkend="pref-edit-indent"
 > (клацніть лівою кнопкою миші), щоб відкрити меню дій із пунктами з меню <guimenu
 >Перегляд</guimenu
 ><guisubmenu
->Розділити перегляд</guisubmenu
+>Розділений перегляд</guisubmenu
 >. </para
 ></listitem>
 </varlistentry>

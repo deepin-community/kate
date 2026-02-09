@@ -83,15 +83,13 @@ unsigned int Tags::numberOfMatches(const QString &tagpart, bool partial)
 Tags::TagList Tags::getPartialMatchesNoi8n(const QString &tagFile, const QString &tagpart)
 {
     setTagsFile(tagFile);
-
-    auto getExtension = [](const QString &fileUrl) -> QStringRef {
+    auto getExtension = [](const QString &fileUrl) -> QStringView {
         int dotPos = fileUrl.lastIndexOf(QLatin1Char('.'));
         if (dotPos > -1) {
-            return fileUrl.midRef(dotPos + 1);
+            return QStringView(fileUrl).mid(dotPos + 1);
         }
-        return QStringRef();
+        return QStringView();
     };
-
     Tags::TagList list;
 
     if (tagpart.isEmpty()) {

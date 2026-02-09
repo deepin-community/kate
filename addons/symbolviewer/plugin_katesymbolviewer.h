@@ -12,28 +12,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _PLUGIN_KATE_SYMBOLVIEWER_H_
-#define _PLUGIN_KATE_SYMBOLVIEWER_H_
+#pragma once
 
 #include <KTextEditor/ConfigPage>
-#include <KTextEditor/Document>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/Plugin>
-#include <KTextEditor/SessionConfigInterface>
 #include <KTextEditor/View>
 
 #include <QCheckBox>
 #include <QMenu>
 
-#include <QLabel>
 #include <QList>
-#include <QPixmap>
-#include <QResizeEvent>
 #include <QSet>
 #include <QTimer>
 #include <QTreeWidget>
 
 #include <KLocalizedString>
+
+enum class Symbol {
+    Function,
+    Class,
+    Method
+};
+
+class KLineEdit;
 
 /**
  * Plugin's config page
@@ -106,6 +108,7 @@ public Q_SLOTS:
     QTreeWidgetItem *newActveItem(int &currMinLine, int currLine, QTreeWidgetItem *item);
     void updateCurrTreeItem();
     void slotDocEdited();
+    void slotFilterChange(const QString &);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;
@@ -113,6 +116,7 @@ protected:
 private:
     KTextEditor::MainWindow *m_mainWindow;
     KatePluginSymbolViewer *m_plugin;
+    KLineEdit *m_filter;
     QMenu *m_popup;
     QWidget *m_toolview;
     QTreeWidget *m_symbols;
@@ -124,11 +128,20 @@ private:
     QAction *m_typesOn;
     QAction *m_expandOn;
 
+    const QIcon m_icon_block = QIcon::fromTheme(QStringLiteral("code-block"));
+    const QIcon m_icon_class = QIcon::fromTheme(QStringLiteral("code-class"));
+    const QIcon m_icon_context = QIcon::fromTheme(QStringLiteral("code-context"));
+    const QIcon m_icon_function = QIcon::fromTheme(QStringLiteral("code-function"));
+    const QIcon m_icon_typedef = QIcon::fromTheme(QStringLiteral("code-typedef"));
+    const QIcon m_icon_variable = QIcon::fromTheme(QStringLiteral("code-variable"));
+
     QTimer m_updateTimer;
     QTimer m_currItemTimer;
     int m_oldCursorLine = 0;
 
     void updatePixmapScroll();
+
+    bool filterSymbols(QTreeWidgetItem *, const QString &);
 
     void parseCppSymbols(void);
     void parseTclSymbols(void);
@@ -141,6 +154,7 @@ private:
     void parsePhpSymbols(void);
     void parseBashSymbols(void);
     void parseEcmaSymbols(void);
+    void parseJuliaSymbols(void);
 };
 
 class KatePluginSymbolViewer : public KTextEditor::Plugin
@@ -149,7 +163,7 @@ class KatePluginSymbolViewer : public KTextEditor::Plugin
 
     Q_OBJECT
 public:
-    explicit KatePluginSymbolViewer(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KatePluginSymbolViewer(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KatePluginSymbolViewer() override;
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
@@ -166,8 +180,3 @@ public Q_SLOTS:
 private:
     QSet<KatePluginSymbolViewerView *> m_views;
 };
-
-// icons
-#include "icons.xpm"
-
-#endif

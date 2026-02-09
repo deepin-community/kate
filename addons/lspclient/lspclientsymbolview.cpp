@@ -7,25 +7,132 @@
 
 #include "lspclientsymbolview.h"
 
+#include <KFuzzyMatcher>
 #include <KLineEdit>
 #include <KLocalizedString>
 #include <QSortFilterProxyModel>
 
 #include <KTextEditor/Document>
+#include <KTextEditor/Editor>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
 
+#include <QFrame>
 #include <QHBoxLayout>
+#include <QHeaderView>
+#include <QIdentityProxyModel>
 #include <QMenu>
 #include <QPointer>
 #include <QStandardItemModel>
 #include <QTimer>
+#include <QToolButton>
 #include <QTreeView>
 
+#include <drawing_utils.h>
 #include <memory>
 #include <utility>
 
-#include <kfts_fuzzy_match.h>
+class MenuButtonHeaderView : public QHeaderView
+{
+    Q_OBJECT
+public:
+    explicit MenuButtonHeaderView(Qt::Orientation orientation, QWidget *parent = nullptr)
+        : QHeaderView(orientation, parent)
+    {
+    }
+
+private:
+    void paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const override
+    {
+        const int w = 16 + 8;
+        const int h = 16 + 8;
+
+        QStyleOptionHeader optHeader;
+        initStyleOption(&optHeader);
+        initStyleOptionForIndex(&optHeader, logicalIndex);
+        optHeader.rect = rect;
+        painter->save();
+        style()->drawControl(QStyle::CE_Header, &optHeader, painter, this);
+        painter->restore();
+
+        if (logicalIndex == 0) {
+            QStyleOptionToolButton option;
+            option.toolButtonStyle = Qt::ToolButtonIconOnly;
+            option.rect = QRect(0, 0, w, h);
+            option.rect = QStyle::alignedRect(layoutDirection(), Qt::AlignVCenter, option.rect.size(), rect);
+            option.rect.moveLeft(rect.left());
+            option.state = QStyle::State_Enabled;
+            option.state.setFlag(QStyle::State_Sunken, m_clicked);
+            option.state.setFlag(QStyle::State_AutoRaise);
+            option.state.setFlag(QStyle::State_MouseOver, m_hovered);
+            option.icon = QIcon::fromTheme(QStringLiteral("application-menu"));
+            option.iconSize = QSize(16, 16);
+            painter->save();
+            this->style()->drawComplexControl(QStyle::CC_ToolButton, &option, painter, nullptr);
+            painter->restore();
+        }
+    }
+    void mousePressEvent(QMouseEvent *event) override
+    {
+        if (!isPosOnCheckBox(event->pos())) {
+            QHeaderView::mousePressEvent(event);
+            return;
+        }
+
+        viewport()->update();
+        QPoint p(rect().left() + 4, rect().bottom() - 4);
+        m_clicked = true;
+        Q_EMIT buttonClicked(viewport()->mapToGlobal(p));
+        m_clicked = false;
+        viewport()->update();
+        event->accept();
+    }
+
+    void mouseMoveEvent(QMouseEvent *e) override
+    {
+        bool wasHovering = m_hovered;
+        m_hovered = isPosOnCheckBox(e->pos());
+        if (m_hovered) {
+            viewport()->update();
+            e->accept();
+            return;
+        } else if (wasHovering) {
+            viewport()->update();
+        }
+        QHeaderView::mouseMoveEvent(e);
+    }
+
+    void leaveEvent(QEvent *e) override
+    {
+        if (m_hovered) {
+            m_hovered = false;
+        }
+        QHeaderView::leaveEvent(e);
+    }
+
+    bool isPosOnCheckBox(QPoint p)
+    {
+        const int pos = sectionPosition(0);
+        const int w = 16 + 8;
+        const int h = 16 + 8;
+        QRect rect = QStyle::alignedRect(layoutDirection(), Qt::AlignVCenter, {w, h}, this->rect());
+        rect.moveLeft(pos);
+        return rect.contains(p);
+    }
+
+    bool m_hovered = false;
+    bool m_clicked = false;
+
+Q_SIGNALS:
+    void buttonClicked(QPoint globalPos);
+};
+
+// TODO: Make this globally available in shared/
+enum SymbolViewRoles {
+    SymbolRange = Qt::UserRole,
+    ScoreRole,
+    IsPlaceholder
+};
 
 class LSPClientViewTrackerImpl : public LSPClientViewTracker
 {
@@ -132,8 +239,8 @@ protected:
             return QSortFilterProxyModel::lessThan(sourceLeft, sourceRight);
         }
 
-        const int l = sourceLeft.data(WeightRole).toInt();
-        const int r = sourceRight.data(WeightRole).toInt();
+        const int l = sourceLeft.data(SymbolViewRoles::ScoreRole).toInt();
+        const int r = sourceRight.data(SymbolViewRoles::ScoreRole).toInt();
         return l < r;
     }
 
@@ -143,17 +250,27 @@ protected:
             return true;
         }
 
-        int score = 0;
         const auto idx = sourceModel()->index(sourceRow, 0, sourceParent);
         const QString symbol = idx.data().toString();
-        const bool res = kfts::fuzzy_match(m_pattern, symbol, score);
-        sourceModel()->setData(idx, score, WeightRole);
-        return res;
+        const auto res = KFuzzyMatcher::match(m_pattern, symbol);
+        sourceModel()->setData(idx, res.score, SymbolViewRoles::ScoreRole);
+        return res.matched;
     }
 
 private:
     QString m_pattern;
-    static constexpr int WeightRole = Qt::UserRole + 1;
+};
+
+class SymbolViewProxyModel : public QIdentityProxyModel
+{
+    Q_OBJECT
+public:
+    using QIdentityProxyModel::QIdentityProxyModel;
+
+    int columnCount(const QModelIndex &) const override
+    {
+        return 1;
+    }
 };
 
 /*
@@ -167,12 +284,12 @@ class LSPClientSymbolViewImpl : public QObject, public LSPClientSymbolView
 
     LSPClientPlugin *m_plugin;
     KTextEditor::MainWindow *m_mainWindow;
-    QSharedPointer<LSPClientServerManager> m_serverManager;
-    QScopedPointer<QWidget> m_toolview;
+    std::shared_ptr<LSPClientServerManager> m_serverManager;
+    std::unique_ptr<QWidget> m_toolview;
     // parent ownership
     QPointer<QTreeView> m_symbols;
     QPointer<KLineEdit> m_filter;
-    QScopedPointer<QMenu> m_popup;
+    std::unique_ptr<QMenu> m_popup;
     // initialized/updated from plugin settings
     // managed by context menu later on
     // parent ownership
@@ -181,7 +298,7 @@ class LSPClientSymbolViewImpl : public QObject, public LSPClientSymbolView
     QAction *m_treeOn;
     QAction *m_sortOn;
     // view tracking
-    QScopedPointer<LSPClientViewTracker> m_viewTracker;
+    std::unique_ptr<LSPClientViewTracker> m_viewTracker;
     // outstanding request
     LSPClientServer::RequestHandle m_handle;
     // magic request tracking cookie
@@ -200,38 +317,50 @@ class LSPClientSymbolViewImpl : public QObject, public LSPClientSymbolView
     // filter model, setup once
     LSPClientSymbolViewFilterProxyModel m_filterModel;
 
+    SymbolViewProxyModel *m_identityModel;
+
     // cached icons for model
-    const QIcon m_icon_pkg = QIcon::fromTheme(QStringLiteral("code-block"));
-    const QIcon m_icon_class = QIcon::fromTheme(QStringLiteral("code-class"));
-    const QIcon m_icon_typedef = QIcon::fromTheme(QStringLiteral("code-typedef"));
-    const QIcon m_icon_function = QIcon::fromTheme(QStringLiteral("code-function"));
-    const QIcon m_icon_var = QIcon::fromTheme(QStringLiteral("code-variable"));
+    bool m_iconsInitialized = false;
+    QIcon m_icon_pkg;
+    QIcon m_icon_class;
+    QIcon m_icon_typedef;
+    QIcon m_icon_function;
+    QIcon m_icon_var;
 
 public:
-    LSPClientSymbolViewImpl(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin, QSharedPointer<LSPClientServerManager> manager)
+    LSPClientSymbolViewImpl(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin, std::shared_ptr<LSPClientServerManager> manager)
         : m_plugin(plugin)
         , m_mainWindow(mainWin)
         , m_serverManager(std::move(manager))
         , m_outline(new QStandardItemModel())
+        , m_identityModel(new SymbolViewProxyModel(this))
     {
         m_toolview.reset(m_mainWindow->createToolView(plugin,
                                                       QStringLiteral("lspclient_symbol_outline"),
-                                                      KTextEditor::MainWindow::Right,
-                                                      QIcon::fromTheme(QStringLiteral("code-context")),
-                                                      i18n("LSP Client Symbol Outline")));
+                                                      KTextEditor::MainWindow::Left,
+                                                      QIcon::fromTheme(QStringLiteral("quickopen-class")),
+                                                      i18n("Symbol Outline")));
 
-        m_symbols = new QTreeView(m_toolview.data());
+        m_symbols = new QTreeView(m_toolview.get());
         m_symbols->setFocusPolicy(Qt::NoFocus);
         m_symbols->setLayoutDirection(Qt::LeftToRight);
+        auto header = new MenuButtonHeaderView(Qt::Horizontal, m_symbols);
+        connect(header, &MenuButtonHeaderView::buttonClicked, this, [this](QPoint pos) {
+            m_popup->exec(pos);
+        });
+        m_symbols->setHeader(header);
+        m_symbols->header()->setSectionResizeMode(QHeaderView::Stretch);
         m_toolview->layout()->setContentsMargins(0, 0, 0, 0);
+
         m_toolview->layout()->addWidget(m_symbols);
         m_toolview->layout()->setSpacing(0);
 
         // setup filter line edit
-        m_filter = new KLineEdit(m_toolview.data());
+        m_filter = new KLineEdit(m_toolview.get());
         m_toolview->layout()->addWidget(m_filter);
-        m_filter->setPlaceholderText(i18n("Filter..."));
+        m_filter->setPlaceholderText(i18n("Filter…"));
         m_filter->setClearButtonEnabled(true);
+        m_filter->setProperty("_breeze_borders_sides", QVariant::fromValue(QFlags{Qt::TopEdge}));
         connect(m_filter, &KLineEdit::textChanged, this, &self_type::filterTextChanged);
 
         m_symbols->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -247,6 +376,8 @@ public:
         m_filterModel.setRecursiveFilteringEnabled(true);
         m_symbols->setModel(&m_filterModel);
         delete m;
+
+        m_identityModel->setSourceModel(m_outline.get());
 
         connect(m_symbols, &QTreeView::customContextMenuRequested, this, &self_type::showContextMenu);
         connect(m_symbols, &QTreeView::activated, this, &self_type::goToSymbol);
@@ -271,13 +402,18 @@ public:
 
         // get updated
         m_viewTracker.reset(LSPClientViewTracker::new_(plugin, mainWin, 500, 100));
-        connect(m_viewTracker.data(), &LSPClientViewTracker::newState, this, &self_type::onViewState);
-        connect(m_serverManager.data(), &LSPClientServerManager::serverChanged, this, [this]() {
+        connect(m_viewTracker.get(), &LSPClientViewTracker::newState, this, &self_type::onViewState);
+        connect(m_serverManager.get(), &LSPClientServerManager::serverChanged, this, [this]() {
             refresh(false, false);
         });
 
         // limit cached models; will not go beyond capacity set here
         m_models.reserve(MAX_MODELS + 1);
+
+        // recolor icons
+        QObject::connect(KTextEditor::Editor::instance(), &KTextEditor::Editor::configChanged, this, [this](KTextEditor::Editor *e) {
+            colorIcons(e);
+        });
 
         // initial trigger of symbols view update
         configUpdated();
@@ -298,9 +434,9 @@ public:
         displayOptionChanged();
     }
 
-    void showContextMenu(const QPoint &)
+    void showContextMenu(const QPoint &pos)
     {
-        m_popup->popup(QCursor::pos(), m_treeOn);
+        m_popup->popup(m_symbols->viewport()->mapToGlobal(pos), m_treeOn);
     }
 
     void onViewState(KTextEditor::View *, LSPClientViewTracker::State newState)
@@ -318,8 +454,10 @@ public:
         }
     }
 
-    void makeNodes(const QList<LSPSymbolInformation> &symbols, bool tree, bool show_detail, QStandardItemModel *model, QStandardItem *parent, bool &details)
+    void makeNodes(const std::list<LSPSymbolInformation> &symbols, bool tree, bool show_detail, QStandardItemModel *model, QStandardItem *parent, bool &details)
     {
+        initIcons();
+
         const QIcon *icon = nullptr;
         for (const auto &symbol : symbols) {
             switch (symbol.kind) {
@@ -327,7 +465,7 @@ public:
             case LSPSymbolKind::Module:
             case LSPSymbolKind::Namespace:
             case LSPSymbolKind::Package:
-                if (symbol.children.count() == 0) {
+                if (symbol.children.empty()) {
                     continue;
                 }
                 icon = &m_icon_pkg;
@@ -371,10 +509,10 @@ public:
             if (!symbol.detail.isEmpty()) {
                 details = true;
             }
-            auto detail = show_detail ? symbol.detail : QString();
+            auto detail = show_detail && !symbol.detail.isEmpty() ? QStringLiteral(" [%1]").arg(symbol.detail) : QString();
             node->setText(symbol.name + detail);
             node->setIcon(*icon);
-            node->setData(QVariant::fromValue<KTextEditor::Range>(symbol.range), Qt::UserRole);
+            node->setData(QVariant::fromValue<KTextEditor::Range>(symbol.range), SymbolViewRoles::SymbolRange);
             static const QChar prefix = QChar::fromLatin1('0');
             line->setText(QStringLiteral("%1").arg(symbol.range.start().line(), 7, 10, prefix));
             // recurse children
@@ -382,12 +520,12 @@ public:
         }
     }
 
-    void onDocumentSymbols(const QList<LSPSymbolInformation> &outline)
+    void onDocumentSymbols(const std::list<LSPSymbolInformation> &outline)
     {
         onDocumentSymbolsOrProblem(outline, QString(), true);
     }
 
-    void onDocumentSymbolsOrProblem(const QList<LSPSymbolInformation> &outline, const QString &problem = QString(), bool cache = false)
+    void onDocumentSymbolsOrProblem(const std::list<LSPSymbolInformation> &outline, const QString &problem = QString(), bool cache = false)
     {
         if (!m_symbols) {
             return;
@@ -406,7 +544,9 @@ public:
                 m_models[0].model = newModel;
             }
         } else {
-            newModel->appendRow(new QStandardItem(problem));
+            auto item = new QStandardItem(problem);
+            item->setData(true, SymbolViewRoles::IsPlaceholder);
+            newModel->appendRow(item);
         }
 
         // cache detail info with model
@@ -433,11 +573,13 @@ public:
         if (m_sortOn->isChecked()) {
             m_symbols->setSortingEnabled(true);
             m_symbols->sortByColumn(0, Qt::AscendingOrder);
+            m_symbols->header()->setSectionsClickable(true);
         } else {
             // most servers provide items in reasonable file/input order
             // however sadly not all, so let's sort by hidden line number column to make sure
             m_symbols->setSortingEnabled(true);
             m_symbols->sortByColumn(1, Qt::AscendingOrder);
+            m_symbols->header()->setSectionsClickable(false);
         }
         // no need to show internal info
         m_symbols->setColumnHidden(1, true);
@@ -456,6 +598,8 @@ public:
 
         // current item tracking
         updateCurrentTreeItem();
+
+        m_identityModel->setSourceModel(m_outline.get());
     }
 
     void refresh(bool clear, bool allow_cache = true, int retry = 0)
@@ -466,12 +610,19 @@ public:
         // check if we have some server for the current view => trigger request
         auto view = m_mainWindow->activeView();
         if (auto server = m_serverManager->findServer(view)) {
+            // check if server supports what we need
+            if (!server->capabilities().documentSymbolProvider) {
+                // inform that support is missing
+                onDocumentSymbolsOrProblem({}, i18n("LSP server does not support symbol outline."));
+                return;
+            }
+
             // clear current model in any case
             // this avoids that we show stuff not matching the current view
             // but let's only do it if needed, e.g. when changing view
             // so as to avoid unhealthy flickering in other cases
             if (clear) {
-                onDocumentSymbolsOrProblem(QList<LSPSymbolInformation>(), QString(), false);
+                onDocumentSymbolsOrProblem({}, QString(), false);
             }
 
             // check (valid) cache
@@ -501,7 +652,7 @@ public:
                 }
                 it->revision = revision;
             } else {
-                m_models.insert(0, {doc, revision, nullptr});
+                m_models.insert(0, {.document = doc, .revision = revision, .model = nullptr});
                 if (m_models.size() > MAX_MODELS) {
                     m_models.pop_back();
                 }
@@ -540,23 +691,45 @@ public:
         }
 
         // else: inform that no server is there
-        onDocumentSymbolsOrProblem(QList<LSPSymbolInformation>(), i18n("No LSP server for this document."));
+        onDocumentSymbolsOrProblem({}, i18n("No LSP server for this document."));
     }
 
-    QStandardItem *getCurrentItem(QStandardItem *item, int line)
+    // returns (covering item, closest child of covering item after line)
+    // if distance non-null, then (output) *distance:
+    //  = irrelevant if first element of return value is non-null
+    //  < 0 if line is after item range
+    //  > 0 if line is before item range = distance from line to item range start
+    std::pair<QStandardItem *, QStandardItem *> getCurrentItem(QStandardItem *item, int line, int *distance = nullptr)
     {
         // first traverse the child items to have deepest match!
         // only do this if our stuff is expanded
+        QStandardItem *minItem = nullptr;
         if (item == m_outline->invisibleRootItem() || m_symbols->isExpanded(m_filterModel.mapFromSource(m_outline->indexFromItem(item)))) {
+            int minDistance = std::numeric_limits<int>::max();
             for (int i = 0; i < item->rowCount(); i++) {
-                if (auto citem = getCurrentItem(item->child(i), line)) {
+                int dist = 0;
+                auto child = item->child(i);
+                auto citem = getCurrentItem(child, line, &dist);
+                if (citem.first) {
                     return citem;
+                } else if (dist > 0 && dist < minDistance) {
+                    minDistance = dist;
+                    minItem = child;
                 }
             }
         }
 
         // does the line match our item?
-        return item->data(Qt::UserRole).value<KTextEditor::Range>().overlapsLine(line) ? item : nullptr;
+        auto range = item->data(SymbolViewRoles::SymbolRange).value<KTextEditor::Range>();
+        if (range.overlapsLine(line)) {
+            return {item, minItem};
+        } else {
+            if (distance) {
+                auto startline = range.start().line();
+                *distance = line < startline ? startline - line : -1;
+            }
+            return {nullptr, minItem};
+        }
     }
 
     void updateCurrentTreeItem()
@@ -569,25 +742,66 @@ public:
         /**
          * get item if any
          */
-        QStandardItem *item = getCurrentItem(m_outline->invisibleRootItem(), editView->cursorPositionVirtual().line());
-        if (!item) {
+        auto items = getCurrentItem(m_outline->invisibleRootItem(), editView->cursorPositionVirtual().line());
+        if (!items.first) {
             return;
         }
 
         /**
-         * select it
+         * select it;
+         * however, in a typical (e.g. class/namespace) case, the areas between (e.g. method) children
+         * select the parent (class) as item.  To aid navigation in such case, the closest (following)
+         * child is also considered (as the parent item may in fact be quite far away in the symbol tree).
          */
-        QModelIndex index = m_filterModel.mapFromSource(m_outline->indexFromItem(item));
-        m_symbols->scrollTo(index);
-        m_symbols->selectionModel()->setCurrentIndex(index, QItemSelectionModel::Clear | QItemSelectionModel::Select);
+        QModelIndex coverIndex = m_filterModel.mapFromSource(m_outline->indexFromItem(items.first));
+        QModelIndex closestIndex = m_filterModel.mapFromSource(m_outline->indexFromItem(items.second ? items.second : items.first));
+        // select covering (parent) item
+        m_symbols->selectionModel()->setCurrentIndex(coverIndex, QItemSelectionModel::Clear | QItemSelectionModel::Select);
+        // add child to selection and move view there
+        m_symbols->selectionModel()->setCurrentIndex(closestIndex, QItemSelectionModel::Select);
+        m_symbols->scrollTo(closestIndex);
     }
 
     void goToSymbol(const QModelIndex &index)
     {
         KTextEditor::View *kv = m_mainWindow->activeView();
-        const auto range = index.data(Qt::UserRole).value<KTextEditor::Range>();
+        const auto range = index.data(SymbolViewRoles::SymbolRange).value<KTextEditor::Range>();
         if (kv && range.isValid()) {
             kv->setCursorPosition(range.start());
+        }
+    }
+
+    QAbstractItemModel *documentSymbolsModel() override
+    {
+        return m_identityModel;
+    }
+
+private:
+    void colorIcons(KTextEditor::Editor *e)
+    {
+        using KSyntaxHighlighting::Theme;
+        auto theme = e->theme();
+        auto varColor = QColor::fromRgba(theme.textColor(Theme::Variable));
+        m_icon_var = Utils::colorIcon(QIcon::fromTheme(QStringLiteral("code-variable")), varColor);
+
+        auto typeColor = QColor::fromRgba(theme.textColor(Theme::DataType));
+        m_icon_class = Utils::colorIcon(QIcon::fromTheme(QStringLiteral("code-class")), typeColor);
+
+        auto enColor = QColor::fromRgba(theme.textColor(Theme::Constant));
+        m_icon_typedef = Utils::colorIcon(QIcon::fromTheme(QStringLiteral("code-typedef")), enColor);
+
+        auto funcColor = QColor::fromRgba(theme.textColor(Theme::Function));
+        m_icon_function = Utils::colorIcon(QIcon::fromTheme(QStringLiteral("code-function")), funcColor);
+
+        auto blockColor = QColor::fromRgba(theme.textColor(Theme::Import));
+        m_icon_pkg = Utils::colorIcon(QIcon::fromTheme(QStringLiteral("code-block")), blockColor);
+    }
+
+    void initIcons()
+    {
+        if (!m_iconsInitialized) {
+            colorIcons(KTextEditor::Editor::instance());
+            m_iconsInitialized = true;
         }
     }
 
@@ -616,9 +830,12 @@ private Q_SLOTS:
     }
 };
 
-QObject *LSPClientSymbolView::new_(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin, QSharedPointer<LSPClientServerManager> manager)
+LSPClientSymbolView *LSPClientSymbolView::new_(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin, std::shared_ptr<LSPClientServerManager> manager)
 {
     return new LSPClientSymbolViewImpl(plugin, mainWin, std::move(manager));
 }
 
+LSPClientSymbolView::~LSPClientSymbolView() = default;
+
 #include "lspclientsymbolview.moc"
+#include "moc_lspclientsymbolview.cpp"

@@ -71,6 +71,12 @@
 </listitem>
 <listitem>
 <para
+><link linkend="kate-application-plugin-colorpicker"
+>Gekleurde blokhaakjes</link
+> - Gekleurde blokhaakjes voor leesbaarheid</para>
+</listitem>
+<listitem>
+<para
 ><link linkend="kate-application-plugin-ctags"
 >CTags</link
 > - Definities/declaraties opzoeken met CTags</para>
@@ -107,12 +113,6 @@
 >&gdb;</link
 > - levert een eenvoudige &gdb;-frontend</para>
 </listitem>
-<!--from workspace/plasma-sdk, why picked up here?
-<listitem>
-<para
->Icon picker - Invokes Cuttlefish icon picker</para>
-</listitem>
--->
 <listitem>
 <para
 ><link linkend="kate-application-plugin-projects"
@@ -143,6 +143,12 @@
 </listitem>
 <listitem>
 <para
+><link linkend="kate-application-plugin-keyboardmacros"
+>Toetsenbordmacro's</link
+> - Neem toetsenbordmacro's op en speel ze af (d.w.z., toetsenbordactiereeksen)</para>
+</listitem>
+<listitem>
+<para
 ><link linkend="kate-application-plugin-sql"
 >SQL-plugin</link
 > - Voer zoekopdracht op SQL-database uit</para>
@@ -169,13 +175,25 @@
 <para
 ><link linkend="kate-application-plugin-xmltools"
 >&XML;-aanvulling</link
-> - Somt -elementen, -attributen, -attribuutwaarden en -entiteiten op die door de DTD zijn toegestaan</para>
+> - Somt &XML;-elementen, -attributen, -attribuutwaarden en -entiteiten op die door de DTD zijn toegestaan</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-xmlcheck"
 >Validatie van &XML;</link
 >- Valideert -bestanden met behulp van xmllint</para>
+</listitem>
+<listitem>
+<para
+><link linkend="kate-application-plugin-compilerexplorer"
+>Compiler-verkenner</link
+>- Interface naar hulpmiddel compiler-verkenner</para>
+</listitem>
+<listitem>
+<para
+><link linkend="kate-application-plugin-formatting"
+>Formattering</link
+>- Plug-in voor formatteren van code</para>
 </listitem>
 </itemizedlist>
 </sect1>
@@ -260,6 +278,30 @@
 ><userinput
 >Opslaan</userinput
 >, bij aanroepen, slaat geen, het huidige document of alle documenten op.</para>
+<para
+><userinput
+>Trigger</userinput
+>, een trigger om dit hulpmiddel uit te voeren. Een trigger zal alleen het huidige actieve document betreffen en zal alleen worden uitgevoerd als het mime-type van het huidige actieve document overeenkomt met het mime-type van het externe hulpmiddel.</para>
+    <variablelist
+><varlistentry>
+    <term
+>De volgende triggers zijn beschikbaar:</term>
+    <listitem>
+    <para
+><userinput
+>Geen</userinput
+>, dit is de standaard, het betekent dat het hulpmiddel geen trigger heeft.</para>
+    <para
+><userinput
+>Vóór opslaan</userinput
+>, deze trigger zal uitgevoerd worden direct voordat het document wordt opgeslagen.</para>
+    <para
+><userinput
+>Na opslaan</userinput
+>, deze trigger zal door het hulpmiddel uitgevoerd worden nadat het document is opgeslagen.</para>
+    </listitem>
+    </varlistentry
+></variablelist>
 <para
 ><userinput
 >Huidig document opnieuw laden na uitvoeren</userinput
@@ -357,7 +399,7 @@
 > vervangt eenvoudig de variabele met zijn inhoud. Bijvoorbeeld, de variabele <userinput
 >%{Document:FileName}</userinput
 > wordt vervangen door de bestandsnaam van het huidige document zonder zijn pad. De tweede vorm <userinput
->%{variable-name:&lg;value&gt;}</userinput
+>%{variable-name:&lt;value&gt;}</userinput
 > krijgt <userinput
 >&lt;value&gt;</userinput
 > als inhoud. Bijvoorbeeld, dit kan gebruikt worden om een omgevingsvariabele in te voegen met <userinput
@@ -1053,7 +1095,7 @@
 >Inleiding</title>
 
 <para
->De Bouwplug-in stelt u in staat om acties op een project uit te voeren, zoals bouwen, opschonen en compileren.</para>
+>De plug-in Build biedt u het uitvoeren van acties zoals bouwen, wissen en compileren op een project. U kunt ook automatisch de gegenereerde toepassing uitvoeren. De plug-in geeft in de basis u een manier om sets van uit te voeren commando's te configureren en het kan de uitvoer doorzoeken op koppelingen naar bestanden en specifieke regels en kolommen in die bestanden. Dus zelfs als de plug-in oorspronkelijk is gemaakt voor het compileren van C/C++ en het meest daarmee is getest, kan de plug-in ook nuttig zijn voor andere doelen en talen.</para>
 
 </sect2>
 
@@ -1062,11 +1104,11 @@
 >De Bouwplug-in gebruiken</title>
 
 <para
->De Bouwplug-in voegt een weergavehulpmiddel <guilabel
->Bouwuitvoer</guilabel
+>De plug-in Build voegt een weergavehulpmiddel <guilabel
+>Build</guilabel
 > onderaan toe en een menu <guimenu
->Bouw</guimenu
-> op de menubalk. Het weergavehulpmiddel kan worden gebruikt om de instellingen van het bouwdoel in te stellen, terwijl het menu kan worden gebruikt om de acties bouwen, opschonen en compileren te doen.</para>
+>Build</guimenu
+> op de menubalk. Het weergavehulpmiddel kan worden gebruikt om bouwdoelen te selecteren en te configureren, terwijl het menu en zijn sneltoetsen gebruikt kunnen worden om de geconfigureerde shell-opdrachten uit te voeren.</para>
 
 <screenshot id="screenshot-build-output">
 <screeninfo
@@ -1079,8 +1121,8 @@
 
 <para
 >Het weergavehulpmiddel <guilabel
->Bouwuitvoer</guilabel
-> heeft twee tabbladen:</para>
+>Build</guilabel
+> heeft twee statische tabbladen:</para>
 
 <itemizedlist>
 <listitem
@@ -1102,13 +1144,25 @@
 >Tabblad Instellingen van doel</title>
 
 <para
->Het tabbald Instellingen van doel kan gebruikt worden om verschillende bouwdoelen in te stellen en sets doelen te definiëren.</para>
+>Het tabblad Instellingen van doel kan gebruikt worden om verschillende bouwdoelen te configureren en sets doelen te definiëren.</para>
 
 <para
->Om de namen van commando's te wijzigen dubbelklikt u op de items in de tabel en gebruikt u het afrolvak om de actieve set doelen te selecteren. Gebruik het keuzevakje voor elk doel om een standaard te definiëren.</para>
+>Een doel-set is een groep opdrachten die uitgevoerd kunnen worden in een gespecificeerde werkmap. Doel-sets kunnen toegevoegd worden onder ofwel <guilabel
+>Projecten</guilabel
+> of <guilabel
+>Sessie</guilabel
+>. De aangepaste doel-sets toegevoegd onder <guilabel
+>Projecten</guilabel
+> worden opgeslagen in een bestand <guilabel
+>.kateproject.build</guilabel
+> in de project basismap en worden hersteld wanneer het project opnieuw wordt geopend. De doel-sets toegevoegd onder <guilabel
+>Sessie</guilabel
+> worden opgeslagen in de huidige sessieconfiguratie van Kate.</para>
 
 <para
->Een nieuwe set doelen bevat verschillende instellingenopties:</para>
+>De eerste rij, in een doel-set, bevat een naam voor de set in kolom een en in kolom twee hebben we de map waar de opdrachten uitgevoerd zouden moeten worden. Op elke volgende rij hebben we een naam voor het commando in kolom een, een bouwopdracht in kolom twee en een uitvoeropdracht in kolom drie. Om een va deze te bewerken, dubbelklik op het item of gebruik de sneltoets bewerken (vaak <keycap
+>F2</keycap
+>).</para>
 
 <variablelist>
 <varlistentry>
@@ -1118,59 +1172,63 @@
 ></term>
 <listitem
 ><para
->U kunt het pad naar het project hier instellen. Leeg laten om de map van het huidige document te gebruiken .</para
+>De tweede kolom van de eerste rij in een doel-set, wordt gebruikt om de werkmap gebruikt voor compileren en uitvoeren van opdrachten. Als de project-plug-in is ingeschakeld kan de werkmaptekenreeks ook plaatshouders voor het basismappad van het project bevatten: <guilabel
+>%B</guilabel
+> en naam: <guilabel
+>%b</guilabel
+></para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Bouwen</guilabel
+>Bouwcommando</guilabel
 ></term>
 <listitem
 ><para
->Deze optie laat u het bouwcommando instellen. Het is standaard ingesteld op <command
->make</command
->.</para
+>De tweede kolom in de "niet-eerste rijen", bevat de shell-opdrachten om uit te voeren in de werkmap. Let op het woord shell. Bijna elke shell-opdracht is goed. De bouwopdracht kan plaatshouders bevatten. <guilabel
+>%f</guilabel
+> voor het huidige bestand, <guilabel
+>%d</guilabel
+> voor de map van het huidige bestand en <guilabel
+>%n</guilabel
+> voor de basisnaam van de huidige bestandsnaam (zonder achtervoegsel).</para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Opschonen</guilabel
+>Commando uitvoeren</guilabel
 ></term>
 <listitem
 ><para
->Deze optie laat u het opschooncommando instellen. Het is standaard ingesteld op <command
->make clean</command
->.</para
+>De derde kolom in de "niet-eerste rijen" kan een shell-opdracht bevatten voor uitvoeren in een actuele terminal in de werkmap van de doel-set. De terminal is geopend als een tabblad. De plug-in zal proberen het terminal tabblad te hergebruiken, als dezelfde opdracht wordt uitgevoerd en de vorige toepassing is geëindigd.</para
 ></listitem>
 </varlistentry>
 
-<varlistentry>
-<term
-><guilabel
->Config</guilabel
-></term>
-<listitem
-><para
->Deze optie laat u het commando config definiëren. Het is standaard ingesteld op <command
->cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr/local ../</command
->.</para
-></listitem>
-</varlistentry>
 </variablelist>
 
 <para
->Bovenaan deze plug-in is een werkbalk met de volgende knoppen:</para>
+>Bovenaan het tabblad <guilabel
+>Doelinstellingen</guilabel
+> hebben we een werkbalk met een doelfilter en de volgende knoppen:</para>
 
 <simplelist>
 <member
 ><guiicon
 ><inlinemediaobject
 ><imageobject
-><imagedata fileref="dialog-ok-22.png" format="PNG"/></imageobject
+><imagedata fileref="run-build-22.png" format="PNG"/></imageobject
+></inlinemediaobject
+></guiicon
+> Bouw het geselecteerde doel</member>
+<member
+><guiicon
+><inlinemediaobject
+><imageobject
+><imagedata fileref="media-playback-start-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 ></guiicon
 > Bouw het geselecteerde doel</member>
@@ -1189,7 +1247,7 @@
 ><imagedata fileref="document-new-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 ></guiicon
-> Een nieuwe set bouwdoelen maken</member>
+> Een nieuwe set doelen aanmaken</member>
 <member
 ><guiicon
 ><inlinemediaobject
@@ -1217,27 +1275,12 @@
 <para
 >Het tabblad <guilabel
 >Uitvoer</guilabel
-> toont de console-uitvoer die is gegenereerd door het laatste commando.</para>
+> toont de uitvoer op het console gegenereerd door de draaiende (bouw) opdracht. Als een regel een locatie van een bestand bevat, zal op die regel geklikt kunnen worden. Als de regel in de uitvoer ook een fout of waarschuwing toont, zal de regel een andere kleur hebben. </para>
 
 <para
->De schuifregelaar bovenaan gebruiken om categorieën uitvoer te tonen of te verbergen:</para>
-
-<para
-><guilabel
->Volledige uitvoer</guilabel
->, <guilabel
->Ontlede uitvoer</guilabel
->, <guilabel
->Fouten en waarschuwingen</guilabel
-> of <guilabel
->Alleen fouten</guilabel
-> </para>
-
-<para
->Elke regel bevat een bericht, de bestandsnaam en het regelnummer indien beschikbaar. Op de fout of waarschuwing klikken brengt u naar het bijbehorende bestand en zet de cursor op het bijbehorende regelnummer.</para>
-
-<para
->Om naar de vorige fout te gaan drukt u op <keycombo action="simul"
+>Als de optie <guilabel
+>Fouten en waarschuwingen aan Diagnostiek toevoegen</guilabel
+> is ingeschakeld in de instellingenpagina van de plug-in in instellingen van Kate, zullen de fouten en waarschuwingen ook toegevoegd worden aan de diagnostiekweergave. Om naar de vorige fout te gaan drukt u op <keycombo action="simul"
 >&Alt;&Shift;&Left;</keycombo
 >. Om naar de volgende fout te gaan drukt u op <keycombo action="simul"
 >&Alt;&Shift;&Right;</keycombo
@@ -1257,42 +1300,63 @@
 ><guimenu
 >Bouwen</guimenu
 ><guisubmenu
->Doel selecteren</guisubmenu
+>Doel selecteren...</guisubmenu
 > </menuchoice
 ></term>
 <listitem
 ><para
->Uit een lijst met door de gebruiker ingestelde doelen kiezen.</para
+>Het doelselectiefilter heeft focus in het tabblad Doelinstellingen. Invoeren van een naam zal doelen uitfilteren die niet overeenkomen met de ingevoerde tekenreeks. Het is ook mogelijk de pijltjestoetsen te gebruiken om te navigeren in de boomstructuur van doelen. Wanneer het gewenste doel is geselecteerd, drukken op <guilabel
+>Return</guilabel
+> of <guilabel
+>Enter</guilabel
+> zal het geselecteerde doel uitvoeren.</para
 ></listitem>
 </varlistentry>
 
-<varlistentry id="build-default">
+<varlistentry id="build-selected">
 <term
 ><menuchoice
 ><guimenu
 >Bouwen</guimenu
 ><guimenuitem
->Standaard doel bouwen</guimenuitem
+>Geselecteerd doel bouwen</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Bouwt het doel gedefinieerd als standaard in de actieve doelset.</para
+>Bouwt het laatst geselecteerde doel. Als er niets was geselecteerd, werkt het als <guilabel
+>Doel selecteren...</guilabel
+></para
 ></listitem>
 </varlistentry>
 
-<varlistentry id="build-previous">
+<varlistentry id="build-selected-run">
 <term
 ><menuchoice
 ><guimenu
 >Bouwen</guimenu
 ><guimenuitem
->Vorige doel bouwen</guimenuitem
+>Geselecteerd doel bouwen en uitvoeren</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Schakel om naar het vorige door de gebruiker ingestelde doel.</para
+>Bouwt het laatst geselecteerde doel en voert de uitvoeropdracht uit nadat de bouwopdracht met succes is beëindigd.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="build-currentfile">
+<term
+><menuchoice
+><guimenu
+>Bouwen</guimenu
+><guimenuitem
+>Huidig bestand compileren</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Probeer het huidige bestand te compileren door te zoeken naar een opdracht in een mogelijk compile_commands.json.</para
 ></listitem>
 </varlistentry>
 
@@ -1311,41 +1375,50 @@
 ></listitem>
 </varlistentry>
 
-<varlistentry id="build-previous-error">
+<varlistentry id="build-previous-run-tab">
 <term
 ><menuchoice
-><shortcut
-><keycombo action="simul"
->&Ctrl;&Alt;&Left;</keycombo
-></shortcut
-> <guimenu
+><guimenu
 >Bouwen</guimenu
 ><guimenuitem
->Vorige fout</guimenuitem
+>Focusseer het volgende tabblad links</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Verplaatst de cursor naar de locatie van de vorige fout in het document.</para
+>Focusseer het volgende tabblad bouwplug-in links. Of open de hulpmiddelweergave bouwplug-in als het verborgen is.</para
 ></listitem>
 </varlistentry>
 
-<varlistentry id="build-next-error">
+<varlistentry id="build-next-run-tab">
 <term
 ><menuchoice
-><shortcut
-><keycombo action="simul"
->&Ctrl;&Alt;&Right;</keycombo
-></shortcut
-> <guimenu
+><guimenu
 >Bouwen</guimenu
 ><guimenuitem
->Volgende fout</guimenuitem
+>Focusseer het volgende tabblad rechts</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Verplaatst de cursor naar de locatie van de volgende fout in het document.</para
+>Focusseer het volgende tabblad bouwplug-in rechts. Of open de hulpmiddelweergave bouwplug-in als het verborgen is.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="build-load-cmake-targets">
+<term
+><menuchoice
+><guimenu
+>Bouwen</guimenu
+><guimenuitem
+>Doelen uit bouwmap van CMake laden</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Opent de bestandsdialoog en laat de gebruiker een <guilabel
+>CMakeCache.txt</guilabel
+> selecteren. Wanneer een bestand is geselecteerd, genereert de plug-in cmake-bouwopdrachtdoelen die uitgevoerd kunnen worden in de bouwmap voor het op CMake gebaseerde project.</para
 ></listitem>
 </varlistentry>
 
@@ -1534,6 +1607,25 @@
 
 </sect2>
 
+</sect1>
+
+<sect1 id="kate-application-plugin-colored-brackets">
+<title
+>Gekleurde blokhaakjes</title>
+
+<sect2
+><title
+>Inleiding</title>
+<para
+>Plug-in voor gekleurde blokhaakjes voor bij elkaar horende paren in verschillende kleuren om leesbaarheid te vergroten. Er worden, echter, niet alle blokhaakjes gekleurd. Een blokhaakje waarvan het bijbehorende opener of sluiter niet zichtbaar is zal genegeerd worden. Evenzo zal een blokhaakjespaar die het enige paar is in een regel niet gekleurd worden. </para>
+</sect2>
+
+<sect2
+><title
+>Configuratie</title>
+<para
+>De plug-in biedt geen enkele configuratie.</para>
+</sect2>
 </sect1>
 
 <sect1 id="kate-application-plugin-ctags">
@@ -2321,7 +2413,7 @@ folder if possible.</para
 
 <para
 >Daarnaast zijn er bestandsbeheerderacties om het bestand te hernoemen of te verwijderen. Met <guimenuitem
->Bestandspad kopiëren</guimenuitem
+>Locatie kopiëren</guimenuitem
 > kunt u het volledige pad van het document naar het klembord kopiëren.</para>
 
 <para
@@ -3190,34 +3282,6 @@ folder if possible.</para
 
 </sect2>
 
-<sect2 id="project-quickopen">
-<title
->Snelle opening van bestanden</title>
-
-<para
->Omdat klikken op bestanden in de boomstructuurweergave niet de snelste manier is om een bestand te openen, biedt &kate; een ingebouwd snel mechanisme voor openen dat u kunt activeren met <keycombo  action="simul"
->&Ctrl;&Alt;<keycap
->O</keycap
-></keycombo
->. Wat u krijgt is een lijst zoals deze:</para>
-
-<screenshot id="screenshot-project-quickopen">
-<screeninfo
->Snel openen</screeninfo>
-<mediaobject>
-<imageobject
-><imagedata fileref="project-quickopen.png" format="PNG"/></imageobject>
-</mediaobject>
-</screenshot>
-
-<para
->U kunt filteren door delen van de bestandsnaam waarnaar u zoekt in te typen en u kunt ook navigeren met de pijltjestoetsen en page up/down in de lijst. Indrukken van &Enter; activeert het geselecteerde bestand, terwijl &Esc; het snel openen van de weergave weer doet verdwijnen.</para>
-
-<para
->Voorts herinnert het snel openen het vorige bestand. Dus wanneer u omschakelt naar het snelle openen van de weergave dan is het eerder geactiveerde bestand automatisch geselecteerd en hoeft u alleen maar &Enter; in te drukken wat soms zeer handig is.</para>
-
-</sect2>
-
 <sect2 id="project-build">
 <title
 >Ondersteuning voor het bouwen van het project</title>
@@ -3266,8 +3330,12 @@ folder if possible.</para
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "git": 1 } ]
+  "name": "Kate",
+  "files": [
+    {
+      "git": 1
+    }
+  ]
 }
 </screen>
 
@@ -3283,35 +3351,98 @@ folder if possible.</para
 >svn</literal
 > en mercurial via <literal
 >hg</literal
->. Als u niet wilt lezen uit een versiecontrolesysteem, dan kunt u het vertellen om bestanden recursief te laden uit mappen als volgt: </para>
+>. Als u geen bestanden wilt lezen uit een versiecontrolesysteem, dan kunt u kate aanroepen vanaf de opdrachtregel als: <screen>
+kate /pad/naar/map/
+</screen
+> of kunt u het vertellen om bestanden recursief te laden uit mappen als volgt: </para>
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "directory": "kate", "filters": ["*.cpp", "*.h", "*.ui", "CMakeLists.txt", "Find*.cmake"], "recursive": 1 } ]
+  "name": "Kate",
+  "files": [
+    {
+      "directory": "kate",
+      "filters": [
+        "*.cpp",
+        "*.h",
+        "*.ui",
+        "CMakeLists.txt",
+        "Find*.cmake"
+      ],
+      "recursive": 1,
+      "hidden": 1
+    }
+  ],
+  "exclude_patterns" : [
+    "^build/.*"
+  ]
 }
 </screen>
 
 <para
->Hier definiëren submappen en filters wat onderdeel is van het project. U kunt ook versiecontrole en bestanden gebaseerd op filters mengen. </para>
+>Submappen en filters definiëren hier wat onderdeel is van het project. U kunt ook controle op versie en bestanden gebaseerd op filters mengen. Verborgen bestanden zullen niet opgehaald worden als de optie <code
+>"hidden"</code
+> 0 is. <code
+>"exclude_patterns"</code
+> is een lijst met regex patronen die gebruikt kunnen worden om mappen en bestanden uit te sluiten van de projectboom. In dit voorbeeld zullen alle bestanden en mappen in een map <filename
+>build</filename
+> in de hoofdmap uitgesloten worden. </para>
 
 <para id="projects-build-support"
->Als u ondersteuning voor de bouw-plug-in wilt toevoegen, dan kunt u een <filename
+>Als u ondersteuning voor bouwen wilt toevoegen, dan kunt u een <filename
 >.kateproject</filename
 > schrijven zoals dit:</para>
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "git": 1 } ]
-, "build": {
-    "directory": "build"
-  , "build": "make all"
-  , "clean": "make clean"
-  , "install": "make install"
+  "name": "Kate",
+  "files": [
+    {
+      "git": 1
+    }
+  ],
+  "build": {
+    "directory": "build",
+    "build": "make all",
+    "clean": "make clean",
+    "install": "make install",
+    "targets": [
+      {
+        "name": "all",
+        "build_cmd": "ninja"
+        "run_cmd": "./bin/kate"
+      },
+      {
+        "name": "kate",
+        "build_cmd": "ninja kate-bin"
+      }
+    ]
   }
 }
 </screen>
+
+<para
+>De bovenstaand gespecificeerde doelen zullen daarna verschijnen in de <link linkend="kate-application-plugin-build"
+>Bouwplug-in </link
+> onder <emphasis role="bold"
+> "Projectplug-in doelen"</emphasis
+>. Als het <code
+>"doelen"</code
+> array is gespecificeerd dan worden <code
+>"build"</code
+>, <code
+>"clean"</code
+> en <code
+>"install"</code
+> genegeerd. Elk element in het array specificeert een doel. <code
+>"name"</code
+> is de naam van het doel, <code
+>"build_cmd"</code
+> zal gebruikt worden om het doel te bouwen, <code
+>"run_cmd"</code
+> zal gebruikt worden om het doel uit te voeren. Het belangrijkste van alles is <code
+> "directory"</code
+>, dit is waar de commando's uitgevoerd zullen worden. </para>
 
 <para
 >In het geval dat u een bestand <filename
@@ -3902,6 +4033,53 @@ Projects Replicode run / stop-->
 
 </sect2>
 
+<sect2 id="lspclient-go-to-symbol">
+<title
+>Ga naar ondersteuning van symbolen</title>
+<para
+>LSP Client kan u helpen naar elk symbool te springen in uw project of huidige bestand. Om naar een symbool in het bestand te springen, gebruik de hulpmiddelweergave "LSP Client Symbooloutline" op de rechter rand van kate. Deze hulpmiddelweergave geeft een lijst met alle symbolen die zijn gevonden door de server in het huidige document. </para>
+
+<sect3 id="lspclient-symbol-outline-config">
+<title
+>LSP Client Symbooloutline configureren</title>
+
+<para
+>Standaard worden de symbolen gesorteerd op hun voorkomen in het document maar u kunt het sorteren wijzigen naar alfabetisch. Om dat te doen, klik rechts in de hulpmiddelweergave en activeer "Alfabetisch sorteren". </para>
+
+<para
+>De hulpmiddelweergave toont de symbolen standaard in modus boomstructuur, u kunt dat wijzigen naar een lijst met het contextmenu. </para>
+</sect3>
+
+<sect3 id="lspclient-global-go-to-symbol">
+<title
+>Globale Ga naar ondersteuning van symbolen</title>
+<para
+>Om naar een symbool in uw project te springen, kunt u de dialoog ga naar symbool openen met <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>p</keycap
+></keycombo
+>. De dialoog is leeg wanneer het wordt geopend maar zodra u iets typt zal de dialoog starten en u overeenkomende symbolen tonen. De kwaliteit van overeenkomsten evenals filtermogelijkheden hangen af van de server die u gebruikt. Bijvoorbeeld, clangd ondersteunt vage filtering maar een andere server misschien niet. </para>
+</sect3>
+
+</sect2>
+
+<sect2 id="lspclient-extra">
+<title
+>Andere mogelijkheden</title>
+
+<para
+>Commando voor omschakelen van bronkop van clangd wordt ondersteund. Om bronkop om te schakelen in een C of C++ project gebruik ofwel de optie "Bronkop omschakelen" uit het contextmenu of de sneltoets <keycombo action="simul"
+><keycap
+>F12</keycap
+></keycombo
+>. </para>
+
+<para
+>U kunt snel naar een symbool springen door uw muis op het symbool te plaatsen en daarna op <keycombo action="simul"
+>&Ctrl;</keycombo
+> + linker muisknop te drukken. </para>
+
+</sect2>
 
 <sect2 id="lspclient-configuration">
 <title
@@ -3991,7 +4169,7 @@ Projects Replicode run / stop-->
 >De "highlightingModeRegex" wordt gebruikt om de modus accentuering overeen te laten komen zoals gebruikt door &kate; naar de taal-id van de server. Als geen reguliere expressie is gegeven, wordt de taal-id zelf gebruikt. Als een "documentLanguageId" item is gezet op false, dan wordt geen taal-id aan de server geleverd bij openen van het document. Dit kan betere resultaten geven voor sommige servers die meer precies zijn in bepalen van het type document dan dat te doen op basis van een kate-modus. </para>
 
 <para
->Uit het bovenstaande is de boodschap waarschijnlijk helder. Bovendien kan elk item-object van de server ook een "initializationOptions" item hebben, die gezamenlijk wordt doorgegeven aan de server als onderdeel van de 'initialisatie' methode. Indien aanwezig wordt een item "instellingen" doorgegeven aan de server doormiddel van de melding 'workspace/didChangeConfiguration'. </para>
+>Uit het bovenstaande is de boodschap waarschijnlijk helder. Bovendien kan elk item-object van de server ook een "initializationOptions" item hebben, die gezamenlijk wordt doorgegeven aan de server als onderdeel van de 'initialisatie' methode. Indien aanwezig wordt een item "instellingen" doorgegeven aan de server doormiddel van de melding 'workspace/didChangeConfiguration'. Of "completionTriggerCharacters" of "signatureTriggerCharacters" mag gespecificeerd worden als een JSON-object met leden avn de tekenreeks  "exclude" en/of "include". Deze zullen gebruikt worden om respectievelijk enige teken uit te sluiten of toe te voegen aan de respectievelijk gezette trigger zoals geleverd door de server. </para>
 
 <para
 >Verschillende stadia van overschrijven/mengen worden toegepast; <itemizedlist>
@@ -4017,10 +4195,44 @@ Projects Replicode run / stop-->
 >projectBase</quote
 > (zoals bepaald door de <link linkend="kate-application-plugin-projects"
 >Projectplug-in</link
->), indien van toepassing of anders relatief tot de map van de documentatie. Indien niet gespecificeerd en "rootIndicationFileNames" is een array als bestandsnamen, dan wordt een oudermap van het huidige document die zo'n bestand bevat geselecteerd. Als een laatste terugval, wordt de thuismap geselecteerd als "root". Voor elk document bepaalt dan de resulterende "root" wel of niet een apart exemplaar nodig heeft. Zo ja, de "root" wordt doorgegeven als rootUri/rootPath. </para>
+>), indien van toepassing of anders relatief tot de map van de documentatie. Indien niet gespecificeerd en "rootIndicationFileNames" is een array als bestandsnamen, dan wordt een oudermap van het huidige document die zo'n bestand bevat geselecteerd. Alternatief, als "root" niet gespecificeerd is en "rootIndicationFilePatterns" is een array van bestandspatronen, dan wordt een oudermap van het huidige document overeenkomend met het bestandsprofiel geselecteerd. Als een laatste terugval, wordt de thuismap geselecteerd als "root". Voor elk document bepaalt dan de resulterende "root" wel of niet een apart exemplaar nodig heeft. Zo ja, de "root" wordt doorgegeven als rootUri/rootPath. </para>
 
 <para
 >In het algemeen wordt aanbevolen om de root niet te specificeren, omdat het niet zo belangrijk is voor een server (kan voor u anders zijn). Minder exemplaren van de server zijn natuurlijk efficiënter en ze hebben ook een 'bredere' blik dan de blik van vele gescheiden exemplaren. </para>
+
+<para
+>Zoals bovenstaand genoemd, zijn verschillende items onderwerp van expansie van variabelen. Een geschikte toepassing ervan gecombineerd met een "wrapper-script" biedt het aanpassen aan een groot aantal omstandigheden. Neem, bijvoorbeeld, een ontwikkeling van een python-scenario dat bestaat uit meerdere projecten (bijv. git repos), elk met zijn eigen virtuele omgeving. Met de standaard configuratie is de python taalserver niet bekend met de virtuele omgeving. Dat kan echter verholpen worden met de volgende benadering. Eerst, het volgende fragment kan ingevoerd worden in "User Server Settings" van de LSPClient-plug-in: </para>
+<screen
+>{
+        "servers":
+        {
+                "python":
+                {
+                        "command": ["pylsp_in_env", "%{Project:NativePath}"],
+                        "root": "."
+                }
+        }
+}
+</screen>
+<para
+>Het bovenstaande root-item is relatief ten opzichte van de projectmap en verzekert dat een aparte taalserver gestart wordt voor elk project, wat nodig is in dit geval omdat elk een aparte virtuele omgeving heeft. </para>
+<para
+><filename
+>pylsp_in_env</filename
+> is een klein "wrapper-script" dat geplaatst zou moeten worden in <literal
+>PATH</literal
+> met de volgende (aan-te-passen) inhoud: </para>
+<screen
+>#!/bin/bash
+cd $1
+# draai de server (python-lsp-server) in de virtuele omgeving
+# (d.w.z. met instellen van virtuele omgevingsvariabelen)
+# dus gebruik source met de virtuele omgekeerd
+source XYZ
+# lengte van de server of argumenten kunnen variëren
+exec myserver
+</screen>
+
 
 <sect3 id="lspclient-customization">
 <title
@@ -4067,6 +4279,48 @@ Projects Replicode run / stop-->
 
 </sect3>
 
+<sect3 id="lspclient-format-on-save">
+<title
+>LSP-serverformaat bij opslaan</title>
+
+<para
+>U kunt "formaat bij opslaan" uit LSP-instellingen in configuratiedialooginschakelen. </para>
+
+</sect3>
+
+<sect3 id="lspclient-diagnostics-suppression">
+<title
+>Onderdrukking van diagnostiek van LSP-server</title>
+
+<para
+>Het kan zijn dat diagnostiek gerapporteerd wordt die niet erg nuttig is. Dit kan tamelijk vervelend zijn, speciaal als er veel zijn (vaak van dezelfde soort). In sommige gevallen kan dit aangepast zijn op een specifieke manier per taal(server). Het <ulink url="https://clangd.llvm.org/config.html"
+>clangd configuratiemechanisme</ulink
+> biedt bijvoorbeeld aanpassen van sommige diagnostische aspecten. In algemeen, echter, kan het niet altijd duidelijk zijn hoe dat zo te doen of het kan zelfs helemaal niet mogelijk zijn op de gewenste manier vanwege beperkingen op de server of een bug. </para>
+
+<para
+>Op zich ondersteunt de plug-in onderdrukking van diagnostiek gelijkend op bijv. onderdrukkingen in valgrind. De meest fijn afgestemde configuratie kan geleverd worden in een "onderdrukkingen" sleutel in de (samengevoegde) &JSON; configuratie. </para>
+
+<screen
+>{
+    "servers": {
+        "c": {
+            "suppressions": {
+                "rulename": ["filename", "foo"],
+                "clang_pointer": ["", "clang-tidy", "clear_pointer"],
+            }
+        }
+    }
+}
+</screen>
+
+<para
+>Elke (geldige) regel heeft een willekeurige naam en wordt gedefinieerd door een array met lengte 2 of 3 die een reguliere expressie levert om overeen te komen tegen de (volledige) bestandsnaam, een reguliere expressie om overeen te komen met de diagnostische tekst en een optionele reguliere expressie overeenkomend met de (broncodereeks) tekst waar het diagnostische bericht op van toepassing is. </para>
+
+<para
+>Naast de bovenstaande fijn afgestemde configuratie, biedt het contextmenu in het tabblad diagnostische meldingen ook ondersteuning voor toevoegen/verwijderen van onderdrukkingen die  exact overeenkomen met een bepaalde diagnostische tekst, ofwel globaal (elk bestand) of lokaal (het specifieke bestand in kwestie). Deze onderdrukkingen worden opgeslagen in en geladen uit sessieconfiguraties. </para>
+
+</sect3>
+
 <sect3 id="lspclient-troubleshooting">
 <title
 >Probleemoplossing in LSP-server</title>
@@ -4079,10 +4333,10 @@ Projects Replicode run / stop-->
 
 <para
 >Het kan ook informatief zijn om de protocoluitwisseling tussen de LSP-client van &kate; en de LSP-server. Nog eens, de laatste heeft daar gewoonlijk manieren voor. De LSP-client biedt ook extra debuguitvoer (naar stderr) wanneer &kate; is aangeroepen met het volgende <literal
->QT_LOGGING_RULES=katelspclientplugin=true</literal
->, met commando <literal
+>LSPCLIENT_DEBUG=1</literal
+>, gedefinieerd met commando <literal
 >export</literal
-> gedefinieerd. </para>
+>. </para>
 
 </sect3>
 
@@ -4238,7 +4492,9 @@ its view and place the cursor at the start of the definition.
 ><para
 >Wanneer u klaar bent met alles in te stellen drukt u gewoon op de knop <guibutton
 >Zoeken</guibutton
-> om uw zoekopdracht uit te voeren. U kunt ook op &Enter; drukken in de tekstvak voor <guilabel
+> om uw zoekopdracht uit te voeren; om de zoekopdracht in een nieuw tabblad uit te voeren, houd &Ctrl; ingedrukt alvorens de knop <guibutton
+>Zoeken</guibutton
+> in te drukken. U kunt ook op &Enter; drukken in het tekstvak voor <guilabel
 >Zoeken</guilabel
 > om hetzelfde te doen. </para
 ></listitem>
@@ -4967,7 +5223,37 @@ when finished.</para
 >document</userinput
 > en <userinput
 >weergave</userinput
-> te gebruiken. Kijk in de documentatie van de scripting API voor meer informatie</para>
+> te gebruiken. Kijk in de documentatie van de scripting API voor meer informatie.</para>
+<para
+>Voor complexere scripts kan het belangrijk zijn om te begrijpen dat <emphasis
+>eerst</emphasis
+>, het ruwe tekstfragment in het document wordt ingevoegd en <emphasis
+>daarna</emphasis
+> functies geëvalueerd worden. Bijv., als een functie de tekst ophaalt op de regel waar het tekstfragment wordt ingevoegd, dat die tekst ook <userinput
+>${functionCall()}</userinput
+> zal bevatten.</para>
+<para
+>Als voorbeeld voor werken met selecties met gebruik van de scripting API, een eenvoudige manier om geselecteerde tekst in te pakken in tags is dit tekstfragment: <userinput
+>&lt;strong&gt;${view.selectedText()}&lt;/strong&gt;</userinput
+> </para>
+<para
+>Het volgende voorbeeld start een script dat een standaard tekst invoegt in geval er geen selectie is. tekstfragment:</para>
+<para>
+<userinput
+>${rangeCommand("&lt;strong&gt;%%1&lt;/strong&gt;", "Bold")}</userinput
+></para>
+<para
+>Script: <programlisting
+>function rangeCommand(command, def) {
+    if (view.selectedText().length 
+> 0) {
+        return command.replace("%%1", view.selectedText());
+    } else {
+        return command.replace("%%1", def);
+    }
+}
+</programlisting>
+</para>
 </listitem>
 </varlistentry>
 
@@ -5026,6 +5312,280 @@ when finished.</para
 >&kate; Snippets is geschreven door Joseph Wenninger.</para>
 <para
 >Speciale dank gaat naar de deelnemer van Google Code-In 2011 Martin Gergov voor het schrijven van veel van deze sectie.</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="kate-application-plugin-keyboardmacros">
+<sect1info>
+<authorgroup>
+<!--author
+>&Pablo.Rauzy; &Pablo.Rauzy.mail;</author--> <!-- TODO: use that when the version of KDocTools that Kate depends on has it -->
+<author
+><firstname
+>Pablo</firstname
+> <surname
+>Rauzy</surname
+> <email
+>r .at. uzy.me</email
+></author>
+</authorgroup>
+</sect1info>
+<title
+>Plug-in Toetsenbordmacro's</title>
+
+<sect2 id="keyboardmacros-intro">
+<title
+>Inleiding</title>
+<para
+>Neem toetsenbordmacro's op en speel ze af (d.w.z., toetsenbordactiereeksen).</para>
+</sect2>
+
+<sect2 id="keyboardmacros-basicusage">
+<title
+>Beginselen van het gebruik</title>
+
+<sect3 id="keyboardmacros-basicusage-record">
+<title
+>Om opnemen van een toetsenbordmacro te starten:</title>
+<para
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Toetsenbordmacro's</guimenuitem
+><guimenuitem
+>Macro opnemen...</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>De plug-in zal elke ingedrukte toets opnemen totdat u opnemen beëindigd.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-record-end">
+<title
+>Om opnemen te beëindigen:</title>
+<para
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Toetsenbordmacro's</guimenuitem
+><guimenuitem
+>Einde opnemen macro</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>De plug-in zal het opnemen van indrukken van toetsen stoppen en de reeks als de huidige macro opslaan.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-record-cancel">
+<title
+>Om opnemen te annuleren:</title>
+<para
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Toetsenbordmacro's</guimenuitem
+><guimenuitem
+>Opnemen macro annuleren</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>De plug-in zal het opnemen van indrukken van toetsen stoppen maar de huidige macro zal niet wijzigen.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-play">
+<title
+>Om de huidige macro af te spelen:</title>
+<para
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Toetsenbordmacro's</guimenuitem
+><guimenuitem
+>Macro afspelen</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>De plug-in zal de huidige macro afspelen.</para>
+<para
+>Het commando <userinput
+>kmplay</userinput
+> zonder een argument zal de huidige macro ook afspelen.</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="keyboardmacros-namedmacros">
+<title
+>Macro's met namen</title>
+
+<para
+>Het is mogelijk toetsenbordmacro's op te slaan door ze een naam te geven.</para>
+<para
+>Macro's met namen blijven bestaan tussen sessies van Kate, ze worden opgeslagen in het bestand <filename
+>keyboardmacros.json</filename
+> in de gebruikergegevensmap van Kate (gewoonlijk <filename
+>~/.local/share/kate/</filename
+>).</para>
+
+<sect3 id="keyboardmacros-namedmacros-save">
+<title
+>Om de huidige macro op te slaan:</title>
+<para
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Toetsenbordmacro's</guimenuitem
+><guimenuitem
+>Huidige macro opslaan</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Alt;&Shift;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>De plug-in zal u vragen om een naam en de macro onder die naam opslaan.</para>
+<para
+>Het commando <userinput
+>kmsave <replaceable
+>naam</replaceable
+></userinput
+> zal de huidige macro onder de naam <userinput
+><replaceable
+>naam</replaceable
+></userinput
+> opslaan.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-load">
+<title
+>Om een opgeslagen macro als de huidige macro te laden:</title>
+<para
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Toetsenbordmacro's</guimenuitem
+><guimenuitem
+>Macro met naam laden...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>De plug-in maakt een lijst met opgeslagen macro's als items in dit submenu, een item activeren zal de bijbehorende macro als de huidige laden.</para>
+<para
+>Het commando <userinput
+>kmload <replaceable
+>naam</replaceable
+></userinput
+> zal de onder de naam <userinput
+><replaceable
+>naam</replaceable
+></userinput
+> opgeslagen macro als de huidige laden.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-play">
+<title
+>Om een opgeslagen macro af te spelen zonder deze te laden:</title>
+<para
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Toetsenbordmacro's</guimenuitem
+><guimenuitem
+>Macro met naam afspelen...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>De plug-in maakt een lijst met opgeslagen macro's als items in dit submenu, een item activeren zal de bijbehorende macro afspelen zonder deze te laden.</para>
+<para
+>Merk op dat elke opgeslagen macro een actie is die onderdeel is van de huidige verzameling acties zodat een eigen sneltoets er aan toegekend kan worden via het interface <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>Sneltoetsen configureren...</guimenuitem
+></menuchoice
+>.</para>
+<para
+>Het commando <userinput
+>kmplay <replaceable
+>naam</replaceable
+></userinput
+> zal de onder de naam <userinput
+><replaceable
+>naam</replaceable
+></userinput
+> opgeslagen macro afspelen zonder deze te laden.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-wipe">
+<title
+>Om een opgeslagen macro te wissen (d.w.z. verwijderen):</title>
+<para
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Toetsenbordmacro's</guimenuitem
+><guimenuitem
+>Macro met naam wissen...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>De plug-in maakt een lijst met opgeslagen macro's als items in dit submenu, een item activeren zal de bijbehorende macro wissen (d.w.z., verwijderen).</para>
+<para
+>Het commando <userinput
+>kmwipe <replaceable
+>naam</replaceable
+></userinput
+> zal de onder de naam <userinput
+><replaceable
+>naam</replaceable
+></userinput
+> opgeslagen macro wissen.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-command-tips">
+<title
+>Tips voor commando's:</title>
+<para
+>Merk op dat na de voorloop <userinput
+>km</userinput
+>, al deze commando's een andere letter gebruiken u kunt ze efficient aanroepen met tab-aanvullen!</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="keyboardmacros-limitations">
+<title
+>Beperkingen</title>
+
+<para
+>Vanaf nu mislukken toetsenbordmacro's om op de juiste manier af te spelen als er sommige typen GUI-widgets worden gebruikt: bijvoorbeeld, QMenu, QuickOpenLineEdit of TabSwitcherTreeView. I weet niet zeker waarom maar mijn eerste gissing zou zijn dat deze widgets op niet-standaard manier werken met betrekking tot toetsenbordgebeurtenissen.</para>
+
 </sect2>
 
 </sect1>
@@ -5566,7 +6126,7 @@ VALUES ("<replaceable
 <para
 ><indexterm
 ><primary
->Terminalemulator</primary
+>Terminalprogramma</primary
 ></indexterm
 > De ingebouwde terminal, een kopie van &konsole;, de terminal van &kde;, is er om het u gemakkelijk te maken. U kunt hem beschikbaar maken door het menu <menuchoice
 ><guimenu
@@ -5656,6 +6216,21 @@ VALUES ("<replaceable
 
 <para
 >Als alternatief kunt u &kate; zo instellen dat het altijd de terminal gesynchroniseerd houdt met het huidige document. Zie <xref linkend="konsole-config"/> voor meer informatie.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="tools-run-current-document">
+<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+> <guimenuitem
+>Huidig document uitvoeren</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Het huidige document in &konsole; uitvoeren. Alleen de lokale documenten kunnen uitgevoerd worden. &kate; zal een waarschuwing tonen alvorens het document uit te voeren omdat deze actie een serieuze beveiligingsdreiging kan zijn.</para>
 </listitem>
 </varlistentry>
 
@@ -6169,5 +6744,378 @@ VALUES ("<replaceable
 </sect2>
 </sect1>
 
+<sect1 id="kate-application-plugin-compilerexplorer">
+<title
+>Plug-in voor compiler-verkenner</title>
+
+<para
+>De plug-in voor de compiler-verkenner biedt u het gebruik van de compiler-verkenner vanuit Kate. Compiler-verkenner is gewoonlijk beperkt tot slechts 1 bestand en het is moeilijk om te gebruiken voor het bekijken van de codegen van een bestand in uw project. Deze plug-in richt zich op het vereenvoudigen van dit proces door automatisch compilatiecommando's voor uw bestand te detecteren.</para>
+
+<sect2 id="ce-how-to-use">
+<title
+>Gebruik</title>
+
+<para
+>Het eerste wat u moet doen is een tabblad compiler-verkenner openen. Druk op <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>I</keycap
+></keycombo
+> om de opdrachtenbalk te openen en zoek naar "Huidig bestand in compiler-verkenner openen" en druk op Enter. U kunt deze actie toevoegen aan de werkbalk of toekennen aan een sneltoets voor gemakkelijker toegang. </para>
+
+<para
+>Vervolgens moet u een lokaal exemplaar van de compiler-verkenner opzetten of de publieke exemplaar <ulink url="https://godbolt.org/"
+>https://godbolt.org/</ulink
+> gebruiken. Zie <ulink url="https://github.com/compiler-explorer/compiler-explorer"
+>https://github.com/compiler-explorer/compiler-explorer</ulink
+>. Nadat u een exemplaar hebt, klik op de keuzelijst <guilabel
+>Optie</guilabel
+> in het tabblad compiler-verkenner die u eerder hebt geopend en selecteer <guilabel
+>Url wijzigen...</guilabel
+> en voer daarna de url van de server van de compiler-verkenner in.</para>
+
+<para
+>Vervolgens hebt u een compile_commands.json nodig als u codegen wilt zien voor een bestand in uw project. Anders kunt u dit gedeelte overslaan. Dit kan gemakkelijk verkregen worden als u een modern bouwsysteem gebruikt zoals CMake of Meson. Voor CMake is het genoeg om <code
+>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code
+> door te geven bij aanroepen van cmake. De <code
+>compile_commands.json</code
+> zou geplaatst moeten worden in de hoogste map van uw project. Sluit en open opnieuw het tabblad compiler-verkenner in Kate. Na opnieuw openen van het tabblad zou het de compilatiecommando's moeten tonen die nodig zijn om het bestand te compileren</para>
+
+<para
+>Als u alleen de compiler-verkenner gebruikt om tijdelijk de codegen te zien, dan kunt u de compilatiecommando's voor uw bestand noteren en klikken op <guilabel
+>Compileren</guilabel
+>. Merk op dat automatisch opnieuw compileren bij bewerken niet wordt ondersteund. U moet op Compileren klikken elke keer dat u het bestand opnieuw wilt compileren</para>
+
+<para
+>Nadat het bestand is gecompileerd zou u de codegen moeten zien aan de rechterkant. U kunt rechts klikken en <guilabel
+>Gekoppelde code onthullen</guilabel
+> selecteren om de codegen voor een specifieke regel te zien. Overeenkomstig aan de rechterkant kunt u rechts klikken en <guilabel
+>Naar broncode schuiven</guilabel
+> om de broncode te tonen voor een gegeven regel codegen</para>
+
+</sect2>
+
+</sect1>
+
+<!-- BEGIN Format plugin -->
+
+<sect1 id="kate-application-plugin-formatting">
+<title
+>Plug-in voor formatteren</title>
+
+<para
+>De plug-in voor formatteren biedt het gemakkelijk formatteren van broncode. De plug-in richt zich op het behouden van de geschiedenis van het ongedaan maken van het document en de cursorpositie van de gebruiker toen formatteren van de code startte zodat het formatteren van de code het werk van de gebruiker niet verstoort. Dit is speciaal belangrijk voor automatisch formatteren bij opslaan.</para>
+
+<sect2 id="formatting-how-to-use">
+<title
+>Gebruik</title>
+
+<para
+>Het biedt de gebruiker om code op twee manieren te formatteren: <itemizedlist>
+<listitem
+><para
+>Handmatig met de actie "Document formatteren".</para
+></listitem>
+<listitem
+><para
+>Automatisch bij opslaan</para
+></listitem>
+</itemizedlist>
+</para>
+
+<tip
+><para
+>U kunt naar deze actie zoeken in de opdrachtenbalk en er een sneltoets aan verbinden voor gemakkelijker toegang</para
+></tip>
+
+</sect2>
+
+<sect2 id="formatting-supported-langs-formatters">
+<title
+>Ondersteunde talen en formatteerders</title>
+
+<para
+>De huidige lijst met ondersteunde talen en formatteerders is als volgt: <itemizedlist>
+
+<listitem
+><para
+>C/C++/ObjectiveC/ObjectiveC++/Protobuf/GLSL/Java - <command
+>clang-format</command
+> </para
+></listitem>
+
+<listitem
+><para
+>Javascript/Typescript/JSX/TSX - <command
+>fijner</command
+> </para
+></listitem>
+
+<listitem
+><para
+>JSON <itemizedlist>
+  <listitem
+><para
+><command
+>prettier</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>clang-format</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>jq</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Dart - <command
+>dartfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Rust - <command
+>rustfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Go - <command
+>gofmt</command
+></para
+></listitem>
+<listitem
+><para
+>XML - <command
+>xmllint</command
+></para
+></listitem>
+<listitem
+><para
+>Zig - <command
+>zigfmt</command
+></para
+></listitem>
+<listitem
+><para
+>CMake - <command
+>cmake-format</command
+></para
+></listitem>
+<listitem
+><para
+>D - <command
+>dfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Fish Shell - <command
+>fish_indent</command
+></para
+></listitem>
+<listitem
+><para
+>Bash - <command
+>shfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Nix - <command
+>nixfmt</command
+></para
+></listitem>
+<listitem
+><para
+>QML - <command
+>qmlformat</command
+></para
+></listitem>
+<listitem
+><para
+>HTML - <command
+>prettier</command
+></para
+></listitem>
+<listitem
+><para
+>Swift - <command
+>swiftformat</command
+></para
+></listitem>
+<listitem
+><para
+>Erlang - <command
+>erlfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Godot-script - <command
+>gdformat</command
+></para
+></listitem>
+
+<listitem
+><para
+>Python <itemizedlist>
+  <listitem
+><para
+><command
+>autopep8</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>ruff</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>YAML <itemizedlist>
+  <listitem
+><para
+><command
+>yamlfmt</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>prettier</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+</itemizedlist>
+</para>
+
+</sect2>
+
+<sect2 id="formatting-plugin-configuring">
+<title
+>Bezig met configureren</title>
+
+<para
+>De plug-in kan op twee manieren geconfigureerd worden: <itemizedlist>
+<listitem
+><para
+>Globaal, vanuit de dialoog Configureren</para
+></listitem>
+<listitem
+><para
+>Op een per project basis met het bestand <filename
+>.kateproject</filename
+></para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Bij lezen van de configuratie, de plug-in zal eerst proberen de configuratie uit het bestand <filename
+>.kateproject</filename
+> te lezen en daarna de globale configuratie lezen. Voorbeeld: </para>
+
+<screen
+>{
+    "formatOnSave": true,
+    "formatterForJson": "jq",
+    "cmake-format": {
+        "formatOnSave": false
+    },
+    "autopep8": {
+        "formatOnSave": false
+    }
+}
+</screen>
+
+<para
+>Het bovenstaande: <itemizedlist>
+<listitem
+><para
+>schakelt "formatteren bij opslaan" globaal in</para
+></listitem>
+<listitem
+><para
+>specificeert "jq" als de formatteerder voor JSON</para
+></listitem>
+<listitem
+><para
+>schakelt "formatteren bij opslaan" uit voor cmake-format en autopep8</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Om formatteren voor een project te configureren, maak eerst een bestand <filename
+>.kateproject</filename
+> en voeg daarna het object <code
+>"formatting"</code
+> er aan toe. In het object <code
+>"formatting"</code
+> kunt u uw instellingen specificeren zoals getoond in het vorige voorbeeld. Voorbeeld: </para>
+<note
+><para
+>U moet de <link linkend="kate-application-plugin-projects"
+>Projectplug-in</link
+> inschakelen om dit te laten werken</para
+></note>
+
+<screen
+>{
+    "name": "My Cool Project",
+    "files": [
+        {
+            "git": 1
+        }
+    ],
+    "formatting": {
+        "formatterForJson": "clang-format",
+        "autopep8": {
+            "formatOnSave": false
+        }
+    }
+}
+</screen>
+
+</sect2>
+
+<sect2 id="formatting-plugin-temp-disable-autosave-format">
+<title
+>Tijdelijk formatteren bij opslaan uitschakelen</title>
+
+<para
+>Tijdens het werk zal het vaak nodig zijn het formatteren gedurende om de een of andere reden een korte tijd uit te schakelen. U kunt dit doen vanuit de menubalk, <menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+> <guimenuitem
+>Formatteren bij opslaan</guimenuitem
+></menuchoice
+>. U kunt deze actie ook starten vanuit de <guilabel
+>Opdrachtenbalk</guilabel
+>. </para>
+
+</sect2>
+
+</sect1>
+
+<!-- END Format plugin -->
 
 </chapter>

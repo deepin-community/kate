@@ -1,0 +1,8 @@
+upstream_9767f9d1_Remove-useless-getter-setter-functions.patch
+upstream_a843f106_Merge-stashDocument-method-into-stashDocuments.patch
+upstream_9502ae17_closeDocuments-with-closeUrl-false.patch
+upstream_5ec8803d_Fix-stashing-not-working.patch
+upstream_6b29a7e6_prepare-stash-directory-create-it-recursively-if-needed.patch
+upstream_ca61073b_Implement-LSPClientConfigPage-defaults-correctly.patch
+upstream_2650a5e6_Automatically-highlight-symbol-under-cursor.patch
+upstream_79765d29_Emit-changed-when-LSP-servers-are-forgotten-about.patch

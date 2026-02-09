@@ -11,6 +11,7 @@
 #include "katefilebrowser.h"
 
 #include <KActionCollection>
+#include <KBookmarkManager>
 #include <KDirOperator>
 
 #include <QMenu>
@@ -31,8 +32,7 @@ KateBookmarkHandler::KateBookmarkHandler(KateFileBrowser *parent, QMenu *kpopupm
         file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/kate/fsbookmarks.xml");
     }
 
-    KBookmarkManager *manager = KBookmarkManager::managerForFile(file, QStringLiteral("kate"));
-    manager->setUpdate(true);
+    auto *manager = new KBookmarkManager(file, this);
 
     m_bookmarkMenu = new KBookmarkMenu(manager, this, m_menu);
 
@@ -68,4 +68,4 @@ void KateBookmarkHandler::openBookmark(const KBookmark &bm, Qt::MouseButtons, Qt
     Q_EMIT openUrl(bm.url().url());
 }
 
-// kate: space-indent on; indent-width 2; replace-tabs on;
+#include "moc_katebookmarkhandler.cpp"

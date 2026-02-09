@@ -51,10 +51,6 @@
 ></group
 > <group choice="opt"
 ><option
->--new-session</option
-></group
-> <group choice="opt"
-><option
 >-n, --new</option
 ></group
 > <group choice="opt"
@@ -145,18 +141,6 @@
 <term
 ><option
 >--startanon</option
-></term>
-<listitem
-><para
->Запустити &kate; у новому анонімному сеансі з параметром <option
->-n</option
-> (застарілий варіант).</para
-></listitem>
-</varlistentry>
-<varlistentry>
-<term
-><option
->--new-session</option
 ></term>
 <listitem
 ><para
@@ -303,9 +287,9 @@
 ></userinput
 > з командного рядка).</member>
 <member
->kf5options(7)</member>
+>kf6options(7)</member>
 <member
->qt5options(7)</member>
+>qt6options(7)</member>
 <member
 >Додаткові відомості можна знайти на <ulink url="https://kate-editor.org/"
 >вебсайті &kate;</ulink

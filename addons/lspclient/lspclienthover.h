@@ -5,31 +5,32 @@
     SPDX-License-Identifier: MIT
 */
 
-#ifndef LSPCLIENTHOVER_H
-#define LSPCLIENTHOVER_H
+#pragma once
 
 class LSPClientServerManager;
 class LSPClientServer;
 
-#include <KTextEditor/TextHintInterface>
+#include <QObject>
+#include <memory>
 
-class LSPClientHover : public QObject, public KTextEditor::TextHintProvider
+namespace KTextEditor
 {
-    Q_OBJECT
+class View;
+class Cursor;
+}
 
+class LSPClientHover : public QObject
+{
 public:
     // implementation factory method
-    static LSPClientHover *new_(QSharedPointer<LSPClientServerManager> manager);
+    static LSPClientHover *new_(std::shared_ptr<LSPClientServerManager> manager, class KateTextHintProvider *provider);
 
     LSPClientHover()
-        : KTextEditor::TextHintProvider()
     {
     }
 
-    virtual void setServer(QSharedPointer<LSPClientServer> server) = 0;
+    virtual void setServer(std::shared_ptr<LSPClientServer> server) = 0;
 
     // support additional parameters besides the usual interface signature
     virtual QString showTextHint(KTextEditor::View *view, const KTextEditor::Cursor &position, bool manual) = 0;
 };
-
-#endif

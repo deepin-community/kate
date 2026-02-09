@@ -298,7 +298,7 @@
 ><para
 >Si s'està usant una instància del &kate; en execució, la bloqueja fins que sortiu, si se li han proporcionat els URL a obrir.</para>
 <para
->Podeu utilitzar aquesta opció amb el &kate; com a editor per a escriure missatges de confirmació per als sistemes de control de versions com &git; o <application
+>Podeu utilitzar aquesta opció amb el &kate; com a editor per a escriure missatges de comissió per als sistemes de control de versions com &git; o <application
 >Subversion</application
 >. Aquests sistemes esperen bloquejar l'editor fins que heu introduït el missatge, atès que a continuació obren el fitxer temporal, el qual resta buit si el &kate; torna immediatament a la crida. </para>
 <para
@@ -395,9 +395,9 @@
 
 <sect2 id="drag-and-drop">
 <title
->Arrossegar i deixar</title>
+>Arrossegar i deixar anar</title>
 <para
->El &kate; utilitza el protocol arrossega i deixa del &kde;. Els fitxers es poden arrossegar i deixar dins del &kate; des de l'escriptori, el gestor de fitxers &dolphin; o algun servidor remot d'&FTP; obert en una de les finestres del &dolphin;. </para>
+>El &kate; utilitza el protocol arrossegar i deixar anar del &kde;. Els fitxers es poden arrossegar i deixar anar dins del &kate; des de l'escriptori, el gestor de fitxers &dolphin; o algun servidor remot d'&FTP; obert en una de les finestres del &dolphin;. </para>
 </sect2>
 </sect1>
 
@@ -729,6 +729,20 @@ action="simul"
 >Pestanya anterior</para
 ></entry>
 </row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>T</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Torna a obrir el/s darrer/s document/s tancat/s</para
+></entry>
+</row>
 
 </tbody>
 </tgroup>
@@ -861,16 +875,14 @@ action="simul"
 >. Per a desar la configuració de la finestra com a sessió predeterminada us caldrà desar la configuració de la finestra a la pàgina de configuració Sessions del diàleg de configuració, i a continuació carregar la sessió predeterminada, podent configurar la finestra com vulgueu i desar la sessió una altra vegada.</para>
 
 <para
->Quan es carrega una sessió amb nom, el &kate; mostrarà el nom de la sessió en el títol de la finestra, la qual tindrà la forma <quote
-><replaceable
+>Quan es carrega una sessió amb nom, el &kate; mostrarà el nom de la sessió en el títol de la finestra, la qual tindrà la forma «<replaceable
 >Nom de la sessió</replaceable
 >: <replaceable
 >Nom del document o &URL;</replaceable
-> - &kate;</quote
->.</para>
+> - &kate;».</para>
 
 <para
->Quan els fitxers oberts a la línia d'ordres amb <option
+>En obrir fitxers a la línia d'ordres amb <option
 >--start <replaceable
 >nom</replaceable
 ></option
@@ -879,13 +891,83 @@ action="simul"
 > amb una cadena buida: <replaceable
 >''</replaceable
 >.</para>
-<!--FIXME still valid for kf5 -->
+
 <para
 >Des del &kate; 2.5.1 el <acronym
 >PID</acronym
 > de la instància actual s'exporta a la variable d'entorn <envar
 >KATE_PID</envar
->. Quan obri fitxers des d'una terminal inclosa, el Kate seleccionarà automàticament la instància actual si no s'indica una altra cosa a la línia d'ordres.</para>
+>. Quan obri fitxers des d'una terminal integrada, el Kate seleccionarà automàticament la instància actual si no s'indica una altra cosa a la línia d'ordres.</para>
+
+</sect1>
+
+<sect1 id="fundamentals-quick-open">
+<title
+>Obertura ràpida</title>
+
+<para
+>Per a poder obrir/canviar entre fitxers ràpidament, el Kate té integrat un diàleg d'obertura ràpida. El podeu obrir amb <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>O</keycap
+></keycombo
+>. </para>
+
+<para
+>L'Obertura ràpida pot mostrar tots els documents oberts al Kate, així com tots els fitxers dels projectes oberts. Per a poder veure els fitxers del projecte, cal habilitar el <link linkend="kate-application-plugin-projects"
+>Connector de projecte</link
+>. </para>
+
+<sect2>
+<title
+>Ús de l'Obertura ràpida</title>
+
+<para
+>L'ús de l'obertura ràpida és molt senzill. Una vegada l'obriu, escriviu el nom o parts del nom del fitxer que voleu obrir i l'obertura ràpida filtrarà la llista en funció del que heu escrit. Premeu &Intro; per a obrir el fitxer seleccionat, mentre que &Esc; oculta l'obertura ràpida. </para>
+<para
+>De manera predeterminada, només se cerquen coincidències amb el nom del fitxer mentre es filtra. Si voleu cercar coincidències amb el camí, cal tenir una «/» en el text escrit. Per exemple: «doc/index» cercarà coincidències amb tots els fitxers que continguin «índex» dins de la carpeta «doc». </para>
+<para
+>Els documents que ja estan oberts es ressalten en negreta i es llisten a la part superior quan s'obre el diàleg. A més, quan l'obertura ràpida mostra el document obert anterior ja seleccionat, de manera que només cal prémer &Intro; i anireu a aquest document. </para>
+
+</sect2>
+
+<sect2>
+<title
+>Configuració de l'Obertura ràpida</title>
+<screenshot id="screenshot-project-quickopen">
+<screeninfo
+>Obertura ràpida</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="project-quickopen.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+<para
+>L'obertura ràpida proporciona un parell d'opcions de configuració. Per a accedir a aquestes opcions, feu clic amb el botó dret a l'edició de la línia d'entrada. </para>
+<variablelist>
+<varlistentry>
+<term
+>Les opcions actualment disponibles són:</term>
+<listitem>
+<para
+><userinput
+>Projecte actual</userinput
+> - Només mostra els fitxers del projecte actual</para>
+<para
+><userinput
+>Tots els projectes</userinput
+> - Mostra els fitxers de tots els projectes oberts</para>
+<para
+><userinput
+>Filtratge difús</userinput
+> - Usa un algorisme difús de coincidència per a filtrar els fitxers</para>
+<para
+><userinput
+>Filtratge amb comodins</userinput
+> - Usa la coincidència amb comodins per a filtrar els fitxers</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
 
 </sect1>
 
@@ -967,8 +1049,8 @@ action="simul"
 
 <para
 >El &kate; no proveeix (encara!) cap mitjà per a llegir documents relacionats amb la documentació. Depenent del fitxer que esteu editant, podreu trobar ajuda en l'<link linkend="kate-application-plugin-konsole"
->Emulador de terminal inclòs</link
->, a on podreu veure les pàgines del manual d'&UNIX; o de la documentació info relacionades o per a aquesta fi també podeu emprar el &konqueror;.</para>
+>Emulador de terminal integrat</link
+>, a on podreu veure les pàgines del manual d'&UNIX; o de la documentació info relacionades o per a aquest fi també podeu emprar el &konqueror;.</para>
 
 </sect2>
 
@@ -979,7 +1061,7 @@ action="simul"
 <para
 >La pàgina principal del &kate; proveeix alguns <ulink url="https://kate-editor.org/featured-articles"
 >Articles i Com es fa</ulink
-> amb informació més enllà de l'abast d'aquest manual.</para>
+> amb informació més enllà de l'àmbit d'aquest manual.</para>
 
 </sect2>
 

@@ -6,11 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>606</width>
-    <height>251</height>
+    <width>928</width>
+    <height>325</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <layout class="QGridLayout" name="gridLayout" columnstretch="1,0,0,0,0,0">
      <item row="0" column="1">
@@ -19,7 +34,7 @@
         <bool>false</bool>
        </property>
        <property name="toolTip">
-        <string>Search</string>
+        <string>Search in current tab; press and hold Ctrl to search in a new tab.</string>
        </property>
        <property name="text">
         <string>Search</string>
@@ -32,7 +47,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Replace Checked</string>
+        <string comment="Checked here refers to the items  on the list below that can have a checkmark or not. It's not about any verification or similar, plainly about user interface">Replace Checked</string>
        </property>
       </widget>
      </item>
@@ -158,6 +173,16 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QToolButton" name="filterBtn">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -266,26 +291,13 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QTabWidget" name="resultTabWidget">
-         <property name="tabsClosable">
-          <bool>true</bool>
-         </property>
-         <property name="movable">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <widget class="QStackedWidget" name="resultWidget"/>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="optionsPage">
       <layout class="QGridLayout" name="optionsLayout">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
        <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
         <number>0</number>
        </property>
        <property name="bottomMargin">
@@ -442,6 +454,26 @@
              </widget>
             </item>
             <item>
+             <widget class="QSpinBox" name="sizeLimitSpinBox">
+              <property name="suffix">
+               <string>MB</string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>8192</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Size limit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -494,6 +526,7 @@
   <tabstop>currentFolderButton</tabstop>
   <tabstop>matchCase</tabstop>
   <tabstop>useRegExp</tabstop>
+  <tabstop>filterBtn</tabstop>
   <tabstop>expandResults</tabstop>
   <tabstop>newTabButton</tabstop>
   <tabstop>displayOptions</tabstop>
@@ -505,7 +538,8 @@
   <tabstop>hiddenCheckBox</tabstop>
   <tabstop>symLinkCheckBox</tabstop>
   <tabstop>binaryCheckBox</tabstop>
-  <tabstop>resultTabWidget</tabstop>
+  <tabstop>sizeLimitSpinBox</tabstop>
+  <tabstop>resultWidget</tabstop>
  </tabstops>
  <resources/>
  <connections/>

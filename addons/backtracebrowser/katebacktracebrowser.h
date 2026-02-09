@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef KATE_BACKTRACEBROWSER_H
-#define KATE_BACKTRACEBROWSER_H
+#pragma once
 
 #include <KTextEditor/Plugin>
 #include <ktexteditor/configpage.h>
@@ -28,7 +27,7 @@ class KateBtBrowserPlugin : public KTextEditor::Plugin
     Q_OBJECT
 
 public:
-    explicit KateBtBrowserPlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KateBtBrowserPlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KateBtBrowserPlugin() override;
 
     static KateBtBrowserPlugin &self();
@@ -69,7 +68,6 @@ public:
     ~KateBtBrowserPluginView() override;
 
 private:
-    KateBtBrowserPlugin *m_plugin;
     KateBtBrowserWidget *m_widget;
 };
 
@@ -134,7 +132,5 @@ public:
 private:
     KateBtConfigWidget *m_configWidget;
 };
-
-#endif // KATE_BACKTRACEBROWSER_H
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

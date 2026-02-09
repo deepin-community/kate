@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef GITCOMMITDIALOG_H
-#define GITCOMMITDIALOG_H
+#pragma once
 
 #include <QCheckBox>
 #include <QDialog>
@@ -17,9 +16,8 @@ class QFont;
 
 class GitCommitDialog : public QDialog
 {
-    Q_OBJECT
 public:
-    explicit GitCommitDialog(const QString &lastCommit, const QFont &font, QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit GitCommitDialog(const QString &lastCommit, QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
 
     QString subject() const;
     QString description() const;
@@ -28,7 +26,7 @@ public:
     void setAmendingCommit();
 
 private:
-    Q_SLOT void updateLineSizeLabel();
+    void updateLineSizeLabel();
     void loadCommitMessage(const QString &lastCommit);
 
     QLineEdit m_le;
@@ -40,5 +38,3 @@ private:
     QCheckBox m_cbSignOff;
     QCheckBox m_cbAmend;
 };
-
-#endif // GITCOMMITDIALOG_H

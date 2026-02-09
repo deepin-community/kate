@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef LSP_SEMANTIC_HIGHLIGHTING_H
-#define LSP_SEMANTIC_HIGHLIGHTING_H
+#pragma once
 
 #include <QObject>
 #include <QPointer>
@@ -31,14 +30,14 @@ class SemanticHighlighter : public QObject
 {
     Q_OBJECT
 public:
-    SemanticHighlighter(QSharedPointer<LSPClientServerManager> serverManager, QObject *parent = nullptr);
+    explicit SemanticHighlighter(std::shared_ptr<LSPClientServerManager> serverManager, QObject *parent = nullptr);
 
-    void doSemanticHighlighting(KTextEditor::View *v);
+    void doSemanticHighlighting(KTextEditor::View *v, bool textChanged);
 
 private:
     void doSemanticHighlighting_impl(KTextEditor::View *v);
 
-    void semanticHighlightRange(KTextEditor::View *view, const KTextEditor::Cursor &);
+    Q_SLOT void highlightVisibleRange();
 
     QString previousResultIdForDoc(KTextEditor::Document *doc) const;
 
@@ -65,7 +64,12 @@ private:
     void update(KTextEditor::Document *doc, const QString &resultId, uint32_t start, uint32_t deleteCount, const std::vector<uint32_t> &data);
 
     /**
-     * A simple struct which holds the tokens recieved by server +
+     * The current visible range for which we requested highlights
+     */
+    KTextEditor::Range m_currentHighlightedRange;
+
+    /**
+     * A simple struct which holds the tokens recieved from server +
      * moving ranges that were created to highlight those tokens
      */
     struct TokensData {
@@ -76,7 +80,7 @@ private:
     /**
      * token types specified in server caps. Uncomment for debugging
      */
-    //     QVector<QString> m_types;
+    //     QList<QString> m_types;
 
     /**
      * Doc => result-id mapping
@@ -88,9 +92,10 @@ private:
      */
     std::unordered_map<KTextEditor::Document *, TokensData> m_docSemanticInfo;
 
-    QSharedPointer<LSPClientServerManager> m_serverManager;
+    std::shared_ptr<LSPClientServerManager> m_serverManager;
 
     QTimer m_requestTimer;
     QPointer<KTextEditor::View> m_currentView;
+
+    QMetaObject::Connection m_verticalScrollConnection;
 };
-#endif

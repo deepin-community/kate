@@ -118,6 +118,18 @@
 
 <varlistentry>
 <term
+><anchor id="config-dialog-general-open-each-document"/>
+<guilabel
+>Obre cada document en la seva pròpia finestra</guilabel
+></term>
+<listitem
+><para
+>Si està activat, cada document s'obrirà en la seva pròpia finestra. Si no està activat, cada document s'obrirà en una pestanya nova de la finestra actual.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><anchor id="config-dialog-general-switch-to-output"/>
 <guilabel
 >Canvia a la vista de la sortida segons el tipus de missatge</guilabel
@@ -231,13 +243,25 @@
 
 <varlistentry>
 <term
+><anchor id="config-general-auto-hide-tabs"/>
+<guilabel
+>Oculta automàticament les pestanyes</guilabel
+></term>
+<listitem
+><para
+>Si està activat, les pestanyes s'ocultaran si només hi ha un document obert.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><anchor id="config-general-show-close-button"/>
 <guilabel
 >Mostra el botó de tancament</guilabel
 ></term>
 <listitem
 ><para
->Quan està marcada, cada pestanya mostrarà un botó de tancament.</para
+>Si està activat, cada pestanya mostrarà un botó de tancament.</para
 ></listitem>
 </varlistentry>
 
@@ -249,7 +273,7 @@
 ></term>
 <listitem
 ><para
->Quan està marcada, les pestanyes prendran la major grandària possible.</para
+>Si està activat, les pestanyes prendran tota la mida que sigui possible.</para
 ></listitem>
 </varlistentry>
 
@@ -261,7 +285,7 @@
 ></term>
 <listitem
 ><para
->Quan es fa doble clic s'obrirà un document nou.</para
+>Si està activat, el doble clic obrirà un document nou.</para
 ></listitem>
 </varlistentry>
 
@@ -269,11 +293,35 @@
 <term
 ><anchor id="config-general-middle-click"/>
 <guilabel
->Clic mig tanca un document</guilabel
+>Clic del mig tanca un document</guilabel
 ></term>
 <listitem
 ><para
->Quan es fa clic mig es tancarà un document.</para
+>Si està activat, el clic del mig tancarà un document.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-tab-scrolling"/>
+<guilabel
+>Permet el desplaçament de les pestanyes</guilabel
+></term>
+<listitem
+><para
+>Si està activat, això permet desplaçar la barra de pestanyes quan el nombre de pestanyes és gran.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-elide-tab-text"/>
+<guilabel
+>Elideix el text de les pestanyes</guilabel
+></term>
+<listitem
+><para
+>Si està activat, el text de les pestanyes es pot elidir si és massa llarg.</para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -281,6 +329,52 @@
 </listitem>
 </varlistentry
 ><!-- /tabs group -->
+
+<varlistentry>
+<term
+><anchor id="config-general-mouse"/>
+<guilabel
+>Pestanyes</guilabel
+></term>
+ <listitem>
+
+<variablelist>
+<varlistentry>
+<term
+><anchor id="config-general-backward-button-pressed"/>
+<guilabel
+>Botó enrere premut</guilabel
+></term>
+<listitem
+><para
+>Permet seleccionar l'acció del botó enrere del ratolí entre els elements <guimenuitem
+>Pestanya anterior</guimenuitem
+> i <guimenuitem
+>Retrocedeix en l'historial</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-forward-button-pressed"/>
+<guilabel
+>Botó endavant premut</guilabel
+></term>
+<listitem
+><para
+>Permet seleccionar l'acció del botó endavant del ratolí entre els elements <guimenuitem
+>Pestanya següent</guimenuitem
+> i <guimenuitem
+>Avança en l'historial</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</listitem>
+</varlistentry
+><!-- /mouse group -->
 </variablelist>
 </sect2>
 
@@ -346,7 +440,7 @@
 <term
 ><anchor id="config-dialog-sessions-shutdown-behavior"/>
 <guilabel
->Comportament en aturar l'aplicació</guilabel
+>Comportament en iniciar/aturar l'aplicació</guilabel
 ></term>
 <listitem>
 <para
@@ -371,7 +465,7 @@
 ></term>
 <listitem
 ><para
->Aquest element permet configurar el &kate; per a que en sortir es desin automàticament tots els fitxers amb canvis sense desar.</para
+>Aquest element permet configurar el &kate; perquè en sortir es desin automàticament tots els fitxers amb canvis sense desar.</para
 ></listitem>
 </varlistentry>
 <varlistentry>

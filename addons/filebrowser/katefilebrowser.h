@@ -8,11 +8,11 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef KATE_FILEBROWSER_H
-#define KATE_FILEBROWSER_H
+#pragma once
 
 #include <ktexteditor/mainwindow.h>
 
+#include <KDirOperator>
 #include <KFile>
 
 #include <QMenu>
@@ -23,7 +23,6 @@
 
 class KateBookmarkHandler;
 class KActionCollection;
-class KDirOperator;
 class KFileItem;
 class KHistoryComboBox;
 class KToolBar;
@@ -43,8 +42,6 @@ class QAction;
 
 class KateFileBrowser : public QWidget
 {
-    Q_OBJECT
-
 public:
     explicit KateFileBrowser(KTextEditor::MainWindow *mainWindow = nullptr, QWidget *parent = nullptr);
     ~KateFileBrowser() override;
@@ -53,7 +50,6 @@ public:
     void writeSessionConfig(KConfigGroup &config);
 
     void setupToolbar();
-    void setView(KFile::FileView);
     KDirOperator *dirOperator()
     {
         return m_dirOperator;
@@ -64,16 +60,18 @@ public:
         return m_actionCollection;
     }
 
-public Q_SLOTS:
+    static KDirOperator::Action actionFromName(const QString &name);
+
+public:
     void slotFilterChange(const QString &);
     void setDir(const QUrl &);
     void setDir(const QString &url)
     {
         setDir(QUrl(url));
     }
-    void selectorViewChanged(QAbstractItemView *);
+    static void selectorViewChanged(QAbstractItemView *);
 
-private Q_SLOTS:
+private:
     void fileSelected(const KFileItem & /*file*/);
     void updateDirOperator(const QUrl &u);
     void updateUrlNavigator(const QUrl &u);
@@ -102,11 +100,8 @@ private:
     KDirOperator *m_dirOperator;
     KHistoryComboBox *m_filter;
     QAction *m_autoSyncFolder = nullptr;
+    QAction *m_highlightCurrentFile = nullptr;
     KateFileBrowserOpenWithMenu *m_openWithMenu = nullptr;
 
     KTextEditor::MainWindow *m_mainWindow;
 };
-
-#endif // KATE_FILEBROWSER_H
-
-// kate: space-indent on; indent-width 2; replace-tabs on;

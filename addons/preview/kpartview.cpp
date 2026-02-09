@@ -13,10 +13,10 @@
 
 #include <KActionCollection>
 #include <KLocalizedString>
-#include <KParts/BrowserExtension>
 #include <KParts/ReadOnlyPart>
 #include <KPluginFactory>
-#include <KPluginLoader>
+
+#include <KParts/NavigationExtension>
 
 // Qt
 #include <QDesktopServices>
@@ -40,18 +40,15 @@ static const int updateDelaySlow = 1000; // ms
 KPartView::KPartView(const KPluginMetaData &service, QObject *parent)
     : QObject(parent)
 {
-    KPluginLoader loader(service.fileName());
-
-    KPluginFactory *factory = loader.factory();
-
-    if (!factory) {
-        m_errorLabel = new QLabel(loader.errorString());
+    auto factoryResult = KPluginFactory::loadFactory(service.fileName());
+    if (!factoryResult.plugin) {
+        m_errorLabel = new QLabel(factoryResult.errorString);
     } else {
-        m_part = factory->create<KParts::ReadOnlyPart>(nullptr, this);
+        m_part = factoryResult.plugin->create<KParts::ReadOnlyPart>(this);
     }
 
     if (!m_part) {
-        m_errorLabel = new QLabel(loader.errorString());
+        m_errorLabel = new QLabel(factoryResult.errorString);
     } else if (!m_part->widget()) {
         // should not happen, but just be safe
         delete m_part;
@@ -64,10 +61,9 @@ KPartView::KPartView(const KPluginMetaData &service, QObject *parent)
         m_updateSquashingTimerSlow.setSingleShot(true);
         m_updateSquashingTimerSlow.setInterval(updateDelaySlow);
         connect(&m_updateSquashingTimerSlow, &QTimer::timeout, this, &KPartView::updatePreview);
-
-        auto browserExtension = m_part->browserExtension();
+        auto browserExtension = m_part->navigationExtension();
         if (browserExtension) {
-            connect(browserExtension, &KParts::BrowserExtension::openUrlRequestDelayed, this, &KPartView::handleOpenUrlRequest);
+            connect(browserExtension, &KParts::NavigationExtension::openUrlRequestDelayed, this, &KPartView::handleOpenUrlRequest);
         }
         m_part->widget()->installEventFilter(this);
 
@@ -76,9 +72,10 @@ KPartView::KPartView(const KPluginMetaData &service, QObject *parent)
         // identified as ambiguous).
         // Also restrict the shortcuts to the m_part widget by setting the shortcut context.
         m_shortcuts.clear();
-        auto ac = m_part->actionCollection();
-        for (auto action : ac->actions()) {
-            for (auto shortcut : action->shortcuts()) {
+        const auto actions = m_part->actionCollection()->actions();
+        for (auto *action : actions) {
+            const auto shortcuts = action->shortcuts();
+            for (const auto &shortcut : shortcuts) {
                 m_shortcuts[shortcut] = action;
             }
             if (action->shortcutContext() != Qt::WidgetShortcut) {
@@ -245,10 +242,10 @@ bool KPartView::eventFilter(QObject *object, QEvent *event)
         }
         return true;
     } else if (event->type() == QEvent::ShortcutOverride) {
-        auto keyevent = static_cast<QKeyEvent *>(event);
-        auto it = m_shortcuts.find(QKeySequence(keyevent->modifiers() | keyevent->key()));
-        if (it != m_shortcuts.end()) {
-            it.value()->activate(QAction::Trigger);
+        const auto keyEvent = static_cast<const QKeyEvent *>(event);
+        auto *const action = m_shortcuts.value(QKeySequence(keyEvent->modifiers() | keyEvent->key()));
+        if (action) {
+            action->trigger();
             event->accept();
             return true;
         }

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-14 17:32+0000\n"
+"POT-Creation-Date: 2025-03-03 00:43+0000\n"
 "PO-Revision-Date: 2021-02-14 15:08+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 20.12.2\n"
 
-#: colorpickerconfigpage.cpp:38
+#: colorpickerconfigpage.cpp:34
 #, kde-format
 msgid "Show preview for known color names"
 msgstr "Show preview for known colour names"
 
-#: colorpickerconfigpage.cpp:40
+#: colorpickerconfigpage.cpp:36
 #, kde-format
 msgid ""
 "Also show the color picker for known color names (e.g. skyblue).\n"
@@ -33,57 +33,57 @@ msgstr ""
 "See https://www.w3.org/TR/SVG11/types.html#ColorKeywords for the list of "
 "colours."
 
-#: colorpickerconfigpage.cpp:43
+#: colorpickerconfigpage.cpp:39
 #, kde-format
 msgid "Place preview after text color"
 msgstr "Place preview after text colour"
 
-#: colorpickerconfigpage.cpp:49
+#: colorpickerconfigpage.cpp:53
 #, kde-format
 msgid "Hex color matching"
 msgstr "Hex colour matching"
 
-#: colorpickerconfigpage.cpp:52
+#: colorpickerconfigpage.cpp:56
 #, kde-format
 msgid "12 digits (#RRRRGGGGBBBB)"
 msgstr "12 digits (#RRRRGGGGBBBB)"
 
-#: colorpickerconfigpage.cpp:53
+#: colorpickerconfigpage.cpp:57
 #, kde-format
 msgid "9 digits (#RRRGGGBBB)"
 msgstr "9 digits (#RRRGGGBBB)"
 
-#: colorpickerconfigpage.cpp:54
+#: colorpickerconfigpage.cpp:58
 #, kde-format
 msgid "8 digits (#AARRGGBB)"
 msgstr "8 digits (#AARRGGBB)"
 
-#: colorpickerconfigpage.cpp:55
+#: colorpickerconfigpage.cpp:59
 #, kde-format
 msgid "6 digits (#RRGGBB)"
 msgstr "6 digits (#RRGGBB)"
 
-#: colorpickerconfigpage.cpp:56
+#: colorpickerconfigpage.cpp:60
 #, kde-format
 msgid "3 digits (#RGB)"
 msgstr "3 digits (#RGB)"
 
-#: colorpickerconfigpage.cpp:76
+#: colorpickerconfigpage.cpp:84
 #, kde-format
 msgid "Color Picker"
 msgstr "Colour Picker"
 
-#: colorpickerconfigpage.cpp:81
+#: colorpickerconfigpage.cpp:89
 #, kde-format
 msgid "Color Picker Settings"
 msgstr "Colour Picker Settings"
 
-#: katecolorpickerplugin.cpp:238
+#: katecolorpickerplugin.cpp:256
 #, kde-format
 msgid "Select Color (Hex output)"
 msgstr "Select Colour (Hex output)"
 
-#: katecolorpickerplugin.cpp:241
+#: katecolorpickerplugin.cpp:259
 #, kde-format
 msgid "View Color [Read only]"
 msgstr "View Colour [Read only]"

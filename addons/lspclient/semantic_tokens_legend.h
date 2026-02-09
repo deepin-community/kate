@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: MIT
 */
-#ifndef SEMANTIC_TOKENS_LEGEND_H
-#define SEMANTIC_TOKENS_LEGEND_H
+#pragma once
 
 #include <QObject>
 
@@ -51,26 +50,18 @@ public:
      */
     void initialize(const std::vector<QString> &types);
 
-    KTextEditor::Attribute::Ptr attributeForTokenType(int idx) const
+    KTextEditor::Attribute::Ptr attributeForTokenType(size_t idx) const
     {
-        if (idx >= totalTokenTypes) {
+        if (idx >= sharedAttrs.size()) {
             return {};
         }
         return sharedAttrs.at(idx);
-    }
-
-    size_t tokenTypeCount() const
-    {
-        return totalTokenTypes;
     }
 
 private:
     Q_SLOT void themeChange(KTextEditor::Editor *e);
     void refresh(const std::vector<TokenType> &m_tokenTypes);
 
-    int totalTokenTypes;
     std::vector<KTextEditor::Attribute::Ptr> sharedAttrs;
     KTextEditor::Attribute::Ptr fixedAttrs[7];
 };
-
-#endif

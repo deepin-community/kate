@@ -5,8 +5,7 @@
     SPDX-License-Identifier: MIT
 */
 
-#ifndef LSPCLIENTSYMBOLVIEW_H
-#define LSPCLIENTSYMBOLVIEW_H
+#pragma once
 
 #include "lspclientplugin.h"
 #include "lspclientservermanager.h"
@@ -17,7 +16,11 @@ class LSPClientSymbolView
 {
 public:
     // only needs a factory; no other public interface
-    static QObject *new_(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin, QSharedPointer<LSPClientServerManager> manager);
+    static LSPClientSymbolView *new_(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin, std::shared_ptr<LSPClientServerManager> manager);
+
+    virtual ~LSPClientSymbolView();
+
+    virtual class QAbstractItemModel *documentSymbolsModel() = 0;
 };
 
 class LSPClientViewTracker : public QObject
@@ -36,5 +39,3 @@ public:
 Q_SIGNALS:
     void newState(KTextEditor::View *, State);
 };
-
-#endif

@@ -28,7 +28,7 @@ void ExternalToolTest::cleanupTestCase()
 void ExternalToolTest::testLoadSave()
 {
     KConfig config;
-    KConfigGroup cg(&config, "tool");
+    KConfigGroup cg(&config, QStringLiteral("tool"));
 
     KateExternalTool tool;
     tool.category = QStringLiteral("Git Tools");
@@ -109,5 +109,7 @@ void ExternalToolTest::testRunTac()
     runner.waitForFinished();
     QCOMPARE(runner.outputData(), QStringLiteral("c\nb\na\n"));
 }
+
+#include "moc_externaltooltest.cpp"
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

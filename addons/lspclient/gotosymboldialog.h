@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef LSPGOTOSYMBOLDIALOG_H
-#define LSPGOTOSYMBOLDIALOG_H
+#pragma once
 
 #include <quickdialog.h>
 
@@ -18,15 +17,13 @@ namespace KTextEditor
 class MainWindow;
 }
 
-class GotoSymbolHUDDialog : public QuickDialog
+class GotoSymbolHUDDialog : public HUDDialog
 {
 public:
-    GotoSymbolHUDDialog(KTextEditor::MainWindow *mainWindow, QSharedPointer<LSPClientServer> server);
-
-    void openDialog();
+    GotoSymbolHUDDialog(KTextEditor::MainWindow *mainWindow, std::shared_ptr<LSPClientServer> server);
 
 protected Q_SLOTS:
-    void slotReturnPressed() override final;
+    void slotReturnPressed(const QModelIndex &index) override final;
 
 private:
     void slotTextChanged(const QString &text);
@@ -35,7 +32,7 @@ private:
 
     QStandardItemModel *model = nullptr;
     KTextEditor::MainWindow *mainWindow;
-    QSharedPointer<LSPClientServer> server;
+    std::shared_ptr<LSPClientServer> server;
 
     const QIcon m_icon_pkg = QIcon::fromTheme(QStringLiteral("code-block"));
     const QIcon m_icon_class = QIcon::fromTheme(QStringLiteral("code-class"));
@@ -43,5 +40,3 @@ private:
     const QIcon m_icon_function = QIcon::fromTheme(QStringLiteral("code-function"));
     const QIcon m_icon_var = QIcon::fromTheme(QStringLiteral("code-variable"));
 };
-
-#endif

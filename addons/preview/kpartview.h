@@ -4,14 +4,13 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KTEXTEDITORPREVIEW_KPARTVIEW_H
-#define KTEXTEDITORPREVIEW_KPARTVIEW_H
+#pragma once
 
 // KF
 #include <KPluginMetaData>
 
 // Qt
-#include <QMap>
+#include <QHash>
 #include <QObject>
 #include <QTimer>
 
@@ -44,8 +43,6 @@ namespace KTextEditorPreview
  */
 class KPartView : public QObject
 {
-    Q_OBJECT
-
 public:
     /**
      * Constructor
@@ -111,9 +108,6 @@ private:
     QTimer m_updateSquashingTimerFast;
     QTimer m_updateSquashingTimerSlow;
     QTemporaryFile *m_bufferFile = nullptr;
-    QMap<QKeySequence, QAction *> m_shortcuts;
+    QHash<QKeySequence, QAction *> m_shortcuts;
 };
-
 }
-
-#endif

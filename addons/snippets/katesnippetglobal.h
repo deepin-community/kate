@@ -7,15 +7,15 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef __KATE_SNIPPET_GLOBAL_H__
-#define __KATE_SNIPPET_GLOBAL_H__
+#pragma once
+
+#include "snippetcompletionmodel.h"
 
 #include <QPointer>
 #include <QVariant>
 
 #include <KTextEditor/View>
 
-class SnippetCompletionModel;
 class Snippet;
 
 /**
@@ -24,10 +24,8 @@ class Snippet;
  */
 class KateSnippetGlobal : public QObject
 {
-    Q_OBJECT
-
 public:
-    KateSnippetGlobal(QObject *parent, const QVariantList &args = QVariantList());
+    explicit KateSnippetGlobal(QObject *parent, const QVariantList &args = QVariantList());
     ~KateSnippetGlobal() override;
 
     /**
@@ -48,7 +46,7 @@ public:
      */
     SnippetCompletionModel *completionModel()
     {
-        return m_model.data();
+        return &m_model;
     }
 
 public Q_SLOTS:
@@ -56,14 +54,12 @@ public Q_SLOTS:
      * Create snippet for given view, e.g. by using the selection
      * @param view view to create snippet for
      */
-    void createSnippet(KTextEditor::View *view);
+    static void createSnippet(KTextEditor::View *view);
 
     void insertSnippetFromActionData();
 
 private:
     static KateSnippetGlobal *s_self;
-    QScopedPointer<SnippetCompletionModel> m_model;
+    SnippetCompletionModel m_model;
     QPointer<KTextEditor::View> m_activeViewForDialog;
 };
-
-#endif

@@ -21,30 +21,26 @@
 
 #include "kate_ctags_plugin.h"
 
+#include "hostprocess.h"
+
 #include <QCheckBox>
 #include <QFileDialog>
-#include <QFileInfo>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-#include <KActionCollection>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KStringHandler>
 #include <ktexteditor/editor.h>
 
-#include <KAboutData>
 #include <KPluginFactory>
 
 K_PLUGIN_FACTORY_WITH_JSON(KateCTagsPluginFactory, "katectagsplugin.json", registerPlugin<KateCTagsPlugin>();)
 
 /******************************************************************/
-KateCTagsPlugin::KateCTagsPlugin(QObject *parent, const QList<QVariant> &)
+KateCTagsPlugin::KateCTagsPlugin(QObject *parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
 {
-    // FIXME KF5
-    // KGlobal::locale()->insertCatalog("kate-ctags-plugin");
 }
 
 /******************************************************************/
@@ -60,7 +56,7 @@ KTextEditor::ConfigPage *KateCTagsPlugin::configPage(int number, QWidget *parent
     if (number != 0) {
         return nullptr;
     }
-    return new KateCTagsConfigPage(parent, this);
+    return new KateCTagsConfigPage(parent);
 }
 
 /******************************************************************/
@@ -69,12 +65,12 @@ void KateCTagsPlugin::readConfig()
 }
 
 /******************************************************************/
-KateCTagsConfigPage::KateCTagsConfigPage(QWidget *parent, KateCTagsPlugin *plugin)
+KateCTagsConfigPage::KateCTagsConfigPage(QWidget *parent)
     : KTextEditor::ConfigPage(parent)
-    , m_plugin(plugin)
 {
     m_confUi.setupUi(this);
     m_confUi.cmdEdit->setText(DEFAULT_CTAGS_CMD);
+    connect(m_confUi.cmdEdit, &QLineEdit::textEdited, this, &KateCTagsConfigPage::changed);
 
     m_confUi.addButton->setToolTip(i18n("Add a directory to index."));
     m_confUi.addButton->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
@@ -92,7 +88,7 @@ KateCTagsConfigPage::KateCTagsConfigPage(QWidget *parent, KateCTagsPlugin *plugi
     connect(&m_proc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &KateCTagsConfigPage::updateDone);
     connect(&m_proc, &QProcess::readyReadStandardError, this, [this]() {
         QString error = QString::fromLocal8Bit(m_proc.readAllStandardError());
-        KMessageBox::sorry(nullptr, error);
+        KMessageBox::error(nullptr, error);
     });
     reset();
 }
@@ -134,7 +130,7 @@ void KateCTagsConfigPage::apply()
 /******************************************************************/
 void KateCTagsConfigPage::reset()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "CTags");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("CTags"));
     m_confUi.cmdEdit->setText(config.readEntry(QStringLiteral("GlobalCommand"), DEFAULT_CTAGS_CMD));
 
     int numEntries = config.readEntry(QStringLiteral("GlobalNumTargets"), 0);
@@ -175,6 +171,7 @@ void KateCTagsConfigPage::addGlobalTagTarget()
     for (int i = 0; i < urls.size(); i++) {
         if (!listContains(urls[i])) {
             new QListWidgetItem(urls[i], m_confUi.targetList);
+            Q_EMIT changed();
         }
     }
 }
@@ -183,10 +180,11 @@ void KateCTagsConfigPage::addGlobalTagTarget()
 void KateCTagsConfigPage::delGlobalTagTarget()
 {
     delete m_confUi.targetList->currentItem();
+    Q_EMIT changed();
 }
 
 /******************************************************************/
-bool KateCTagsConfigPage::listContains(const QString &target)
+bool KateCTagsConfigPage::listContains(const QString &target) const
 {
     for (int i = 0; i < m_confUi.targetList->count(); i++) {
         if (m_confUi.targetList->item(i)->text() == target) {
@@ -203,17 +201,16 @@ void KateCTagsConfigPage::updateGlobalDB()
         return;
     }
 
-    QString targets;
-    QString target;
+    QStringList targets;
     for (int i = 0; i < m_confUi.targetList->count(); i++) {
-        target = m_confUi.targetList->item(i)->text();
+        auto target = m_confUi.targetList->item(i)->text();
         if (target.endsWith(QLatin1Char('/')) || target.endsWith(QLatin1Char('\\'))) {
             target = target.left(target.size() - 1);
         }
-        targets += QLatin1Char('\"') + target + QLatin1String("\" ");
+        targets << target;
     }
 
-    QString file = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1String("/katectags");
+    QString file = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QLatin1String("/katectags");
     QDir().mkpath(file);
     file += QLatin1String("/common_db");
 
@@ -222,17 +219,13 @@ void KateCTagsConfigPage::updateGlobalDB()
         return;
     }
 
-    QString commandLine = QStringLiteral("%1 -f %2 %3").arg(m_confUi.cmdEdit->text(), file, targets);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    QStringList arguments = m_proc.splitCommand(commandLine);
-    QString command = arguments.takeFirst();
-    m_proc.start(command, arguments);
-#else
-    m_proc.start(commandLine);
-#endif
+    QStringList arguments = m_proc.splitCommand(m_confUi.cmdEdit->text());
+    const QString command = arguments.takeFirst();
+    arguments << QStringLiteral("-f") << file << targets;
+    startHostProcess(m_proc, command, arguments);
 
     if (!m_proc.waitForStarted(500)) {
-        KMessageBox::error(nullptr, i18n("Failed to run \"%1\". exitStatus = %2", commandLine, m_proc.exitStatus()));
+        KMessageBox::error(nullptr, i18n("Failed to run. Error: %1, exit code: %2", m_proc.errorString(), m_proc.exitCode()));
         return;
     }
     m_confUi.updateDB->setDisabled(true);
@@ -253,3 +246,4 @@ void KateCTagsConfigPage::updateDone(int exitCode, QProcess::ExitStatus status)
 }
 
 #include "kate_ctags_plugin.moc"
+#include "moc_kate_ctags_plugin.cpp"

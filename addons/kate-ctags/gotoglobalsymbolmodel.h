@@ -3,17 +3,14 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef GOTOGLOBALSYMBOLMODEL_H
-#define GOTOGLOBALSYMBOLMODEL_H
+#pragma once
 
 #include "tags.h"
 
 #include <QAbstractTableModel>
-#include <QPair>
 
 class GotoGlobalSymbolModel : public QAbstractTableModel
 {
-    Q_OBJECT
 public:
     enum Roles {
         Name = Qt::UserRole,
@@ -30,7 +27,7 @@ public:
     /**
      * @brief removes useless symbols like anon namespace etc for better UI
      */
-    QString filterName(QString tagName) const;
+    static QString filterName(QString tagName);
 
     void setSymbolsData(Tags::TagList rows)
     {
@@ -42,5 +39,3 @@ public:
 private:
     Tags::TagList m_rows;
 };
-
-#endif // GOTOGLOBALSYMBOLMODEL_H

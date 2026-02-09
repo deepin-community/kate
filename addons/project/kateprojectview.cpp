@@ -6,11 +6,10 @@
  */
 
 #include "kateprojectview.h"
-#include "branchcheckoutdialog.h"
-#include "filehistorywidget.h"
-#include "git/gitutils.h"
+#include "gitprocess.h"
 #include "gitwidget.h"
 #include "kateprojectfiltermodel.h"
+#include "kateprojectplugin.h"
 #include "kateprojectpluginview.h"
 
 #include <KTextEditor/Document>
@@ -18,78 +17,68 @@
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
 
+#include <KAcceleratorManager>
 #include <KActionCollection>
 #include <KLineEdit>
 #include <KLocalizedString>
 
+#include <QFileInfo>
 #include <QPushButton>
-#include <QSortFilterProxyModel>
-#include <QTimer>
 #include <QVBoxLayout>
 
-KateProjectView::KateProjectView(KateProjectPluginView *pluginView, KateProject *project, KTextEditor::MainWindow *mainWindow)
+KateProjectView::KateProjectView(KateProjectPluginView *pluginView, KateProject *project)
     : m_pluginView(pluginView)
     , m_project(project)
     , m_treeView(new KateProjectViewTree(pluginView, project))
-    , m_stackWidget(new QStackedWidget(this))
     , m_filter(new KLineEdit())
-    , m_branchBtn(new QToolButton)
 {
     /**
      * layout tree view and co.
      */
-    QVBoxLayout *layout = new QVBoxLayout();
+    auto *layout = new QVBoxLayout();
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(m_branchBtn);
-    layout->addWidget(m_stackWidget);
+    layout->addWidget(m_treeView);
     layout->addWidget(m_filter);
     setLayout(layout);
 
-    m_stackWidget->addWidget(m_treeView);
-
-    m_branchBtn->setAutoRaise(true);
-    m_branchBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    m_branchBtn->setSizePolicy(QSizePolicy::Minimum, m_branchBtn->sizePolicy().verticalPolicy());
-    m_branchBtn->setIcon(QIcon(QStringLiteral(":/icons/icons/sc-apps-git.svg")));
+    /**
+     * Setup checkout stuff, git branch button in statusbar
+     */
 
     // let tree get focus for keyboard selection of file to open
     setFocusProxy(m_treeView);
 
-    // add to actionCollection so that this is available in Kate Command bar
-    auto chckbr = pluginView->actionCollection()->addAction(QStringLiteral("checkout_branch"), this, [this] {
-        m_branchBtn->click();
-    });
-    chckbr->setText(i18n("Checkout Git Branch"));
+    m_filterStartTimer.setSingleShot(true);
+    m_filterStartTimer.setInterval(400);
+    m_filterStartTimer.callOnTimeout(this, &KateProjectView::filterTextChanged);
 
     /**
      * setup filter line edit
      */
-    m_filter->setPlaceholderText(i18n("Filter..."));
+    m_filter->setPlaceholderText(i18n("Filter…"));
     m_filter->setClearButtonEnabled(true);
-    connect(m_filter, &KLineEdit::textChanged, this, &KateProjectView::filterTextChanged);
-
-    /**
-     * Setup git checkout stuff
-     */
-    connect(m_branchBtn, &QPushButton::clicked, this, [this, mainWindow] {
-        BranchCheckoutDialog bd(mainWindow->window(), m_pluginView, m_project->baseDir());
-        bd.openDialog();
+    m_filter->setProperty("_breeze_borders_sides", QVariant::fromValue(Qt::TopEdge));
+    connect(m_filter, &KLineEdit::textChanged, this, [this] {
+        m_filterStartTimer.start();
     });
 
-    checkAndRefreshGit();
+    // pluginView is not fully initialized at this point so delay it.
+    QMetaObject::invokeMethod(this, &KateProjectView::checkAndRefreshGit, Qt::QueuedConnection);
 
     connect(m_project, &KateProject::modelChanged, this, &KateProjectView::checkAndRefreshGit);
-    connect(&m_branchChangedWatcher, &QFileSystemWatcher::fileChanged, this, [this] {
-        m_project->reload(true);
+    connect(&m_pluginView->plugin()->fileWatcher(), &QFileSystemWatcher::fileChanged, this, [this](const QString &path) {
+        if (m_branchChangedWatcherFile == path) {
+            m_project->reload(true);
+        }
     });
-
-    // file history
-    connect(m_treeView, &KateProjectViewTree::showFileHistory, this, &KateProjectView::showFileGitHistory);
 }
 
 KateProjectView::~KateProjectView()
 {
+    if (!m_branchChangedWatcherFile.isEmpty()) {
+        m_pluginView->plugin()->fileWatcher().removePath(m_branchChangedWatcherFile);
+    }
 }
 
 void KateProjectView::selectFile(const QString &file)
@@ -102,8 +91,9 @@ void KateProjectView::openSelectedDocument()
     m_treeView->openSelectedDocument();
 }
 
-void KateProjectView::filterTextChanged(const QString &filterText)
+void KateProjectView::filterTextChanged()
 {
+    const auto filterText = m_filter->text();
     /**
      * filter
      */
@@ -117,53 +107,30 @@ void KateProjectView::filterTextChanged(const QString &filterText)
     }
 }
 
-void KateProjectView::setTreeViewAsCurrent()
-{
-    Q_ASSERT(m_treeView != m_stackWidget->currentWidget());
-
-    auto currentFileHistory = m_stackWidget->currentWidget();
-    m_stackWidget->removeWidget(currentFileHistory);
-    delete currentFileHistory;
-
-    m_stackWidget->setCurrentWidget(m_treeView);
-}
-
-void KateProjectView::showFileGitHistory(const QString &file)
-{
-    // create on demand and on switch back delete
-    auto fhs = new FileHistoryWidget(file);
-    connect(fhs, &FileHistoryWidget::backClicked, this, &KateProjectView::setTreeViewAsCurrent);
-    connect(fhs, &FileHistoryWidget::commitClicked, this, [this](const QByteArray &diff) {
-        m_pluginView->showDiffInFixedView(diff);
-    });
-    connect(fhs, &FileHistoryWidget::errorMessage, m_pluginView, [this](const QString &s, bool warn) {
-        QVariantMap genericMessage;
-        genericMessage.insert(QStringLiteral("type"), warn ? QStringLiteral("Error") : QStringLiteral("Info"));
-        genericMessage.insert(QStringLiteral("category"), i18n("Git"));
-        genericMessage.insert(QStringLiteral("categoryIcon"), QIcon(QStringLiteral(":/icons/icons/sc-apps-git.svg")));
-        genericMessage.insert(QStringLiteral("text"), s);
-        Q_EMIT m_pluginView->message(genericMessage);
-    });
-    m_stackWidget->addWidget(fhs);
-    m_stackWidget->setCurrentWidget(fhs);
-}
-
 void KateProjectView::checkAndRefreshGit()
 {
-    const auto dotGitPath = GitUtils::getDotGitPath(m_project->baseDir());
+    const auto dotGitPath = getRepoBasePath(m_project->baseDir());
     /**
      * Not in a git repo or git was removed
      */
     if (!dotGitPath.has_value()) {
-        if (!m_branchChangedWatcher.files().isEmpty()) {
-            m_branchChangedWatcher.removePaths(m_branchChangedWatcher.files());
+        if (!m_branchChangedWatcherFile.isEmpty()) {
+            m_pluginView->plugin()->fileWatcher().removePath(m_branchChangedWatcherFile);
+            m_branchChangedWatcherFile.clear();
         }
-        m_branchBtn->setHidden(true);
     } else {
-        m_branchBtn->setHidden(false);
-        m_branchBtn->setText(GitUtils::getCurrentBranchName(dotGitPath.value()));
-        if (m_branchChangedWatcher.files().isEmpty()) {
-            m_branchChangedWatcher.addPath(dotGitPath.value() + QStringLiteral(".git/HEAD"));
+        const QString fileToWatch = dotGitPath.value() + QStringLiteral(".git/HEAD");
+        // fileToWatch == m_branchChangedWatcherFile can be true, but doesn't matter. We MUST always
+        // re add the file otherwise it will not work.
+
+        if (!m_branchChangedWatcherFile.isEmpty()) {
+            m_pluginView->plugin()->fileWatcher().removePath(m_branchChangedWatcherFile);
+            m_branchChangedWatcherFile.clear();
+        }
+        if (QFileInfo::exists(fileToWatch)) {
+            m_branchChangedWatcherFile = fileToWatch;
+            m_pluginView->plugin()->fileWatcher().addPath(m_branchChangedWatcherFile);
         }
     }
+    m_pluginView->updateGitBranchButton(m_project);
 }

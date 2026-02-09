@@ -5,19 +5,17 @@
     SPDX-License-Identifier: MIT
 */
 #include "gitblametooltip.h"
+#include "kategitblameplugin.h"
 
-#include <QApplication>
 #include <QDebug>
 #include <QEvent>
 #include <QFontMetrics>
 #include <QMouseEvent>
-#include <QScreen>
 #include <QScrollBar>
 #include <QString>
 #include <QTextBrowser>
 #include <QTimer>
 
-#include <KTextEditor/ConfigInterface>
 #include <KTextEditor/Editor>
 #include <KTextEditor/View>
 
@@ -26,6 +24,8 @@
 #include <KSyntaxHighlighting/Format>
 #include <KSyntaxHighlighting/Repository>
 #include <KSyntaxHighlighting/State>
+
+#include <ktexteditor_utils.h>
 
 using KSyntaxHighlighting::AbstractHighlighter;
 using KSyntaxHighlighting::Format;
@@ -70,6 +70,12 @@ public:
         out << "<pre>";
         while (!in.atEnd()) {
             currentLine = in.readLine();
+
+            // Link to open the tree view, insert as is
+            if (currentLine.startsWith(QStringLiteral("<a href"))) {
+                out << currentLine;
+                continue;
+            }
 
             // allow empty lines in code blocks, no ruler here
             if (!inDiff && currentLine.isEmpty()) {
@@ -125,24 +131,20 @@ private:
     QTextStream out;
 };
 
-class GitBlameTooltip::Private : public QTextBrowser
+class GitBlameTooltipPrivate : public QTextBrowser
 {
-    Q_OBJECT
-
 public:
     QKeySequence m_ignoreKeySequence;
 
-    static const uint64_t ModifierMask =
-        Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier | Qt::KeypadModifier | Qt::GroupSwitchModifier;
-
-    Private()
+    explicit GitBlameTooltipPrivate(KateGitBlamePluginView *pluginView)
         : QTextBrowser(nullptr)
     {
         setWindowFlags(Qt::FramelessWindowHint | Qt::BypassGraphicsProxyWidget | Qt::ToolTip);
         setWordWrapMode(QTextOption::NoWrap);
         document()->setDocumentMargin(10);
         setFrameStyle(QFrame::Box | QFrame::Raised);
-        connect(&m_hideTimer, &QTimer::timeout, this, &Private::hideTooltip);
+        setOpenLinks(false);
+        connect(&m_hideTimer, &QTimer::timeout, this, &GitBlameTooltipPrivate::hideTooltip);
 
         setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -159,9 +161,16 @@ public:
             const QColor normal = theme.textColor(KSyntaxHighlighting::Theme::Normal);
             pal.setColor(QPalette::Text, normal);
             setPalette(pal);
+
+            setFont(Utils::editorFont());
         };
         updateColors(KTextEditor::Editor::instance());
         connect(KTextEditor::Editor::instance(), &KTextEditor::Editor::configChanged, this, updateColors);
+        // Kinda ugly, but we are deep in the pimpl class wrapped by a normal cpp class...
+        connect(this, &QTextBrowser::anchorClicked, pluginView, [pluginView, this](const QUrl &url) {
+            hideTooltip();
+            pluginView->showCommitTreeView(url);
+        });
     }
 
     bool eventFilter(QObject *, QEvent *event) override
@@ -169,24 +178,25 @@ public:
         switch (event->type()) {
         case QEvent::KeyPress:
         case QEvent::ShortcutOverride: {
-            QKeyEvent *ke = static_cast<QKeyEvent *>(event);
+            auto *ke = static_cast<QKeyEvent *>(event);
             if (ke->matches(QKeySequence::Copy)) {
                 copy();
             } else if (ke->matches(QKeySequence::SelectAll)) {
                 selectAll();
             }
+            // hide the tooltip if it does not the focus
+            if (!m_inFocus) {
+                hideTooltip();
+                return false;
+            }
             event->accept();
             return true;
         }
         case QEvent::KeyRelease: {
-            QKeyEvent *ke = static_cast<QKeyEvent *>(event);
-            int ignoreKey = 0;
-            if (m_ignoreKeySequence.count() > 0) {
-                ignoreKey = m_ignoreKeySequence[m_ignoreKeySequence.count() - 1] & ~ModifierMask;
-            }
-            if (ke->matches(QKeySequence::Copy) || ke->matches(QKeySequence::SelectAll) || (ignoreKey != 0 && ignoreKey == ke->key())
-                || ke->key() == Qt::Key_Control || ke->key() == Qt::Key_Alt || ke->key() == Qt::Key_Shift || ke->key() == Qt::Key_AltGr
-                || ke->key() == Qt::Key_Meta) {
+            auto *ke = static_cast<QKeyEvent *>(event);
+            if (ke->matches(QKeySequence::Copy) || ke->matches(QKeySequence::SelectAll)
+                || (m_ignoreKeySequence.matches(QKeySequence(ke->key()) != QKeySequence::NoMatch)) || ke->key() == Qt::Key_Control || ke->key() == Qt::Key_Alt
+                || ke->key() == Qt::Key_Shift || ke->key() == Qt::Key_AltGr || ke->key() == Qt::Key_Meta) {
                 event->accept();
                 return true;
             }
@@ -195,13 +205,20 @@ public:
         case QEvent::WindowDeactivate:
             hideTooltip();
             break;
+        case QEvent::MouseButtonPress:
+            // hide the tooltip if it does not the focus
+            if (!m_inFocus) {
+                hideTooltip();
+                return false;
+            }
+            break;
         default:
             break;
         }
         return false;
     }
 
-    void showTooltip(const QString &text, const QPointer<KTextEditor::View> view)
+    void showTooltip(const QString &text, KTextEditor::View *view)
     {
         if (text.isEmpty() || !view) {
             return;
@@ -217,10 +234,6 @@ public:
                 m_view->focusProxy()->removeEventFilter(this);
             }
             m_view = view;
-            // update font
-            auto ciface = qobject_cast<KTextEditor::ConfigInterface *>(m_view);
-            auto font = ciface->configValue(QStringLiteral("font")).value<QFont>();
-            setFont(font);
             m_view->focusProxy()->installEventFilter(this);
         }
 
@@ -228,7 +241,7 @@ public:
         QFontMetrics fm(font());
         QSize size = fm.size(Qt::TextSingleLine, QStringLiteral("m"));
         int fontHeight = size.height();
-        size.setHeight(m_view->height() - fontHeight * 2 - scrollBarHeight);
+        size.setHeight(m_view->height() - (fontHeight * 2) - scrollBarHeight);
         size.setWidth(qRound(m_view->width() * 0.7));
         resize(size);
 
@@ -240,43 +253,48 @@ public:
         show();
     }
 
-    Q_SLOT void hideTooltip()
+    void hideTooltip()
     {
         if (m_view && m_view->focusProxy()) {
             m_view->focusProxy()->removeEventFilter(this);
+            m_view.clear();
         }
         close();
         setText(QString());
         m_inContextMenu = false;
+        m_inFocus = false;
     }
 
 protected:
     void showEvent(QShowEvent *event) override
     {
         m_hideTimer.start(3000);
-        return QTextBrowser::showEvent(event);
+        QTextBrowser::showEvent(event);
     }
 
-    void enterEvent(QEvent *event) override
+    void enterEvent(QEnterEvent *event) override
     {
         m_inContextMenu = false;
+        m_inFocus = true;
         m_hideTimer.stop();
-        return QTextBrowser::enterEvent(event);
+        QTextBrowser::enterEvent(event);
     }
 
     void leaveEvent(QEvent *event) override
     {
+        m_inFocus = false;
         if (!m_hideTimer.isActive() && !m_inContextMenu && textCursor().selectionStart() == textCursor().selectionEnd()) {
             hideTooltip();
         }
-        return QTextBrowser::leaveEvent(event);
+        QTextBrowser::leaveEvent(event);
     }
 
     void mouseMoveEvent(QMouseEvent *event) override
     {
         auto pos = event->pos();
         if (rect().contains(pos) || m_inContextMenu || textCursor().selectionStart() != textCursor().selectionEnd()) {
-            return QTextBrowser::mouseMoveEvent(event);
+            QTextBrowser::mouseMoveEvent(event);
+            return;
         }
         hideTooltip();
     }
@@ -284,38 +302,61 @@ protected:
     void contextMenuEvent(QContextMenuEvent *event) override
     {
         m_inContextMenu = true;
-        return QTextBrowser::contextMenuEvent(event);
+        QTextBrowser::contextMenuEvent(event);
+    }
+
+    void focusInEvent(QFocusEvent *) override
+    {
+        m_inFocus = true;
+    }
+
+    void focusOutEvent(QFocusEvent *) override
+    {
+        m_inFocus = false;
     }
 
 private:
     bool m_inContextMenu = false;
+    bool m_inFocus = false;
     QPointer<KTextEditor::View> m_view;
     QTimer m_hideTimer;
     HtmlHl m_htmlHl;
     KSyntaxHighlighting::Repository m_syntaxHlRepo;
 };
 
-GitBlameTooltip::GitBlameTooltip()
-    : d(new GitBlameTooltip::Private())
+GitBlameTooltip::GitBlameTooltip(KateGitBlamePluginView *pv)
+    : m_pluginView(pv)
+
 {
-}
-GitBlameTooltip::~GitBlameTooltip()
-{
-    delete d;
 }
 
-void GitBlameTooltip::show(const QString &text, QPointer<KTextEditor::View> view)
+GitBlameTooltip::~GitBlameTooltip() = default;
+
+void GitBlameTooltip::show(const QString &text, KTextEditor::View *view)
 {
     if (text.isEmpty() || !view || !view->document()) {
         return;
     }
 
+    if (!d) {
+        d = std::make_unique<GitBlameTooltipPrivate>(m_pluginView);
+    }
+
     d->showTooltip(text, view);
 }
 
-void GitBlameTooltip::setIgnoreKeySequence(QKeySequence sequence)
+void GitBlameTooltip::hide()
 {
-    d->m_ignoreKeySequence = sequence;
+    if (!d) {
+        return;
+    }
+    d->hideTooltip();
 }
 
-#include "gitblametooltip.moc"
+void GitBlameTooltip::setIgnoreKeySequence(const QKeySequence &sequence)
+{
+    if (!d) {
+        d = std::make_unique<GitBlameTooltipPrivate>(m_pluginView);
+    }
+    d->m_ignoreKeySequence = sequence;
+}

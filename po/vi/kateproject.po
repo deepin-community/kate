@@ -1,31 +1,21 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kate package.
 #
-# Phu Hung Nguyen <phuhnguyen@disroot.org>, 2021.
+# Phu Hung Nguyen <phu.nguyen@kdemail.net>, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-09-17 01:43+0000\n"
-"PO-Revision-Date: 2021-06-02 17:40+0200\n"
-"Last-Translator: Phu Hung Nguyen <phuhnguyen@disroot.org>\n"
+"POT-Creation-Date: 2025-03-19 02:34+0000\n"
+"PO-Revision-Date: 2023-02-20 11:25+0100\n"
+"Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 20.08.1\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Nguyễn Hùng Phú"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "phu.nguyen@kdemail.net"
+"X-Generator: Lokalize 22.12.0\n"
 
 #: branchcheckoutdialog.cpp:29
 #, kde-format
@@ -42,506 +32,589 @@ msgstr "Tạo nhánh mới"
 msgid "Create New Branch From..."
 msgstr "Tạo nhánh mới từ..."
 
-#: branchcheckoutdialog.cpp:53
+#: branchcheckoutdialog.cpp:54
 #, kde-format
 msgid "Branch %1 checked out"
 msgstr "Đã lấy ra nhánh %1"
 
-#: branchcheckoutdialog.cpp:56
+#: branchcheckoutdialog.cpp:57
 #, kde-format
 msgid "Failed to checkout to branch %1, Error: %2"
 msgstr "Lấy ra nhánh %1 thất bại, lỗi: %2"
 
-#: branchcheckoutdialog.cpp:77 branchcheckoutdialog.cpp:89
+#: branchcheckoutdialog.cpp:85 branchcheckoutdialog.cpp:97
 #, kde-format
 msgid "Enter new branch name. Press 'Esc' to cancel."
 msgstr "Nhập tên nhánh mới. Nhấn 'Esc' để huỷ."
 
-#: branchcheckoutdialog.cpp:94
+#: branchcheckoutdialog.cpp:102
 #, kde-format
 msgid "Select branch to checkout from. Press 'Esc' to cancel."
 msgstr "Chọn nhánh để lấy ra từ đó. Nhấn 'Esc' để huỷ."
 
-#: branchcheckoutdialog.cpp:121
+#: branchcheckoutdialog.cpp:125
 #, kde-format
 msgid "Checked out to new branch: %1"
 msgstr "Đã lấy ra ở nhánh mới: %1"
 
-#: branchcheckoutdialog.cpp:123
+#: branchcheckoutdialog.cpp:127
 #, kde-format
 msgid "Failed to create new branch. Error \"%1\""
 msgstr "Tạo nhánh mới thất bại. Lỗi \"%1\""
 
-#: branchesdialog.cpp:175
+#: branchdeletedialog.cpp:124
+#, kde-format
+msgid "Branch"
+msgstr "Nhánh"
+
+#: branchdeletedialog.cpp:124
+#, kde-format
+msgid "Last Commit"
+msgstr "Bản chuyển giao cuối"
+
+#: branchdeletedialog.cpp:137 kateprojecttreeviewcontextmenu.cpp:106
+#, kde-format
+msgid "Delete"
+msgstr "Xoá"
+
+#: branchdeletedialog.cpp:142
+#, kde-format
+msgid "Are you sure you want to delete the selected branch?"
+msgid_plural "Are you sure you want to delete the selected branches?"
+msgstr[0] "Bạn có chắc chắn muốn xoá những nhánh đã chọn không?"
+
+#: branchesdialog.cpp:101
 #, kde-format
 msgid "Select Branch..."
 msgstr "Chọn nhánh..."
 
-#: branchesdialog.cpp:209 gitwidget.cpp:283 kateprojectpluginview.cpp:71
-#: kateprojectview.cpp:142
+#: branchesdialog.cpp:113 gitwidget.cpp:567 kateprojectpluginview.cpp:69
 #, kde-format
 msgid "Git"
 msgstr "Git"
 
-#: comparebranchesview.cpp:138 filehistorywidget.cpp:198
+#: comparebranchesview.cpp:145
 #, kde-format
 msgid "Back"
 msgstr "Lùi"
 
-#: filehistorywidget.cpp:33
+#: currentgitbranchbutton.cpp:122
 #, kde-format
-msgid "Failed to get file history: %1"
-msgstr "Lấy lịch sử tệp thất bại: %1"
+msgctxt "Tooltip text, describing that '%1' commit is checked out"
+msgid "HEAD at commit %1"
+msgstr "HEAD ở bản chuyển giao %1"
 
-#: gitcommitdialog.cpp:68 gitcommitdialog.cpp:113
+#: currentgitbranchbutton.cpp:124
+#, kde-format
+msgctxt "Tooltip text, describing that '%1' tag is checked out"
+msgid "HEAD is at this tag %1"
+msgstr "HEAD ở thẻ gắn %1"
+
+#: currentgitbranchbutton.cpp:126
+#, kde-format
+msgctxt "Tooltip text, describing that '%1' branch is checked out"
+msgid "Active branch: %1"
+msgstr "Nhánh hoạt động: %1"
+
+#: gitcommitdialog.cpp:69 gitcommitdialog.cpp:120
 #, kde-format
 msgid "Commit Changes"
 msgstr "Chuyển giao các thay đổi"
 
-#: gitcommitdialog.cpp:70 gitcommitdialog.cpp:112 gitwidget.cpp:169
+#: gitcommitdialog.cpp:73 gitcommitdialog.cpp:119 gitwidget.cpp:282
+#: gitwidget.cpp:1099
 #, kde-format
 msgid "Commit"
 msgstr "Chuyển giao"
 
-#: gitcommitdialog.cpp:71
+#: gitcommitdialog.cpp:74
 #, kde-format
 msgid "Cancel"
 msgstr "Huỷ"
 
-#: gitcommitdialog.cpp:73
+#: gitcommitdialog.cpp:76
 #, kde-format
 msgid "Write commit message..."
 msgstr "Viết thông điệp chuyển giao..."
 
-#: gitcommitdialog.cpp:80
+#: gitcommitdialog.cpp:83
 #, kde-format
 msgid "Extended commit description..."
 msgstr "Mô tả mở rộng cho bản chuyển giao..."
 
-#: gitcommitdialog.cpp:104
+#: gitcommitdialog.cpp:107
 #, kde-format
 msgid "Sign off"
 msgstr "Xác nhận"
 
-#: gitcommitdialog.cpp:108 gitcommitdialog.cpp:117
+#: gitcommitdialog.cpp:111 gitcommitdialog.cpp:124
 #, kde-format
 msgid "Amend"
 msgstr "Sửa đổi"
 
-#: gitcommitdialog.cpp:109 gitwidget.cpp:825
+#: gitcommitdialog.cpp:112 gitwidget.cpp:1054
 #, kde-format
 msgid "Amend Last Commit"
-msgstr "Sửa đổi bản chuyển giao gần nhất"
+msgstr "Sửa đổi bản chuyển giao cuối"
 
-#: gitcommitdialog.cpp:116
+#: gitcommitdialog.cpp:123
 #, kde-format
 msgid "Amending Commit"
 msgstr "Sửa đổi bản chuyển giao"
 
-#: gitcommitdialog.cpp:200
+#: gitcommitdialog.cpp:207
 #, kde-format
 msgctxt "Number of characters"
 msgid "%1 / 52"
 msgstr "%1 / 52"
 
-#: gitcommitdialog.cpp:204
+#: gitcommitdialog.cpp:211
 #, kde-format
 msgctxt "Number of characters"
 msgid "<span style=\"color:%1;\">%2</span> / 52"
 msgstr "<span style=\"color:%1;\">%2</span> / 52"
 
-#: gitstatusmodel.cpp:86
+#: gitstatusmodel.cpp:85
 #, kde-format
 msgid "Staged"
 msgstr "Được chấp nhận"
 
-#: gitstatusmodel.cpp:88
+#: gitstatusmodel.cpp:87
 #, kde-format
 msgid "Untracked"
 msgstr "Chưa theo dõi"
 
-#: gitstatusmodel.cpp:90
+#: gitstatusmodel.cpp:89
 #, kde-format
 msgid "Conflict"
 msgstr "Xung đột"
 
-#: gitstatusmodel.cpp:92
+#: gitstatusmodel.cpp:91
 #, kde-format
 msgid "Modified"
-msgstr "Bị chỉnh sửa"
+msgstr "Đã chỉnh sửa"
 
-#: gitwidget.cpp:171
+#: gitwidget.cpp:290
 #, kde-format
-msgid "Git push"
+msgid "Git Push"
 msgstr "Đẩy lên Git"
 
-#: gitwidget.cpp:178
+#: gitwidget.cpp:303
 #, kde-format
-msgid "Git pull"
+msgid "Git Pull"
 msgstr "Kéo về Git"
 
-#: gitwidget.cpp:185
+#: gitwidget.cpp:316
 #, kde-format
 msgid "Cancel Operation"
 msgstr "Huỷ thao tác"
 
-#: gitwidget.cpp:193
+#: gitwidget.cpp:324
 #, kde-format
 msgid " canceled."
-msgstr " đã bị huỷ."
+msgstr " đã huỷ."
 
-#: gitwidget.cpp:269
+#: gitwidget.cpp:332
 #, kde-format
-msgid "Failed to find .git directory, things may not work correctly"
-msgstr "Không tìm thấy thư mục .git, các chức năng có thể không hoạt động đúng"
+msgid "Refresh git status"
+msgstr "Cập nhật trạng thái git"
 
-#: gitwidget.cpp:356
+#: gitwidget.cpp:354 kateprojectview.cpp:59
+#, fuzzy, kde-format
+#| msgid "Filter..."
+msgid "Filter…"
+msgstr "Lọc..."
+
+#: gitwidget.cpp:444
+#, kde-format
+msgid "Failed to find .git directory for '%1', things may not work correctly"
+msgstr ""
+"Không tìm thấy thư mục .git for '%1', các chức năng có thể không hoạt động "
+"đúng"
+
+#: gitwidget.cpp:654
 #, kde-format
 msgid " error: %1"
 msgstr " lỗi: %1"
 
-#: gitwidget.cpp:362
+#: gitwidget.cpp:660
 #, kde-format
 msgid "\"%1\" executed successfully: %2"
 msgstr "Thực thi \"%1\" thành công: %2"
 
-#: gitwidget.cpp:383
+#: gitwidget.cpp:680
 #, kde-format
 msgid "Failed to stage file. Error:"
 msgstr "Chấp nhận tệp thất bại. Lỗi:"
 
-#: gitwidget.cpp:396
+#: gitwidget.cpp:693
 #, kde-format
 msgid "Failed to unstage file. Error:"
 msgstr "Bỏ chấp nhận tệp thất bại. Lỗi:"
 
-#: gitwidget.cpp:407
+#: gitwidget.cpp:704
 #, kde-format
 msgid "Failed to discard changes. Error:"
 msgstr "Loại bỏ các thay đổi thất bại. Lỗi:"
 
-#: gitwidget.cpp:418
+#: gitwidget.cpp:715
 #, kde-format
 msgid "Failed to remove. Error:"
 msgstr "Xoá thất bại. Lỗi:"
 
-#: gitwidget.cpp:435
+#: gitwidget.cpp:731
 #, kde-format
 msgid "Failed to open file at HEAD: %1"
 msgstr "Mở tệp ở HEAD thất bại: %1"
 
-#: gitwidget.cpp:467
+#: gitwidget.cpp:763
 #, kde-format
 msgid "Failed to get Diff of file: %1"
 msgstr "Lấy phần chênh của tệp thất bại: %1"
 
-#: gitwidget.cpp:475
-#, kde-format
-msgid "Stage Hunk"
-msgstr "Chấp nhận khúc"
-
-#: gitwidget.cpp:476
-#, kde-format
-msgid "Stage Lines"
-msgstr "Chấp nhận dòng"
-
-#: gitwidget.cpp:488
-#, kde-format
-msgid "Unstage Hunk"
-msgstr "Bỏ chấp nhận khúc"
-
-#: gitwidget.cpp:489
-#, kde-format
-msgid "Unstage Lines"
-msgstr "Bỏ chấp nhận dòng"
-
-#: gitwidget.cpp:550
+#: gitwidget.cpp:831
 #, kde-format
 msgid "Failed to commit: %1"
 msgstr "Chuyển giao thất bại: %1"
 
-#: gitwidget.cpp:554
+#: gitwidget.cpp:835
 #, kde-format
 msgid "Changes committed successfully."
 msgstr "Các thay đổi được chuyển giao thành công."
 
-#: gitwidget.cpp:595
-#, kde-format
-msgid "Failed to stage selection"
-msgstr "Việc chấp nhận phần chọn thất bại"
-
-#: gitwidget.cpp:606
-#, kde-format
-msgid "Failed to stage: %1"
-msgstr "Việc chấp nhận thất bại: %1"
-
-#: gitwidget.cpp:627
+#: gitwidget.cpp:845
 #, kde-format
 msgid "Nothing to commit. Please stage your changes first."
 msgstr "Không có gì để chuyển giao. Vui lòng chấp nhận các thay đổi trước đã."
 
-#: gitwidget.cpp:648
+#: gitwidget.cpp:859
 #, kde-format
 msgid "Commit message cannot be empty."
 msgstr "Thông điệp chuyển giao không được để trống."
 
-#: gitwidget.cpp:768
+#: gitwidget.cpp:990
 #, kde-format
 msgid "No diff for %1...%2"
 msgstr "Không có phần chênh cho %1...%2"
 
-#: gitwidget.cpp:774
+#: gitwidget.cpp:996
 #, kde-format
 msgid "Failed to compare %1...%2"
 msgstr "So sánh thất bại: %1...%2"
 
-#: gitwidget.cpp:784
+#: gitwidget.cpp:1011
 #, kde-format
 msgid "Failed to get numstat when diffing %1...%2"
 msgstr "Lấy numstat thất bại khi so sánh %1...%2"
 
-#: gitwidget.cpp:818
+#: gitwidget.cpp:1046
 #, kde-format
 msgid "Refresh"
 msgstr "Cập nhật"
 
-#: gitwidget.cpp:829
+#: gitwidget.cpp:1062
 #, kde-format
 msgid "Checkout Branch"
 msgstr "Lấy ra nhánh"
 
-#: gitwidget.cpp:835
+#: gitwidget.cpp:1074
 #, kde-format
-msgid "Compare Branch with ..."
+msgid "Delete Branch"
+msgstr "Xoá nhánh"
+
+#: gitwidget.cpp:1088
+#, kde-format
+msgid "Compare Branch with..."
 msgstr "So sánh nhánh với..."
 
-#: gitwidget.cpp:844 gitwidget.cpp:878
+#: gitwidget.cpp:1093
+#, kde-format
+msgid "Show Commit"
+msgstr "Hiện bản chuyển giao"
+
+#: gitwidget.cpp:1111
+#, fuzzy, kde-format
+#| msgid "Last Commit"
+msgid "Show Last Commit"
+msgstr "Bản chuyển giao cuối"
+
+#: gitwidget.cpp:1129
+#, kde-format
+msgid "Open Commit..."
+msgstr "Mở bản chuyển giao..."
+
+#: gitwidget.cpp:1132 gitwidget.cpp:1171
 #, kde-format
 msgid "Stash"
 msgstr "Cất"
 
-#: gitwidget.cpp:879
+#: gitwidget.cpp:1142
+#, kde-format
+msgid "Diff - stash"
+msgstr "Phần chênh - cất"
+
+#: gitwidget.cpp:1175
 #, kde-format
 msgid "Pop Last Stash"
-msgstr "Lấy ra phần cất gần nhất"
+msgstr "Lấy ra phần cất cuối"
 
-#: gitwidget.cpp:880
+#: gitwidget.cpp:1179
 #, kde-format
 msgid "Pop Stash"
 msgstr "Lấy phần cất ra"
 
-#: gitwidget.cpp:881
+#: gitwidget.cpp:1183
 #, kde-format
 msgid "Apply Last Stash"
-msgstr "Áp dụng phần cất gần nhất"
+msgstr "Áp dụng phần cất cuối"
 
-#: gitwidget.cpp:882
+#: gitwidget.cpp:1185
 #, kde-format
 msgid "Stash (Keep Staged)"
 msgstr "Cất (để nguyên phần đã chấp nhận)"
 
-#: gitwidget.cpp:883
+#: gitwidget.cpp:1189
 #, kde-format
 msgid "Stash (Include Untracked)"
 msgstr "Cất (bao gồm phần chưa theo dõi)"
 
-#: gitwidget.cpp:884
+#: gitwidget.cpp:1193
 #, kde-format
 msgid "Apply Stash"
 msgstr "Áp dụng phần cất"
 
-#: gitwidget.cpp:885
+#: gitwidget.cpp:1194
 #, kde-format
 msgid "Drop Stash"
 msgstr "Bỏ phần cất"
 
-#: gitwidget.cpp:886
+#: gitwidget.cpp:1195
 #, kde-format
 msgid "Show Stash Content"
 msgstr "Hiện nội dung phần cất"
 
-#: gitwidget.cpp:939
+#: gitwidget.cpp:1233
 #, kde-format
 msgid "Stage All"
 msgstr "Chấp nhận tất cả"
 
-#: gitwidget.cpp:941
+#: gitwidget.cpp:1235
 #, kde-format
 msgid "Remove All"
 msgstr "Xoá tất cả"
 
-#: gitwidget.cpp:941
+#: gitwidget.cpp:1235
 #, kde-format
 msgid "Discard All"
 msgstr "Loại bỏ tất cả"
 
-#: gitwidget.cpp:944
+#: gitwidget.cpp:1238
 #, kde-format
 msgid "Open .gitignore"
 msgstr "Mở .gitignore"
 
-#: gitwidget.cpp:945 gitwidget.cpp:1033
+#: gitwidget.cpp:1239 gitwidget.cpp:1280 gitwidget.cpp:1330
+#: kateprojectconfigpage.cpp:90 kateprojectconfigpage.cpp:102
 #, kde-format
-msgid "Show diff"
+msgid "Show Diff"
 msgstr "Hiện phần chênh"
 
-#: gitwidget.cpp:962
+#: gitwidget.cpp:1256
 #, kde-format
 msgid "Are you sure you want to remove these files?"
 msgstr "Bạn có chắc chắn muốn xoá những tệp này không?"
 
-#: gitwidget.cpp:967
+#: gitwidget.cpp:1261
 #, kde-format
 msgid "Are you sure you want to discard all changes?"
 msgstr "Bạn có chắc chắn muốn loại bỏ tất cả các thay đổi không?"
 
-#: gitwidget.cpp:990 kateprojectconfigpage.cpp:81 kateprojectconfigpage.cpp:92
+#: gitwidget.cpp:1279
 #, kde-format
-msgid "Open file"
+msgid "Open File"
 msgstr "Mở tệp"
 
-#: gitwidget.cpp:991
+#: gitwidget.cpp:1281
 #, kde-format
-msgid "Show raw diff"
-msgstr "Hiện phần chênh thô"
+msgid "Show in External Git Diff Tool"
+msgstr "Hiện ở công cụ xem phần chênh Git bên ngoài"
 
-#: gitwidget.cpp:992
-#, kde-format
-msgid "Show in external git diff tool"
-msgstr "Hiện ở công cụ git diff bên ngoài"
-
-#: gitwidget.cpp:993
+#: gitwidget.cpp:1282
 #, kde-format
 msgid "Open at HEAD"
 msgstr "Mở ở HEAD"
 
-#: gitwidget.cpp:994
+#: gitwidget.cpp:1283
 #, kde-format
-msgid "Unstage file"
+msgid "Unstage File"
 msgstr "Bỏ chấp nhận tệp"
 
-#: gitwidget.cpp:994
+#: gitwidget.cpp:1283
 #, kde-format
-msgid "Stage file"
+msgid "Stage File"
 msgstr "Chấp nhận tệp"
 
-#: gitwidget.cpp:995
+#: gitwidget.cpp:1284
 #, kde-format
 msgid "Remove"
 msgstr "Xoá"
 
-#: gitwidget.cpp:995
+#: gitwidget.cpp:1284
 #, kde-format
 msgid "Discard"
 msgstr "Loại bỏ"
 
-#: gitwidget.cpp:1012
+#: gitwidget.cpp:1303
 #, kde-format
 msgid "Are you sure you want to discard the changes in this file?"
 msgstr "Bạn có chắc chắn muốn loại bỏ các thay đổi trong tệp này không?"
 
-#: gitwidget.cpp:1021
+#: gitwidget.cpp:1312
 #, kde-format
 msgid "Are you sure you want to remove this file?"
 msgstr "Bạn có chắc chắn muốn xoá tệp này không?"
 
-#: gitwidget.cpp:1032
+#: gitwidget.cpp:1329
 #, kde-format
 msgid "Unstage All"
 msgstr "Bỏ chấp nhận tất cả"
 
-#: gitwidget.cpp:1087
+#: gitwidget.cpp:1396
 #, kde-format
 msgid "Unstage Selected Files"
 msgstr "Bỏ chấp nhận các tệp đã chọn"
 
-#: gitwidget.cpp:1087
+#: gitwidget.cpp:1396
 #, kde-format
 msgid "Stage Selected Files"
 msgstr "Chấp nhận các tệp đã chọn"
 
-#: gitwidget.cpp:1088
+#: gitwidget.cpp:1397
 #, kde-format
 msgid "Discard Selected Files"
 msgstr "Loại bỏ các tệp đã chọn"
 
-#: gitwidget.cpp:1092
+#: gitwidget.cpp:1401
 #, kde-format
 msgid "Remove Selected Files"
 msgstr "Xoá các tệp đã chọn"
 
-#: gitwidget.cpp:1105
+#: gitwidget.cpp:1414
 #, kde-format
 msgid "Are you sure you want to discard the changes?"
 msgstr "Bạn có chắc chắn muốn loại bỏ các thay đổi không?"
 
-#: gitwidget.cpp:1110
+#: gitwidget.cpp:1419
 #, kde-format
 msgid "Are you sure you want to remove these untracked changes?"
 msgstr "Bạn có chắc chắn muốn xoá những thay đổi chưa được theo dõi này không?"
 
-#: kateproject.cpp:422
+#: kateproject.cpp:300
+#, kde-format
+msgid "Malformed JSON file '%1': %2"
+msgstr "Tệp JSON '%1' sai dạng: %2"
+
+#: kateproject.cpp:367 kateprojectplugin.cpp:734 kateprojectpluginview.cpp:74
+#: kateprojectpluginview.cpp:221 kateprojectviewtree.cpp:207
+#: kateprojectviewtree.cpp:218 kateprojectviewtree.cpp:245
+#: kateprojectviewtree.cpp:252
+#, kde-format
+msgid "Project"
+msgstr "Dự án"
+
+#: kateproject.cpp:666
 #, kde-format
 msgid "<untracked>"
 msgstr "<chưa theo dõi>"
 
-#: kateprojectcompletion.cpp:43
+#: kateprojectcompletion.cpp:54
 #, kde-format
 msgid "Project Completion"
 msgstr "Hoàn tất dự án"
 
-#: kateprojectconfigpage.cpp:25
-#, kde-format
+#: kateprojectconfigpage.cpp:24
+#, fuzzy, kde-format
+#| msgctxt "Groupbox title"
+#| msgid "Autoload Repositories"
 msgctxt "Groupbox title"
-msgid "Autoload Repositories"
+msgid "Autoload Repositories && Build Trees"
 msgstr "Tự động tải các kho"
 
-#: kateprojectconfigpage.cpp:27
-#, kde-format
+#: kateprojectconfigpage.cpp:26
+#, fuzzy, kde-format
+#| msgid ""
+#| "Project plugin is able to autoload repository working copies when there "
+#| "is no .kateproject file defined yet."
 msgid ""
-"Project plugin is able to autoload repository working copies when there is "
-"no .kateproject file defined yet."
+"Project plugin is able to autoload repository working copies and build trees "
+"when there is no .kateproject file defined yet."
 msgstr ""
 "Phần cài cắm 'dự án' có thể tự động tải bản sao hoạt động của kho khi chưa "
 "có tệp .kateproject nào được xác định."
 
-#: kateprojectconfigpage.cpp:30
+#: kateprojectconfigpage.cpp:29
 #, kde-format
 msgid "&Git"
 msgstr "&Git"
 
-#: kateprojectconfigpage.cpp:33
+#: kateprojectconfigpage.cpp:32
 #, kde-format
 msgid "&Subversion"
 msgstr "&Subversion"
 
-#: kateprojectconfigpage.cpp:35
+#: kateprojectconfigpage.cpp:34
 #, kde-format
 msgid "&Mercurial"
 msgstr "&Mercurial"
 
-#: kateprojectconfigpage.cpp:44
+#: kateprojectconfigpage.cpp:36
+#, kde-format
+msgid "&Fossil"
+msgstr "&Fossil"
+
+#: kateprojectconfigpage.cpp:38
+#, kde-format
+msgid "&CMake"
+msgstr ""
+
+#: kateprojectconfigpage.cpp:47
+#, kde-format
+msgctxt "Groupbox title"
+msgid "Session Behavior"
+msgstr "Ứng xử của phiên"
+
+#: kateprojectconfigpage.cpp:48
+#, kde-format
+msgid "Session settings for projects"
+msgstr "Thiết lập về phiên cho dự án"
+
+#: kateprojectconfigpage.cpp:49
+#, kde-format
+msgid "Restore Open Projects"
+msgstr "Khôi phục các dự án mở"
+
+#: kateprojectconfigpage.cpp:56
 #, kde-format
 msgctxt "Groupbox title"
 msgid "Project Index"
 msgstr "Chỉ mục dự án"
 
-#: kateprojectconfigpage.cpp:45
+#: kateprojectconfigpage.cpp:57
 #, kde-format
 msgid "Project ctags index settings"
 msgstr "Thiết lập chỉ mục ctags của dự án"
 
-#: kateprojectconfigpage.cpp:46 kateprojectinfoviewindex.cpp:206
+#: kateprojectconfigpage.cpp:58 kateprojectinfoviewindex.cpp:209
 #, kde-format
 msgid "Enable indexing"
 msgstr "Bật chức năng lập chỉ mục"
 
-#: kateprojectconfigpage.cpp:49
+#: kateprojectconfigpage.cpp:61
 #, kde-format
 msgid "Directory for index files"
 msgstr "Thư mục chứa tệp chỉ mục"
 
-#: kateprojectconfigpage.cpp:53
+#: kateprojectconfigpage.cpp:65
 #, kde-format
 msgid ""
 "The system temporary directory is used if not specified, which may overflow "
@@ -550,145 +623,170 @@ msgstr ""
 "Thư mục tạm của hệ thống sẽ được dùng nếu không có gì được chỉ định, có thể "
 "xảy ra tràn khi kho quá lớn"
 
-#: kateprojectconfigpage.cpp:60
+#: kateprojectconfigpage.cpp:72
 #, kde-format
 msgctxt "Groupbox title"
 msgid "Cross-Project Functionality"
 msgstr "Chức năng liên dự án"
 
-#: kateprojectconfigpage.cpp:61
+#: kateprojectconfigpage.cpp:73
 #, kde-format
 msgid ""
 "Project plugin is able to perform some operations across multiple projects"
 msgstr "Phần cài cắm 'dự án' có thể thực hiện một số thao tác giữa nhiều dự án"
 
-#: kateprojectconfigpage.cpp:62
+#: kateprojectconfigpage.cpp:74
 #, kde-format
 msgid "Cross-Project Completion"
 msgstr "Hoàn tất liên dự án"
 
-#: kateprojectconfigpage.cpp:64
+#: kateprojectconfigpage.cpp:76
 #, kde-format
 msgid "Cross-Project Goto Symbol"
 msgstr "Kí hiệu \"Đi đến\" liên dự án"
 
-#: kateprojectconfigpage.cpp:72
+#: kateprojectconfigpage.cpp:84
 #, kde-format
 msgctxt "Groupbox title"
 msgid "Git"
 msgstr "Git"
 
-#: kateprojectconfigpage.cpp:73
-#, kde-format
-msgid "Show number of changed lines in git status"
-msgstr "Hiện số dòng bị thay đổi trong trạng thái git"
-
-#: kateprojectconfigpage.cpp:77
+#: kateprojectconfigpage.cpp:87
 #, kde-format
 msgid "Single click action in the git status view"
 msgstr "Hành động bấm đơn trong khung xem trạng thái git"
 
-#: kateprojectconfigpage.cpp:79 kateprojectconfigpage.cpp:90
+#: kateprojectconfigpage.cpp:89 kateprojectconfigpage.cpp:101
 #, kde-format
 msgid "No Action"
 msgstr "Không hành động"
 
-#: kateprojectconfigpage.cpp:80 kateprojectconfigpage.cpp:91
+#: kateprojectconfigpage.cpp:91 kateprojectconfigpage.cpp:103
 #, kde-format
-msgid "Show Diff"
-msgstr "Hiện phần chênh"
+msgid "Open file"
+msgstr "Mở tệp"
 
-#: kateprojectconfigpage.cpp:82 kateprojectconfigpage.cpp:93
+#: kateprojectconfigpage.cpp:92 kateprojectconfigpage.cpp:104
 #, kde-format
 msgid "Stage / Unstage"
 msgstr "Chấp nhận / Bỏ chấp nhận"
 
-#: kateprojectconfigpage.cpp:88
+#: kateprojectconfigpage.cpp:99
 #, kde-format
 msgid "Double click action in the git status view"
 msgstr "Hành động bấm đúp trong khung xem trạng thái git"
 
-#: kateprojectconfigpage.cpp:122 kateprojectpluginview.cpp:66
+#: kateprojectconfigpage.cpp:142 kateprojectpluginview.cpp:68
 #, kde-format
 msgid "Projects"
 msgstr "Dự án"
 
-#: kateprojectconfigpage.cpp:127
+#: kateprojectconfigpage.cpp:147
 #, kde-format
 msgctxt "Groupbox title"
 msgid "Projects Properties"
 msgstr "Thuộc tính của dự án"
 
-#: kateprojectinfoview.cpp:35
-#, kde-format
-msgid "Terminal (.kateproject)"
+#: kateprojectinfoview.cpp:80
+#, fuzzy, kde-format
+#| msgid "Terminal (Base)"
+msgctxt "@title:tab"
+msgid "Terminal"
+msgstr "Dòng lệnh (cơ sở)"
+
+#: kateprojectinfoview.cpp:89
+#, fuzzy, kde-format
+#| msgid "Terminal (.kateproject)"
+msgctxt "@title:tab"
+msgid "Terminal (Project)"
 msgstr "Dòng lệnh (.kateproject)"
 
-#: kateprojectinfoview.cpp:43
-#, kde-format
+#: kateprojectinfoview.cpp:98
+#, fuzzy, kde-format
+#| msgid "Terminal (Base)"
+msgctxt "@title:tab"
 msgid "Terminal (Base)"
 msgstr "Dòng lệnh (cơ sở)"
 
-#: kateprojectinfoview.cpp:50
+#: kateprojectinfoview.cpp:107
+#, fuzzy, kde-format
+#| msgid "Terminal (Base)"
+msgctxt "@title:tab"
+msgid "Terminal (Build)"
+msgstr "Dòng lệnh (cơ sở)"
+
+#: kateprojectinfoview.cpp:114
 #, kde-format
 msgid "Code Index"
 msgstr "Chỉ mục mã"
 
-#: kateprojectinfoview.cpp:55
+#: kateprojectinfoview.cpp:119
 #, kde-format
 msgid "Code Analysis"
 msgstr "Phân tích mã"
 
-#: kateprojectinfoview.cpp:60
+#: kateprojectinfoview.cpp:124
 #, kde-format
 msgid "Notes"
 msgstr "Ghi chú"
 
-#: kateprojectinfoviewcodeanalysis.cpp:29
+#: kateprojectinfoviewcodeanalysis.cpp:35
 #, kde-format
 msgid "Start Analysis..."
 msgstr "Bắt đầu phân tích..."
 
-#: kateprojectinfoviewcodeanalysis.cpp:42 kateprojectinfoviewindex.cpp:35
-#, kde-format
-msgid "File"
-msgstr "Tệp"
+#: kateprojectinfoviewcodeanalysis.cpp:43
+#, fuzzy, kde-format
+#| msgid "Code Analysis"
+msgctxt "'%1' refers to project name, e.g,. Code Analysis - MyProject"
+msgid "Code Analysis - %1"
+msgstr "Phân tích mã"
 
-#: kateprojectinfoviewcodeanalysis.cpp:42 kateprojectinfoviewindex.cpp:35
-#, kde-format
-msgid "Line"
-msgstr "Dòng"
-
-#: kateprojectinfoviewcodeanalysis.cpp:42
-#, kde-format
-msgid "Severity"
-msgstr "Độ quan trọng"
-
-#: kateprojectinfoviewcodeanalysis.cpp:42
-#, kde-format
-msgid "Message"
-msgstr "Thông điệp"
-
-#: kateprojectinfoviewcodeanalysis.cpp:108
-#, kde-format
+#: kateprojectinfoviewcodeanalysis.cpp:100
+#, fuzzy, kde-format
+#| msgid ""
+#| "%1<br/><br/>The tool will be run on all project files which match this "
+#| "list of file extensions:<br/><br/><b>%2</b>"
 msgid ""
-"%1<br/><br/>The tool will be run on all project files which match this list "
-"of file extensions:<br/><br/><b>%2</b>"
+"'%1' is not installed on your system, %2.<br/><br/>%3. The tool will be run "
+"on all project files which match this list of file extensions:<br/><b>%4</b>"
 msgstr ""
 "%1<br/><br/>Công cụ này sẽ được chạy trên tất cả các tệp dự án khớp với danh "
 "sách phần mở rộng tệp này:<br/><br/><b>%2</b>"
 
-#: kateprojectinfoviewcodeanalysis.cpp:243
-#, kde-format
-msgid "Analysis on %1 file finished."
-msgid_plural "Analysis on %1 files finished."
-msgstr[0] "Phân tích %1 tệp đã xong."
+#: kateprojectinfoviewcodeanalysis.cpp:110
+#, fuzzy, kde-format
+#| msgid ""
+#| "%1<br/><br/>The tool will be run on all project files which match this "
+#| "list of file extensions:<br/><br/><b>%2</b>"
+msgid ""
+"Using %1 installed at: %2.<br/><br/>%3. The tool will be run on all project "
+"files which match this list of file extensions:<br/><b>%4</b>"
+msgstr ""
+"%1<br/><br/>Công cụ này sẽ được chạy trên tất cả các tệp dự án khớp với danh "
+"sách phần mở rộng tệp này:<br/><br/><b>%2</b>"
 
-#: kateprojectinfoviewcodeanalysis.cpp:255
+#: kateprojectinfoviewcodeanalysis.cpp:152
+#: kateprojectinfoviewcodeanalysis.cpp:212
+#: kateprojectinfoviewcodeanalysis.cpp:216
 #, kde-format
-msgid "Analysis on %1 file failed with exit code %2."
-msgid_plural "Analysis on %1 files failed with exit code %2."
-msgstr[0] "Phân tích %1 tệp thất bại với mã trả về %2."
+msgid "CodeAnalysis"
+msgstr "CodeAnalysis"
+
+#: kateprojectinfoviewcodeanalysis.cpp:207
+#, kde-format
+msgctxt ""
+"Message to the user that analysis finished. %1 is the name of the program "
+"that did the analysis, %2 is a number. e.g., [clang-tidy]Analysis on 5 files "
+"finished"
+msgid "[%1]Analysis on %2 file finished."
+msgid_plural "[%1]Analysis on %2 files finished."
+msgstr[0] "[%1]Phân tích %2 tệp đã xong."
+
+#: kateprojectinfoviewcodeanalysis.cpp:215
+#, kde-format
+msgid "Analysis failed with exit code %1, Error: %2"
+msgstr "Phân tích thất bại với mã trả về %1, lỗi: %2."
 
 #: kateprojectinfoviewindex.cpp:35
 #, kde-format
@@ -700,47 +798,57 @@ msgstr "Tên"
 msgid "Kind"
 msgstr "Loại"
 
+#: kateprojectinfoviewindex.cpp:35
+#, kde-format
+msgid "File"
+msgstr "Tệp"
+
+#: kateprojectinfoviewindex.cpp:35
+#, kde-format
+msgid "Line"
+msgstr "Dòng"
+
 #: kateprojectinfoviewindex.cpp:36
 #, kde-format
 msgid "Search"
 msgstr "Tìm kiếm"
 
-#: kateprojectinfoviewindex.cpp:195
+#: kateprojectinfoviewindex.cpp:198
 #, kde-format
 msgid "The index could not be created. Please install 'ctags'."
 msgstr "Không tạo được chỉ mục. Vui lòng cài đặt 'ctags'."
 
-#: kateprojectinfoviewindex.cpp:205
+#: kateprojectinfoviewindex.cpp:208
 #, kde-format
 msgid "Indexing is not enabled"
 msgstr "Việc lập chỉ mục không được bật"
 
-#: kateprojectitem.cpp:163
+#: kateprojectitem.cpp:166
 #, kde-format
 msgid "Error"
 msgstr "Lỗi"
 
-#: kateprojectitem.cpp:163
+#: kateprojectitem.cpp:166
 #, kde-format
 msgid "File name already exists"
 msgstr "Tên tệp đã tồn tại"
 
-#: kateprojectplugin.cpp:220
+#: kateprojectplugin.cpp:217
 #, kde-format
 msgid "Confirm project closing: %1"
 msgstr "Xác nhận đóng dự án: %1"
 
-#: kateprojectplugin.cpp:221
+#: kateprojectplugin.cpp:218
 #, kde-format
 msgid "Do you want to close the project %1 and the related %2 open documents?"
 msgstr "Bạn có muốn đóng dự án %1 và %2 tài liệu liên quan đang mở?"
 
-#: kateprojectplugin.cpp:513
+#: kateprojectplugin.cpp:600
 #, kde-format
 msgid "Full path to current project excluding the file name."
 msgstr "Đường dẫn đầy đủ đến dự án hiện tại không bao gồm tên tệp."
 
-#: kateprojectplugin.cpp:530
+#: kateprojectplugin.cpp:617
 #, kde-format
 msgid ""
 "Full path to current project excluding the file name, with native path "
@@ -749,58 +857,94 @@ msgstr ""
 "Đường dẫn đầy đủ đến dự án hiện tại không bao gồm tên tệp, với phần phân "
 "cách đường dẫn bản địa (dấu gạch chéo ngược trên Windows)."
 
-#: kateprojectpluginview.cpp:56
+#: kateprojectpluginview.cpp:58
 #, kde-format
-msgid "Kate Project Manager"
-msgstr "Trình quản lí dự án trong Kate"
+msgid "Project Manager"
+msgstr "Trình quản lí dự án"
 
-#: kateprojectpluginview.cpp:76
+#: kateprojectpluginview.cpp:80
 #, kde-format
-msgid "Current Project"
-msgstr "Dự án hiện tại"
+msgid "Open projects list"
+msgstr "Mở danh sách các dự án"
 
-#: kateprojectpluginview.cpp:177
+#: kateprojectpluginview.cpp:85
 #, kde-format
-msgid "Open Folder..."
+msgid "Reload project"
+msgstr "Tải lại dự án"
+
+#: kateprojectpluginview.cpp:88
+#, kde-format
+msgid "Close project"
+msgstr "Đóng dự án"
+
+#: kateprojectpluginview.cpp:164
+#, fuzzy, kde-format
+#| msgid "Open Folder..."
+msgid "Open &Folder..."
 msgstr "Mở thư mục..."
 
-#: kateprojectpluginview.cpp:180
+#: kateprojectpluginview.cpp:170
 #, kde-format
 msgid "Project TODOs"
 msgstr "TODO của dự án"
 
-#: kateprojectpluginview.cpp:190
+#: kateprojectpluginview.cpp:175
+#, kde-format
+msgid "Activate Previous Project"
+msgstr "Kích hoạt dự án trước"
+
+#: kateprojectpluginview.cpp:181
+#, kde-format
+msgid "Activate Next Project"
+msgstr "Kích hoạt dự án sau"
+
+#: kateprojectpluginview.cpp:187
 #, kde-format
 msgid "Lookup"
 msgstr "Tra"
 
-#: kateprojectpluginview.cpp:193
+#: kateprojectpluginview.cpp:192
 #, kde-format
 msgid "Close Project"
 msgstr "Đóng dự án"
 
-#: kateprojectpluginview.cpp:198 kateprojectviewtree.cpp:131
-#: kateprojectviewtree.cpp:156
+#: kateprojectpluginview.cpp:197
 #, kde-format
-msgid "Project"
-msgstr "Dự án"
+msgid "Close All Projects"
+msgstr "Đóng tất cả các dự án"
 
-#: kateprojectpluginview.cpp:201 kateprojectpluginview.cpp:686
+#: kateprojectpluginview.cpp:202
+#, kde-format
+msgid "Close Orphaned Projects"
+msgstr "Đóng các dự án mồ côi"
+
+#: kateprojectpluginview.cpp:207
+#, fuzzy, kde-format
+#| msgid "Reload project"
+msgid "Reload Project"
+msgstr "Tải lại dự án"
+
+#: kateprojectpluginview.cpp:218
+#, kde-format
+msgid "Checkout Git Branch"
+msgstr "Lấy ra nhánh Git"
+
+#: kateprojectpluginview.cpp:224 kateprojectpluginview.cpp:797
 #, kde-format
 msgid "Lookup: %1"
 msgstr "Tra: %1"
 
-#: kateprojectpluginview.cpp:202 kateprojectpluginview.cpp:687
+#: kateprojectpluginview.cpp:225 kateprojectpluginview.cpp:798
 #, kde-format
 msgid "Goto: %1"
 msgstr "Đi đến: %1"
 
-#: kateprojectpluginview.cpp:260
+#: kateprojectpluginview.cpp:299
 #, kde-format
 msgid "Projects Index"
 msgstr "Chỉ mục dự án"
 
-#: kateprojectpluginview.cpp:718
+#: kateprojectpluginview.cpp:842
 #, kde-format
 msgid "Choose a directory"
 msgstr "Chọn một thư mục"
@@ -810,152 +954,183 @@ msgstr "Chọn một thư mục"
 msgid "Enter name:"
 msgstr "Nhập tên:"
 
-#: kateprojecttreeviewcontextmenu.cpp:46
-#, kde-format
-msgid "Add"
-msgstr "Thêm"
-
-#: kateprojecttreeviewcontextmenu.cpp:67
-#, kde-format
-msgid "Copy File Path"
-msgstr "Chép đường dẫn tệp"
-
-#: kateprojecttreeviewcontextmenu.cpp:72
-#, kde-format
-msgid "Add File"
-msgstr "Thêm tệp"
-
-#: kateprojecttreeviewcontextmenu.cpp:73
-#, kde-format
-msgid "Add Folder"
-msgstr "Thêm thư mục"
-
-#: kateprojecttreeviewcontextmenu.cpp:80
-#, kde-format
-msgid "&Rename"
-msgstr "Đổi tê&n"
-
-#: kateprojecttreeviewcontextmenu.cpp:81
-#, kde-format
-msgid "Delete"
-msgstr "Xoá"
-
-#: kateprojecttreeviewcontextmenu.cpp:87
-#, kde-format
-msgid "Properties"
-msgstr "Thuộc tính"
-
-#: kateprojecttreeviewcontextmenu.cpp:94
-#, kde-format
-msgid "Open With"
-msgstr "Mở bằng"
-
-#: kateprojecttreeviewcontextmenu.cpp:112
-#, kde-format
-msgid "Open Internal Terminal Here"
-msgstr "Mở dòng lệnh nội bộ tại đây"
-
-#: kateprojecttreeviewcontextmenu.cpp:121
-#, kde-format
-msgid "Open External Terminal Here"
-msgstr "Mở dòng lệnh bên ngoài tại đây"
-
-#: kateprojecttreeviewcontextmenu.cpp:126
-#, kde-format
-msgid "&Open Containing Folder"
-msgstr "&Mở thư mục chứa"
-
-#: kateprojecttreeviewcontextmenu.cpp:136
-#, kde-format
-msgid "Show Git History"
-msgstr "Hiện lịch sử Git"
-
-#: kateprojecttreeviewcontextmenu.cpp:156
+#: kateprojecttreeviewcontextmenu.cpp:62
 #, kde-format
 msgid "Delete File"
 msgstr "Xoá tệp"
 
-#: kateprojecttreeviewcontextmenu.cpp:157
+#: kateprojecttreeviewcontextmenu.cpp:63
 #, kde-format
 msgid "Do you want to delete the file '%1'?"
 msgstr "Bạn có muốn xoá tệp '%1' không?"
 
-#: kateprojectview.cpp:63
+#: kateprojecttreeviewcontextmenu.cpp:90
 #, kde-format
-msgid "Checkout Git Branch"
-msgstr "Lấy ra nhánh Git"
+msgid "Copy Location"
+msgstr "Chép địa điểm"
 
-#: kateprojectview.cpp:68
+#: kateprojecttreeviewcontextmenu.cpp:97
+#, fuzzy, kde-format
+#| msgid "Open File"
+msgid "New File…"
+msgstr "Mở tệp"
+
+#: kateprojecttreeviewcontextmenu.cpp:98
+#, fuzzy, kde-format
+#| msgid "Add Folder"
+msgid "New Folder…"
+msgstr "Thêm thư mục"
+
+#: kateprojecttreeviewcontextmenu.cpp:105
 #, kde-format
-msgid "Filter..."
-msgstr "Lọc..."
+msgid "&Rename"
+msgstr "Đổi tê&n"
 
-#: kateprojectviewtree.cpp:133
+#: kateprojecttreeviewcontextmenu.cpp:112
+#, kde-format
+msgid "Properties"
+msgstr "Thuộc tính"
+
+#: kateprojecttreeviewcontextmenu.cpp:116
+#, kde-format
+msgid "Open With"
+msgstr "Mở bằng"
+
+#: kateprojecttreeviewcontextmenu.cpp:124
+#, kde-format
+msgid "Open Internal Terminal Here"
+msgstr "Mở dòng lệnh nội bộ tại đây"
+
+#: kateprojecttreeviewcontextmenu.cpp:133
+#, kde-format
+msgid "Open External Terminal Here"
+msgstr "Mở dòng lệnh bên ngoài tại đây"
+
+#: kateprojecttreeviewcontextmenu.cpp:138
+#, kde-format
+msgid "&Open Containing Folder"
+msgstr "&Mở thư mục chứa"
+
+#: kateprojecttreeviewcontextmenu.cpp:147
+#, kde-format
+msgid "Show Git History"
+msgstr "Hiện lịch sử Git"
+
+#: kateprojecttreeviewcontextmenu.cpp:210
+#, fuzzy, kde-format
+#| msgid "Open File"
+msgid "New File"
+msgstr "Mở tệp"
+
+#: kateprojecttreeviewcontextmenu.cpp:215
+#, fuzzy, kde-format
+#| msgid "Add Folder"
+msgid "New Folder"
+msgstr "Thêm thư mục"
+
+#: kateprojectviewtree.cpp:207
+#, fuzzy, kde-format
+#| msgid "File name already exists"
+msgid "The file already exists"
+msgstr "Tên tệp đã tồn tại"
+
+#: kateprojectviewtree.cpp:218
 #, kde-format
 msgid "Failed to create file: %1, Error: %2"
 msgstr "Tạo tệp %1 thất bại, lỗi: %2"
 
-#: kateprojectviewtree.cpp:158
+#: kateprojectviewtree.cpp:245
+#, fuzzy, kde-format
+#| msgid "File name already exists"
+msgid "The directory already exists"
+msgstr "Tên tệp đã tồn tại"
+
+#: kateprojectviewtree.cpp:252
 #, kde-format
 msgid "Failed to create dir: %1"
 msgstr "Tạo thư mục %1 thất bại"
 
-#: stashdialog.cpp:164
+#: kateprojectworker.cpp:730
+#, kde-format
+msgid ""
+"Unable to load %1 based project because either %1 is not installed or it "
+"wasn't found in PATH environment variable. Please install %1 or "
+"alternatively disable the option 'Autoload Repositories && Build Trees' in "
+"project settings."
+msgstr ""
+
+#: project_commands.cpp:35
+#, kde-format
+msgid "Execute a command in the active project's terminal."
+msgstr ""
+
+#: project_commands.cpp:47
+#, kde-format
+msgid "No cmd provided"
+msgstr ""
+
+#: project_commands.cpp:60
+#, fuzzy, kde-format
+#| msgid "Project Completion"
+msgid "Project Command"
+msgstr "Hoàn tất dự án"
+
+#: stashdialog.cpp:36
 #, kde-format
 msgid "Stash message (optional). Enter to confirm, Esc to leave."
 msgstr "Thông điệp cất (không bắt buộc). Enter để xác nhận, Esc để thoát."
 
-#: stashdialog.cpp:171
+#: stashdialog.cpp:43
 #, kde-format
 msgid "Type to filter, Enter to pop stash, Esc to leave."
 msgstr "Gõ để lọc, Enter để lấy phần cất ra, Esc để thoát."
 
-#: stashdialog.cpp:249
+#: stashdialog.cpp:144
 #, kde-format
 msgid "Failed to stash changes %1"
 msgstr "Cất các thay đổi thất bại: %1"
 
-#: stashdialog.cpp:251
+#: stashdialog.cpp:146
 #, kde-format
 msgid "Changes stashed successfully."
 msgstr "Các thay đổi được cất thành công."
 
-#: stashdialog.cpp:271
+#: stashdialog.cpp:165
 #, kde-format
 msgid "Failed to get stash list. Error: "
 msgstr "Lấy danh sách phần cất thất bại. Lỗi: "
 
-#: stashdialog.cpp:305
+#: stashdialog.cpp:181
 #, kde-format
 msgid "Failed to apply stash. Error: "
 msgstr "Áp dụng phần cất thất bại. Lỗi: "
 
-#: stashdialog.cpp:307
+#: stashdialog.cpp:183
 #, kde-format
 msgid "Failed to drop stash. Error: "
 msgstr "Bỏ phần cất thất bại. Lỗi: "
 
-#: stashdialog.cpp:309
+#: stashdialog.cpp:185
 #, kde-format
 msgid "Failed to pop stash. Error: "
 msgstr "Lấy phần cất ra thất bại. Lỗi: "
 
-#: stashdialog.cpp:313
+#: stashdialog.cpp:189
 #, kde-format
 msgid "Stash applied successfully."
 msgstr "Áp dụng phần cất thành công."
 
-#: stashdialog.cpp:315
+#: stashdialog.cpp:191
 #, kde-format
 msgid "Stash dropped successfully."
 msgstr "Bỏ phần cất thành công."
 
-#: stashdialog.cpp:317
+#: stashdialog.cpp:193
 #, kde-format
 msgid "Stash popped successfully."
 msgstr "Lấy phần cất ra thành công."
 
-#: stashdialog.cpp:348
+#: stashdialog.cpp:222
 #, kde-format
 msgid "Show stash failed. Error: "
 msgstr "Hiện phần cất thất bại. Lỗi: "
@@ -965,3 +1140,74 @@ msgstr "Hiện phần cất thất bại. Lỗi: "
 #, kde-format
 msgid "&Projects"
 msgstr "&Dự án"
+
+#~ msgid "Add"
+#~ msgstr "Thêm"
+
+#~ msgid "Add File"
+#~ msgstr "Thêm tệp"
+
+#~ msgid "Commit hash"
+#~ msgstr "Giá trị băm của bản chuyển giao"
+
+#~ msgid "Show number of changed lines in git status"
+#~ msgstr "Hiện số dòng bị thay đổi trong trạng thái git"
+
+#~ msgid "Checkout branch"
+#~ msgstr "Lấy ra nhánh"
+
+#~ msgid "Severity"
+#~ msgstr "Độ quan trọng"
+
+#~ msgid "Message"
+#~ msgstr "Thông điệp"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Nguyễn Hùng Phú"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "phu.nguyen@kdemail.net"
+
+#~ msgid "Failed to get file history: git executable not found in PATH"
+#~ msgstr "Lấy lịch sử tệp thất bại: không thấy tệp thực thi git trong PATH"
+
+#~ msgid "Failed to get file history: %1"
+#~ msgstr "Lấy lịch sử tệp thất bại: %1"
+
+#~ msgid "Show File Git History"
+#~ msgstr "Hiện lịch sử Git của tệp"
+
+#~ msgid "Stage Hunk"
+#~ msgstr "Chấp nhận khúc"
+
+#~ msgid "Stage Lines"
+#~ msgstr "Chấp nhận dòng"
+
+#~ msgid "Discard Lines"
+#~ msgstr "Loại bỏ các dòng"
+
+#~ msgid "Unstage Hunk"
+#~ msgstr "Bỏ chấp nhận khúc"
+
+#~ msgid "Unstage Lines"
+#~ msgstr "Bỏ chấp nhận dòng"
+
+#~ msgid "Failed to stage selection"
+#~ msgstr "Việc chấp nhận phần chọn thất bại"
+
+#~ msgid "Failed to stage: %1"
+#~ msgstr "Việc chấp nhận thất bại: %1"
+
+#~ msgid "Show diff"
+#~ msgstr "Hiện phần chênh"
+
+#~ msgid "Show Raw Diff"
+#~ msgstr "Hiện phần chênh thô"
+
+#~ msgid "Copy File Path"
+#~ msgstr "Chép đường dẫn tệp"
+
+#~ msgid "Type to filter..."
+#~ msgstr "Gõ để lọc..."

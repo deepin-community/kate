@@ -86,7 +86,7 @@
 ></entry>
 <entry
 ><para
->Vai alla riga di modifica precedente.</para
+>Vai alla posizione di modifica precedente nel documento.</para
 ></entry>
 </row>
 <row>
@@ -100,7 +100,7 @@
 ></entry>
 <entry
 ><para
->Vai alla riga di modifica successiva.</para
+>Vai alla posizione di modifica successiva nel documento.</para
 ></entry>
 </row>
 <row>
@@ -281,19 +281,9 @@
 <entry
 ><para
 ><keycombo action="simul"
->&Ctrl;&Alt;&Up;</keycombo
-></para
-></entry>
-<entry
-><para
->Duplica le righe selezionate in alto.</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;&Alt;&Down;</keycombo
+>&Ctrl;<keycap
+>.</keycap
+></keycombo
 ></para
 ></entry>
 <entry
@@ -411,6 +401,30 @@
 > premi la scorciatoia e la prossima riga inizierà già con <quote
 >// </quote
 >. In questo modo con si devono sempre inserire i caratteri per il commento all'inizio di ogni nuova riga con commenti.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;&Enter;</keycombo
+></para
+></entry>
+<entry
+><para
+>Crea una nuova riga sotto l'attuale.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Enter;</keycombo
+></para
+></entry>
+<entry
+><para
+>Crea una nuova riga sopra l'attuale.</para
 ></entry>
 </row>
 <row>
@@ -1242,6 +1256,74 @@ action="simul"
 >Espandi abbreviazione.</para
 ></entry>
 </row>
+
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Up;</keycombo
+></para
+></entry>
+<entry
+><para
+>Aggiungi un cursore sopra l'attuale.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Down;</keycombo
+></para
+></entry>
+<entry
+><para
+>Aggiungi un cursore sotto l'attuale.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Shift;&Alt;<keycap
+>I</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Crea un cursore alla fine di ogni riga nella selezione.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Trova la prossima occorrenza della parola sotto il cursore e selezionala.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Cerca tutte le occorrenze della parola sotto il cursore e selezionale.</para
+></entry>
+</row>
+
 </tbody>
 </tgroup>
 </informaltable>

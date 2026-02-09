@@ -6,8 +6,9 @@
  */
 
 #include "test1.h"
+#include "diagnostics/diagnostic_types.h"
 #include "fileutil.h"
-#include "tools/kateprojectcodeanalysistoolshellcheck.h"
+#include "tools/shellcheck.h"
 
 #include <QTest>
 
@@ -34,9 +35,11 @@ void Test1::testShellCheckParsing()
 {
     QString line = QStringLiteral("script.sh:3:11: note: Use ./*glob* or -- *glob* so ... options. [SC2035]");
     KateProjectCodeAnalysisToolShellcheck sc(nullptr);
-    QStringList outList = sc.parseLine(line);
+    FileDiagnostics outList = sc.parseLine(line);
     // qDebug() << outList;
-    QCOMPARE(outList.size(), 4);
+    QVERIFY(outList.uri.isValid());
 }
+
+#include "moc_test1.cpp"
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef OUTPUTSTYLEWIDGET_H
-#define OUTPUTSTYLEWIDGET_H
+#pragma once
 
 #include <QTreeWidget>
 
@@ -14,7 +13,7 @@ class OutputStyleWidget : public QTreeWidget
     Q_OBJECT
 
 public:
-    OutputStyleWidget(QWidget *parent = nullptr);
+    explicit OutputStyleWidget(QWidget *parent = nullptr);
     ~OutputStyleWidget() override;
 
     QTreeWidgetItem *addContext(const QString &key, const QString &name);
@@ -33,5 +32,3 @@ protected Q_SLOTS:
 Q_SIGNALS:
     void changed();
 };
-
-#endif // OUTPUTSTYLEWIDGET_H

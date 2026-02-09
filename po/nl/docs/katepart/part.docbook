@@ -780,7 +780,7 @@
 ><guimenu
 >Hulpmiddelen</guimenu
 > <guimenuitem
->Uitlijnen</guimenuitem
+>Inspringen formatteren</guimenuitem
 ></menuchoice
 > kunt u de inspringbreedte van de geselecteerde regels of van de huidige regel laten herberekenen. U kunt dus in uw gehele document het inspringen opnieuw doen door alle tekst te selecteren en deze actie te activeren.</para>
 
@@ -938,6 +938,99 @@
 > te selecteren of permanent in <link linkend="appearance-borders"
 >de sectie Uiterlijk van de instellingen van &kappname;</link
 >.</para>
+
+</sect1>
+
+<sect1 id="kate-part-multiple-cursors">
+<title
+>Meerdere cursors</title>
+
+<para
+>Ondersteuning voor meerdere cursors is geïntroduceerd in versie 5.93 van katepart.</para>
+
+<sect2 id="kate-part-create-multiple-cursors">
+<title
+>Meerdere cursors worden aangemaakt</title>
+
+<itemizedlist>
+<listitem
+><para
+>Om ze via de muis aan te maken, gebruik &Alt; + &LMB;. De modifier is te configureren, zie <link linkend="multicursor-modifier-configure"
+>Multicursor-modifier configureren</link
+></para
+></listitem>
+
+<listitem
+><para
+>Om via het toetsenbord aan te maken, druk op <keycombo action="simul"
+>&Ctrl;&Alt;&Up;</keycombo
+> om cursor boven de primaire cursor aan te maken en <keycombo action="simul"
+>&Ctrl;&Alt;&Down;</keycombo
+> om de cursor eronder aan te maken. Deze sneltoetsen zijn ook te configureren</para
+></listitem>
+
+<listitem
+><para
+>Om cursors uit een selectie aan te maken, selecteer eerst enige tekst en druk daarna op <keycombo action="simul"
+>&Shift;&Alt;<keycap
+>I</keycap
+></keycombo
+>. Dit zal een cursor aan het eind van elke regel in de selectie aanmaken.</para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> gebruiken om de het volgende voorkomen van het woord onder de cursor en het selecteren + een cursor aanmaken. Als u het huidige woord onder de cursor wilt overslaan , druk op <keycombo action="simul"
+>&Alt;<keycap
+>K</keycap
+></keycombo
+> en het zal het nu geselecteerde woord als overgeslagen markeren. Wanneer u opnieuw op <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> drukt zal het de selectie van het huidige woord ongedaan maken en naar het volgende woord gaan.</para>
+</listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>J</keycap
+></keycombo
+> gebruiken om alle overeenkomstige woorden van die onder de cursor te vinden en ze selecteren met een cursor aan het eind van elke selectie. U kunt <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> gebruiken om door de geselecteerde woorden te lopen en <keycombo action="simul"
+>&Alt;<keycap
+>K</keycap
+></keycombo
+> te gebruiken om de selectie ongedaan te maken van elk woord genoemd in de vorige paragraaf.</para
+></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2
+><title
+>Werken met meerdere cursors</title>
+<para
+>Nadat u een paar cursors hebt gemaakt, kunt u de meeste bewerkingen op hen doen zoals u zou doen op een enkele cursor. Bijvoorbeeld, bij een letter typen zal het voor elke cursor doen. Evenzo kunt u teksttransformaties doen &eg;, hoofdletter maken voor alle posities of selecties.</para>
+
+<para
+>Soms wilt u cursors verwijderen. Om dat te doen kunt u &Alt; + &LMB; op de cursor doen die u wilt verwijderen. Als u alleen cursors wilt verwijderen op lege regels, dan is er een al gemaakte actie voor die dat voor u zal doen. Om de actie uit te voeren, open de Commandobalk met <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>I</keycap
+></keycombo
+> en zoek naar <guimenuitem
+>Cursors verwijderen uit lege regels</guimenuitem
+> en druk op &Enter;. U kunt ook een sneltoets voor deze actie configureren.</para>
+
+</sect2>
 
 </sect1>
 

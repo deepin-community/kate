@@ -214,7 +214,7 @@
 
 <note>
 <para
->Mentre se selecciona text arrossegant el ratolí, el text seleccionat es copiarà al porta-retalls i es podrà enganxar a l'editor fent clic amb el &BMR;, o en qualsevol altra aplicació en la que es vulgui enganxar el text. </para>
+>Mentre se selecciona text arrossegant el ratolí, el text seleccionat es copiarà al porta-retalls i es podrà enganxar a l'editor fent clic amb el &BMR;, o en qualsevol altra aplicació en què es vulgui enganxar el text. </para>
 </note>
 
 <para
@@ -260,9 +260,7 @@
 >Usar la selecció en bloc</title>
 
 <para
->Quan la selecció en bloc estigui activada, podreu realitzar <quote
->seleccions verticals</quote
-> en el text, el qual vol dir que podeu seleccionar un nombre determinat de columnes en diverses línies a la vegada. Això és útil, per exemple, si treballeu amb línies separades per tabulacions.</para>
+>Quan la selecció en bloc estigui activada, podreu realitzar «seleccions verticals» en el text, el qual vol dir que podeu seleccionar un nombre determinat de columnes en diverses línies a la vegada. Això és útil, per exemple, si treballeu amb línies separades per tabulacions.</para>
 
 <para
 >La selecció en bloc es pot activar/desactivar en l'element <menuchoice
@@ -782,7 +780,7 @@
 ><guimenu
 >Eines</guimenu
 ><guimenuitem
->Alinea</guimenuitem
+>Format del sagnat</guimenuitem
 ></menuchoice
 > que tornarà a calcular el sagnat del text seleccionat o de la línia actual. D'aquesta manera podreu tornar a establir el sagnat sencer al vostre document seleccionant tot el text i activant aquesta acció.</para>
 
@@ -900,7 +898,7 @@
 <para
 >Podeu canviar els colors utilitzats des del plafó de configuració <link linkend="prefcolors"
 ><guilabel
->Tipus de lletra i colors</guilabel
+>Lletres i colors</guilabel
 ></link
 >, o podeu desactivar completament aquesta característica a la pestanya <link linkend="appearance-borders"
 ><guilabel
@@ -940,6 +938,99 @@
 > o permanentment a <link linkend="appearance-borders"
 >la secció Aparença de la configuració de la &kappname;</link
 >.</para>
+
+</sect1>
+
+<sect1 id="kate-part-multiple-cursors">
+<title
+>Cursors múltiples</title>
+
+<para
+>La implementació dels cursors múltiples es va introduir amb la versió 5.93 de la «katepart».</para>
+
+<sect2 id="kate-part-create-multiple-cursors">
+<title
+>Creació de cursors múltiples</title>
+
+<itemizedlist>
+<listitem
+><para
+>Per a crear-los a través del ratolí, useu &Alt; + &BER;. El modificador és configurable, vegeu <link linkend="multicursor-modifier-configure"
+>Configuració del modificador de multicursor</link
+></para
+></listitem>
+
+<listitem
+><para
+>Per a crear-los a través del teclat, premeu <keycombo action="simul"
+>&Ctrl;&Alt;&Up;</keycombo
+> per a crear un cursor sobre el cursor primari i <keycombo action="simul"
+>&Ctrl;&Alt;&Down;</keycombo
+> per a crear el cursor a sota. Aquestes dreceres també són configurables.</para
+></listitem>
+
+<listitem
+><para
+>Per a crear cursors fora d'una selecció, primer seleccioneu un text i després premeu <keycombo action="simul"
+>&Maj;&Alt;<keycap
+>I</keycap
+></keycombo
+>. Això crearà un cursor al final de cada línia de la selecció.</para
+></listitem>
+
+<listitem
+><para
+>Useu <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> per a cercar l'ocurrència següent de la paraula sota el cursor i seleccionar/la + crear un cursor. Si voleu ometre la paraula actual sota el cursor, premeu <keycombo action="simul"
+>&Alt;<keycap
+>K</keycap
+></keycombo
+> i es marcarà la paraula actualment seleccionada com a omesa. Quan torneu a prémer <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> la paraula actual es desseleccionarà i anirà a la paraula següent.</para>
+</listitem>
+
+<listitem
+><para
+>Useu <keycombo action="simul"
+>&Ctrl;&Alt;&Maj;<keycap
+>J</keycap
+></keycombo
+> per a cercar totes les ocurrències de la paraula sota el cursor i seleccionar-les amb un cursor al final de cada selecció. Podeu usar <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> per a circular a través de les paraules seleccionades i usar <keycombo action="simul"
+>&Alt;<keycap
+>K</keycap
+></keycombo
+> per a desseleccionar qualsevol paraula com es menciona en el paràgraf anterior.</para
+></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2
+><title
+>Treballar amb cursors múltiples</title>
+<para
+>Una vegada hàgiu creat alguns cursors, podreu realitzar la majoria de les operacions d'edició sobre ells com ho faríeu en un cursor sol. Per exemple, teclejar una lletra l'escriurà per a cada cursor. De la mateixa manera podeu realitzar transformacions de text, &pex;, posar en majúscules totes les posicions o seleccions.</para>
+
+<para
+>A vegades voldreu eliminar cursors. Per a fer-ho, podeu fer &Alt; + &BER; al cursor que voleu eliminar. Si només voleu eliminar els cursors en línies que estan buides, hi ha una acció preparada ho farà. Per a invocar l'acció, obriu la barra d'ordres utilitzant <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>I</keycap
+></keycombo
+> i cerqueu <guimenuitem
+>Elimina els cursors de les línies buides</guimenuitem
+> i premeu &Intro;. També podeu configurar una drecera per a aquesta acció.</para>
+
+</sect2>
 
 </sect1>
 

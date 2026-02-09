@@ -8,10 +8,11 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef EDITSNIPPET_H
-#define EDITSNIPPET_H
+#pragma once
 
 #include <QDialog>
+
+#include <memory>
 
 namespace KTextEditor
 {
@@ -45,7 +46,7 @@ public:
     void reject() override;
 
 private:
-    Ui::EditSnippetBase *m_ui;
+    std::unique_ptr<Ui::EditSnippetBase> const m_ui;
     SnippetRepository *m_repo;
     Snippet *m_snippet;
     KTextEditor::View *m_snippetView;
@@ -60,5 +61,3 @@ private Q_SLOTS:
     void validate();
     void topBoxModified();
 };
-
-#endif

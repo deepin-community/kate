@@ -4,20 +4,19 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef FolderFilesList_h
-#define FolderFilesList_h
+#pragma once
 
+#include <QList>
 #include <QRegularExpression>
 #include <QStringList>
 #include <QThread>
-#include <QVector>
 
 class FolderFilesList : public QThread
 {
     Q_OBJECT
 
 public:
-    FolderFilesList(QObject *parent = nullptr);
+    explicit FolderFilesList(QObject *parent = nullptr);
     ~FolderFilesList() override;
 
     void run() override;
@@ -50,7 +49,5 @@ private:
     bool m_hidden = false;
     bool m_symlinks = false;
     QStringList m_types;
-    QVector<QRegularExpression> m_excludes;
+    QList<QRegularExpression> m_excludes;
 };
-
-#endif

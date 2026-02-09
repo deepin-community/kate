@@ -11,12 +11,17 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 
+#include <QApplication>
 #include <QDebug>
+#include <QEventLoop>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QMessageBox>
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlError>
 
-using KWallet::Wallet;
+#include <qt6keychain/keychain.h>
 
 SQLManager::SQLManager(QObject *parent)
     : QObject(parent)
@@ -32,7 +37,6 @@ SQLManager::~SQLManager()
     }
 
     delete m_model;
-    delete m_wallet;
 }
 
 void SQLManager::createConnection(const Connection &conn)
@@ -124,7 +128,7 @@ bool SQLManager::isValidAndOpen(const QString &connection)
             QString password;
             int ret = readCredentials(connection, password);
 
-            if (ret != 0) {
+            if (ret != SQLManager::K_WALLET_CONNECTION_SUCCESSFUL) {
                 qDebug() << "Can't retrieve password from kwallet. returned code" << ret;
             } else {
                 db.setPassword(password);
@@ -154,74 +158,59 @@ void SQLManager::reopenConnection(const QString &name)
     isValidAndOpen(name);
 }
 
-Wallet *SQLManager::openWallet()
-{
-    if (!m_wallet) {
-        /// FIXME get kate window id...
-        m_wallet = Wallet::openWallet(KWallet::Wallet::NetworkWallet(), 0);
-    }
-
-    if (!m_wallet) {
-        return nullptr;
-    }
-
-    QString folder(QStringLiteral("SQL Connections"));
-
-    if (!m_wallet->hasFolder(folder)) {
-        m_wallet->createFolder(folder);
-    }
-
-    m_wallet->setFolder(folder);
-
-    return m_wallet;
-}
-
-// return 0 on success, -1 on error, -2 on user reject
 int SQLManager::storeCredentials(const Connection &conn)
 {
-    // Sqlite is without password, avoid to open wallet
-    if (conn.driver.contains(QLatin1String("QSQLITE"))) {
-        return 0;
-    }
-
-    Wallet *wallet = openWallet();
-
-    if (!wallet) { // user reject
-        return -2;
-    }
-
-    QMap<QString, QString> map;
-
+    QJsonObject map;
     map[QStringLiteral("driver")] = conn.driver.toUpper();
-    map[QStringLiteral("hostname")] = conn.hostname.toUpper();
-    map[QStringLiteral("port")] = QString::number(conn.port);
-    map[QStringLiteral("database")] = conn.database.toUpper();
-    map[QStringLiteral("username")] = conn.username;
-    map[QStringLiteral("password")] = conn.password;
+    map[QStringLiteral("options")] = conn.options;
 
-    return (wallet->writeMap(conn.name, map) == 0) ? 0 : -1;
+    // Sqlite is without password
+    if (conn.driver.contains(QLatin1String("QSQLITE"))) {
+        map[QStringLiteral("database")] = conn.database;
+    } else {
+        map[QStringLiteral("database")] = conn.database.toUpper();
+        map[QStringLiteral("username")] = conn.username;
+        map[QStringLiteral("password")] = conn.password;
+        map[QStringLiteral("hostname")] = conn.hostname.toUpper();
+        map[QStringLiteral("port")] = QString::number(conn.port);
+    }
+
+    // store the full map just as binary key as JSON
+    QKeychain::WritePasswordJob job(QStringLiteral("org.kde.kate.katesql"));
+    job.setAutoDelete(false);
+    job.setKey(conn.name);
+    job.setBinaryData(QJsonDocument(map).toJson(QJsonDocument::Compact));
+
+    // we need to have a blocking API
+    QEventLoop loop;
+    connect(&job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
+    job.start();
+    loop.exec();
+    return job.error() ? SQLManager::K_WALLET_CONNECTION_ERROR : SQLManager::K_WALLET_CONNECTION_SUCCESSFUL;
 }
 
-// return 0 on success, -1 on error or not found, -2 on user reject
 // if success, password contain the password
 int SQLManager::readCredentials(const QString &name, QString &password)
 {
-    Wallet *wallet = openWallet();
+    // get the full map just as binary key as JSON
+    QKeychain::ReadPasswordJob job(QStringLiteral("org.kde.kate.katesql"));
+    job.setAutoDelete(false);
+    job.setKey(name);
 
-    if (!wallet) { // user reject
-        return -2;
-    }
-
-    QMap<QString, QString> map;
-
-    if (wallet->readMap(name, map) == 0) {
-        if (!map.isEmpty()) {
-            password = map.value(QStringLiteral("password"));
-            return 0;
+    // we need to have a blocking API
+    QEventLoop loop;
+    connect(&job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
+    job.start();
+    loop.exec();
+    if (!job.error()) {
+        // check if data makes any sense
+        const QJsonObject map = QJsonDocument::fromJson(job.binaryData()).object();
+        if (!map.contains(QStringLiteral("password"))) {
+            password = map.value(QStringLiteral("password")).toString();
+            return SQLManager::K_WALLET_CONNECTION_SUCCESSFUL;
         }
     }
-
-    return -1;
+    return SQLManager::K_WALLET_CONNECTION_ERROR;
 }
 
 ConnectionModel *SQLManager::connectionModel()
@@ -240,23 +229,24 @@ void SQLManager::removeConnection(const QString &name)
     Q_EMIT connectionRemoved(name);
 }
 
-/// TODO: read KUrl instead of QString for sqlite paths
-void SQLManager::loadConnections(KConfigGroup *connectionsGroup)
+void SQLManager::loadConnections(const KConfigGroup &connectionsGroup)
 {
     Connection c;
+    const auto groupList = connectionsGroup.groupList();
 
-    const auto groupList = connectionsGroup->groupList();
     for (const QString &groupName : groupList) {
         qDebug() << "reading group:" << groupName;
 
-        KConfigGroup group = connectionsGroup->group(groupName);
+        KConfigGroup group = connectionsGroup.group(groupName);
 
         c.name = groupName;
         c.driver = group.readEntry("driver");
-        c.database = group.readEntry("database");
         c.options = group.readEntry("options");
 
-        if (!c.driver.contains(QLatin1String("QSQLITE"))) {
+        if (c.driver.contains(QLatin1String("QSQLITE"))) {
+            c.database = QUrl(group.readEntry("database")).path();
+        } else {
+            c.database = group.readEntry("database");
             c.hostname = group.readEntry("hostname");
             c.username = group.readEntry("username");
             c.port = group.readEntry("port", 0);
@@ -277,33 +267,34 @@ void SQLManager::loadConnections(KConfigGroup *connectionsGroup)
 
 void SQLManager::saveConnections(KConfigGroup *connectionsGroup)
 {
+    //    qDebug() << "Saving " << m_model->rowCount() << " groups";
     for (int i = 0; i < m_model->rowCount(); i++) {
         saveConnection(connectionsGroup, m_model->data(m_model->index(i), Qt::UserRole).value<Connection>());
     }
 }
 
-/// TODO: write KUrl instead of QString for sqlite paths
 void SQLManager::saveConnection(KConfigGroup *connectionsGroup, const Connection &conn)
 {
-    qDebug() << "saving connection" << conn.name;
-
+    //    qDebug() << "saving connection " << conn.name;
     KConfigGroup group = connectionsGroup->group(conn.name);
 
     group.writeEntry("driver", conn.driver);
-    group.writeEntry("database", conn.database);
     group.writeEntry("options", conn.options);
 
-    if (!conn.driver.contains(QLatin1String("QSQLITE"))) {
-        group.writeEntry("hostname", conn.hostname);
-        group.writeEntry("username", conn.username);
-        group.writeEntry("port", conn.port);
+    if (conn.driver.contains(QLatin1String("QSQLITE"))) {
+        group.writeEntry("database", QUrl::fromLocalFile(conn.database));
+        return;
     }
+    group.writeEntry("database", conn.database);
+    group.writeEntry("hostname", conn.hostname);
+    group.writeEntry("username", conn.username);
+    group.writeEntry("port", conn.port);
 }
 
 void SQLManager::runQuery(const QString &text, const QString &connection)
 {
-    qDebug() << "connection:" << connection;
-    qDebug() << "text:" << text;
+    //    qDebug() << "connection:" << connection;
+    //    qDebug() << "text:" << text;
 
     if (text.isEmpty()) {
         return;
@@ -318,13 +309,21 @@ void SQLManager::runQuery(const QString &text, const QString &connection)
 
     if (!query.prepare(text)) {
         QSqlError err = query.lastError();
+        const int res = QMessageBox::warning(
+            qApp->activeWindow(),
+            i18n("Prepare Statement Failure"),
+            i18n("<p>Preparing the query failed with the following error: %1</p><p>Do you want to continue without preparing the query?</p>", err.text()),
+            QMessageBox::Yes,
+            QMessageBox::No);
 
-        if (err.type() == QSqlError::ConnectionError) {
-            m_model->setStatus(connection, Connection::OFFLINE);
+        if (res == QMessageBox::Rejected) {
+            if (err.type() == QSqlError::ConnectionError) {
+                m_model->setStatus(connection, Connection::OFFLINE);
+            }
+
+            Q_EMIT error(err.text());
+            return;
         }
-
-        Q_EMIT error(err.text());
-        return;
     }
 
     if (!query.exec()) {
@@ -356,3 +355,5 @@ void SQLManager::runQuery(const QString &text, const QString &connection)
     Q_EMIT success(message);
     Q_EMIT queryActivated(query, connection);
 }
+
+#include "moc_sqlmanager.cpp"

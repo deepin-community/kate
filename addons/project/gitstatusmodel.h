@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef GITSTATUSMODEL_H
-#define GITSTATUSMODEL_H
+#pragma once
 
 #include <QAbstractItemModel>
 
@@ -15,8 +14,20 @@ class GitStatusModel : public QAbstractItemModel
 public:
     explicit GitStatusModel(QObject *parent);
 
-    enum ItemType { NodeStage = 0, NodeChanges, NodeConflict, NodeUntrack, NodeFile };
-    enum Role { TreeItemType = Qt::UserRole + 1, FileNameRole };
+    enum ItemType {
+        NodeStage = 0,
+        NodeChanges,
+        NodeConflict,
+        NodeUntrack,
+        NodeFile,
+    };
+    Q_ENUM(ItemType)
+
+    enum Role {
+        TreeItemType = Qt::UserRole + 1,
+        FileNameRole,
+        GitItemType
+    };
 
 public:
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
@@ -25,20 +36,19 @@ public:
     int columnCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    void addItems(GitUtils::GitParsedStatus status, bool numStat);
-    QVector<int> emptyRows();
+    void setStatusItems(GitUtils::GitParsedStatus status);
 
-    const QVector<GitUtils::StatusItem> &untrackedFiles() const
+    const QList<GitUtils::StatusItem> &untrackedFiles() const
     {
         return m_nodes[3];
     }
 
-    const QVector<GitUtils::StatusItem> &stagedFiles() const
+    const QList<GitUtils::StatusItem> &stagedFiles() const
     {
         return m_nodes[0];
     }
 
-    const QVector<GitUtils::StatusItem> &changedFiles() const
+    const QList<GitUtils::StatusItem> &changedFiles() const
     {
         return m_nodes[1];
     }
@@ -48,9 +58,9 @@ public:
         return createIndex(type, 0, 0xFFFFFFFF);
     }
 
-private:
-    QVector<GitUtils::StatusItem> m_nodes[4];
-    bool m_showNumStat = false;
-};
+    QModelIndex indexForFilename(const QString &file);
 
-#endif // GITSTATUSMODEL_H
+private:
+    QList<GitUtils::StatusItem> m_nodes[4];
+    QSet<QString> m_nonUniqueFileNames;
+};

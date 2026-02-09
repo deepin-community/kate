@@ -8,13 +8,14 @@
 #include "gitwidget.h"
 
 #include <QCoreApplication>
-#include <QDebug>
 #include <QInputMethodEvent>
 #include <QSyntaxHighlighter>
 #include <QVBoxLayout>
 
 #include <KColorScheme>
 #include <KLocalizedString>
+
+#include <ktexteditor_utils.h>
 
 class BadLengthHighlighter : public QSyntaxHighlighter
 {
@@ -60,12 +61,14 @@ static void changeTextColorToRed(QLineEdit *lineEdit, const QColor &red)
     QCoreApplication::sendEvent(lineEdit, &event);
 }
 
-GitCommitDialog::GitCommitDialog(const QString &lastCommit, const QFont &font, QWidget *parent, Qt::WindowFlags f)
+GitCommitDialog::GitCommitDialog(const QString &lastCommit, QWidget *parent, Qt::WindowFlags f)
     : QDialog(parent, f)
 {
     Q_ASSERT(parent);
 
     setWindowTitle(i18n("Commit Changes"));
+
+    QFont font = Utils::editorFont();
 
     ok.setText(i18n("Commit"));
     cancel.setText(i18n("Cancel"));
@@ -81,12 +84,12 @@ GitCommitDialog::GitCommitDialog(const QString &lastCommit, const QFont &font, Q
     m_pe.setFont(font);
 
     /** Dialog's main layout **/
-    QVBoxLayout *vlayout = new QVBoxLayout(this);
+    auto *vlayout = new QVBoxLayout(this);
     vlayout->setContentsMargins(4, 4, 4, 4);
     setLayout(vlayout);
 
     /** Setup the label at the top **/
-    QHBoxLayout *hLayoutLine = new QHBoxLayout;
+    auto *hLayoutLine = new QHBoxLayout;
     hLayoutLine->addStretch();
     hLayoutLine->addWidget(&m_leLen);
 
@@ -107,7 +110,11 @@ GitCommitDialog::GitCommitDialog(const QString &lastCommit, const QFont &font, Q
     m_cbAmend.setChecked(false);
     m_cbAmend.setText(i18n("Amend"));
     m_cbAmend.setToolTip(i18n("Amend Last Commit"));
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     connect(&m_cbAmend, &QCheckBox::stateChanged, this, [this](int state) {
+#else
+    connect(&m_cbAmend, &QCheckBox::checkStateChanged, this, [this](int state) {
+#endif
         if (state != Qt::Checked) {
             ok.setText(i18n("Commit"));
             setWindowTitle(i18n("Commit Changes"));
@@ -115,7 +122,7 @@ GitCommitDialog::GitCommitDialog(const QString &lastCommit, const QFont &font, Q
         }
         setWindowTitle(i18n("Amending Commit"));
         ok.setText(i18n("Amend"));
-        const auto [msg, desc] = GitUtils::getLastCommitMessage(static_cast<GitWidget *>(this->parentWidget())->dotGitPath());
+        const auto [msg, desc] = GitUtils::getLastCommitMessage(static_cast<GitWidget *>(this->parent())->dotGitPath());
         m_le.setText(msg);
         m_pe.setPlainText(desc);
     });
@@ -126,7 +133,7 @@ GitCommitDialog::GitCommitDialog(const QString &lastCommit, const QFont &font, Q
     vlayout->addLayout(bottomLayout);
 
     /** Setup Ok / Cancel Button **/
-    QHBoxLayout *hLayout = new QHBoxLayout;
+    auto *hLayout = new QHBoxLayout;
     hLayout->addStretch();
     hLayout->addWidget(&ok);
     hLayout->addWidget(&cancel);
@@ -149,7 +156,7 @@ GitCommitDialog::GitCommitDialog(const QString &lastCommit, const QFont &font, Q
     // set 72 chars wide plain text edit
     const int avgCharWidth = fm.averageCharWidth();
     const int width = (avgCharWidth * 72);
-    const int fw = width + vlayout->contentsMargins().left() * 2 + m_pe.frameWidth() * 2 + m_pe.contentsMargins().left() + vlayout->spacing();
+    const int fw = width + (vlayout->contentsMargins().left() * 2) + (m_pe.frameWidth() * 2) + m_pe.contentsMargins().left() + vlayout->spacing();
     resize(fw, avgCharWidth * 52);
 }
 

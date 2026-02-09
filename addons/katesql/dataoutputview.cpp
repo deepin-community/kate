@@ -6,8 +6,6 @@
 
 #include "dataoutputview.h"
 
-#include <QAction>
-
 #include <QCursor>
 #include <QMenu>
 
@@ -23,9 +21,9 @@ void DataOutputView::slotCustomContextMenuRequested(const QPoint &pos)
 {
     Q_UNUSED(pos);
 
-    QMenu menu;
+    QMenu menu(this);
 
     menu.addActions(actions());
 
-    menu.exec(QCursor::pos());
+    menu.exec(mapToGlobal(pos));
 }

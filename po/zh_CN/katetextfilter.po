@@ -1,13 +1,9 @@
-# Mai Hao Hui <mhh@126.com> ,2001.
-# Sarah Smith <sarahs@redhat.com>, 2005.
-# Feng Chao <chaofeng111@gmail.com>, 2014.
-# Weng Xuetian <wengxt@gmail.com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
-"PO-Revision-Date: 2021-09-27 13:11\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
+"PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -18,10 +14,10 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kate/katetextfilter.pot\n"
-"X-Crowdin-File-ID: 4152\n"
+"X-Crowdin-File: /kf6-stable/messages/kate/katetextfilter.pot\n"
+"X-Crowdin-File-ID: 50536\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -31,7 +27,12 @@ msgstr ""
 "<title>结果：</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr "启动进程失败。"
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
@@ -39,22 +40,22 @@ msgid ""
 msgstr ""
 "您不允许执行此外部应用程序。如果您想要打破此限制，请联系您的系统管理员。"
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
 msgstr "访问限制"
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
 #, kde-format
 msgid "Text Filter"
 msgstr "文本过滤器"
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
 msgstr "用法：textfilter 命令"
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
@@ -63,10 +64,10 @@ msgstr ""
 "<qt><p>用法：<code>textfilter 命令</code></p><p>将选中范围替换为指定 Shell 命"
 "令的输出。</p></qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
-msgstr "通过命令筛选(&F)..."
+msgstr "通过命令过滤(&F)..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, TextFilterWidget)
 #: textfilterwidget.ui:14
@@ -106,8 +107,8 @@ msgid ""
 "will be reported.\n"
 "Otherwise, STDERR will be displayed as a passive message."
 msgstr ""
-"如果选中，STDOUT 和 STDERR 的输出会合并，不会报错.\n"
-"如果不选，STDERR 会显示成错误."
+"如果选中，STDOUT 和 STDERR 的输出会合并，不会报告错误。\n"
+"如果不选，STDERR 会显示成错误。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, mergeOutput)
 #: textfilterwidget.ui:60

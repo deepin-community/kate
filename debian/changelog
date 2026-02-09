@@ -1,12 +1,280 @@
-kate (4:21.08.2-1deepin0) unstable; urgency=medium
+kate (4:25.04.3-2) unstable; urgency=medium
 
-  [ Debian Qt/KDE Maintainers ]
-  * update
+  [ Aurélien COUDERC ]
+  * Backport upstream commits:
+    - Fix data loss when closing kate if the option to save and restore
+    unsaved files is enabled. [9767f9d1, a843f106, 9502ae17, 5ec8803d,
+    6b29a7e6] (kde#505135)
+    - Fix symbol highlight not working when using the LSP client. [ca61073b,
+    2650a5e6, 79765d29] (kde#503414)
 
-  [ Tianyu Chen ]
-  * No source change upload against GCC 12.
+ -- Aurélien COUDERC <coucouf@debian.org>  Fri, 18 Jul 2025 15:10:03 +0200
 
- -- Tianyu Chen <sweetyfish@deepin.org>  Thu, 19 Sep 2024 22:50:36 +0800
+kate (4:25.04.3-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (25.04.3).
+    - Open read-write for _commit, don't use WriteOnly, that will truncate.
+    - Build: Fix creating a new set of targets. (kde#505346) (Closes:
+    #1108892)
+    - Fix saving & restoring last active build target index. (kde#505241)
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Mon, 07 Jul 2025 09:02:49 +0200
+
+kate (4:25.04.2-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (25.04.1).
+    - Add missing includes.
+    - Fix size limit, that is an int in MB, no bool.
+    - Fix type warnings.
+  * New upstream release (25.04.2).
+    - Check whether item is an object. (kde#505044)
+    - S&R: Fix canceling search in current file.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Fri, 06 Jun 2025 23:47:49 +0200
+
+kate (4:25.04.0-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (25.04.0).
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Thu, 17 Apr 2025 18:57:54 +0200
+
+kate (4:25.03.90-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (25.03.90).
+  * Update build-deps and deps with the info from cmake.
+  * Bump Standards-Version to 4.7.2, no change required.
+  * Drop patch applied upstream.
+  * Refresh copyright information.
+  * Switch to dh-sequence-qmldeps for runtime QML dependencies.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Fri, 11 Apr 2025 22:51:27 +0200
+
+kate (4:24.12.3-2) unstable; urgency=medium
+
+  * Team upload.
+  * Upload to unstable.
+
+ -- Patrick Franz <deltaone@debian.org>  Sat, 15 Mar 2025 12:15:10 +0100
+
+kate (4:24.12.3-1) experimental; urgency=medium
+
+  [ Patrick Franz ]
+  * Team upload.
+  * New upstream release (24.12.3).
+  * Concatenate upstream signatures.
+  * Backport patch to support debputy in kate (Closes: #1099876).
+
+ -- Patrick Franz <deltaone@debian.org>  Sun, 09 Mar 2025 15:33:48 +0100
+
+kate (4:24.12.1-1) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Patrick Franz ]
+  * New upstream release (24.12.1).
+  * Add qtkeychain-qt6-dev to the B-Ds in order to enable the SQL plugin
+    (Closes: #1093013).
+
+ -- Patrick Franz <deltaone@debian.org>  Thu, 16 Jan 2025 21:26:57 +0100
+
+kate (4:24.12.0-1) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Patrick Franz ]
+  * New upstream release (24.12.0).
+  * Remove redundant patches.
+  * Allow tests to fail (Closes: #1090239).
+
+ -- Patrick Franz <deltaone@debian.org>  Mon, 16 Dec 2024 19:55:37 +0100
+
+kate (4:24.08.2-5) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * Really ignore testsuite failures on 32-bit arches and hurd.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Wed, 04 Dec 2024 09:58:44 +0100
+
+kate (4:24.08.2-4) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * Ignore testsuite failures on 32-bit arches and hurd.
+  * Drop reproducible=-fixfilepath build option now that the build path
+    have been fixed.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Tue, 03 Dec 2024 17:48:54 +0100
+
+kate (4:24.08.2-3) unstable; urgency=medium
+
+  [ Rik Mills ]
+  * Fix sonnet plugins runtime recommend to be KF6 version.
+
+  [ Aurélien COUDERC ]
+  * Release to unstable.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Tue, 03 Dec 2024 12:31:22 +0100
+
+kate (4:24.08.2-2) experimental; urgency=medium
+
+  * Team upload.
+  * Fix runtime dependencies (Closes: #1084973).
+
+ -- Patrick Franz <deltaone@debian.org>  Sun, 13 Oct 2024 01:54:45 +0200
+
+kate (4:24.08.2-1) experimental; urgency=medium
+
+  * Team upload.
+
+  [ Patrick Franz ]
+  * New upstream release (24.08.2).
+  * Make qt6-base-private-dev an explicit build-dependency.
+
+ -- Patrick Franz <deltaone@debian.org>  Thu, 10 Oct 2024 19:40:01 +0200
+
+kate (4:24.08.0-1) experimental; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (24.08.0).
+  * Backport upstream patch to fix missing include.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sat, 24 Aug 2024 19:17:44 +0200
+
+kate (4:24.05.2-1) experimental; urgency=medium
+
+  [ Jesse Rhodes ]
+  * New upstream release (24.05.2).
+  * Update build-deps with info from cmake.
+  * Switch to dh-sequence-kf6.
+  * Rename kate5-data to kate-data.
+  * Update list of installed files from build system.
+  * B-D on pkgconf instead of transitional pkg-config.
+  * Update runtime Depends.
+  * Add Breaks/Replaces for kate5-data.
+  * Bump Standards-Version to 4.7.0 (no changes needed).
+  * Update copyright info.
+
+  [ Aurélien COUDERC ]
+  * More copyright refresh.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Wed, 14 Aug 2024 23:40:17 +0200
+
+kate (4:23.08.1-1) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Jesse Rhodes ]
+  * New upstream release (23.08.1).
+  * Update build-deps with info from cmake. 
+
+ -- Jesse Rhodes <jesse@sney.ca>  Fri, 06 Oct 2023 10:34:15 -0400
+
+kate (4:22.12.3-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (22.12.3).
+  * Update build-deps and deps with the info from cmake.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Wed, 01 Mar 2023 11:57:46 +0100
+
+kate (4:22.12.2-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Re-export upstream signing key without extra signatures.
+  * Update lintian overrides.
+
+ -- Pino Toscano <pino@debian.org>  Sun, 05 Feb 2023 08:41:12 +0100
+
+kate (4:22.12.1-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (22.12.1).
+  * Bump Standards-Version to 4.6.2, no change required.
+  * Add Albert Astals Cid’s master key to upstream signing keys.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Fri, 06 Jan 2023 22:34:01 +0100
+
+kate (4:22.12.0-2) unstable; urgency=medium
+
+  * Upload with a correctly released changelog.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sat, 10 Dec 2022 16:04:30 +0100
+
+kate (4:22.12.0-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (22.08.3).
+  * Update build-deps and deps with the info from cmake.
+  * Update the list of installed files from build logs.
+  * New upstream release (22.11.90).
+  * Update the list of installed files from build logs.
+  * New upstream release (22.12.0).
+  * Refresh copyright information.
+  * Refresh lintian overrides.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sat, 10 Dec 2022 00:12:50 +0100
+
+kate (4:22.04.3-1) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Aurélien COUDERC ]
+  * Bump Standards-Version to 4.6.1, no change required.
+  * Remove build-deps added by mistake for build-time test fixes.
+
+  [ Pino Toscano ]
+  * New upstream release.
+  * Remove inactive Uploaders.
+  * Modernize building:
+    - add the dh-sequence-kf5 build dependency to use the kf5 addon
+      automatically, removing pkg-kde-tools
+    - drop all the manually specified addons and buildsystem for dh
+  * Update lintian overrides.
+
+ -- Pino Toscano <pino@debian.org>  Sat, 16 Jul 2022 06:46:43 +0200
+
+kate (4:22.04.1-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (22.04.1).
+  * Update build-deps and deps with the info from cmake.
+  * Added myself to the uploaders.
+  * Review copyright information.
+  * Reactivate build-time tests.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Fri, 03 Jun 2022 12:10:42 +0200
+
+kate (4:21.12.3-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Pino Toscano <pino@debian.org>  Sat, 05 Mar 2022 15:56:44 +0100
+
+kate (4:21.12.2-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release:
+    - fixes kate parts of CVE-2022-23853
+  * Update the build dependencies according to the upstream build system:
+    - bump Qt packages to 5.15.2
+    - add libkf5bookmarks-dev, used by a new plugin
+    - drop kinit-dev, no more needed
+  * Drop old breaks/replaces for versions older than Buster.
+  * CI: enable again blhc, as it works fine now with blhc 0.13.
+  * Remove the explicit as-needed linking, as it is done by binutils now.
+  * debian/copyright: use spaces rather than tabs to start continuation lines.
+  * Remove 2 obsolete maintscript entries in 1 files.
+  * Set field Upstream-Contact in debian/copyright.
+  * Remove obsolete field Contact from debian/upstream/metadata (already present
+    in machine-readable debian/copyright).
+  * Update install files. (Closes: #1005684)
+
+ -- Pino Toscano <pino@debian.org>  Sat, 26 Feb 2022 13:43:02 +0100
 
 kate (4:21.08.2-1) unstable; urgency=medium
 

@@ -5,17 +5,19 @@
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KTEXTEDITOR_TAB_SWITCHER_PLUGIN_H
-#define KTEXTEDITOR_TAB_SWITCHER_PLUGIN_H
+#pragma once
 
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/Plugin>
 
+#include <doc_or_widget.h>
+
 #include <QList>
-#include <QSet>
+#include <QTimer>
 #include <QVariant>
 
 #include <KXMLGUIClient>
+#include <unordered_set>
 
 class TabSwitcherPluginView;
 class TabSwitcherTreeView;
@@ -28,15 +30,13 @@ class TabswitcherFilesModel;
 
 class TabSwitcherPlugin : public KTextEditor::Plugin
 {
-    Q_OBJECT
-
     friend TabSwitcherPluginView;
 
 public:
     /**
      * Plugin constructor.
      */
-    explicit TabSwitcherPlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit TabSwitcherPlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
 
     /**
      * Create a new tab switcher for @p mainWindow.
@@ -49,8 +49,6 @@ private:
 
 class TabSwitcherPluginView : public QObject, public KXMLGUIClient
 {
-    Q_OBJECT
-
 public:
     /**
      * View constructor.
@@ -72,11 +70,21 @@ public:
      */
     void setupModel();
 
-public Q_SLOTS:
+public:
+    /**
+     * Adds @p widget to the model.
+     */
+    void onWidgetCreated(QWidget *widget);
+
+    /**
+     * Removes @p widget from the model.
+     */
+    void onWidgetRemoved(QWidget *widget);
+
     /**
      * Adds @p document to the model.
      */
-    void registerDocument(KTextEditor::Document *document);
+    void registerDocuments(const QList<KTextEditor::Document *> &documents);
 
     /**
      * Removes @p document from the model.
@@ -130,11 +138,14 @@ protected:
     void updateViewGeometry();
 
 private:
+    void registerItem(DocOrWidget docOrWidget);
+    void unregisterItem(DocOrWidget docOrWidget);
+
     TabSwitcherPlugin *m_plugin;
     KTextEditor::MainWindow *m_mainWindow;
     detail::TabswitcherFilesModel *m_model;
-    QSet<KTextEditor::Document *> m_documents;
+    std::unordered_set<DocOrWidget> m_documents;
     TabSwitcherTreeView *m_treeView;
+    QList<KTextEditor::Document *> m_documentsPendingAdd;
+    QTimer m_documentsCreatedTimer;
 };
-
-#endif // KTEXTEDITOR_TAB_SWITCHER_PLUGIN_H

@@ -16,20 +16,20 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QPropertyAnimation>
-#include <QScrollBar>
 #include <QSortFilterProxyModel>
 #include <QStyledItemDelegate>
 #include <QTextDocument>
 #include <QVBoxLayout>
 
+#include <KTextEditor/Document>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/Message>
 #include <KTextEditor/View>
 
-class QuickOpenFilterProxyModel : public QSortFilterProxyModel
+class CtagsGotoSymbolProxyModel : public QSortFilterProxyModel
 {
 public:
-    QuickOpenFilterProxyModel(QObject *parent = nullptr)
+    explicit CtagsGotoSymbolProxyModel(QObject *parent = nullptr)
         : QSortFilterProxyModel(parent)
     {
     }
@@ -53,11 +53,7 @@ public:
 public Q_SLOTS:
     void setFilterText(const QString &text)
     {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        m_filterStrings = text.split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
         m_filterStrings = text.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
 
         invalidateFilter();
     }
@@ -69,7 +65,7 @@ private:
 class GotoStyleDelegate : public QStyledItemDelegate
 {
 public:
-    GotoStyleDelegate(QObject *parent = nullptr)
+    explicit GotoStyleDelegate(QObject *parent = nullptr)
         : QStyledItemDelegate(parent)
     {
     }
@@ -128,11 +124,7 @@ public:
 public Q_SLOTS:
     void setFilterStrings(const QString &text)
     {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        m_filterStrings = text.split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
         m_filterStrings = text.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
     }
 
 private:
@@ -156,7 +148,7 @@ GotoSymbolWidget::GotoSymbolWidget(KTextEditor::MainWindow *mainWindow, KateCTag
 
     setFocusProxy(m_lineEdit);
 
-    m_proxyModel = new QuickOpenFilterProxyModel(this);
+    m_proxyModel = new CtagsGotoSymbolProxyModel(this);
     m_proxyModel->setSortRole(Qt::DisplayRole);
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyModel->setFilterRole(Qt::DisplayRole);
@@ -169,7 +161,7 @@ GotoSymbolWidget::GotoSymbolWidget(KTextEditor::MainWindow *mainWindow, KateCTag
     m_proxyModel->setSourceModel(m_symbolsModel);
     m_treeView->setModel(m_proxyModel);
 
-    connect(m_lineEdit, &QLineEdit::textChanged, m_proxyModel, &QuickOpenFilterProxyModel::setFilterText);
+    connect(m_lineEdit, &QLineEdit::textChanged, m_proxyModel, &CtagsGotoSymbolProxyModel::setFilterText);
     connect(m_lineEdit, &QLineEdit::textChanged, m_styleDelegate, &GotoStyleDelegate::setFilterStrings);
     connect(m_lineEdit, &QLineEdit::textChanged, this, [this]() {
         m_treeView->viewport()->update();
@@ -181,7 +173,7 @@ GotoSymbolWidget::GotoSymbolWidget(KTextEditor::MainWindow *mainWindow, KateCTag
     connect(m_proxyModel, &QSortFilterProxyModel::rowsInserted, this, &GotoSymbolWidget::reselectFirst);
     connect(m_proxyModel, &QSortFilterProxyModel::rowsRemoved, this, &GotoSymbolWidget::reselectFirst);
 
-    QVBoxLayout *layout = new QVBoxLayout();
+    auto *layout = new QVBoxLayout();
     layout->setSpacing(0);
     layout->setContentsMargins(4, 4, 4, 4);
     layout->addWidget(m_lineEdit);
@@ -195,7 +187,7 @@ GotoSymbolWidget::GotoSymbolWidget(KTextEditor::MainWindow *mainWindow, KateCTag
 bool GotoSymbolWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::ShortcutOverride) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        auto *keyEvent = static_cast<QKeyEvent *>(event);
         if (obj == m_lineEdit) {
             const bool forward2list = (keyEvent->key() == Qt::Key_Up) || (keyEvent->key() == Qt::Key_Down) || (keyEvent->key() == Qt::Key_PageUp)
                 || (keyEvent->key() == Qt::Key_PageDown);
@@ -260,7 +252,7 @@ void GotoSymbolWidget::loadGlobalSymbols(const QString &text)
         return;
     }
 
-    QString currentWord = text;
+    const QString &currentWord = text;
     Tags::TagList list = Tags::getPartialMatchesNoi8n(m_tagFile, currentWord);
 
     if (list.isEmpty()) {
@@ -332,9 +324,9 @@ void GotoSymbolWidget::slotReturnPressed()
 
         // try to find the start position of this tag
         // and put the cursor there
-        QString tag = idx.data().toString();
-        QString textLine = m_mainWindow->activeView()->document()->line(--line);
-        int col = textLine.indexOf(tag.midRef(0, 4));
+        const QString tag = idx.data().toString();
+        const QString textLine = m_mainWindow->activeView()->document()->line(--line);
+        int col = textLine.indexOf(QStringView(tag).mid(0, 4));
         col = col >= 0 ? col : 0;
         KTextEditor::Cursor c(line, col);
 
@@ -377,17 +369,17 @@ void GotoSymbolWidget::updateViewGeometry()
 
     const int rowCount = mode == Global ? m_globalSymbolsModel->rowCount() : m_symbolsModel->rowCount();
 
-    const QSize viewSize(width, std::min(std::max(rowHeight * rowCount + 2 * frameWidth, rowHeight * 6), viewMaxSize.height()));
+    const QSize viewSize(width, std::min(std::max((rowHeight * rowCount) + (2 * frameWidth), rowHeight * 6), viewMaxSize.height()));
 
     // Position should be central over the editor area, so map to global from
     // parent of central widget since the view is positioned in global coords
-    const QPoint centralWidgetPos = window->parentWidget() ? window->mapToGlobal(window->pos()) : window->pos();
-    const int xPos = std::max(0, centralWidgetPos.x() + (centralSize.width() - viewSize.width()) / 2);
-    const int yPos = std::max(0, centralWidgetPos.y() + (centralSize.height() - viewSize.height()) * 1 / 4);
+    const QPoint centralWidgetPos = window->parent() ? window->mapToGlobal(window->pos()) : window->pos();
+    const int xPos = std::max(0, centralWidgetPos.x() + ((centralSize.width() - viewSize.width()) / 2));
+    const int yPos = std::max(0, centralWidgetPos.y() + ((centralSize.height() - viewSize.height()) * 1 / 4));
 
     move(xPos, yPos);
 
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "size");
+    auto *animation = new QPropertyAnimation(this, "size");
     animation->setDuration(150);
     animation->setStartValue(this->size());
     animation->setEndValue(viewSize);

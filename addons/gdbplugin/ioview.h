@@ -8,8 +8,7 @@
 //
 //  SPDX-License-Identifier: LGPL-2.0-only
 
-#ifndef IOVIEW_H
-#define IOVIEW_H
+#pragma once
 
 #include <QFile>
 #include <QWidget>
@@ -22,7 +21,7 @@ class IOView : public QWidget
 {
     Q_OBJECT
 public:
-    IOView(QWidget *parent = nullptr);
+    explicit IOView(QWidget *parent = nullptr);
     ~IOView() override;
 
     const QString stdinFifo();
@@ -48,7 +47,7 @@ Q_SIGNALS:
 
 private:
     void createFifos();
-    QString createFifo(const QString &prefix);
+    static QString createFifo(const QString &prefix);
 
     QTextEdit *m_output;
     QLineEdit *m_input;
@@ -70,5 +69,3 @@ private:
     QSocketNotifier *m_stdoutNotifier = nullptr;
     QSocketNotifier *m_stderrNotifier = nullptr;
 };
-
-#endif

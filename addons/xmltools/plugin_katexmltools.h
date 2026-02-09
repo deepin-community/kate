@@ -20,16 +20,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  ***************************************************************************/
 
-#ifndef PLUGIN_KATEXMLTOOLS_H
-#define PLUGIN_KATEXMLTOOLS_H
+#pragma once
 
 #include "pseudo_dtd.h"
 
+#include <KTextEditor/Document>
 #include <ktexteditor/application.h>
-#include <ktexteditor/codecompletioninterface.h>
 #include <ktexteditor/codecompletionmodel.h>
 #include <ktexteditor/codecompletionmodelcontrollerinterface.h>
-#include <ktexteditor/document.h>
 #include <ktexteditor/mainwindow.h>
 #include <ktexteditor/plugin.h>
 #include <ktexteditor/view.h>
@@ -97,20 +95,35 @@ protected:
     static QStringList sortQStringList(QStringList list);
     // bool eventFilter( QObject *object, QEvent *event );
 
-    QString insideTag(KTextEditor::View &kv);
-    QString insideAttribute(KTextEditor::View &kv);
+    static QString insideTag(KTextEditor::View &kv);
+    static QString insideAttribute(KTextEditor::View &kv);
 
     static bool isOpeningTag(const QString &tag);
     static bool isClosingTag(const QString &tag);
     static bool isEmptyTag(const QString &tag);
     static bool isQuote(const QString &ch);
 
-    QString getParentElement(KTextEditor::View &view, int skipCharacters);
+    static QString getParentElement(KTextEditor::View &view, int skipCharacters);
 
-    enum Mode { none, entities, attributevalues, attributes, elements, closingtag };
-    enum PopupMode { noPopup, tagname, attributename, attributevalue, entityname };
+    enum Mode {
+        none,
+        entities,
+        attributevalues,
+        attributes,
+        elements,
+        closingtag
+    };
+    enum PopupMode {
+        noPopup,
+        tagname,
+        attributename,
+        attributevalue,
+        entityname
+    };
 
-    enum Level { groupNode = 1 };
+    enum Level {
+        groupNode = 1
+    };
 
     /// Assign the PseudoDTD @p dtd to the Kate::View @p view
     void assignDTD(PseudoDTD *dtd, KTextEditor::View *view);
@@ -126,9 +139,6 @@ protected:
 
     Mode m_mode;
     int m_correctPos;
-
-    // code completion stuff:
-    KTextEditor::CodeCompletionInterface *m_codeInterface = nullptr;
 
     /// maps KTE::Document -> DTD
     QHash<KTextEditor::Document *, PseudoDTD *> m_docDtds;
@@ -167,7 +177,5 @@ private:
     QComboBox *m_cmbElements;
     QPushButton *m_okButton;
 };
-
-#endif // PLUGIN_KATEXMLTOOLS_H
 
 // kate: space-indent on; indent-width 4; replace-tabs on; mixed-indent off;

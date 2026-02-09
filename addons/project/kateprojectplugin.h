@@ -5,22 +5,23 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef _KATE_PROJECT_PLUGIN_H_
-#define _KATE_PROJECT_PLUGIN_H_
+#pragma once
 
-#include <QDir>
+#include <unordered_map>
+
 #include <QFileSystemWatcher>
 #include <QThreadPool>
 
+#include <KTextEditor/Document>
 #include <KTextEditor/Plugin>
-#include <ktexteditor/document.h>
+#include <KTextEditor/SessionConfigInterface>
 #include <ktexteditor/mainwindow.h>
 
-#include <KXMLGUIClient>
-
 #include "kateprojectcompletion.h"
+#include "project_commands.h"
 
 class KateProject;
+class QDir;
 
 enum class ClickAction : uint8_t {
     NoAction = 0,
@@ -29,12 +30,14 @@ enum class ClickAction : uint8_t {
     StageUnstage,
 };
 
-class KateProjectPlugin : public KTextEditor::Plugin
+class KateProjectPlugin : public KTextEditor::Plugin, public KTextEditor::SessionConfigInterface
 {
     Q_OBJECT
+    Q_INTERFACES(KTextEditor::SessionConfigInterface)
+    Q_PROPERTY(QList<QObject *> projects READ projectsObjects)
 
 public:
-    explicit KateProjectPlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KateProjectPlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KateProjectPlugin() override;
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
@@ -45,8 +48,7 @@ public:
     /**
      * Create new project for given project filename.
      * Null pointer if no project can be opened.
-     * File name will be canonicalized!
-     * @param fileName canonicalized file name for the project
+     * @param fileName file name for the project
      * @return project or null if not openable
      */
     KateProject *createProjectForFileName(const QString &fileName);
@@ -59,14 +61,14 @@ public:
      * @param userSpecified whether user asked to open a directory as project
      * @return project or null if not openable
      */
-    KateProject *projectForDir(QDir dir, bool userSpecified = false);
+    Q_INVOKABLE KateProject *projectForDir(QDir dir, bool userSpecified = false);
 
     /**
-     * Search and close project for given project, if possible.
-     * @param project to search matching project for closing
-     * @return true if successful
+     * Try to close the given project.
+     * Will ask if the files belonging to the project shall be closed, if not this will just do nothing.
+     * @param project project to close
      */
-    bool closeProject(KateProject *project);
+    void closeProject(KateProject *project);
 
     /**
      * Search and open project that contains given url, if possible.
@@ -87,6 +89,18 @@ public:
     }
 
     /**
+     * As above, in different form for property access.
+     */
+    QList<QObject *> projectsObjects() const;
+
+    /**
+     * Has the given project open documents?
+     * @param project project to check open document for
+     * @return has the given project open documents
+     */
+    bool projectHasOpenDocuments(KateProject *project) const;
+
+    /**
      * Get global code completion.
      * @return global completion object for KTextEditor::View
      */
@@ -102,13 +116,25 @@ public:
      */
     KateProject *projectForDocument(KTextEditor::Document *document)
     {
-        return m_document2Project.value(document);
+        const auto it = m_document2Project.find(document);
+        return (it != m_document2Project.end()) ? it->second : nullptr;
     }
 
-    void setAutoRepository(bool onGit, bool onSubversion, bool onMercurial);
+    void setAutoRepository(bool onGit, bool onSubversion, bool onMercurial, bool onFossil);
     bool autoGit() const;
     bool autoSubversion() const;
     bool autoMercurial() const;
+    bool autoFossil() const;
+
+    bool autoCMake() const
+    {
+        return m_autoCMake;
+    }
+
+    void setAutoCMake(bool state)
+    {
+        m_autoCMake = state;
+    }
 
     void setIndex(bool enabled, const QUrl &directory);
     bool getIndexEnabled() const;
@@ -118,17 +144,45 @@ public:
     bool multiProjectCompletion() const;
     bool multiProjectGoto() const;
 
-    void setGitStatusShowNumStat(bool show);
-    bool showGitStatusWithNumStat();
-
     void setSingleClickAction(ClickAction cb);
     ClickAction singleClickAcion();
 
     void setDoubleClickAction(ClickAction cb);
     ClickAction doubleClickAcion();
 
-Q_SIGNALS:
+    void setRestoreProjectsForSession(bool enabled);
+    bool restoreProjectsForSession() const;
 
+    /**
+     * filesystem watcher to keep track of all project files
+     * and auto-reload
+     */
+    QFileSystemWatcher &fileWatcher()
+    {
+        return m_fileWatcher;
+    }
+
+    /**
+     * Search for already loaded project for directory.
+     * Avoids that we double-load stuff for same one.
+     * @param dir director to check if we already have an open project for
+     * @return found project to re-use or nullptr
+     */
+    KateProject *openProjectForDirectory(const QDir &dir);
+
+    void sendMessage(const QString &text, bool error);
+
+    /**
+     * Returns project base dir for provided document
+     */
+    Q_INVOKABLE QString projectBaseDirForDocument(KTextEditor::Document *doc);
+
+    /**
+     * Returns project map for provided document
+     */
+    Q_INVOKABLE QVariantMap projectMapForDocument(KTextEditor::Document *doc);
+
+Q_SIGNALS:
     /**
      * Signal that for view to clean up
      * @param project to close
@@ -142,16 +196,15 @@ Q_SIGNALS:
     void projectCreated(KateProject *project);
 
     /**
+     * As above, but with adjusted naming and meta-object type friendly.
+     */
+    void projectRemoved(QObject *project);
+    void projectAdded(QObject *project);
+
+    /**
      * Signal that plugin configuration changed
      */
     void configUpdated();
-
-    /**
-     * Signal for outgoing message, the host application will handle them!
-     * Will be handled in all open main windows.
-     * @param message outgoing message we send to the host application
-     */
-    void message(const QVariantMap &message);
 
 public Q_SLOTS:
     /**
@@ -171,24 +224,24 @@ public Q_SLOTS:
      */
     void slotDocumentUrlChanged(KTextEditor::Document *document);
 
-    /**
-     * did some project file change?
-     * @param path name of directory that did change
-     */
-    void slotDirectoryChanged(const QString &path);
-
 private:
-    KateProject *createProjectForRepository(const QString &type, const QDir &dir);
-    KateProject *createProjectForDirectory(const QDir &dir);
-    KateProject *detectGit(const QDir &dir);
-    KateProject *detectSubversion(const QDir &dir);
-    KateProject *detectMercurial(const QDir &dir);
+    KateProject *createProjectForRepository(const QString &type, const QDir &dir, const QVariantMap &baseProjectMap = QVariantMap());
+    KateProject *createProjectForDirectory(const QDir &dir, const QVariantMap &baseProjectMap = QVariantMap());
+    KateProject *createProjectForDirectoryWithProjectMap(const QDir &dir, const QVariantMap &projectMap);
+    KateProject *detectGit(const QDir &dir, const QVariantMap &baseProjectMap = QVariantMap());
+    KateProject *detectSubversion(const QDir &dir, const QVariantMap &baseProjectMap = QVariantMap());
+    KateProject *detectMercurial(const QDir &dir, const QVariantMap &baseProjectMap = QVariantMap());
+    KateProject *detectFossil(const QDir &dir, const QVariantMap &baseProjectMap = QVariantMap());
+    KateProject *detectCMake(const QDir &dir);
+
+    void readSessionConfig(const KConfigGroup &config) override;
+    void writeSessionConfig(KConfigGroup &config) override;
 
     void readConfig();
     void writeConfig();
 
-    void registerVariables();
-    void unregisterVariables();
+    static void registerVariables();
+    static void unregisterVariables();
 
 private:
     /**
@@ -205,7 +258,10 @@ private:
     /**
      * Mapping document => project
      */
-    QHash<QObject *, KateProject *> m_document2Project;
+    std::unordered_map<KTextEditor::Document *, KateProject *> m_document2Project;
+
+    // remember if we did the initial read session config
+    bool m_initialReadSessionConfigDone = false;
 
     /**
      * Project completion
@@ -216,6 +272,11 @@ private:
     bool m_autoGit = true;
     bool m_autoSubversion = true;
     bool m_autoMercurial = true;
+    bool m_autoFossil = true;
+    bool m_autoCMake = true;
+
+    // restore projects on session loading?
+    bool m_restoreProjectsForSession = true;
 
     // indexing is expensive, default off
     bool m_indexEnabled = false;
@@ -226,7 +287,6 @@ private:
     bool m_multiProjectGoto = false;
 
     // git features
-    bool m_gitNumStat = true;
     ClickAction m_singleClickAction = ClickAction::ShowDiff;
     ClickAction m_doubleClickAction = ClickAction::StageUnstage;
 
@@ -234,6 +294,6 @@ private:
      * thread pool for our workers
      */
     QThreadPool m_threadPool;
-};
 
-#endif
+    const ProjectPluginCommands m_commands;
+};

@@ -17,8 +17,7 @@
  *   the tool needing to detect and resynchronize with changes to the tag file.
  *   Even for an unsorted 24MB tag file, tag searches take about one second.
  */
-#ifndef READTAGS_H
-#define READTAGS_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,7 +28,11 @@ extern "C" {
  */
 
 /* Options for tagsSetSortType() */
-typedef enum { TAG_UNSORTED, TAG_SORTED, TAG_FOLDSORTED } sortType;
+typedef enum {
+    TAG_UNSORTED,
+    TAG_SORTED,
+    TAG_FOLDSORTED
+} sortType;
 
 /* Options for tagsFind() */
 #define TAG_FULLMATCH 0x0
@@ -42,7 +45,10 @@ typedef enum { TAG_UNSORTED, TAG_SORTED, TAG_FOLDSORTED } sortType;
  *  DATA DECLARATIONS
  */
 
-typedef enum { TagFailure = 0, TagSuccess = 1 } tagResult;
+typedef enum {
+    TagFailure = 0,
+    TagSuccess = 1
+} tagResult;
 
 struct sTagFile;
 
@@ -237,8 +243,6 @@ extern tagResult tagsClose(tagFile *const file);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
 
 /* vi:set tabstop=8 shiftwidth=4: */

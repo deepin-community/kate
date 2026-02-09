@@ -1,63 +1,70 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2016.
+# Freek de Kruijf <freekdekruijf@kde.nl>, 2016, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2016-05-28 11:20+0200\n"
+"POT-Creation-Date: 2024-12-17 00:43+0000\n"
+"PO-Revision-Date: 2023-01-15 15:32+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 22.12.1\n"
 
-#: plugin_katexmlcheck.cpp:106
+#: plugin_katexmlcheck.cpp:94
 #, kde-format
-msgid "Kate XML check"
-msgstr "Kate XML-controle"
+msgid "XML Check"
+msgstr "XML-controle"
 
-#: plugin_katexmlcheck.cpp:113
-#, kde-format
-msgid "XML Checker Output"
-msgstr "Uitvoer van XML-checker"
-
-#: plugin_katexmlcheck.cpp:117
+#: plugin_katexmlcheck.cpp:99
 #, kde-format
 msgid "Validate XML"
 msgstr "XML valideren"
 
-#: plugin_katexmlcheck.cpp:125
+#: plugin_katexmlcheck.cpp:129
 #, kde-format
-msgid "#"
-msgstr "#"
+msgid "Validate process crashed"
+msgstr "Proces voor validatie crashed"
 
-#: plugin_katexmlcheck.cpp:126
+#: plugin_katexmlcheck.cpp:129 plugin_katexmlcheck.cpp:147
+#: plugin_katexmlcheck.cpp:207 plugin_katexmlcheck.cpp:232
+#: plugin_katexmlcheck.cpp:252 plugin_katexmlcheck.cpp:335
 #, kde-format
-msgid "Line"
-msgstr "Regel"
+msgid "XMLCheck"
+msgstr "XML-controle"
 
-#: plugin_katexmlcheck.cpp:127
+#: plugin_katexmlcheck.cpp:143
 #, kde-format
-msgid "Column"
-msgstr "Kolom"
+msgid "No DOCTYPE found, will only check well-formedness."
+msgstr "Geen DOCTYPE gevonden, zal alleen controleren op goed gevormd."
 
-#: plugin_katexmlcheck.cpp:128
+#: plugin_katexmlcheck.cpp:145
 #, kde-format
-msgid "Message"
-msgstr "Bericht"
+msgctxt "%1 refers to the XML DTD"
+msgid "'%1' not found, will only check well-formedness."
+msgstr "'%1' niet gevonden, zal alleen controleren op goed gevormd."
 
-#: plugin_katexmlcheck.cpp:299
+#: plugin_katexmlcheck.cpp:231
 #, kde-format
 msgid "<b>Error:</b> Could not create temporary file '%1'."
 msgstr "<b>Fout:</b> tijdelijke map in '%1' kon niet worden aangemaakt."
 
-#: plugin_katexmlcheck.cpp:393
+#: plugin_katexmlcheck.cpp:250
+#, kde-format
+msgid ""
+"<b>Error:</b> Failed to find xmllint. Please make sure that xmllint is "
+"installed. It is part of libxml2."
+msgstr ""
+"<b>Fout:</b> xmllint is niet gevonden. Verzeker u ervan dat xmllint is "
+"geïnstalleerd. Het is onderdeel van libxml2."
+
+#: plugin_katexmlcheck.cpp:333
 #, kde-format
 msgid ""
 "<b>Error:</b> Failed to execute xmllint. Please make sure that xmllint is "
@@ -71,3 +78,21 @@ msgstr ""
 #, kde-format
 msgid "&XML"
 msgstr "&XML"
+
+#~ msgid "XML Checker"
+#~ msgstr "XML-controleur"
+
+#~ msgid "#"
+#~ msgstr "#"
+
+#~ msgid "Line"
+#~ msgstr "Regel"
+
+#~ msgid "Column"
+#~ msgstr "Kolom"
+
+#~ msgid "Message"
+#~ msgstr "Bericht"
+
+#~ msgid "Kate XML check"
+#~ msgstr "Kate XML-controle"

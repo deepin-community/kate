@@ -21,12 +21,7 @@ void KatePluginSymbolViewerView::parsePerlSymbols(void)
     m_macro->setText(i18n("Show Uses"));
     m_struct->setText(i18n("Show Pragmas"));
     m_func->setText(i18n("Show Subroutines"));
-    QString cl; // Current Line
-    char comment = 0;
-    QPixmap cls(class_xpm);
-    QPixmap sct(struct_xpm);
-    QPixmap mcr(macro_xpm);
-    QPixmap cls_int(class_int_xpm);
+    bool is_comment = false;
     QTreeWidgetItem *node = nullptr;
     QTreeWidgetItem *mcrNode = nullptr, *sctNode = nullptr, *clsNode = nullptr;
     QTreeWidgetItem *lastMcrNode = nullptr, *lastSctNode = nullptr, *lastClsNode = nullptr;
@@ -38,9 +33,9 @@ void KatePluginSymbolViewerView::parsePerlSymbols(void)
         mcrNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Uses")));
         sctNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Pragmas")));
         clsNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Subroutines")));
-        mcrNode->setIcon(0, QIcon(mcr));
-        sctNode->setIcon(0, QIcon(sct));
-        clsNode->setIcon(0, QIcon(cls));
+        mcrNode->setIcon(0, m_icon_block);
+        sctNode->setIcon(0, m_icon_context);
+        clsNode->setIcon(0, m_icon_class);
 
         if (m_expandOn->isChecked()) {
             m_symbols->expandItem(mcrNode);
@@ -56,20 +51,20 @@ void KatePluginSymbolViewerView::parsePerlSymbols(void)
     }
 
     for (int i = 0; i < kv->lines(); i++) {
-        cl = kv->line(i);
+        QString cl = kv->line(i);
         // qDebug()<< "Line " << i << " : "<< cl;
 
         if (cl.isEmpty() || cl.at(0) == QLatin1Char('#')) {
             continue;
         }
         if (cl.indexOf(QRegularExpression(QLatin1String("^=[a-zA-Z]"))) >= 0) {
-            comment = 1;
+            is_comment = true;
         }
         if (cl.indexOf(QRegularExpression(QLatin1String("^=cut$"))) >= 0) {
-            comment = 0;
+            is_comment = false;
             continue;
         }
-        if (comment == 1) {
+        if (is_comment) {
             continue;
         }
 
@@ -88,7 +83,7 @@ void KatePluginSymbolViewerView::parsePerlSymbols(void)
             }
 
             node->setText(0, stripped);
-            node->setIcon(0, QIcon(mcr));
+            node->setIcon(0, m_icon_block);
             node->setText(1, QString::number(i, 10));
         }
 #if 1
@@ -103,7 +98,7 @@ void KatePluginSymbolViewerView::parsePerlSymbols(void)
             }
 
             node->setText(0, stripped);
-            node->setIcon(0, QIcon(sct));
+            node->setIcon(0, m_icon_context);
             node->setText(1, QString::number(i, 10));
         }
 #endif
@@ -120,9 +115,9 @@ void KatePluginSymbolViewerView::parsePerlSymbols(void)
             node->setText(0, stripped);
 
             if (!stripped.isEmpty() && stripped.at(0) == QLatin1Char('_')) {
-                node->setIcon(0, QIcon(cls_int));
+                node->setIcon(0, m_icon_function);
             } else {
-                node->setIcon(0, QIcon(cls));
+                node->setIcon(0, m_icon_class);
             }
 
             node->setText(1, QString::number(i, 10));

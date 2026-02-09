@@ -12,8 +12,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PLUGIN_KATETEXTFILTER_H
-#define PLUGIN_KATETEXTFILTER_H
+#pragma once
 
 #include <KTextEditor/Application>
 #include <KTextEditor/Command>
@@ -27,13 +26,11 @@
 
 class PluginKateTextFilter : public KTextEditor::Plugin
 {
-    Q_OBJECT
-
 public:
     /**
      * Plugin constructor.
      */
-    explicit PluginKateTextFilter(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit PluginKateTextFilter(QObject *parent = nullptr, const QVariantList & = QVariantList());
 
     ~PluginKateTextFilter() override;
 
@@ -60,8 +57,6 @@ public Q_SLOTS:
 
 class PluginKateTextFilterCommand : public KTextEditor::Command
 {
-    Q_OBJECT
-
 public:
     PluginKateTextFilterCommand(PluginKateTextFilter *plugin);
     // Kate::Command
@@ -77,8 +72,6 @@ private:
  */
 class PluginViewKateTextFilter : public QObject, public KXMLGUIClient
 {
-    Q_OBJECT
-
 public:
     /**
      * Construct plugin view
@@ -98,5 +91,3 @@ private:
      */
     KTextEditor::MainWindow *m_mainWindow;
 };
-
-#endif

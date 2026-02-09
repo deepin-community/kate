@@ -19,7 +19,6 @@
 #include <ktexteditor/editor.h>
 #include <ktexteditor/message.h>
 
-#include <KLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QAction>
@@ -38,7 +37,7 @@
 
 K_PLUGIN_FACTORY_WITH_JSON(TextFilterPluginFactory, "textfilterplugin.json", registerPlugin<PluginKateTextFilter>();)
 
-PluginKateTextFilter::PluginKateTextFilter(QObject *parent, const QList<QVariant> &)
+PluginKateTextFilter::PluginKateTextFilter(QObject *parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
 {
     // register command
@@ -139,6 +138,10 @@ static void slipInFilter(KProcess &proc, KTextEditor::View &view, const QString 
     proc.setShellCommand(command);
 
     proc.start();
+    if (!proc.waitForStarted(4000)) {
+        KMessageBox::error(nullptr, i18n("Failed to start process"));
+        return;
+    }
     QByteArray encoded = inputText.toLocal8Bit();
     proc.write(encoded);
     proc.closeWriteChannel();
@@ -149,7 +152,7 @@ static void slipInFilter(KProcess &proc, KTextEditor::View &view, const QString 
 void PluginKateTextFilter::slotEditFilter()
 {
     if (!KAuthorized::authorize(QStringLiteral("shell_access"))) {
-        KMessageBox::sorry(nullptr,
+        KMessageBox::error(nullptr,
                            i18n("You are not allowed to execute arbitrary external applications. If "
                                 "you want to be able to do this, contact your system administrator."),
                            i18n("Access Restrictions"));
@@ -172,7 +175,7 @@ void PluginKateTextFilter::slotEditFilter()
 
     dialog.setWindowTitle(i18n("Text Filter"));
 
-    KConfigGroup config(KSharedConfig::openConfig(), "PluginTextFilter");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("PluginTextFilter"));
     QStringList items = config.readEntry("Completion list", QStringList());
     copyResult = config.readEntry("Copy result", false);
     mergeOutput = config.readEntry("Merge output", true);
@@ -264,7 +267,7 @@ PluginViewKateTextFilter::PluginViewKateTextFilter(PluginKateTextFilter *plugin,
     // create our one and only action
     QAction *a = actionCollection()->addAction(QStringLiteral("edit_filter"));
     a->setText(i18n("&Filter Through Command..."));
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_Backslash);
+    KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::Key_Backslash);
     connect(a, &QAction::triggered, plugin, &PluginKateTextFilter::slotEditFilter);
 
     // register us at the UI

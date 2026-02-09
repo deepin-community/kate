@@ -5,371 +5,420 @@
 # H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2011.
 # Ozan Çağlayan <ozan@pardus.org.tr>, 2010.
 # obsoleteman <tulliana@gmail.com>, 2008-2009,2012.
-# Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2015, 2019.
+# Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2015, 2019, 2022.
 # Kaan Ozdincer <kaanozdincer@gmail.com>, 2014.
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: applications-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-09 03:25+0100\n"
-"PO-Revision-Date: 2019-04-08 11:30+0100\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2025-06-10 02:39+0000\n"
+"PO-Revision-Date: 2025-03-08 14:31+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Serdar Soytetir, Volkan Gezer"
+msgstr "Serdar Soytetir, Volkan Gezer, Emir SARI"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "tulliana@gmail.com, volkangezer@gmail.com"
+msgstr "tulliana@gmail.com, volkangezer@gmail.com, emir_sari@icloud.com"
 
 #. i18n: ectx: attribute (title), widget (QWidget, errs)
-#: build.ui:27
+#: build.ui:36
 #, kde-format
 msgid "Output"
 msgstr "Çıktı"
 
-#. i18n: ectx: property (text), widget (QLabel, showLabel)
-#: build.ui:35
-#, kde-format
-msgid "Show:"
-msgstr "Göster:"
-
 #. i18n: ectx: property (text), widget (QPushButton, buildAgainButton)
-#. i18n: ectx: property (text), widget (QPushButton, buildAgainButton2)
-#: build.ui:100 build.ui:125
+#: build.ui:56
 #, kde-format
-msgid "Build again"
-msgstr "Yeniden derle"
+msgid "Build Again"
+msgstr "Yeniden Yap"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelBuildButton)
-#. i18n: ectx: property (text), widget (QPushButton, cancelBuildButton2)
-#: build.ui:107 build.ui:132
+#: build.ui:66
 #, kde-format
 msgid "Cancel"
 msgstr "İptal"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, errTreeWidget)
-#: build.ui:163
+#: buildconfig.cpp:47
 #, kde-format
-msgctxt "Header for the file name column"
-msgid "File"
-msgstr "Dosya"
+msgid "Build & Run"
+msgstr "Yap ve Çalıştır"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, errTreeWidget)
-#: build.ui:168
+#: buildconfig.cpp:53
 #, kde-format
-msgctxt "Header for the line number column"
-msgid "Line"
-msgstr "Satır"
+msgid "Build & Run Settings"
+msgstr "Ayarları Yap ve Çalıştır"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, errTreeWidget)
-#: build.ui:173
+#: buildconfig.cpp:106
 #, kde-format
-msgctxt "Header for the error message column"
-msgid "Message"
-msgstr "İleti"
+msgid "Delete selected entries"
+msgstr "Seçili Girdileri Sil"
 
-#: plugin_katebuild.cpp:126
+#: buildconfig.cpp:111
 #, kde-format
-msgid "Kate Build Plugin"
-msgstr "Kate Derleme Eklentisi"
+msgid "Delete all entries"
+msgstr "Tüm Girdileri Sil"
 
-#: plugin_katebuild.cpp:133
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: buildconfigwidget.ui:33
 #, kde-format
-msgid "Build Output"
-msgstr "Derleme Çıktısı"
+msgid "General Settings"
+msgstr "Genel Ayarlar"
 
-#: plugin_katebuild.cpp:136
+#. i18n: ectx: property (text), widget (QCheckBox, useDiagnosticsCB)
+#: buildconfigwidget.ui:50
+#, kde-format
+msgid "Add errors and warnings to Diagnostics"
+msgstr "Tanılara hataları ve uyarıları ekle"
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoSwitchToOutput)
+#: buildconfigwidget.ui:57
+#, kde-format
+msgid "Automatically switch to output pane on executing the selected target"
+msgstr "Seçili hedefi yürütürken kendiliğinden çıktı bölmesine geç"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, u_showProgressCB)
+#: buildconfigwidget.ui:77
+#, no-c-format, kde-format
+msgid ""
+"If the output lines start with [ # / ## ] or [ ## % ], display the latest as "
+"a message."
+msgstr ""
+"Çıktı satırları [ # / ## ] veya [ ## % ] ile başlıyorsa en son veriyi ileti "
+"olarak görüntüleyin."
+
+#. i18n: ectx: property (text), widget (QCheckBox, u_showProgressCB)
+#: buildconfigwidget.ui:80
+#, kde-format
+msgid "Show build progress as a message when the output pane is hidden"
+msgstr "Çıktı paneli gizliyken yapı ilerlemesini ileti olarak göster"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: buildconfigwidget.ui:106
+#, kde-format
+msgid "Allowed && Blocked Commands"
+msgstr "İzin Verilen ve Engellenen Komutlar"
+
+#: plugin_katebuild.cpp:264 plugin_katebuild.cpp:271 plugin_katebuild.cpp:715
+#: plugin_katebuild.cpp:938 plugin_katebuild.cpp:951
+#, kde-format
+msgid "Build"
+msgstr "Yap"
+
+#: plugin_katebuild.cpp:274
 #, kde-format
 msgid "Select Target..."
-msgstr "Hedef Seçin..."
+msgstr "Hedef Seç…"
 
-#: plugin_katebuild.cpp:140
+#: plugin_katebuild.cpp:279
 #, kde-format
-msgid "Build Default Target"
-msgstr "Öntanımlı Derleme Hedef Yeri:"
+msgid "Build Selected Target"
+msgstr "Seçili Hedefi Yap"
 
-#: plugin_katebuild.cpp:144
+#: plugin_katebuild.cpp:284
 #, kde-format
-msgid "Build Previous Target"
-msgstr "Önceki Hedefi Derle"
+msgid "Build and Run Selected Target"
+msgstr "Seçili Hedefi Yap ve Çalıştır"
 
-#: plugin_katebuild.cpp:148
+#: plugin_katebuild.cpp:289
+#, kde-format
+msgid "Compile Current File"
+msgstr "Geçerli Dosyayı Derle"
+
+#: plugin_katebuild.cpp:290
+#, kde-format
+msgid "Try to compile the current file by searching a compile_commands.json"
+msgstr ""
+"Bir compile_commands.json dosyası arayarak geçerli dosyayı derlemeyi dene"
+
+#: plugin_katebuild.cpp:295
 #, kde-format
 msgid "Stop"
-msgstr "Dur"
+msgstr "Durdur"
 
-#: plugin_katebuild.cpp:153
+#: plugin_katebuild.cpp:300
 #, kde-format
-msgid "Next Error"
-msgstr "Sonraki Hata"
+msgid "Load targets from CMake Build Dir"
+msgstr "CMake Hedef Dizininden Hedefler Yükle"
 
-#: plugin_katebuild.cpp:159
+#: plugin_katebuild.cpp:304
 #, kde-format
-msgid "Previous Error"
-msgstr "Önceki Hata"
+msgctxt "Left is also left in RTL mode"
+msgid "Focus Next Tab to the Left"
+msgstr "Sonraki Sekmeyi Sola Odakla"
 
-#: plugin_katebuild.cpp:165
+#: plugin_katebuild.cpp:324
 #, kde-format
-msgid "Show Marks"
-msgstr ""
+msgctxt "Right is right also in RTL mode"
+msgid "Focus Next Tab to the Right"
+msgstr "Sonraki Sekmeyi Sağa Odakla"
 
-#: plugin_katebuild.cpp:172
+#: plugin_katebuild.cpp:353
 #, kde-format
 msgctxt "Tab label"
 msgid "Target Settings"
 msgstr "Hedef Ayarları"
 
-#: plugin_katebuild.cpp:262 plugin_katebuild.cpp:1162
+#: plugin_katebuild.cpp:393
 #, kde-format
-msgid "Target Set"
-msgstr "Hedef Kümesi"
-
-#: plugin_katebuild.cpp:263 plugin_katebuild.cpp:283 plugin_katebuild.cpp:288
-#: plugin_katebuild.cpp:1319
-#, kde-format
-msgid "build"
-msgstr "inşa et"
-
-#: plugin_katebuild.cpp:264 plugin_katebuild.cpp:284 plugin_katebuild.cpp:1322
-#, kde-format
-msgid "clean"
-msgstr "temizle"
-
-#: plugin_katebuild.cpp:265
-#, kde-format
-msgid "config"
-msgstr "yapılandır"
-
-#: plugin_katebuild.cpp:269 plugin_katebuild.cpp:286 plugin_katebuild.cpp:1325
-#, kde-format
-msgid "quick"
-msgstr "hızlı"
-
-#: plugin_katebuild.cpp:321 plugin_katebuild.cpp:1258 plugin_katebuild.cpp:1269
-#: plugin_katebuild.cpp:1290 plugin_katebuild.cpp:1298
-#, kde-format
-msgid "Project Plugin Targets"
-msgstr "Proje Eklenti Hedefleri"
-
-#: plugin_katebuild.cpp:487
-#, kde-kuit-format
-msgctxt "@info"
 msgid ""
-"<title>Could not open file:</title><nl/>%1<br/>Try adding a search path to "
-"the working directory in the Target Settings"
+"<b>File not found:</b> %1<br><b>Search paths:</b><br>%2<br>Try adding a "
+"search path to the \"Working Directory\""
 msgstr ""
+"<b>Dosya bulunamadı:</b> %1<br><b>Arama yolları:</b><br>%2<br>“Çalışma "
+"Dizini”ne bir arama yolu eklemeyi deneyin"
 
-#: plugin_katebuild.cpp:507
+#: plugin_katebuild.cpp:480
 #, kde-format
-msgctxt "The same word as 'make' uses to mark an error."
-msgid "error"
-msgstr "hata"
+msgid "Build Information"
+msgstr "Yapı Bilgisi"
 
-#: plugin_katebuild.cpp:509
-#, kde-format
-msgctxt "The same word as 'ld' uses to mark an ..."
-msgid "undefined reference"
-msgstr "tanımlanmamış ilişki"
-
-#: plugin_katebuild.cpp:515
-#, kde-format
-msgctxt "The same word as 'make' uses to mark a warning."
-msgid "warning"
-msgstr "uyarı"
-
-#: plugin_katebuild.cpp:600
-#, fuzzy, kde-format
-#| msgctxt "The same word as 'make' uses to mark an error."
-#| msgid "error"
-msgid "Error"
-msgstr "hata"
-
-#: plugin_katebuild.cpp:605
-#, fuzzy, kde-format
-#| msgctxt "The same word as 'make' uses to mark a warning."
-#| msgid "warning"
-msgid "Warning"
-msgstr "uyarı"
-
-#: plugin_katebuild.cpp:736
+#: plugin_katebuild.cpp:722
 #, kde-format
 msgid "There is no file or directory specified for building."
-msgstr "Derleme için herhangi bir dosya ya da dizin belirtilmedi."
+msgstr "Derleme için herhangi bir dosya veya dizin belirtilmedi."
 
-#: plugin_katebuild.cpp:740
+#: plugin_katebuild.cpp:726
 #, kde-format
 msgid ""
 "The file \"%1\" is not a local file. Non-local files cannot be compiled."
-msgstr "\"%1\" yerel bir dosya değil. Yerel olmayan dosyalar derlenemez."
+msgstr "“%1” yerel bir dosya değil. Yerel olmayan dosyalar derlenemez."
 
-#: plugin_katebuild.cpp:792
+#: plugin_katebuild.cpp:794
+#, kde-format
+msgid "Create directory"
+msgstr "Dizin oluştur"
+
+#: plugin_katebuild.cpp:797
 #, kde-format
 msgid ""
-"Cannot run command: %1\n"
-"Work path does not exist: %2"
+"The configured working directory <b>%1</b> for the targetset <b>%2</b> does "
+"not exist.<br><br>Create the directory?"
 msgstr ""
-"Komut çalıştırılamadı: %1\n"
-"Çalışma yolu mevcut değil: %2"
+"<b>%2</b> hedefi için ayarlanmış yapılandırılan çalışma dizini <b>%1</b> yok."
+"<br><br>Dizin oluşturulsun mu?"
 
-#: plugin_katebuild.cpp:811
+#: plugin_katebuild.cpp:805
+#, kde-format
+msgid "Failed to create the directory <b>%1</b>"
+msgstr "<b>%1</b> dizini oluşturulamadı"
+
+#: plugin_katebuild.cpp:823
 #, kde-format
 msgid "Failed to run \"%1\". exitStatus = %2"
-msgstr "\"%1\" çalıştırılamadı. Çıktı durumu = %2"
+msgstr "“%1” çalıştırılamadı. Çıktı durumu = %2"
 
-#: plugin_katebuild.cpp:830
+#: plugin_katebuild.cpp:838
 #, kde-format
 msgid "Building <b>%1</b> cancelled"
-msgstr "<b>%1</b> derlenmesi iptal edildi"
+msgstr "<b>%1</b> yapımı iptal edildi"
 
-#: plugin_katebuild.cpp:888
+#: plugin_katebuild.cpp:937
 #, kde-format
-msgid "Already building..."
-msgstr "Zaten inşa ediliyor..."
-
-#: plugin_katebuild.cpp:897
-#, kde-format
-msgid "No target available for building."
-msgstr "İnşa için kullanılabilir hedef yok."
-
-#: plugin_katebuild.cpp:911
-#, kde-format
-msgid "There is no local file or directory specified for building."
-msgstr "Derleme için herhangi bir dosya ya da dizin belirtilmedi."
-
-#: plugin_katebuild.cpp:935
-#, kde-format
-msgid "Building target <b>%1</b> ..."
-msgstr "<b>%1</b> hedefi derleniyor..."
+msgid "Did not find a compile_commands.json for file \"%1\". "
+msgstr "“%1” dosyası için bir compile_commands.json dosyası bulunamadı."
 
 #: plugin_katebuild.cpp:950
-#, kde-kuit-format
-msgctxt "@info"
-msgid "<title>Make Results:</title><nl/>%1"
-msgstr "<title>Derleme Sonuçları:</title><nl/>%1"
-
-#: plugin_katebuild.cpp:986
 #, kde-format
-msgid "Building <b>%1</b> completed."
-msgstr "<b>%1</b> derlenmesi tamamlandı."
+msgid "Did not find a compile command for file \"%1\" in \"%2\". "
+msgstr "“%2” içinde “%1” dosyası için bir derleme komutu bulunamadı."
 
-#: plugin_katebuild.cpp:1005
+#: plugin_katebuild.cpp:1058
 #, kde-format
-msgid "Found one error."
-msgid_plural "Found %1 errors."
-msgstr[0] "Bir hata bulundu."
-msgstr[1] "%1 hata bulundu."
+msgid "No target available for building."
+msgstr "Yapım için kullanılabilir hedef yok."
 
-#: plugin_katebuild.cpp:1006
+#: plugin_katebuild.cpp:1072
 #, kde-format
-msgid "Building <b>%1</b> had errors."
-msgstr "<b>%1</b> derlemesinde hatalar oluştu."
+msgid "There is no local file or directory specified for building."
+msgstr "Yapım için herhangi bir dosya veya dizin belirtilmedi."
 
-#: plugin_katebuild.cpp:1008
+#: plugin_katebuild.cpp:1078
 #, kde-format
-msgid "Found one warning."
-msgid_plural "Found %1 warnings."
-msgstr[0] "Bir uyarı bulundu."
-msgstr[1] "%1 uyarı bulundu."
+msgid "Already building..."
+msgstr "Halihazırda yapılıyor…"
 
-#: plugin_katebuild.cpp:1009
+#: plugin_katebuild.cpp:1091
 #, kde-format
-msgid "Building <b>%1</b> had warnings."
-msgstr "<b>%1</b> derlemesinde uyarılar var."
+msgid "Cannot make substitution. No open file or the current file is untitled!"
+msgstr "İkame yapılamıyor. Geçerli dosya veya açık dosyalar buna uygun değil!"
 
-#: plugin_katebuild.cpp:1013
+#: plugin_katebuild.cpp:1101
 #, kde-format
-msgid "Build failed."
-msgstr "Derleme işlemi başarısız oldu."
+msgid "Building target <b>%1</b> ..."
+msgstr "<b>%1</b> hedefi yapılıyor…"
 
-#: plugin_katebuild.cpp:1015
+#: plugin_katebuild.cpp:1138
 #, kde-format
-msgid "Build completed without problems."
-msgstr "Derleme işlemi sorunsuz tamamlandı."
+msgid ""
+"Cannot load targets, the file %1 does not contain a proper CMAKE_COMMAND "
+"entry !"
+msgstr ""
+"Hedefler yüklenemiyor; %1 dosyası düzgün bir CMAKE_COMMAND girdisi içermiyor!"
 
-#: plugin_katebuild.cpp:1163
+#: plugin_katebuild.cpp:1151
 #, kde-format
-msgid "Build"
-msgstr "İnşa Et"
+msgid "Could not write CMake File API query files for build directory %1 !"
+msgstr "%1 yapı dizini için CMake Dosya API Sorgusu dosyaları yazılamadı!"
 
-#: plugin_katebuild.cpp:1164
+#: plugin_katebuild.cpp:1157
 #, kde-format
-msgid "Clean"
-msgstr "Temizle"
-
-#: plugin_katebuild.cpp:1165
-#, kde-format
-msgid "Config"
-msgstr "Yapılandır"
+msgid "Could not run CMake (%2) for build directory %1 !"
+msgstr "%1 yapı dizini için CMake (%2) çalıştırılamadı!"
 
 #: plugin_katebuild.cpp:1166
 #, kde-format
-msgid "ConfigClean"
-msgstr "YapılandırmayıTemizle"
+msgid ""
+"Generating CMake File API reply files for build directory %1 failed (using "
+"%2) !"
+msgstr ""
+"%1 yapı dizini için (%2 kullanarak) CMake Dosya API Yanıtı dosyaları "
+"üretilemedi!"
 
-#: plugin_katebuild.cpp:1202
+#: plugin_katebuild.cpp:1285
 #, kde-format
-msgid "Only Errors"
-msgstr "Sadece Hatalar"
+msgid "Build plugin wants to execute program"
+msgstr "Program Yürütme İsteği"
 
-#: plugin_katebuild.cpp:1205
+#: plugin_katebuild.cpp:1288
 #, kde-format
-msgid "Errors and Warnings"
-msgstr "Hatalar ve Uyarılar"
+msgid ""
+"The Kate build plugin needs to execute an external command to read the "
+"targets from the build tree.<br><br>The full command line is:<br><br><b>%1</"
+"b><br><br>Proceed and allow to run this command ?<br><br>The choice can be "
+"altered via the config page of the plugin."
+msgstr ""
+"Kate yapı eklentisinin, yapı ağacındaki hedefleri okuması için bir dış "
+"programı yürütmesi gerekiyor.<br><br>Tam komut satırı şu:<br><br><b>%1</"
+"b><br><br>Sürdürüp bu komutun çalıştırılmasına izin vermek istiyor musunuz?"
+"<br><br>Bu seçim, eklentinin yapılandırma sayfasından değiştirilebilir."
 
-#: plugin_katebuild.cpp:1208
+#: plugin_katebuild.cpp:1320
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<title>Build Finished:</title>%1"
+msgstr "<title>Yapı bitti:</title><nl/>%1"
+
+#: plugin_katebuild.cpp:1382
 #, kde-format
-msgid "Parsed Output"
-msgstr "Ayrıştırılmış Çıktı"
+msgid "Build <b>%1</b> completed. %2 error(s), %3 warning(s), %4 note(s)"
+msgstr "<b>%1</b> yapısı tamamlandı. %2 hata, %3 uyarı, %4 not"
 
-#: plugin_katebuild.cpp:1211
+#: plugin_katebuild.cpp:1388
 #, kde-format
-msgid "Full Output"
-msgstr "Tüm Çıktı"
+msgid "Found one error."
+msgid_plural "Found %1 errors."
+msgstr[0] "1 hata bulundu."
+msgstr[1] "%1 hata bulundu."
 
-#. i18n: ectx: property (windowTitle), widget (QDialog, SelectTargetUi)
-#: SelectTargetUi.ui:14
+#: plugin_katebuild.cpp:1392
 #, kde-format
-msgid "Select build target"
-msgstr "İnşa hedefini seçin"
+msgid "Found one warning."
+msgid_plural "Found %1 warnings."
+msgstr[0] "1 uyarı bulundu."
+msgstr[1] "%1 uyarı bulundu."
 
-#. i18n: ectx: property (text), widget (QLabel, u_label)
-#: SelectTargetUi.ui:29
+#: plugin_katebuild.cpp:1395
 #, kde-format
-msgid "Filter"
-msgstr "Süzgeç"
+msgid "Found one note."
+msgid_plural "Found %1 notes."
+msgstr[0] "1 not bulundu."
+msgstr[1] "%1 not bulundu."
 
-#: TargetHtmlDelegate.cpp:47
+#: plugin_katebuild.cpp:1400
+#, kde-format
+msgid "Build failed."
+msgstr "Yapı başarısız oldu."
+
+#: plugin_katebuild.cpp:1402
+#, kde-format
+msgid "Build completed without problems."
+msgstr "Yapı sorunsuzca tamamlandı."
+
+#: plugin_katebuild.cpp:1407
+#, kde-format
+msgid "Build <b>%1 canceled</b>. %2 error(s), %3 warning(s), %4 note(s)"
+msgstr "<b>%1</b> yapısı iptal edildi. %2 hata, %3 uyarı, %4 not"
+
+#: plugin_katebuild.cpp:1433
+#, kde-format
+msgid "Cannot execute: %1 No working directory set."
+msgstr "Yürütülemiyor: %1 Bir çalışma dizini ayarlanmadı."
+
+#: plugin_katebuild.cpp:1683
+#, kde-format
+msgctxt "The same word as 'gcc' uses for an error."
+msgid "error"
+msgstr "hata"
+
+#: plugin_katebuild.cpp:1686
+#, kde-format
+msgctxt "The same word as 'gcc' uses for a warning."
+msgid "warning"
+msgstr "uyarı"
+
+#: plugin_katebuild.cpp:1689
+#, kde-format
+msgctxt "The same words as 'gcc' uses for note or info."
+msgid "note|info"
+msgstr "not|bilgi"
+
+#: plugin_katebuild.cpp:1692
+#, kde-format
+msgctxt "The same word as 'ld' uses to mark an ..."
+msgid "undefined reference"
+msgstr "tanımlanmamış başvuru"
+
+#: plugin_katebuild.cpp:1896
+#, kde-format
+msgid "Cannot save build targets in: %1"
+msgstr "Şuradaki yapı hedefleri kaydedilemiyor: %1"
+
+#: TargetHtmlDelegate.cpp:51
 #, kde-format
 msgctxt "T as in Target set"
 msgid "<B>T:</B> %1"
-msgstr "<B>T:</B> %1"
+msgstr "<B>Hedef:</B> %1"
 
-#: TargetHtmlDelegate.cpp:49
+#: TargetHtmlDelegate.cpp:53
 #, kde-format
-msgctxt "D as in working Directory"
+msgctxt "Dir as in working Directory"
 msgid "<B>Dir:</B> %1"
 msgstr "<B>Dizin:</B> %1"
 
-#: TargetHtmlDelegate.cpp:101
-#, fuzzy, kde-format
-#| msgid "Leave empty to use the directory of the current document."
+#: TargetHtmlDelegate.cpp:104
+#, kde-format
 msgid ""
 "Leave empty to use the directory of the current document.\n"
 "Add search directories by adding paths separated by ';'"
-msgstr "Geçerli belgenin dizinini kullanmak için boş bırakın."
+msgstr ""
+"Geçerli dosyanın dizinini kullanmak için boş bırakın.\n"
+"“;” ile ayrılmış yollar ekleyerek arama dizinleri ekleyin"
 
-#: TargetHtmlDelegate.cpp:105
+#: TargetHtmlDelegate.cpp:111
+#, kde-format
+msgid ""
+"Use:\n"
+"\"%B\" for project base directory\n"
+"\"%b\" for name of project base directory"
+msgstr ""
+"Kullanım:\n"
+"proje taban dizini için “%B”\n"
+"proje taban dizininin adı için “%b”"
+
+#: TargetHtmlDelegate.cpp:114
 #, kde-format
 msgid ""
 "Use:\n"
@@ -378,67 +427,118 @@ msgid ""
 "\"%n\" for current file name without suffix"
 msgstr ""
 "Kullanım:\n"
-"geçerli dosya için \"%f\"\n"
-"geçerli dosyanın bulunduğu dizin için \"%d\"\n"
-"soneki olmadan geçerli dosya adı için \"%n\""
+"geçerli dosya için “%f”\n"
+"geçerli dosyanın bulunduğu dizin için “%d”\n"
+"sonek olmadan geçerli dosya adı için “%n”"
 
-#: TargetModel.cpp:297
+#: TargetModel.cpp:316 TargetModel.cpp:328 targets.cpp:255
 #, kde-format
-msgid "Check the check-box to make the command the default for the target-set."
-msgstr ""
-"Komutu hedef kümesi için öntanımlı yapmak için bu onay kutusunu işaretleyin."
+msgid "Target Set"
+msgstr "Hedef Kümesi"
 
-#: TargetModel.cpp:355
+#: TargetModel.cpp:549
+#, kde-format
+msgid "Projects"
+msgstr "Projeler"
+
+#: TargetModel.cpp:549
+#, kde-format
+msgid "Session"
+msgstr "Oturum"
+
+#: TargetModel.cpp:659
 #, kde-format
 msgid "Command/Target-set Name"
-msgstr "Komut/Hedef kümesi adı"
+msgstr "Komut/Hedef Kümesi Adı"
 
-#: TargetModel.cpp:358
+#: TargetModel.cpp:662
 #, kde-format
-msgid "Working Directory / Command"
-msgstr "Çalışma Dizini / Komut"
+msgid "Build Command / Working Directory"
+msgstr "Yapı Komutu/Çalışma Dizini"
 
-#: targets.cpp:18
+#: TargetModel.cpp:665
 #, kde-format
-msgid "Active target-set:"
-msgstr "Etkin hedef kümesi:"
-
-#: targets.cpp:20
-#, kde-format
-msgid "Select active target set"
-msgstr "Etkin hedef kümesini seçin"
-
-#: targets.cpp:25
-#, kde-format
-msgid "Create new set of targets"
-msgstr "Yeni hedef seti oluştur"
+msgid "Run Command"
+msgstr "Komutu Çalıştır"
 
 #: targets.cpp:29
 #, kde-format
-msgid "Copy command or target set"
-msgstr "Komutu veya hedef kümesini kopyala"
+msgid "Filter targets, use arrow keys to select, Enter to execute"
+msgstr ""
+"Hedefleri süz, seçmek için ok düğmelerini kullan ve yürütmek için Giriş’e bas"
 
 #: targets.cpp:33
-#, fuzzy, kde-format
-#| msgid "Delete current set of targets"
-msgid "Delete current target or current set of targets"
-msgstr "Geçerli hedef kümelerini sil"
+#, kde-format
+msgid "Create new set of targets"
+msgstr "Yeni hedef kümesi oluştur"
 
-#: targets.cpp:38
+#: targets.cpp:37
+#, kde-format
+msgid "Clone command or target set"
+msgstr "Komutu veya Hedef Kümesini Klonla"
+
+#: targets.cpp:41
+#, kde-format
+msgid "Delete current target or current set of targets"
+msgstr "Geçerli hedefi veya geçerli hedef kümelerini sil"
+
+#: targets.cpp:46
 #, kde-format
 msgid "Add new target"
 msgstr "Yeni hedef ekle"
 
-#: targets.cpp:42
+#: targets.cpp:50
 #, kde-format
 msgid "Build selected target"
-msgstr "Seçili hedefi inşa et"
+msgstr "Seçili hedefi yap"
+
+#: targets.cpp:54
+#, kde-format
+msgid "Build and run selected target"
+msgstr "Seçili hedefi yap ve çalıştır"
+
+#: targets.cpp:58
+#, kde-format
+msgid "Move selected target up"
+msgstr "Seçili hedefi yukarı taşı"
+
+#: targets.cpp:62
+#, kde-format
+msgid "Move selected target down"
+msgstr "Seçili hedefi aşağı taşı"
+
+#: targets.cpp:204
+#, kde-format
+msgid "Copy"
+msgstr "Kopyala"
+
+#: targets.cpp:208
+#, kde-format
+msgid "Cut"
+msgstr "Kes"
+
+#: targets.cpp:212
+#, kde-format
+msgid "Paste after"
+msgstr "Sonrasında Yapıştır"
+
+#: targets.cpp:230 targets.cpp:257
+#, kde-format
+msgctxt "Name/Label for a compilation or build command"
+msgid "Build Command"
+msgstr "Yapı komutu"
+
+#: targets.cpp:256
+#, kde-format
+msgctxt "Name/Label for a command to configure a build"
+msgid "Configure"
+msgstr "Yapılandır"
 
 #. i18n: ectx: Menu (Build Menubar)
 #: ui.rc:6
 #, kde-format
 msgid "&Build"
-msgstr "&Derle"
+msgstr "&Yapı"
 
 #: UrlInserter.cpp:32
 #, kde-format
@@ -448,53 +548,20 @@ msgstr "Yol ekle"
 #: UrlInserter.cpp:51
 #, kde-format
 msgid "Select directory to insert"
-msgstr "Eklenecek dizini seçin"
+msgstr "Eklenecek dizini seç"
 
-#, fuzzy
-#~| msgctxt "@info"
-#~| msgid "<title>Make Results:</title><nl/>%1"
-#~ msgctxt "@info"
-#~ msgid "<title>Could not open file:</title><nl/>%1"
-#~ msgstr "<title>Derleme Sonuçları:</title><nl/>%1"
+#~ msgid "Working Directory / Command"
+#~ msgstr "Çalışma Dizini/Komut"
 
-#~ msgid "Next Set of Targets"
-#~ msgstr "Sonraki Hedef Setleri"
+#~ msgid ""
+#~ "Cannot run command: %1\n"
+#~ "Work path does not exist: %2"
+#~ msgstr ""
+#~ "Komut çalıştırılamıyor: %1\n"
+#~ "Çalışma yolu yok: %2"
 
-#~ msgid "No previous target to build."
-#~ msgstr "Derlenecek önceki hedef yok."
+#~ msgid "Clean"
+#~ msgstr "Temizle"
 
-#~ msgid "No target set as default target."
-#~ msgstr "Öntanımlı hedef olarak bir hedef ayarlanmadı."
-
-#~ msgid "No target set as clean target."
-#~ msgstr "Temiz hedef olarak bir hedef ayarlanmadı."
-
-#~ msgid "Target \"%1\" not found for building."
-#~ msgstr "Hedef \"%1\" inşa için bulunamadı."
-
-#~ msgid "Really delete target %1?"
-#~ msgstr "%1 hedefi gerçekten silinsin mi?"
-
-#~ msgid "Nothing built yet."
-#~ msgstr "Henüz hiçbirşey derlenmedi."
-
-#~ msgid "Target Set %1"
-#~ msgstr "Hedef Seti %1"
-
-#~ msgid "Target"
-#~ msgstr "Hedef"
-
-#~ msgid "Target:"
-#~ msgstr "Hedef:"
-
-#~ msgid "from"
-#~ msgstr "şuradan"
-
-#~ msgid "Command:"
-#~ msgstr "Komut:"
-
-#~ msgid "Sets of Targets"
-#~ msgstr "Hedef Setleri"
-
-#~ msgid "Make Results"
-#~ msgstr "Make Sonuçları"
+#~ msgid "ConfigClean"
+#~ msgstr "YapılandırmayıTemizle"

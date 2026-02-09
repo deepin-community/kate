@@ -1,6 +1,6 @@
 # Copyright (C) 2009 Free Software Foundation, Inc.
 # Claudiu Costin <claudiuc@kde.org>, 2003.
-# Sergiu Bivol <sergiu@cip.md>, 2009, 2020.
+# Sergiu Bivol <sergiu@cip.md>, 2009, 2020, 2024.
 # Cristian Oneț <onet.cristian@gmail.com>, 2011.
 # Cristian Buzduga <cristianbzdg@gmail.com>, 2011.
 #
@@ -8,19 +8,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: @PACKAGE\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
-"PO-Revision-Date: 2020-10-04 00:24+0100\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
+"PO-Revision-Date: 2024-02-27 21:49+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
-"Language-Team: Romanian\n"
+"Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Lokalize 19.12.3\n"
+"X-Generator: Lokalize 21.12.3\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -30,7 +30,12 @@ msgstr ""
 "<title>Rezultatul:</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr ""
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
@@ -39,23 +44,22 @@ msgstr ""
 "Nu aveți permisiunea de a executa aplicații externe arbitrare. Dacă doriți "
 "să puteți face acesta, contactați administratorul dumneavoastră de sistem."
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
 msgstr "Restricții acces"
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
-#, fuzzy, kde-format
-#| msgid "Filter"
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
+#, kde-format
 msgid "Text Filter"
-msgstr "Filtru"
+msgstr "Filtru text"
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
 msgstr "Utilizare: textfilter COMANDĂ"
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
@@ -64,7 +68,7 @@ msgstr ""
 "<qt><p>Folosire: <code>textfilter COMMANDĂ</code></p><p>Înlocuiți selecția "
 "cu ieșirea comenzii de interpretor specificată.</p></qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
 msgstr "&Filtrează prin comandă..."
@@ -77,22 +81,21 @@ msgstr "Dialog"
 
 #. i18n: ectx: property (text), widget (QLabel, lblFilter)
 #: textfilterwidget.ui:26
-#, fuzzy, kde-format
-#| msgid "Enter command to pipe selected text through:"
+#, kde-format
 msgid "Enter command to &pipe selected text through:"
-msgstr "Introduceți comanda prin care să filtrez textul:"
+msgstr "Introduceți comanda &prin care să se filtreze textul:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, newDoc)
 #: textfilterwidget.ui:39
 #, kde-format
 msgid "Open results in a new document"
-msgstr ""
+msgstr "Deschide rezultatele într-un document nou"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, copyResult)
 #: textfilterwidget.ui:46
 #, kde-format
 msgid "Copy the result to clipboard leaving a document unchanged."
-msgstr ""
+msgstr "Copiază rezultatul în clipboard, lăsând documentul neschimbat."
 
 #. i18n: ectx: property (text), widget (QCheckBox, copyResult)
 #: textfilterwidget.ui:49
@@ -108,12 +111,15 @@ msgid ""
 "will be reported.\n"
 "Otherwise, STDERR will be displayed as a passive message."
 msgstr ""
+"Dacă e activă, ieșirile din STDOUT și STDERR vor fi îmbinate și nu va fi "
+"raportată nicio eroare.\n"
+"Altfel, STDERR va fi afișată ca mesaj pasiv."
 
 #. i18n: ectx: property (text), widget (QCheckBox, mergeOutput)
 #: textfilterwidget.ui:60
 #, kde-format
 msgid "Merge STDOUT and STDERR"
-msgstr ""
+msgstr "Îmbină STDOUT și STDERR"
 
 #. i18n: ectx: Menu (tools)
 #: ui.rc:6

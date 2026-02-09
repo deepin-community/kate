@@ -118,6 +118,18 @@
 
 <varlistentry>
 <term
+><anchor id="config-dialog-general-open-each-document"/>
+<guilabel
+>Elk document in zijn eigen venster openen</guilabel
+></term>
+<listitem
+><para
+>Indien ingeschakeld zal elk document geopend worden in zijn eigen venster. Zo niet, elk document zal geopend worden in een nieuw tabblad in het huidige venster.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><anchor id="config-dialog-general-switch-to-output"/>
 <guilabel
 >Naar uitvoerweergave omschalen op type bericht</guilabel
@@ -231,6 +243,18 @@
 
 <varlistentry>
 <term
+><anchor id="config-general-auto-hide-tabs"/>
+<guilabel
+>Tabbladen automatisch verbergen</guilabel
+></term>
+<listitem
+><para
+>Indien geactiveerd zullen tabbladen verborgen zijn als één document open is.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><anchor id="config-general-show-close-button"/>
 <guilabel
 >Sluitknop tonen</guilabel
@@ -276,11 +300,81 @@
 >Indien geactiveerd sluit middel-klikken een nieuw document.</para
 ></listitem>
 </varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-tab-scrolling"/>
+<guilabel
+>Tabblad schuiven toestaan</guilabel
+></term>
+<listitem
+><para
+>Indien geactiveerd zal dit schuiven in de tabbladbalk toestaan wanneer het aantal tabbladen groot is.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-elide-tab-text"/>
+<guilabel
+>Puntjes invoegen in tabbladtekst</guilabel
+></term>
+<listitem
+><para
+>Indien geactiveerd kunnen in tabbladtekst puntjes worden gevoegd.</para
+></listitem>
+</varlistentry>
 </variablelist>
 
 </listitem>
 </varlistentry
 ><!-- /tabs group -->
+
+<varlistentry>
+<term
+><anchor id="config-general-mouse"/>
+<guilabel
+>Tabbladen</guilabel
+></term>
+ <listitem>
+
+<variablelist>
+<varlistentry>
+<term
+><anchor id="config-general-backward-button-pressed"/>
+<guilabel
+>Knop achterwaarts ingedrukt</guilabel
+></term>
+<listitem
+><para
+>Biedt het selecteren van de muisknopactie Terug tussen de items <guimenuitem
+>Vorige tabblad</guimenuitem
+> en <guimenuitem
+>Terug in de geschiedenis</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-forward-button-pressed"/>
+<guilabel
+>Knop voor voorwaarts ingedrukt</guilabel
+></term>
+<listitem
+><para
+>Biedt het selecteren van de muisknopactie Vooruit tussen de items <guimenuitem
+>Volgende tabblad</guimenuitem
+> en <guimenuitem
+>Verder in de geschiedenis</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</listitem>
+</varlistentry
+><!-- /mouse group -->
 </variablelist>
 </sect2>
 
@@ -346,7 +440,7 @@
 <term
 ><anchor id="config-dialog-sessions-shutdown-behavior"/>
 <guilabel
->Gedrag bij programma afsluiten</guilabel
+>Gedrag bij toepassing opstarten/afsluiten</guilabel
 ></term>
 <listitem>
 <para

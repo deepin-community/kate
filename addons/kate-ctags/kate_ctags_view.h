@@ -1,5 +1,4 @@
-#ifndef KATE_CTAGS_VIEW_H
-#define KATE_CTAGS_VIEW_H
+#pragma once
 /* Description : Kate CTags plugin
  *
  * SPDX-FileCopyrightText: 2008-2011 Kare Sars <kare.sars@iki.fi>
@@ -21,10 +20,8 @@
  * License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <KTextEditor/Document>
 #include <KTextEditor/View>
 
-#include <KTextEditor/Application>
 #include <KTextEditor/MainWindow>
 #include <ktexteditor/sessionconfiginterface.h>
 
@@ -98,7 +95,7 @@ private:
     void setNewLookupText(const QString &newText);
     void displayHits(const Tags::TagList &list);
 
-    void gotoTagForTypes(const QString &tag, QStringList const &types);
+    void gotoResults(const QString &word, const Tags::TagList &list);
 
     QPointer<KTextEditor::MainWindow> m_mWin;
     QPointer<QWidget> m_toolView;
@@ -116,5 +113,3 @@ private:
     QTimer m_editTimer;
     QStack<TagJump> m_jumpStack;
 };
-
-#endif

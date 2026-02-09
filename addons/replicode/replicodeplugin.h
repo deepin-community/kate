@@ -3,8 +3,7 @@
 
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef REPLICODEPLUGIN_H
-#define REPLICODEPLUGIN_H
+#pragma once
 
 #include "replicodeview.h"
 #include <KTextEditor/ConfigPage>
@@ -12,11 +11,9 @@
 
 class ReplicodePlugin : public KTextEditor::Plugin
 {
-    Q_OBJECT
-
 public:
     // Constructor
-    explicit ReplicodePlugin(QObject *parent = nullptr, const QList<QVariant> &args = QList<QVariant>());
+    explicit ReplicodePlugin(QObject *parent = nullptr, const QVariantList &args = QVariantList());
     // Destructor
     ~ReplicodePlugin() override;
 
@@ -32,5 +29,3 @@ public:
     }
     KTextEditor::ConfigPage *configPage(int number = 0, QWidget *parent = nullptr) override;
 };
-
-#endif

@@ -3,334 +3,308 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2014.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2016, 2018, 2019, 2021.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2016, 2018, 2019, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2024 Igor Moreira Padua <igorpadua@discente.ufg.br>
+# SPDX-FileCopyrightText: 2025 Guilherme Marçal Silva <guimarcalsilva@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: katefiletree\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-07 00:21+0000\n"
-"PO-Revision-Date: 2021-04-14 12:05-0300\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
+"POT-Creation-Date: 2025-04-16 02:33+0000\n"
+"PO-Revision-Date: 2025-02-20 02:14-0300\n"
+"Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 24.12.2\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "André Marcelo Alvarenga"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "alvarenga@kde.org"
-
-#: katefiletree.cpp:96
+#: katefiletree.cpp:122
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Reloa&d"
 msgstr "&Recarregar"
 
-#: katefiletree.cpp:98
+#: katefiletree.cpp:124
 #, kde-format
 msgid "Reload selected document(s) from disk."
 msgstr "Recarrega o(s) documento(s) selecionado(s) do disco."
 
-#: katefiletree.cpp:100
+#: katefiletree.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close"
 msgstr "Fechar"
 
-#: katefiletree.cpp:102
+#: katefiletree.cpp:128
 #, kde-format
 msgid "Close the current document."
 msgstr "Fecha o documento atual."
 
-#: katefiletree.cpp:104
+#: katefiletree.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Expand recursively"
+msgid "Expand Recursively"
 msgstr "Expandir recursivamente"
 
-#: katefiletree.cpp:106
+#: katefiletree.cpp:132
 #, kde-format
 msgid "Expand the file list sub tree recursively."
 msgstr "Expandir a sub-árvore da lista de arquivos recursivamente."
 
-#: katefiletree.cpp:108
+#: katefiletree.cpp:134
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Collapse recursively"
+msgid "Collapse Recursively"
 msgstr "Recolher recursivamente"
 
-#: katefiletree.cpp:110
+#: katefiletree.cpp:136
 #, kde-format
 msgid "Collapse the file list sub tree recursively."
 msgstr "Recolher a sub-árvore da lista de arquivos recursivamente."
 
-#: katefiletree.cpp:112
+#: katefiletree.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other"
 msgstr "Fechar os outros"
 
-#: katefiletree.cpp:114
+#: katefiletree.cpp:140
 #, kde-format
 msgid "Close other documents in this folder."
 msgstr "Fechar os outros documentos desta pasta."
 
-#: katefiletree.cpp:117
+#: katefiletree.cpp:143
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Containing Folder"
 msgstr "Abrir pasta que contém"
 
-#: katefiletree.cpp:119
+#: katefiletree.cpp:145
 #, kde-format
 msgid "Open the folder this file is located in."
 msgstr "Abre a pasta onde o arquivo está localizado."
 
-#: katefiletree.cpp:121
+#: katefiletree.cpp:147
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Copy File Path"
-msgstr "Copiar caminho do arquivo"
+msgid "Copy Location"
+msgstr "Copiar localização"
 
-#: katefiletree.cpp:123
+#: katefiletree.cpp:149
 #, kde-format
 msgid "Copy path and filename to the clipboard."
 msgstr "Copia o caminho e nome do arquivo para a área de transferência."
 
-#: katefiletree.cpp:125
+#: katefiletree.cpp:151
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename..."
 msgstr "Renomear..."
 
-#: katefiletree.cpp:127
+#: katefiletree.cpp:153
 #, kde-format
 msgid "Rename the selected file."
 msgstr "Renomear o arquivo selecionado."
 
-#: katefiletree.cpp:130
+#: katefiletree.cpp:156
 #, kde-format
 msgid "Print selected document."
 msgstr "Imprimir o documento selecionado."
 
-#: katefiletree.cpp:133
+#: katefiletree.cpp:159
 #, kde-format
 msgid "Show print preview of current document"
 msgstr "Mostra uma previsão da impressão do documento atual"
 
-#: katefiletree.cpp:135
+#: katefiletree.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Delete"
 msgstr "Excluir"
 
-#: katefiletree.cpp:137
+#: katefiletree.cpp:163
 #, kde-format
 msgid "Close and delete selected file from storage."
 msgstr "Fechar e excluir o arquivo selecionado do armazenamento."
 
-#: katefiletree.cpp:143
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Tree Mode"
-msgstr "Modo de árvore"
-
-#: katefiletree.cpp:144
-#, kde-format
-msgid "Set view style to Tree Mode"
-msgstr "Define o estilo de visualização para o Modo de Árvore"
-
-#: katefiletree.cpp:150
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "List Mode"
-msgstr "Modo de lista"
-
-#: katefiletree.cpp:151
-#, kde-format
-msgid "Set view style to List Mode"
-msgstr "Define o estilo de visualização para o Modo de Lista"
-
-#: katefiletree.cpp:158
-#, kde-format
-msgctxt "@action:inmenu sorting option"
-msgid "Document Name"
-msgstr "Nome do documento"
-
-#: katefiletree.cpp:158
-#, kde-format
-msgid "Sort by Document Name"
-msgstr "Ordenar por nome do documento"
-
-#: katefiletree.cpp:161
-#, kde-format
-msgctxt "@action:inmenu sorting option"
-msgid "Document Path"
-msgstr "Caminho do documento"
-
-#: katefiletree.cpp:161
-#, kde-format
-msgid "Sort by Document Path"
-msgstr "Ordenar por caminho do documento"
-
-#: katefiletree.cpp:165
-#, kde-format
-msgctxt "@action:inmenu sorting option"
-msgid "Opening Order"
-msgstr "Ordem de abertura"
-
-#: katefiletree.cpp:166
-#, kde-format
-msgid "Sort by Opening Order"
-msgstr "Ordenar por ordem de abertura"
-
-#: katefiletree.cpp:170
+#: katefiletree.cpp:167
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Clear History"
 msgstr "Limpar histórico"
 
-#: katefiletree.cpp:172
+#: katefiletree.cpp:169
 #, kde-format
 msgid "Clear edit/view history."
 msgstr "Limpa o histórico de edição/visualização."
 
-#: katefiletree.cpp:308
+#: katefiletree.cpp:242
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Tree Mode"
+msgstr "Modo de árvore"
+
+#: katefiletree.cpp:243
+#, kde-format
+msgid "Set view style to Tree Mode"
+msgstr "Define o estilo de visualização para o Modo de Árvore"
+
+#: katefiletree.cpp:249
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "List Mode"
+msgstr "Modo de lista"
+
+#: katefiletree.cpp:250
+#, kde-format
+msgid "Set view style to List Mode"
+msgstr "Define o estilo de visualização para o Modo de Lista"
+
+#: katefiletree.cpp:257
+#, kde-format
+msgctxt "@action:inmenu sorting option"
+msgid "Document Name"
+msgstr "Nome do documento"
+
+#: katefiletree.cpp:258
+#, kde-format
+msgid "Sort by Document Name"
+msgstr "Ordenar por nome do documento"
+
+#: katefiletree.cpp:263
+#, kde-format
+msgctxt "@action:inmenu sorting option"
+msgid "Document Path"
+msgstr "Caminho do documento"
+
+#: katefiletree.cpp:263
+#, kde-format
+msgid "Sort by Document Path"
+msgstr "Ordenar por caminho do documento"
+
+#: katefiletree.cpp:267
+#, kde-format
+msgctxt "@action:inmenu sorting option"
+msgid "Opening Order"
+msgstr "Ordem de abertura"
+
+#: katefiletree.cpp:268
+#, kde-format
+msgid "Sort by Opening Order"
+msgstr "Ordenar por ordem de abertura"
+
+#: katefiletree.cpp:271 katefiletreeconfigpage.cpp:72
+#, kde-format
+msgid "Custom Sorting"
+msgstr "Ordenação personalizada"
+
+#: katefiletree.cpp:402
+#, kde-format
+msgid "Open..."
+msgstr "Abrir..."
+
+#: katefiletree.cpp:406
+#, kde-format
+msgid "Open File"
+msgstr "Abrir arquivo"
+
+#: katefiletree.cpp:416
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open With"
 msgstr "Abrir com"
 
-#: katefiletree.cpp:321
+#: katefiletree.cpp:432
+#, kde-format
+msgid "Show File Git History"
+msgstr "Exibir histórico do arquivo no git"
+
+#: katefiletree.cpp:482
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "View Mode"
 msgstr "Modo de exibição"
 
-#: katefiletree.cpp:325
+#: katefiletree.cpp:486
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Sort By"
 msgstr "Ordenar por"
 
-#: katefiletree.cpp:366
-#, kde-format
-msgid "&Other..."
-msgstr "&Outros..."
-
-#: katefiletree.cpp:511
-#, kde-format
-msgid "Rename file"
-msgstr "Renomear arquivo"
-
-#: katefiletree.cpp:511
-#, kde-format
-msgid "New file name"
-msgstr "Novo nome de arquivo"
-
-#: katefiletree.cpp:539
-#, kde-format
-msgid "File \"%1\" could not be moved to \"%2\""
-msgstr "Não foi possível mover o arquivo \"%1\" para \"%2\""
-
-#: katefiletree.cpp:751
-#, kde-format
-msgid "Do you really want to delete file \"%1\" from storage?"
-msgstr "Deseja realmente excluir o arquivo \"%1\" do armazenamento?"
-
-#: katefiletree.cpp:752
-#, kde-format
-msgid "Delete file?"
-msgstr "Excluir o arquivo?"
-
-#: katefiletree.cpp:769
-#, kde-format
-msgid "File \"%1\" could not be deleted."
-msgstr "Não foi possível excluir o arquivo \"%1\"."
-
-#: katefiletreeconfigpage.cpp:45
+#: katefiletreeconfigpage.cpp:43
 #, kde-format
 msgid "Background Shading"
 msgstr "Sombra do plano de fundo"
 
-#: katefiletreeconfigpage.cpp:52
+#: katefiletreeconfigpage.cpp:50
 #, kde-format
 msgid "&Viewed documents' shade:"
 msgstr "Sombra em documentos &visualizados:"
 
-#: katefiletreeconfigpage.cpp:58
+#: katefiletreeconfigpage.cpp:56
 #, kde-format
 msgid "&Modified documents' shade:"
 msgstr "Sombra em documentos &editados:"
 
-#: katefiletreeconfigpage.cpp:66
+#: katefiletreeconfigpage.cpp:64
 #, kde-format
 msgid "&Sort by:"
 msgstr "Ordenar &por:"
 
-#: katefiletreeconfigpage.cpp:71
+#: katefiletreeconfigpage.cpp:69
 #, kde-format
 msgid "Opening Order"
 msgstr "Ordem de abertura"
 
-#: katefiletreeconfigpage.cpp:72
+#: katefiletreeconfigpage.cpp:70
 #, kde-format
 msgid "Document Name"
 msgstr "Nome do documento"
 
-#: katefiletreeconfigpage.cpp:73
+#: katefiletreeconfigpage.cpp:71
 #, kde-format
 msgid "Url"
 msgstr "URL"
 
-#: katefiletreeconfigpage.cpp:78
+#: katefiletreeconfigpage.cpp:77
 #, kde-format
 msgid "&View Mode:"
 msgstr "&Modo de exibição:"
 
-#: katefiletreeconfigpage.cpp:83
+#: katefiletreeconfigpage.cpp:82
 #, kde-format
 msgid "Tree View"
 msgstr "Exibição em árvore"
 
-#: katefiletreeconfigpage.cpp:84
+#: katefiletreeconfigpage.cpp:83
 #, kde-format
 msgid "List View"
 msgstr "Exibição em lista"
 
-#: katefiletreeconfigpage.cpp:89
+#: katefiletreeconfigpage.cpp:88
 #, kde-format
 msgid "&Show Full Path"
 msgstr "Mo&strar localização completa"
 
-#: katefiletreeconfigpage.cpp:94
+#: katefiletreeconfigpage.cpp:93
 #, kde-format
 msgid "Show &Toolbar"
 msgstr "Mostrar barra de &ferramentas"
 
-#: katefiletreeconfigpage.cpp:97
+#: katefiletreeconfigpage.cpp:96
 #, kde-format
-msgid "Show Close Button"
-msgstr "Mostrar botão de fechar"
+msgid "Show Close Button On Hovering"
+msgstr "Mostrar botão Fechar ao passar o mouse"
 
 #: katefiletreeconfigpage.cpp:99
 #, kde-format
-msgid ""
-"When enabled, this will show a close button for opened documents on hover."
-msgstr ""
-"Quanto ativado, irá mostrar um botão de fechar para os documentos abertos ao "
-"passar o mouse."
+msgid "Middle Click To Close Documents"
+msgstr "Clique com o meio para fechar documentos"
 
-#: katefiletreeconfigpage.cpp:104
+#: katefiletreeconfigpage.cpp:105
 #, kde-format
 msgid ""
 "When background shading is enabled, documents that have been viewed or "
@@ -341,12 +315,12 @@ msgstr ""
 "editados recentemente terão a sombra de fundo habilitada. Os documentos mais "
 "recentes terão a sombra mais forte."
 
-#: katefiletreeconfigpage.cpp:107
+#: katefiletreeconfigpage.cpp:108
 #, kde-format
 msgid "Set the color for shading viewed documents."
 msgstr "Configura a cor para a sombra em documentos visualizados recentemente."
 
-#: katefiletreeconfigpage.cpp:109
+#: katefiletreeconfigpage.cpp:110
 #, kde-format
 msgid ""
 "Set the color for modified documents. This color is blended into the color "
@@ -356,7 +330,7 @@ msgstr ""
 "com a cor de arquivos visualizados. A maioria dos documentos editados mais "
 "recentemente possuem esta cor."
 
-#: katefiletreeconfigpage.cpp:114
+#: katefiletreeconfigpage.cpp:115
 #, kde-format
 msgid ""
 "When enabled, in tree mode, top level folders will show up with their full "
@@ -366,7 +340,7 @@ msgstr ""
 "mostradas com sua localização completa ao invés de apenas o último nome de "
 "pasta."
 
-#: katefiletreeconfigpage.cpp:117
+#: katefiletreeconfigpage.cpp:118
 #, kde-format
 msgid ""
 "When enabled, a toolbar with actions like “Save” are displayed above the "
@@ -375,17 +349,25 @@ msgstr ""
 "Quando ativo, uma barra de ferramentas com ações como \"Salvar\" é exibida "
 "acima da lista de documentos."
 
-#: katefiletreeconfigpage.cpp:136 katefiletreeplugin.cpp:137
+#: katefiletreeconfigpage.cpp:154 katefiletreeplugin.cpp:130
+#: katefiletreeplugin.cpp:137
 #, kde-format
 msgid "Documents"
 msgstr "Documentos"
 
-#: katefiletreeconfigpage.cpp:141
+#: katefiletreeconfigpage.cpp:159
 #, kde-format
 msgid "Configure Documents"
 msgstr "Configurar documentos"
 
-#: katefiletreemodel.cpp:547
+#: katefiletreemodel.cpp:493
+#, kde-format
+msgctxt ""
+"Open here is a description, i.e. 'list of widgets that are open' not a verb"
+msgid "Open Widgets"
+msgstr "Abrir widgets"
+
+#: katefiletreemodel.cpp:644
 #, kde-format
 msgctxt "%1 is the full path"
 msgid ""
@@ -393,51 +375,105 @@ msgid ""
 msgstr ""
 "<p><b>%1</b></p><p>O documento foi modificado por outro aplicativo.</p>"
 
-#: katefiletreeplugin.cpp:130
+#: katefiletreeplugin.cpp:174
 #, kde-format
-msgid "Kate File Tree"
-msgstr "Árvore de arquivos do Kate"
+msgid "Filter…"
+msgstr "Filtrar…"
 
-#: katefiletreeplugin.cpp:237
+#: katefiletreeplugin.cpp:253
 #, kde-format
 msgid "Previous Document"
 msgstr "Documento anterior"
 
-#: katefiletreeplugin.cpp:243
+#: katefiletreeplugin.cpp:259
 #, kde-format
 msgid "Next Document"
 msgstr "Próximo documento"
 
-#: katefiletreeplugin.cpp:249
+#: katefiletreeplugin.cpp:265
 #, kde-format
-msgid "&Show Active"
-msgstr "Mo&strar os ativos"
+msgid "&Show Active Document"
+msgstr "Mo&strar documento ativo"
 
-#: katefiletreeplugin.cpp:254
+#: katefiletreeplugin.cpp:271
 #, kde-format
-msgid "Save Current Document"
-msgstr "Salvar o documento atual"
+msgid "Save"
+msgstr "Salvar"
 
-#: katefiletreeplugin.cpp:255
+#: katefiletreeplugin.cpp:272
 #, kde-format
 msgid "Save the current document"
 msgstr "Salvar o documento atual"
 
-#: katefiletreeplugin.cpp:259
+#: katefiletreeplugin.cpp:277
 #, kde-format
-msgid "Save Current Document As"
-msgstr "Salvar o documento atual como"
+msgid "Save As"
+msgstr "Salvar como"
 
-#: katefiletreeplugin.cpp:260
+#: katefiletreeplugin.cpp:278
 #, kde-format
-msgid "Save current document under new name"
-msgstr "Salvar o documento atual com novo nome"
+msgid "Save the current document under a new name"
+msgstr "Salva o documento atual com um novo nome"
 
-#. i18n: ectx: Menu (view)
+#. i18n: ectx: Menu (go)
 #: ui.rc:7
 #, kde-format
-msgid "&View"
-msgstr "E&xibir"
+msgid "&Go"
+msgstr "&Ir"
+
+#~ msgid ""
+#~ "When enabled, this will show a close button for opened documents on hover."
+#~ msgstr ""
+#~ "Quanto ativado, irá mostrar um botão de fechar para os documentos abertos "
+#~ "ao passar o mouse."
+
+#~ msgid "Do you really want to delete file \"%1\" from storage?"
+#~ msgstr "Deseja realmente excluir o arquivo \"%1\" do armazenamento?"
+
+#~ msgid "Delete file?"
+#~ msgstr "Excluir o arquivo?"
+
+#~ msgid "File \"%1\" could not be deleted."
+#~ msgstr "Não foi possível excluir o arquivo \"%1\"."
+
+#~ msgid "Rename file"
+#~ msgstr "Renomear arquivo"
+
+#~ msgid "New file name"
+#~ msgstr "Novo nome de arquivo"
+
+#~ msgid "File \"%1\" could not be moved to \"%2\""
+#~ msgstr "Não foi possível mover o arquivo \"%1\" para \"%2\""
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "André Marcelo Alvarenga"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "alvarenga@kde.org"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu"
+#~| msgid "Close Other"
+#~ msgid "Close Widget"
+#~ msgstr "Fechar os outros"
+
+#~ msgid "Kate File Tree"
+#~ msgstr "Árvore de arquivos do Kate"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Copy File Path"
+#~ msgstr "Copiar caminho do arquivo"
+
+#~ msgid "&View"
+#~ msgstr "E&xibir"
+
+#~ msgid "Save Current Document"
+#~ msgstr "Salvar o documento atual"
+
+#~ msgid "Save Current Document As"
+#~ msgstr "Salvar o documento atual como"
 
 #~ msgid "Application '%1' not found."
 #~ msgstr "O aplicativo '%1' não foi encontrado."

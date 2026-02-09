@@ -2,400 +2,592 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Yasen Pramatarov <yasen@lindeas.com>, 2011.
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Mincho Kondarev <mkondarev@yahoo.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: katesearch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-29 00:20+0000\n"
-"PO-Revision-Date: 2014-05-17 19:58+0200\n"
-"Last-Translator: Svetoslav Stefanov <svetlisashkov@yahoo.com>\n"
-"Language-Team: Bulgarian <dict@fsa-bg.org>\n"
+"POT-Creation-Date: 2025-03-02 00:43+0000\n"
+"PO-Revision-Date: 2025-02-13 14:15+0100\n"
+"Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
+"Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Lokalize 24.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Ясен Праматаров, Светослав Стефанов"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "yasen@lindeas.com, svetlisashkov@yahoo.com"
-
-#: KateSearchCommand.cpp:83
+#: KateSearchCommand.cpp:80
 #, kde-format
 msgid "Usage: grep [pattern to search for in folder]"
 msgstr "Употреба: grep [шаблон за търсене в папка]"
 
-#: KateSearchCommand.cpp:85
+#: KateSearchCommand.cpp:82
 #, kde-format
 msgid "Usage: newGrep [pattern to search for in folder]"
 msgstr "Употреба: newGrep [шаблон за търсене в папка]"
 
-#: KateSearchCommand.cpp:89 KateSearchCommand.cpp:91
+#: KateSearchCommand.cpp:86 KateSearchCommand.cpp:88
 #, kde-format
 msgid "Usage: search [pattern to search for in open files]"
 msgstr "Употреба: search [шаблон за търсене в отворените файлове]"
 
-#: KateSearchCommand.cpp:95
+#: KateSearchCommand.cpp:92
 #, kde-format
 msgid "Usage: pgrep [pattern to search for in current project]"
 msgstr "Употреба: pgrep [шаблон за търсене в текущия проект]"
 
-#: KateSearchCommand.cpp:97
+#: KateSearchCommand.cpp:94
 #, kde-format
 msgid "Usage: newPGrep [pattern to search for in current project]"
 msgstr "Употреба: newPGrep [шаблон за търсене в текущия проект]"
 
-#: KateSearchCommand.cpp:101
-#, fuzzy, kde-format
-#| msgid "Usage: pgrep [pattern to search for in current project]"
+#: KateSearchCommand.cpp:98
+#, kde-format
 msgid "Usage: preg [regex pattern to search for in current project]"
-msgstr "Употреба: pgrep [шаблон за търсене в текущия проект]"
+msgstr "Използване: pgrep [шаблон за търсене в текущия проект]"
 
-#: MatchModel.cpp:487 MatchModel.cpp:489
-#, fuzzy, kde-format
-#| msgid "<b>Searching: ...%1</b>"
+#: MatchExportDialog.cpp:20
+#, kde-format
+msgid "Export Search Result Matches"
+msgstr "Експортиране на съвпаденията на резултата от търсенето"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, exportPatternText)
+#: MatchExportDialog.ui:31
+#, kde-format
+msgid "Export Pattern"
+msgstr "Експортиране на шаблон"
+
+#. i18n: ectx: property (text), widget (QPushButton, pushButton)
+#: MatchExportDialog.ui:38
+#, kde-format
+msgid "Generate"
+msgstr "Генериране"
+
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, exportResultText)
+#: MatchExportDialog.ui:50
+#, kde-format
+msgid "Result"
+msgstr "Резултат"
+
+#: MatchModel.cpp:563 MatchModel.cpp:565
+#, kde-format
 msgid "<b><i>Generating file list: ...%1</i></b>"
-msgstr "<b>Търсене: ...%1</b>"
+msgstr "<b><i>Генериране на файлов списък: ...%1</i></b>"
 
-#: MatchModel.cpp:497
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in folder %2</i></b>"
-#| msgid_plural "<b><i>%1 matches found in folder %2</i></b>"
+#: MatchModel.cpp:573
+#, kde-format
 msgid "<b><i>One match found, searching: ...%2</i></b>"
 msgid_plural "<b><i>%1 matches found, searching: ...%2</i></b>"
-msgstr[0] "<b><i>В папката %2 е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В папката %2 са открити %1 съвпадения</i></b>"
+msgstr[0] "<b><i>Едно съвпадение намерено, търсене: ...%2</i></b>"
+msgstr[1] "<b><i>%1 съвпадения намерени, търсене: ...%2</i></b>"
 
-#: MatchModel.cpp:502
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in folder %2</i></b>"
-#| msgid_plural "<b><i>%1 matches found in folder %2</i></b>"
+#: MatchModel.cpp:578
+#, kde-format
 msgid "<b><i>One match found, searching: %2</i></b>"
 msgid_plural "<b><i>%1 matches found, searching: %2</i></b>"
-msgstr[0] "<b><i>В папката %2 е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В папката %2 са открити %1 съвпадения</i></b>"
+msgstr[0] "<b><i>Едно съвпадение намерено, търсене %2</i></b>"
+msgstr[1] "<b><i>%1 съвпадения намерени, търсене: %2</i></b>"
 
-#: MatchModel.cpp:506 MatchModel.cpp:632
-#, fuzzy, kde-format
-#| msgid "Replace checked"
+#: MatchModel.cpp:585 MatchModel.cpp:740
+#, kde-format
 msgid "One checked"
 msgid_plural "%1 checked"
-msgstr[0] "Замяна на избраните"
-msgstr[1] "Замяна на избраните"
+msgstr[0] "Едно проверено"
+msgstr[1] "%1 проверени"
 
-#: MatchModel.cpp:510
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found</i></b>"
-#| msgid_plural "<b><i>%1 matches found</i></b>"
+#: MatchModel.cpp:589
+#, kde-format
 msgid "<b><i>One match (%2) found in file</i></b>"
 msgid_plural "<b><i>%1 matches (%2) found in current file</i></b>"
-msgstr[0] "<b><i>Има едно съвпадение</i></b>"
-msgstr[1] "<b><i>Има %1 съвпадения</i></b>"
+msgstr[0] "<b><i>Едно съвпадение (%2) намерено във файла</i></b>"
+msgstr[1] "<b><i>%1 съвпадения (%2) намерени във файла</i></b>"
 
-#: MatchModel.cpp:512
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in open files</i></b>"
-#| msgid_plural "<b><i>%1 matches found in open files</i></b>"
+#: MatchModel.cpp:591
+#, kde-format
 msgid "<b><i>One match (%2) found in open files</i></b>"
 msgid_plural "<b><i>%1 matches (%2) found in open files</i></b>"
-msgstr[0] "<b><i>В отворените файлове е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В отворените файлове са намерени %1 съвпадения</i></b>"
+msgstr[0] "<b><i>Едно съвпадение (%2) намерено в текущия файл</i></b>"
+msgstr[1] "<b><i>%1 съвпадения (%2) намерени в текущия файл</i></b>"
 
-#: MatchModel.cpp:515
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in folder %2</i></b>"
-#| msgid_plural "<b><i>%1 matches found in folder %2</i></b>"
+#: MatchModel.cpp:594
+#, kde-format
 msgid "<b><i>One match (%3) found in folder %2</i></b>"
 msgid_plural "<b><i>%1 matches (%3) found in folder %2</i></b>"
-msgstr[0] "<b><i>В папката %2 е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В папката %2 са открити %1 съвпадения</i></b>"
+msgstr[0] "<b><i>Едно съвпадение (%3) намерено в текущата папка %2</i></b>"
+msgstr[1] "<b><i>%1 съвпадения (%3) намерени в текущата папка %2</i></b>"
 
-#: MatchModel.cpp:522
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in project %2 (%3)</i></b>"
-#| msgid_plural "<b><i>%1 matches found in project %2 (%3)</i></b>"
+#: MatchModel.cpp:601
+#, kde-format
 msgid "<b><i>One match (%4) found in project %2 (%3)</i></b>"
 msgid_plural "<b><i>%1 matches (%4) found in project %2 (%3)</i></b>"
-msgstr[0] "<b><i>В проекта %2 (%3) е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В проекта %2 (%3) са намерени %1 съвпадения</i></b>"
+msgstr[0] ""
+"<b><i>Едно съвпадение (%4) намерено в текущия проект %2 (%3)</i></b>"
+msgstr[1] "<b><i>%1 съвпадения (%4) намерени в текущия проект %2 (%3)</i></b>"
 
-#: MatchModel.cpp:531
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in project %2 (%3)</i></b>"
-#| msgid_plural "<b><i>%1 matches found in project %2 (%3)</i></b>"
+#: MatchModel.cpp:610
+#, kde-format
 msgid ""
 "<b><i>One match (%3) found in all open projects (common parent: %2)</i></b>"
 msgid_plural ""
 "<b><i>%1 matches (%3) found in all open projects (common parent: %2)</i></b>"
-msgstr[0] "<b><i>В проекта %2 (%3) е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В проекта %2 (%3) са намерени %1 съвпадения</i></b>"
+msgstr[0] "<b><i>Едно съвпадение (%3) намерено в текущия проект (%2)</i></b>"
+msgstr[1] "<b><i>%1 съвпадения (%3) намерени в текущия проект (%2)</i></b>"
 
-#: MatchModel.cpp:616 MatchModel.cpp:618
+#: MatchModel.cpp:724 MatchModel.cpp:726
 #, kde-format
 msgid "Generating file list: ...%1"
-msgstr ""
+msgstr "Генериране на файлов списък ...%1"
 
-#: MatchModel.cpp:626
+#: MatchModel.cpp:734
 #, kde-format
 msgid "One match found, searching: ...%2"
 msgid_plural "%1 matches found, searching: ...%2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Намерено е %1 съвпадение, търсене: ...%2"
+msgstr[1] "Намерени са %1 съвпадения, търсене: ...%2"
 
-#: MatchModel.cpp:628
+#: MatchModel.cpp:736
 #, kde-format
 msgid "One match found, searching: %2"
 msgid_plural "%1 matches found, searching: %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Намерено е %1 съвпадение, търсене: %2"
+msgstr[1] "Намерени са %1 съвпадения, търсене: %2"
 
-#: MatchModel.cpp:636
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found</i></b>"
-#| msgid_plural "<b><i>%1 matches found</i></b>"
+#: MatchModel.cpp:744
+#, kde-format
 msgid "One match (%2) found in file"
 msgid_plural "%1 matches (%2) found in current file"
-msgstr[0] "<b><i>Има едно съвпадение</i></b>"
-msgstr[1] "<b><i>Има %1 съвпадения</i></b>"
+msgstr[0] "Едно съвпадение (%2) намерено във файла"
+msgstr[1] "%1 съвпадения (%2) намерени във файла"
 
-#: MatchModel.cpp:638
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in open files</i></b>"
-#| msgid_plural "<b><i>%1 matches found in open files</i></b>"
+#: MatchModel.cpp:746
+#, kde-format
 msgid "One match (%2) found in open files"
 msgid_plural "%1 matches (%2) found in open files"
-msgstr[0] "<b><i>В отворените файлове е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В отворените файлове са намерени %1 съвпадения</i></b>"
+msgstr[0] "Едно съвпадение (%2) намерено в отворените файлове"
+msgstr[1] "%1 съвпадения (%2) намерени в отворените файлове"
 
-#: MatchModel.cpp:641
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in folder %2</i></b>"
-#| msgid_plural "<b><i>%1 matches found in folder %2</i></b>"
+#: MatchModel.cpp:749
+#, kde-format
 msgid "One match (%3) found in folder %2"
 msgid_plural "%1 matches (%3) found in folder %2"
-msgstr[0] "<b><i>В папката %2 е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В папката %2 са открити %1 съвпадения</i></b>"
+msgstr[0] "Едно съвпадение (%3) намерено в папка %2"
+msgstr[1] "%1 съвпадения (%3) намерени в папка %2"
 
-#: MatchModel.cpp:644
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in project %2 (%3)</i></b>"
-#| msgid_plural "<b><i>%1 matches found in project %2 (%3)</i></b>"
+#: MatchModel.cpp:752
+#, kde-format
 msgid "One match (%4) found in project %2 (%3)"
 msgid_plural "%1 matches (%4) found in project %2 (%3)"
-msgstr[0] "<b><i>В проекта %2 (%3) е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В проекта %2 (%3) са намерени %1 съвпадения</i></b>"
+msgstr[0] "Едно съвпадение (%4) намерено в проект %2 (%3)"
+msgstr[1] "%1 съвпадения (%4) намерени в проект %2 (%3)"
 
-#: MatchModel.cpp:653
-#, fuzzy, kde-format
-#| msgid "<b><i>One match found in project %2 (%3)</i></b>"
-#| msgid_plural "<b><i>%1 matches found in project %2 (%3)</i></b>"
+#: MatchModel.cpp:761
+#, kde-format
 msgid "One match (%3) found in all open projects (common parent: %2)"
 msgid_plural "%1 matches (%3) found in all open projects (common parent: %2)"
-msgstr[0] "<b><i>В проекта %2 (%3) е намерено едно съвпадение</i></b>"
-msgstr[1] "<b><i>В проекта %2 (%3) са намерени %1 съвпадения</i></b>"
+msgstr[0] ""
+"Намерено е едно съвпадение (%3) във всички отворени проекти (общ родител: %2)"
+msgstr[1] ""
+"Намерени са %1 съвпадения (%3) във всички отворени проекти (общ родител: %2)"
 
-#: plugin_search.cpp:85 plugin_search.cpp:118
+#: Results.cpp:32
+#, kde-format
+msgid "Filter…"
+msgstr "Филтър…"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, searchButton)
+#: search.ui:37
+#, kde-format
+msgid "Search in current tab; press and hold Ctrl to search in a new tab."
+msgstr ""
+"Търсене в текущия раздел; натиснете и задръжте Ctrl, за да търсите в нов "
+"раздел."
+
+#. i18n: ectx: property (text), widget (QPushButton, searchButton)
+#: search.ui:40 SearchPlugin.cpp:294
+#, kde-format
+msgid "Search"
+msgstr "Търсене"
+
+#. i18n: ectx: property (text), widget (QPushButton, replaceCheckedBtn)
+#: search.ui:50
+#, kde-format
+msgctxt ""
+"Checked here refers to the items  on the list below that can have a "
+"checkmark or not. It's not about any verification or similar, plainly about "
+"user interface"
+msgid "Replace Checked"
+msgstr "Заместване на маркираните"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, nextButton)
+#. i18n: ectx: property (text), widget (QPushButton, nextButton)
+#: search.ui:70 search.ui:73
+#, kde-format
+msgid "Next"
+msgstr "Следващо"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, stopButton)
+#. i18n: ectx: property (text), widget (QPushButton, stopButton)
+#: search.ui:78 search.ui:81
+#, kde-format
+msgid "Stop"
+msgstr "Спиране"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, matchCase)
+#: search.ui:118
+#, kde-format
+msgid "Match case"
+msgstr "Зачитане на регистъра"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, useRegExp)
+#: search.ui:134
+#, kde-format
+msgid ""
+"<html><head/><body><p>Enable regular expressions. Find help for regex syntax "
+"by using the buttons in the search and replace text fields.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Активиране на регулярните изрази. Намерете помощ за "
+"синтаксиса на регулярни изрази, като използвате бутоните в полетата за "
+"търсене и замяна.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, expandResults)
+#: search.ui:163
+#, kde-format
+msgid "Expand results"
+msgstr "Разширяване на резултатите"
+
+#. i18n: ectx: property (text), widget (QToolButton, filterBtn)
+#. i18n: ectx: property (text), widget (QToolButton, displayOptions)
+#. i18n: ectx: property (text), widget (QToolButton, newTabButton)
+#: search.ui:179 search.ui:249 search.ui:262
+#, kde-format
+msgid "..."
+msgstr "..."
+
+#. i18n: ectx: property (text), widget (QPushButton, replaceButton)
+#: search.ui:195 SearchPlugin.cpp:507
+#, kde-format
+msgid "Replace"
+msgstr "Замяна"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
+#: search.ui:218
+#, kde-format
+msgid "In Current File"
+msgstr "В текущия файл"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
+#: search.ui:223
+#, kde-format
+msgid "In Open Files"
+msgstr "В отворените файлове"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
+#: search.ui:228
+#, kde-format
+msgid "In Folder"
+msgstr "В папка"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, currentFolderButton)
+#: search.ui:236
+#, kde-format
+msgid "Use the current document's path."
+msgstr "Използване на пътя до текущия документ"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, displayOptions)
+#: search.ui:246
+#, kde-format
+msgid "Show more search options"
+msgstr "Показване на опциите за търсене"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, newTabButton)
+#: search.ui:259
+#, kde-format
+msgid "Add new search tab"
+msgstr "Добавяне на нов раздел за търсене"
+
+#. i18n: ectx: property (text), widget (QLabel, folderLabel)
+#: search.ui:350
+#, kde-format
+msgid "Folder:"
+msgstr "Папка:"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, folderUpButton)
+#: search.ui:368
+#, kde-format
+msgid "Go one folder up."
+msgstr "Една папка нагоре"
+
+#. i18n: ectx: property (text), widget (QLabel, filterLabel)
+#: search.ui:377
+#, kde-format
+msgid "Filter:"
+msgstr "Филтър:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, filterCombo)
+#: search.ui:399
+#, kde-format
+msgid "*"
+msgstr "*"
+
+#. i18n: ectx: property (text), widget (QLabel, excludeLabel)
+#: search.ui:407
+#, kde-format
+msgid "Exclude:"
+msgstr "Изключване на:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, recursiveCheckBox)
+#: search.ui:428
+#, kde-format
+msgid "Recursive"
+msgstr "Рекурсивно"
+
+#. i18n: ectx: property (text), widget (QCheckBox, hiddenCheckBox)
+#: search.ui:438
+#, kde-format
+msgid "Include hidden"
+msgstr "Включително скритите"
+
+#. i18n: ectx: property (text), widget (QCheckBox, symLinkCheckBox)
+#: search.ui:445
+#, kde-format
+msgid "Follow symbolic links"
+msgstr "Проследяване на символни връзки"
+
+#. i18n: ectx: property (text), widget (QCheckBox, binaryCheckBox)
+#: search.ui:452
+#, kde-format
+msgid "Include binary files"
+msgstr "Включване на двоични файлове"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, sizeLimitSpinBox)
+#: search.ui:459
+#, kde-format
+msgid "MB"
+msgstr "MB"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: search.ui:472
+#, kde-format
+msgid "Size limit"
+msgstr "Ограничение на размера"
+
+#: SearchPlugin.cpp:81 SearchPlugin.cpp:114
 #, kde-format
 msgid "Line break"
 msgstr "Прекъсване на реда"
 
-#: plugin_search.cpp:86 plugin_search.cpp:119
+#: SearchPlugin.cpp:82 SearchPlugin.cpp:115
 #, kde-format
 msgid "Tab"
 msgstr "Табулатор"
 
-#: plugin_search.cpp:97
+#: SearchPlugin.cpp:93
 #, kde-format
 msgid "Beginning of line"
 msgstr "Начало на реда"
 
-#: plugin_search.cpp:98
+#: SearchPlugin.cpp:94
 #, kde-format
 msgid "End of line"
 msgstr "Край на реда"
 
-#: plugin_search.cpp:100
+#: SearchPlugin.cpp:96
 #, kde-format
 msgid "Any single character (excluding line breaks)"
 msgstr "Всички знаци (без тези за прекъсване на реда)"
 
-#: plugin_search.cpp:101
+#: SearchPlugin.cpp:97
 #, kde-format
 msgid "Literal dot"
-msgstr ""
+msgstr "Буквална точка"
 
-#: plugin_search.cpp:103
+#: SearchPlugin.cpp:99
 #, kde-format
 msgid "One or more occurrences"
 msgstr "Едно или повече съвпадения"
 
-#: plugin_search.cpp:104
+#: SearchPlugin.cpp:100
 #, kde-format
 msgid "Zero or more occurrences"
 msgstr "Нула или повече съвпадения"
 
-#: plugin_search.cpp:105
+#: SearchPlugin.cpp:101
 #, kde-format
 msgid "Zero or one occurrences"
 msgstr "Нула или едно съвпадения"
 
-#: plugin_search.cpp:107
+#: SearchPlugin.cpp:103
 #, kde-format
 msgid "<a> through <b> occurrences"
 msgstr "<a> през <b> съвпаденията"
 
-#: plugin_search.cpp:109
+#: SearchPlugin.cpp:105
 #, kde-format
 msgid "Group, capturing"
-msgstr ""
+msgstr "Група, прихващане"
 
-#: plugin_search.cpp:110
+#: SearchPlugin.cpp:106
 #, kde-format
 msgid "Or"
 msgstr "Или"
 
-#: plugin_search.cpp:111
+#: SearchPlugin.cpp:107
 #, kde-format
 msgid "Set of characters"
 msgstr "Набор от знаци"
 
-#: plugin_search.cpp:112
+#: SearchPlugin.cpp:108
 #, kde-format
 msgid "Negative set of characters"
 msgstr "Отрицателен набор от знаци"
 
-#: plugin_search.cpp:113
+#: SearchPlugin.cpp:109
 #, kde-format
 msgid "Group, non-capturing"
 msgstr "Group, non-capturing"
 
-#: plugin_search.cpp:114
+#: SearchPlugin.cpp:110
 #, kde-format
 msgid "Lookahead"
-msgstr ""
+msgstr "Търсене"
 
-#: plugin_search.cpp:115
+#: SearchPlugin.cpp:111
 #, kde-format
 msgid "Negative lookahead"
-msgstr ""
+msgstr "Негативно търсене"
 
-#: plugin_search.cpp:120
+#: SearchPlugin.cpp:116
 #, kde-format
 msgid "Word boundary"
-msgstr ""
+msgstr "Граница на думите"
 
-#: plugin_search.cpp:121
+#: SearchPlugin.cpp:117
 #, kde-format
 msgid "Not word boundary"
-msgstr ""
+msgstr "Не граница на думите"
 
-#: plugin_search.cpp:122
+#: SearchPlugin.cpp:118
 #, kde-format
 msgid "Digit"
 msgstr "Цифра"
 
-#: plugin_search.cpp:123
+#: SearchPlugin.cpp:119
 #, kde-format
 msgid "Non-digit"
-msgstr ""
+msgstr "Не-цифра"
 
-#: plugin_search.cpp:124
+#: SearchPlugin.cpp:120
 #, kde-format
 msgid "Whitespace (excluding line breaks)"
-msgstr ""
+msgstr "Празно място (с изключение на нов ред)"
 
-#: plugin_search.cpp:125
+#: SearchPlugin.cpp:121
 #, kde-format
 msgid "Non-whitespace (excluding line breaks)"
-msgstr ""
+msgstr "Не-празни полети (с изключение на нов ред)"
 
-#: plugin_search.cpp:126
+#: SearchPlugin.cpp:122
 #, kde-format
 msgid "Word character (alphanumerics plus '_')"
-msgstr ""
+msgstr "Букви,цифри и '_'"
 
-#: plugin_search.cpp:127
+#: SearchPlugin.cpp:123
 #, kde-format
 msgid "Non-word character"
-msgstr ""
+msgstr "Не буквени символи"
 
-#: plugin_search.cpp:139
+#: SearchPlugin.cpp:135
 #, kde-format
 msgid "Regular expression capture 0 (whole match)"
-msgstr ""
+msgstr "Регулярен израз прихващане 0 (пълно съвпадение)"
 
-#: plugin_search.cpp:140
-#, fuzzy, kde-format
-#| msgid "Regular e&xpressions"
+#: SearchPlugin.cpp:136
+#, kde-format
 msgid "Regular expression capture 1-9"
-msgstr "&Регулярни изрази"
+msgstr "Регулярен израз прихващане 1-9"
 
-#: plugin_search.cpp:141
-#, fuzzy, kde-format
-#| msgid "Regular e&xpressions"
+#: SearchPlugin.cpp:137
+#, kde-format
 msgid "Regular expression capture 0-999"
-msgstr "&Регулярни изрази"
+msgstr "Регулярен израз прихващане 0-999"
 
-#: plugin_search.cpp:143
+#: SearchPlugin.cpp:139
 #, kde-format
 msgid "Upper-cased capture 0-9"
-msgstr ""
+msgstr "Главни букви прихващане 0-9"
 
-#: plugin_search.cpp:144
+#: SearchPlugin.cpp:140
 #, kde-format
 msgid "Upper-cased capture 0-999"
-msgstr ""
+msgstr "Главни букви прихващане 0-999"
 
-#: plugin_search.cpp:145
+#: SearchPlugin.cpp:141
 #, kde-format
 msgid "Lower-cased capture 0-9"
-msgstr ""
+msgstr "Малки букви прихващане 0-9"
 
-#: plugin_search.cpp:146
+#: SearchPlugin.cpp:142
 #, kde-format
 msgid "Lower-cased capture 0-999"
-msgstr ""
+msgstr "Малки букви прихващане 0-999"
 
-#: plugin_search.cpp:331
-#, fuzzy, kde-format
-#| msgid "Search & Replace"
-msgid "Kate Search & Replace"
-msgstr "Търсене и &замяна"
-
-#: plugin_search.cpp:338
+#: SearchPlugin.cpp:287
 #, kde-format
-msgid "Search and Replace"
-msgstr "Търсене и замяна"
+msgid "Search & Replace"
+msgstr "Търсене и заместване"
 
-#: plugin_search.cpp:347
+#: SearchPlugin.cpp:328
 #, kde-format
-msgid "Search in Files"
+msgid "Find in Files"
 msgstr "Търсене във файлове"
 
-#: plugin_search.cpp:351
+#: SearchPlugin.cpp:334
 #, kde-format
-msgid "Search in Files (in new tab)"
-msgstr "Търсене във файлове (в нов подпрозорец)"
+msgid "Find in Files (in a New Tab)"
+msgstr "Търсене във файлове (в нов раздел)"
 
-#: plugin_search.cpp:357
+#: SearchPlugin.cpp:340
 #, kde-format
 msgid "Go to Next Match"
 msgstr "Отиване до следващото съвпадение"
 
-#: plugin_search.cpp:362
+#: SearchPlugin.cpp:346
 #, kde-format
 msgid "Go to Previous Match"
 msgstr "Отиване до предишното съвпадение"
 
-#: plugin_search.cpp:391
+#: SearchPlugin.cpp:352
+#, kde-format
+msgid "Cut Matching Lines"
+msgstr "Изрязване на съвпадащите редове"
+
+#: SearchPlugin.cpp:354
+#, kde-format
+msgid ""
+"This will cut all highlighted search match lines from the current document "
+"to the clipboard"
+msgstr ""
+"Това ще изреже всички маркирани редове за търсене от текущия документ. в "
+"клипборда"
+
+#: SearchPlugin.cpp:359
+#, kde-format
+msgid "Copy Matching Lines"
+msgstr "Копиране на съвпадащите редове"
+
+#: SearchPlugin.cpp:361
+#, kde-format
+msgid ""
+"This will copy all highlighted search match lines in the current document to "
+"the clipboard"
+msgstr ""
+"Това ще копира всички маркирани редове за търсене от текущия документ. в "
+"клипборда"
+
+#: SearchPlugin.cpp:394
 #, kde-format
 msgid ""
 "Comma separated list of file types to search in. Example: \"*.cpp,*.h\"\n"
@@ -403,7 +595,7 @@ msgstr ""
 "Видове файлове, сред които да се търси, разделени със запетая. Пример: \"*."
 "cpp,*.h\"\n"
 
-#: plugin_search.cpp:392
+#: SearchPlugin.cpp:395
 #, kde-format
 msgid ""
 "Comma separated list of files and directories to exclude from the search. "
@@ -412,233 +604,108 @@ msgstr ""
 "Списък от файлове и папки, които да са изключени от търсенето, разделени със "
 "запетая. Пример: \"build*\""
 
-#: plugin_search.cpp:481
-#, fuzzy, kde-format
-#| msgid "Find"
+#: SearchPlugin.cpp:397
+#, kde-format
+msgid "Click to filter through results"
+msgstr "Кликнете за филтриране на резултатите"
+
+#: SearchPlugin.cpp:487
+#, kde-format
 msgid "Find"
 msgstr "Търсене"
 
-#. i18n: ectx: property (text), widget (QPushButton, replaceButton)
-#: plugin_search.cpp:501 search.ui:170
+#: SearchPlugin.cpp:1169
 #, kde-format
-msgid "Replace"
-msgstr "Замяна"
+msgid "Search was not started as directory '%1' to search in doesn't exist."
+msgstr ""
+"Търсенето не беше започнато, тъй като директорията „%1“, в която да се "
+"търси, не съществува."
 
-#: plugin_search.cpp:1223
+#: SearchPlugin.cpp:1342
 #, kde-format
 msgid "Searching while you type was interrupted. It would have taken too long."
 msgstr ""
+"Търсенето, докато пишете, бе прекъснато. Щеше да отнеме твърде много време."
 
-#: plugin_search.cpp:1546
-#, fuzzy, kde-format
-#| msgid "Search"
+#: SearchPlugin.cpp:1675
+#, kde-format
 msgid "Search Match"
-msgstr "Търсене"
+msgstr "Търсене на съвпадение"
 
-#: plugin_search.cpp:1716 plugin_search.cpp:1793
+#: SearchPlugin.cpp:1852 SearchPlugin.cpp:1928
 #, kde-format
 msgid "Next from cursor"
-msgstr ""
+msgstr "Следващото след курсора"
 
-#: plugin_search.cpp:1733
+#: SearchPlugin.cpp:1869
 #, kde-format
 msgid "Starting from first match"
-msgstr ""
+msgstr "Низ от първото съвпадение"
 
-#: plugin_search.cpp:1753
+#: SearchPlugin.cpp:1889
 #, kde-format
 msgid "Continuing from first match"
-msgstr ""
+msgstr "Продължаване от първото съвпадение"
 
-#: plugin_search.cpp:1810
+#: SearchPlugin.cpp:1945
 #, kde-format
 msgid "Starting from last match"
-msgstr ""
+msgstr "Низ от първото съвпадение"
 
-#: plugin_search.cpp:1830
+#: SearchPlugin.cpp:1965
 #, kde-format
 msgid "Continuing from last match"
-msgstr ""
+msgstr "Продължаване от последното съвпадение"
 
-#: plugin_search.cpp:2076
+#: SearchPlugin.cpp:2126
+#, kde-format
+msgid "Search: %1"
+msgstr "Търсене: %1"
+
+#: SearchPlugin.cpp:2269
 #, kde-format
 msgid "Copy all"
-msgstr ""
+msgstr "Копиране всички"
 
-#: plugin_search.cpp:2081
+#: SearchPlugin.cpp:2274
 #, kde-format
 msgid "Copy expanded"
-msgstr ""
+msgstr "Копиране разширените"
 
-#: plugin_search.cpp:2172 plugin_search.cpp:2194
+#: SearchPlugin.cpp:2277
+#, kde-format
+msgid "Export matches"
+msgstr "Експортиране на съвпаденията"
+
+#: SearchPlugin.cpp:2282
+#, kde-format
+msgid "Open as Editor Tab"
+msgstr "Отваряне като раздел на редактора"
+
+#: SearchPlugin.cpp:2290
+#, kde-format
+msgid "Clear"
+msgstr "Изчистване"
+
+#: SearchPlugin.cpp:2400 SearchPlugin.cpp:2434
 #, kde-format
 msgid "Add..."
 msgstr "Добавяне..."
 
-#: plugin_search.cpp:2243
-#, fuzzy, kde-format
-#| msgid "in Project"
+#: SearchPlugin.cpp:2412
+#, kde-format
+msgid "Search As You Type"
+msgstr "Търсене при въвеждане"
+
+#: SearchPlugin.cpp:2483
+#, kde-format
 msgid "In Current Project"
-msgstr "в проекта"
+msgstr "В текущия проект"
 
-#: plugin_search.cpp:2245
-#, fuzzy, kde-format
-#| msgid "in Project"
+#: SearchPlugin.cpp:2485
+#, kde-format
 msgid "In All Open Projects"
-msgstr "в проекта"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, searchButton)
-#. i18n: ectx: property (text), widget (QPushButton, searchButton)
-#: search.ui:22 search.ui:25
-#, kde-format
-msgid "Search"
-msgstr "Търсене"
-
-#. i18n: ectx: property (text), widget (QPushButton, replaceCheckedBtn)
-#: search.ui:35
-#, fuzzy, kde-format
-#| msgid "Replace checked"
-msgid "Replace Checked"
-msgstr "Замяна на избраните"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, nextButton)
-#. i18n: ectx: property (text), widget (QPushButton, nextButton)
-#: search.ui:55 search.ui:58
-#, kde-format
-msgid "Next"
-msgstr "Следващо"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, stopButton)
-#. i18n: ectx: property (text), widget (QPushButton, stopButton)
-#: search.ui:63 search.ui:66
-#, kde-format
-msgid "Stop"
-msgstr "Спиране"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, matchCase)
-#: search.ui:103
-#, fuzzy, kde-format
-#| msgid "&Match case"
-msgid "Match case"
-msgstr "Зачитане на р_егистъра"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, useRegExp)
-#: search.ui:119
-#, kde-format
-msgid ""
-"<html><head/><body><p>Enable regular expressions. Find help for regex syntax "
-"by using the buttons in the search and replace text fields.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, expandResults)
-#: search.ui:148
-#, kde-format
-msgid "Expand results"
-msgstr "Разширяване на резултатите"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:193
-#, fuzzy, kde-format
-#| msgid "in Project"
-msgid "In Current File"
-msgstr "в проекта"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:198
-#, fuzzy, kde-format
-#| msgid "in Open files"
-msgid "In Open Files"
-msgstr "в отворените файлове"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:203
-#, fuzzy, kde-format
-#| msgid "in Folder"
-msgid "In Folder"
-msgstr "в папка"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, currentFolderButton)
-#: search.ui:211
-#, kde-format
-msgid "Use the current document's path."
-msgstr "Използване на пътя до текущия документ"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, displayOptions)
-#: search.ui:221
-#, fuzzy, kde-format
-#| msgid "Se&arch:"
-msgid "Show more search options"
-msgstr "&Търсене:"
-
-#. i18n: ectx: property (text), widget (QToolButton, displayOptions)
-#. i18n: ectx: property (text), widget (QToolButton, newTabButton)
-#: search.ui:224 search.ui:237
-#, kde-format
-msgid "..."
-msgstr "..."
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, newTabButton)
-#: search.ui:234
-#, kde-format
-msgid "Add new search tab"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, folderLabel)
-#: search.ui:338
-#, fuzzy, kde-format
-#| msgid "F&older"
-msgid "Folder:"
-msgstr "&Папка"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, folderUpButton)
-#: search.ui:356
-#, kde-format
-msgid "Go one folder up."
-msgstr "Една папка нагоре"
-
-#. i18n: ectx: property (text), widget (QLabel, filterLabel)
-#: search.ui:365
-#, fuzzy, kde-format
-#| msgid "Filter"
-msgid "Filter:"
-msgstr "Филтър"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, filterCombo)
-#: search.ui:387
-#, kde-format
-msgid "*"
-msgstr "*"
-
-#. i18n: ectx: property (text), widget (QLabel, excludeLabel)
-#: search.ui:395
-#, fuzzy, kde-format
-#| msgid "Exclude"
-msgid "Exclude:"
-msgstr "Изключване"
-
-#. i18n: ectx: property (text), widget (QCheckBox, recursiveCheckBox)
-#: search.ui:416
-#, kde-format
-msgid "Recursive"
-msgstr "Рекурсивно"
-
-#. i18n: ectx: property (text), widget (QCheckBox, hiddenCheckBox)
-#: search.ui:426
-#, kde-format
-msgid "Include hidden"
-msgstr "Включително скритите"
-
-#. i18n: ectx: property (text), widget (QCheckBox, symLinkCheckBox)
-#: search.ui:433
-#, kde-format
-msgid "Follow symbolic links"
-msgstr "Проследяване на символни връзки"
-
-#. i18n: ectx: property (text), widget (QCheckBox, binaryCheckBox)
-#: search.ui:440
-#, kde-format
-msgid "Include binary files"
-msgstr "Включване на двоични файлове"
+msgstr "Във всички отворени проекти"
 
 #. i18n: ectx: Menu (edit)
 #: ui.rc:6
@@ -648,78 +715,6 @@ msgstr "&Редактиране"
 
 #. i18n: ectx: Menu (search_more)
 #: ui.rc:9
-#, fuzzy, kde-format
-#| msgid "Search"
-msgid "Search More"
-msgstr "Търсене"
-
-#~ msgid "<b>Searching: ...%1</b>"
-#~ msgstr "<b>Търсене: ...%1</b>"
-
-#~ msgid "<b>Searching: %1</b>"
-#~ msgstr "<b>Търсене: %1</b>"
-
-#, fuzzy
-#~| msgid "Line: <b>%1</b>: %2"
-#~ msgid "\tLine: %1 column: %2: %3\n"
-#~ msgstr "Ред: <b>%1</b>: %2"
-
-#~ msgid "SearchHighLight"
-#~ msgstr "Осветяване на резултатите"
-
-#~ msgid "Line: <b>%1</b>: %2"
-#~ msgstr "Ред: <b>%1</b>: %2"
-
-#, fuzzy
-#~| msgid "Line: <b>%1</b>: %2"
-#~ msgid "Line: <b>%1</b> Column: <b>%2</b>: %3"
-#~ msgstr "Ред: <b>%1</b>: %2"
-
-#, fuzzy
-#~| msgid "Replace"
-#~ msgid "Replace:"
-#~ msgstr "Замяна"
-
-#, fuzzy
-#~| msgid "Regular e&xpressions"
-#~ msgid "Use regular expressions"
-#~ msgstr "&Регулярни изрази"
-
-#, fuzzy
-#~| msgid "<b>Searching: %1</b>"
-#~ msgid "<b>Replacing in: %1</b>"
-#~ msgstr "<b>Търсене: %1</b>"
-
-#, fuzzy
-#~| msgid "<b><i>One match found in open files</i></b>"
-#~| msgid_plural "<b><i>%1 matches found in open files</i></b>"
-#~ msgid "<b><i>%1 match found in current file</i></b>"
-#~ msgid_plural "<b><i>%1 matches (%2 checked) found in current file</i></b>"
-#~ msgstr[0] "<b><i>В отворените файлове е намерено едно съвпадение</i></b>"
-#~ msgstr[1] "<b><i>В отворените файлове са намерени %1 съвпадения</i></b>"
-
-#, fuzzy
-#~| msgid "F&older"
-#~ msgid "Folder"
-#~ msgstr "&Папка"
-
-#~ msgid "F&older"
-#~ msgstr "&Папка"
-
-#~ msgid "Search & replace in files"
-#~ msgstr "Търсене и замяна във файлове"
-
-#~ msgid "Options"
-#~ msgstr "Настройки"
-
-#~ msgid "Find in open files plugin"
-#~ msgstr "Приставка за търсене в отворените файлове"
-
-#~ msgid "File"
-#~ msgstr "Файл"
-
-#~ msgid "Text"
-#~ msgstr "Текст"
-
-#~ msgid "Line"
-#~ msgstr "Ред"
+#, kde-format
+msgid "Find in Files Variants"
+msgstr "Търсене във файлове на варианти"

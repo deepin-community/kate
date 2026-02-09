@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-05-01 00:22+0000\n"
+"POT-Creation-Date: 2024-09-21 00:42+0000\n"
 "PO-Revision-Date: 2014-06-17 15:38+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -14,96 +14,100 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#, fuzzy, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "محمدرضا میردامادی"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "mohi@ubuntu.ir"
-
-#: kateconsole.cpp:55
+#: kateconsole.cpp:70
 #, kde-format
 msgid "You do not have enough karma to access a shell or terminal emulation"
 msgstr ""
 
-#: kateconsole.cpp:103
-#, fuzzy, kde-format
-#| msgid "Terminal"
-msgid "Terminal Panel"
+#: kateconsole.cpp:118 kateconsole.cpp:148 kateconsole.cpp:768
+#, kde-format
+msgid "Terminal"
 msgstr "پایانه"
 
-#: kateconsole.cpp:133
-#, fuzzy, kde-format
-#| msgid "Terminal"
-msgid "Kate Terminal"
-msgstr "پایانه"
-
-#: kateconsole.cpp:142
+#: kateconsole.cpp:157
 #, kde-format
 msgctxt "@action"
 msgid "&Pipe to Terminal"
 msgstr ""
 
-#: kateconsole.cpp:146
+#: kateconsole.cpp:161
 #, kde-format
 msgctxt "@action"
 msgid "S&ynchronize Terminal with Current Document"
 msgstr ""
 
-#: kateconsole.cpp:150
+#: kateconsole.cpp:165
 #, kde-format
 msgctxt "@action"
 msgid "Run Current Document"
 msgstr ""
 
-#: kateconsole.cpp:155 kateconsole.cpp:424
+#: kateconsole.cpp:170 kateconsole.cpp:555
 #, fuzzy, kde-format
 #| msgid "Terminal"
 msgctxt "@action"
 msgid "S&how Terminal Panel"
 msgstr "پایانه"
 
-#: kateconsole.cpp:161
+#: kateconsole.cpp:176
 #, fuzzy, kde-format
 #| msgid "Terminal"
 msgctxt "@action"
 msgid "&Focus Terminal Panel"
 msgstr "پایانه"
 
-#: kateconsole.cpp:304
+#: kateconsole.cpp:182
+#, fuzzy, kde-format
+#| msgid "Terminal"
+msgctxt "@action"
+msgid "&Split Terminal Vertically"
+msgstr "پایانه"
+
+#: kateconsole.cpp:187
+#, kde-format
+msgctxt "@action"
+msgid "&Split Terminal Horizontally"
+msgstr ""
+
+#: kateconsole.cpp:192
+#, fuzzy, kde-format
+#| msgid "Terminal"
+msgctxt "@action"
+msgid "&New Terminal Tab"
+msgstr "پایانه"
+
+#: kateconsole.cpp:354
+#, kde-format
+msgid ""
+"Konsole not installed. Please install konsole to be able to use the terminal."
+msgstr ""
+
+#: kateconsole.cpp:430
 #, kde-format
 msgid ""
 "Do you really want to pipe the text to the console? This will execute any "
 "contained commands with your user rights."
 msgstr ""
 
-#: kateconsole.cpp:305
+#: kateconsole.cpp:431
 #, kde-format
 msgid "Pipe to Terminal?"
 msgstr ""
 
-#: kateconsole.cpp:306
+#: kateconsole.cpp:432
 #, kde-format
 msgid "Pipe to Terminal"
 msgstr ""
 
-#: kateconsole.cpp:334
-#, kde-format
-msgid "Sorry, cannot cd into '%1'"
-msgstr ""
-
-#: kateconsole.cpp:365
+#: kateconsole.cpp:496
 #, kde-format
 msgid "Not a local file: '%1'"
 msgstr ""
 
-#: kateconsole.cpp:400
+#: kateconsole.cpp:529
 #, kde-format
 msgid ""
 "Do you really want to Run the document ?\n"
@@ -112,99 +116,111 @@ msgid ""
 "'%1'"
 msgstr ""
 
-#: kateconsole.cpp:405
+#: kateconsole.cpp:536
 #, fuzzy, kde-format
 #| msgid "Terminal"
 msgid "Run in Terminal?"
 msgstr "پایانه"
 
-#: kateconsole.cpp:406
+#: kateconsole.cpp:537
 #, kde-format
 msgid "Run"
 msgstr ""
 
-#: kateconsole.cpp:421
+#: kateconsole.cpp:552
 #, fuzzy, kde-format
 #| msgid "Terminal"
 msgctxt "@action"
 msgid "&Hide Terminal Panel"
 msgstr "پایانه"
 
-#: kateconsole.cpp:433 kateconsole.cpp:453
+#: kateconsole.cpp:563
 #, kde-format
 msgid "Defocus Terminal Panel"
 msgstr ""
 
-#: kateconsole.cpp:445
+#: kateconsole.cpp:564 kateconsole.cpp:565
 #, kde-format
 msgid "Focus Terminal Panel"
 msgstr ""
 
-#: kateconsole.cpp:502
+#: kateconsole.cpp:676
 #, kde-format
-msgid ""
-"&Automatically synchronize the terminal with the current document when "
-"possible"
+msgid "Terminal Synchronization Mode"
 msgstr ""
 
-#: kateconsole.cpp:506 kateconsole.cpp:527
+#: kateconsole.cpp:679
+#, kde-format
+msgid "&Don't synchronize terminal tab with current document"
+msgstr ""
+
+#: kateconsole.cpp:682
+#, kde-format
+msgid ""
+"&Automatically synchronize the current terminal tab with the current "
+"document when possible"
+msgstr ""
+
+#: kateconsole.cpp:685
+#, kde-format
+msgid ""
+"&Automatically create a terminal tab for the directory of the current "
+"document and switch to it"
+msgstr ""
+
+#: kateconsole.cpp:692 kateconsole.cpp:713
 #, fuzzy, kde-format
 #| msgid "Terminal"
 msgid "Run in terminal"
 msgstr "پایانه"
 
-#: kateconsole.cpp:508
+#: kateconsole.cpp:694
 #, kde-format
 msgid "&Remove extension"
 msgstr ""
 
-#: kateconsole.cpp:513
+#: kateconsole.cpp:699
 #, kde-format
 msgid "Prefix:"
 msgstr ""
 
-#: kateconsole.cpp:521
+#: kateconsole.cpp:707
 #, kde-format
 msgid "&Show warning next time"
 msgstr ""
 
-#: kateconsole.cpp:523
+#: kateconsole.cpp:709
 #, kde-format
 msgid ""
 "The next time '%1' is executed, make sure a warning window will pop up, "
 "displaying the command to be sent to terminal, for review."
 msgstr ""
 
-#: kateconsole.cpp:534
+#: kateconsole.cpp:720
 #, kde-format
 msgid "Set &EDITOR environment variable to 'kate -b'"
 msgstr ""
 
-#: kateconsole.cpp:537
+#: kateconsole.cpp:723
 #, kde-format
 msgid ""
 "Important: The document has to be closed to make the console application "
 "continue"
 msgstr ""
 
-#: kateconsole.cpp:540
+#: kateconsole.cpp:726
 #, kde-format
 msgid "Hide Konsole on pressing 'Esc'"
 msgstr ""
 
-#: kateconsole.cpp:543
+#: kateconsole.cpp:729
 #, kde-format
 msgid ""
 "This may cause issues with terminal apps that use Esc key, for e.g., vim. "
 "Add these apps in the input below (Comma separated list)"
 msgstr ""
 
-#: kateconsole.cpp:568
-#, kde-format
-msgid "Terminal"
-msgstr "پایانه"
-
-#: kateconsole.cpp:573
+#: kateconsole.cpp:773
 #, kde-format
 msgid "Terminal Settings"
 msgstr ""
@@ -214,3 +230,22 @@ msgstr ""
 #, kde-format
 msgid "&Tools"
 msgstr "&ابزارها‌"
+
+#, fuzzy
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "محمدرضا میردامادی"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "mohi@ubuntu.ir"
+
+#, fuzzy
+#~| msgid "Terminal"
+#~ msgid "Kate Terminal"
+#~ msgstr "پایانه"
+
+#, fuzzy
+#~| msgid "Terminal"
+#~ msgid "Terminal Panel"
+#~ msgstr "پایانه"

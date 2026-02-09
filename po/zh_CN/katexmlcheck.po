@@ -1,13 +1,9 @@
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
-# Chao Feng <chaofeng111@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2021-09-27 13:11\n"
+"POT-Creation-Date: 2024-12-17 00:43+0000\n"
+"PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -18,50 +14,57 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kate/katexmlcheck.pot\n"
-"X-Crowdin-File-ID: 4153\n"
+"X-Crowdin-File: /kf6-stable/messages/kate/katexmlcheck.pot\n"
+"X-Crowdin-File-ID: 51730\n"
 
-#: plugin_katexmlcheck.cpp:106
+#: plugin_katexmlcheck.cpp:94
 #, kde-format
-msgid "Kate XML check"
-msgstr "Kate XML 检查"
+msgid "XML Check"
+msgstr "XML 检查"
 
-#: plugin_katexmlcheck.cpp:113
-#, kde-format
-msgid "XML Checker Output"
-msgstr "XML 检查工具的输出"
-
-#: plugin_katexmlcheck.cpp:117
+#: plugin_katexmlcheck.cpp:99
 #, kde-format
 msgid "Validate XML"
 msgstr "验证 XML"
 
-#: plugin_katexmlcheck.cpp:125
+#: plugin_katexmlcheck.cpp:129
 #, kde-format
-msgid "#"
-msgstr "#"
+msgid "Validate process crashed"
+msgstr "验证过程已崩溃"
 
-#: plugin_katexmlcheck.cpp:126
+#: plugin_katexmlcheck.cpp:129 plugin_katexmlcheck.cpp:147
+#: plugin_katexmlcheck.cpp:207 plugin_katexmlcheck.cpp:232
+#: plugin_katexmlcheck.cpp:252 plugin_katexmlcheck.cpp:335
 #, kde-format
-msgid "Line"
-msgstr "行"
+msgid "XMLCheck"
+msgstr "XMLCheck"
 
-#: plugin_katexmlcheck.cpp:127
+#: plugin_katexmlcheck.cpp:143
 #, kde-format
-msgid "Column"
-msgstr "列"
+msgid "No DOCTYPE found, will only check well-formedness."
+msgstr "没有找到 DOCTYPE，将只检查格式正确性。"
 
-#: plugin_katexmlcheck.cpp:128
+#: plugin_katexmlcheck.cpp:145
 #, kde-format
-msgid "Message"
-msgstr "消息"
+msgctxt "%1 refers to the XML DTD"
+msgid "'%1' not found, will only check well-formedness."
+msgstr "“%1”没有找到，将只检查格式正确性。"
 
-#: plugin_katexmlcheck.cpp:299
+#: plugin_katexmlcheck.cpp:231
 #, kde-format
 msgid "<b>Error:</b> Could not create temporary file '%1'."
 msgstr "<b>错误：</b> 无法创建临时文件“%1”。"
 
-#: plugin_katexmlcheck.cpp:393
+#: plugin_katexmlcheck.cpp:250
+#, kde-format
+msgid ""
+"<b>Error:</b> Failed to find xmllint. Please make sure that xmllint is "
+"installed. It is part of libxml2."
+msgstr ""
+"<b>错误：</b>无法找到 xmllint。请确保已经安装了 xmllint，它是 libxml2 的一部"
+"分。"
+
+#: plugin_katexmlcheck.cpp:333
 #, kde-format
 msgid ""
 "<b>Error:</b> Failed to execute xmllint. Please make sure that xmllint is "

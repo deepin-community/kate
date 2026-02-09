@@ -4,8 +4,7 @@
     SPDX-License-Identifier: MIT
 */
 
-#ifndef LSPCLIENTCONFIGPAGE_H
-#define LSPCLIENTCONFIGPAGE_H
+#pragma once
 
 #include <KTextEditor/ConfigPage>
 
@@ -18,8 +17,6 @@ class LspConfigWidget;
 
 class LSPClientConfigPage : public KTextEditor::ConfigPage
 {
-    Q_OBJECT
-
 public:
     explicit LSPClientConfigPage(QWidget *parent = nullptr, LSPClientPlugin *plugin = nullptr);
     ~LSPClientConfigPage() override;
@@ -28,13 +25,14 @@ public:
     QString fullName() const override;
     QIcon icon() const override;
 
-public Q_SLOTS:
+public:
     void apply() override;
     void defaults() override;
     void reset() override;
     void configTextChanged();
     void configUrlChanged();
     void updateHighlighters();
+    void showContextMenuAllowedBlocked(const QPoint &pos);
 
 private:
     void readUserConfig(const QString &fileName);
@@ -43,5 +41,3 @@ private:
     Ui::LspConfigWidget *ui;
     LSPClientPlugin *m_plugin;
 };
-
-#endif

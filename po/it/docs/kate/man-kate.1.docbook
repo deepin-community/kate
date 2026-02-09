@@ -43,15 +43,11 @@
 ><option
 >-s, --start</option
 > <replaceable
-> nome</replaceable
+> name</replaceable
 > </group
 > <group choice="opt"
 ><option
 >--startanon</option
-></group
-> <group choice="opt"
-><option
->--new-session</option
 ></group
 > <group choice="opt"
 ><option
@@ -71,19 +67,19 @@
 ><option
 >-e, --encoding</option
 > <replaceable
-> nome</replaceable
+> name</replaceable
 ></group
 > <group choice="opt"
 ><option
 >-l, --line</option
 > <replaceable
-> riga</replaceable
+> line</replaceable
 ></group
 > <group choice="opt"
 ><option
 >-c, --column</option
 > <replaceable
-> colonna</replaceable
+> column</replaceable
 ></group
 > <group choice="opt"
 ><option
@@ -143,18 +139,6 @@
 <term
 ><option
 >--startanon</option
-></term>
-<listitem
-><para
->Avvia &kate; con una nuova sessione anonima; implica <option
->-n</option
-> (deprecato).</para
-></listitem>
-</varlistentry>
-<varlistentry>
-<term
-><option
->--new-session</option
 ></term>
 <listitem
 ><para
@@ -299,9 +283,9 @@
 ></userinput
 >).</member>
 <member
->kf5options(7)</member>
+>kf6options(7)</member>
 <member
->qt5options(7)</member>
+>qt6options(7)</member>
 <member
 >Ulteriori informazioni sono inoltre disponibili ne <ulink url="https://kate-editor.org/"
 >il sito web di &kate;</ulink

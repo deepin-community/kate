@@ -1274,6 +1274,35 @@
 <term
 ><cmdsynopsis
 ><command
+>alignon</command
+></cmdsynopsis
+></term>
+<listitem>
+<para
+>Dit commando lijnt regels uit in het geselecteerde blok of het gehele document op de kolom gegeven door een reguliere expressie gegeven als argument.</para>
+<para
+>Als u een leeg patroon geeft zal er standaard uitgelijnd worden op het eerste niet-blanke teken.</para>
+<para
+>Als het patroon een vangst heeft zal het inspringen op de gevangen overeenkomst.</para>
+<para
+><emphasis
+>Voorbeelden:</emphasis
+></para>
+<para
+><userinput
+>alignon -</userinput
+> zal spaties invoegen voor de eerste '-' van elke regel om ze allen uit te lijnen op dezelfde kolom.</para>
+<para
+><userinput
+>alignon :\\s+(.)</userinput
+> zal spaties invoegen vóór de eerste niet-blanke teken dat verschijnt na een dubbelepunt om ze allemaal uit te lijnen op dezelfde kolom.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><cmdsynopsis
+><command
 >unwrap</command
 ></cmdsynopsis
 ></term>

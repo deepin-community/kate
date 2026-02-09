@@ -5,22 +5,96 @@
 */
 #include "pushpulldialog.h"
 
+#include <QFile>
 #include <QProcess>
+#include <QSettings>
 
-PushPullDialog::PushPullDialog(QWidget *mainWindow, const QString &repoPath)
-    : QuickDialog(nullptr, mainWindow)
+#include <KConfigGroup>
+#include <KSharedConfig>
+#include <KTextEditor/MainWindow>
+#include <KTextEditor/View>
+
+#include <gitprocess.h>
+#include <hostprocess.h>
+#include <ktexteditor_utils.h>
+
+PushPullDialog::PushPullDialog(KTextEditor::MainWindow *mainWindow, const QString &repoPath)
+    : HUDDialog(mainWindow->window())
     , m_repo(repoPath)
 {
+    m_lineEdit.setFont(Utils::editorFont());
+    m_treeView.setFont(Utils::editorFont());
+    setFilteringEnabled(false);
+    loadLastExecutedCommands();
+    detectGerrit();
 }
 
 void PushPullDialog::openDialog(PushPullDialog::Mode m)
 {
-    if (m == Push) {
-        m_lineEdit.setText(buildPushString());
-    } else if (m == Pull) {
-        m_lineEdit.setText(buildPullString());
+    // build the string
+    QStringList builtStrings;
+    if (m == Push && m_isGerrit) {
+        builtStrings << QStringLiteral("git push origin HEAD:refs/for/%1").arg(m_gerritBranch);
+    } else {
+        builtStrings = buildCmdStrings(m);
     }
-    exec();
+    // find if we have a last executed push/pull command
+    QString lastCmd = getLastPushPullCmd(m);
+
+    QStringList lastExecCmds = m_lastExecutedCommands;
+
+    // if found, bring it up
+    if (!lastCmd.isEmpty()) {
+        lastExecCmds.removeAll(lastCmd);
+        lastExecCmds.push_front(lastCmd);
+    }
+
+    for (const auto &s : builtStrings) {
+        lastExecCmds.removeAll(s);
+        lastExecCmds.push_front(s);
+    }
+
+    setStringList(lastExecCmds);
+
+    connect(m_treeView.selectionModel(), &QItemSelectionModel::currentChanged, this, [this](const QModelIndex &current, const QModelIndex &) {
+        m_lineEdit.setText(current.data().toString());
+    });
+
+    reselectFirst();
+
+    raise();
+    show();
+}
+
+QString PushPullDialog::getLastPushPullCmd(Mode m) const
+{
+    const QString cmdToFind = m == Push ? QStringLiteral("git push") : QStringLiteral("git pull");
+    QString found;
+    for (const auto &cmd : m_lastExecutedCommands) {
+        if (cmd.startsWith(cmdToFind)) {
+            found = cmd;
+            break;
+        }
+    }
+    return found;
+}
+
+void PushPullDialog::loadLastExecutedCommands()
+{
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("kategit"));
+    m_lastExecutedCommands = config.readEntry("lastExecutedGitCmds", QStringList());
+}
+
+void PushPullDialog::saveCommand(const QString &command)
+{
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("kategit"));
+    QStringList cmds = m_lastExecutedCommands;
+    cmds.removeAll(command);
+    cmds.push_front(command);
+    while (cmds.size() > 8) {
+        cmds.pop_back();
+    }
+    config.writeEntry("lastExecutedGitCmds", cmds);
 }
 
 /**
@@ -29,75 +103,103 @@ void PushPullDialog::openDialog(PushPullDialog::Mode m)
 static QString currentBranchName(const QString &repo)
 {
     QProcess git;
-    git.setWorkingDirectory(repo);
+    if (!setupGitProcess(git, repo, {QStringLiteral("symbolic-ref"), QStringLiteral("--short"), QStringLiteral("HEAD")})) {
+        return {};
+    }
 
-    QStringList args{QStringLiteral("symbolic-ref"), QStringLiteral("--short"), QStringLiteral("HEAD")};
-
-    git.start(QStringLiteral("git"), args, QProcess::ReadOnly);
+    startHostProcess(git, QIODevice::ReadOnly);
     if (git.waitForStarted() && git.waitForFinished(-1)) {
         if (git.exitStatus() == QProcess::NormalExit && git.exitCode() == 0) {
             return QString::fromUtf8(git.readAllStandardOutput().trimmed());
         }
     }
     // give up
-    return QString();
+    return {};
 }
 
 static QStringList remotesList(const QString &repo)
 {
     QProcess git;
-    git.setWorkingDirectory(repo);
+    if (!setupGitProcess(git, repo, {QStringLiteral("remote")})) {
+        return {};
+    }
 
-    QStringList args{QStringLiteral("remote")};
-
-    git.start(QStringLiteral("git"), args, QProcess::ReadOnly);
+    startHostProcess(git, QIODevice::ReadOnly);
     if (git.waitForStarted() && git.waitForFinished(-1)) {
         if (git.exitStatus() == QProcess::NormalExit && git.exitCode() == 0) {
-            return QString::fromUtf8(git.readAllStandardOutput()).split(QLatin1Char('\n'));
+            return QString::fromUtf8(git.readAllStandardOutput()).split(QLatin1Char('\n'), Qt::SkipEmptyParts);
         }
     }
     return {};
 }
 
-QString PushPullDialog::buildPushString()
+static QString getRemoteForCurrentBranch(const QString &repo, const QString &branch)
 {
-    auto br = currentBranchName(m_repo);
-    if (br.isEmpty()) {
-        return QStringLiteral("git push");
+    QProcess git;
+    const QStringList args{QStringLiteral("config"), QStringLiteral("branch.%1.remote").arg(branch)};
+    if (!setupGitProcess(git, repo, args)) {
+        return {};
     }
 
-    auto remotes = remotesList(m_repo);
-    if (!remotes.contains(QStringLiteral("origin"))) {
-        return QStringLiteral("git push");
+    startHostProcess(git, QIODevice::ReadOnly);
+    if (git.waitForStarted() && git.waitForFinished(-1)) {
+        if (git.exitStatus() == QProcess::NormalExit && git.exitCode() == 0) {
+            return QString::fromUtf8(git.readAllStandardOutput().trimmed());
+        }
     }
-
-    return QStringLiteral("git push %1 %2").arg(QStringLiteral("origin")).arg(br);
+    return {};
 }
 
-QString PushPullDialog::buildPullString()
+QStringList PushPullDialog::buildCmdStrings(Mode m)
 {
-    auto br = currentBranchName(m_repo);
+    const QString arg = m == Push ? QLatin1String("push") : QLatin1String("pull");
+    const auto br = currentBranchName(m_repo);
     if (br.isEmpty()) {
-        return QStringLiteral("git pull");
+        return {QStringLiteral("git %1").arg(arg)};
     }
 
-    auto remotes = remotesList(m_repo);
-    if (!remotes.contains(QStringLiteral("origin"))) {
-        return QStringLiteral("git pull");
+    auto remoteForBranch = getRemoteForCurrentBranch(m_repo, br);
+    if (remoteForBranch.isEmpty()) {
+        const auto remotes = remotesList(m_repo);
+        if (remotes.isEmpty()) {
+            return {QStringLiteral("git %1").arg(arg)};
+        }
+        QStringList cmds;
+        // reverse traversal as later, these commands will be pushed in front of the
+        // list displayed to user, so we invert the order here and it will appear in
+        // the same order that git shows
+        for (auto ri = remotes.crbegin(); ri != remotes.crend(); ++ri) {
+            cmds << QStringLiteral("git %1 %2 %3").arg(arg, *ri, br);
+        }
+        return cmds;
+    } else {
+        // if we found a remote, only offer that
+        return {QStringLiteral("git %1 %2 %3").arg(arg, remoteForBranch, br)};
     }
-
-    return QStringLiteral("git pull %1 %2").arg(QStringLiteral("origin")).arg(br);
 }
 
-void PushPullDialog::slotReturnPressed()
+void PushPullDialog::slotReturnPressed(const QModelIndex &)
 {
     if (!m_lineEdit.text().isEmpty()) {
         auto args = m_lineEdit.text().split(QLatin1Char(' '));
         if (args.first() == QStringLiteral("git")) {
+            saveCommand(m_lineEdit.text());
             args.pop_front();
             Q_EMIT runGitCommand(args);
         }
     }
 
     hide();
+    deleteLater();
 }
+
+void PushPullDialog::detectGerrit()
+{
+    if (QFile::exists(m_repo + QLatin1String(".gitreview"))) {
+        m_isGerrit = true;
+        QSettings s(m_repo + QLatin1String("/.gitreview"), QSettings::IniFormat);
+        m_gerritBranch = s.value(QStringLiteral("gerrit/defaultbranch")).toString();
+    }
+}
+
+#include "moc_pushpulldialog.cpp"

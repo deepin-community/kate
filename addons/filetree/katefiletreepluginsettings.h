@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KATE_FILETREE_PLUGIN_SETTINGS_H
-#define KATE_FILETREE_PLUGIN_SETTINGS_H
+#pragma once
 
 #include <KConfigGroup>
 #include <QColor>
@@ -18,6 +17,7 @@ public:
 
     void save();
 
+    // TODO remove these getters/setters and just make the vars public
     bool shadingEnabled() const;
     void setShadingEnabled(bool);
 
@@ -42,6 +42,8 @@ public:
     bool showCloseButton() const;
     void setShowCloseButton(bool);
 
+    bool middleClickToClose = false;
+
 private:
     KConfigGroup m_group;
 
@@ -56,5 +58,3 @@ private:
     bool m_showToolbar;
     bool m_showCloseButton;
 };
-
-#endif // KATE_FILETREE_PLUGIN_H

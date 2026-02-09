@@ -46,9 +46,17 @@
 <title
 >Utseende</title>
 
-<sect3 id="prefcolors-fonts">
+<sect3 id="appearance-general">
 <title
->Teckensnitt</title>
+>Allmänt</title>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Editorns teckensnitt</guilabel
+></term>
+<listitem>
 <para
 >Här kan du välja teckensnitt för editorns text. Du kan välja bland alla teckensnitt som är tillgängliga i systemet, och ange en normal storlek och kodning. Ett textexempel visas längst ner i dialogrutan, så att du kan se effekten av det du väljer. </para>
 <para
@@ -59,75 +67,30 @@
 >&kde;:s grunder</emphasis
 ></ulink
 >.</para>
-</sect3>
-
-<sect3 id="appearance-general">
-<title
->Allmänt</title>
-
-<variablelist>
-<varlistentry>
-<term
-><guilabel
->Dynamisk radbrytning</guilabel
-></term>
-<listitem>
-<para
->Om det här alternativet markeras, bryts textrader vid fönstrets kant på skärmen.</para>
-<variablelist>
-<varlistentry>
-<term
-><guilabel
->Dynamiska radbrytningsmarkörer (om tillämpliga)</guilabel
-></term>
-<listitem
-><para
->Välj när dynamiska radbrytningsmarkörer ska visas, antingen <guilabel
->Av</guilabel
->, <guilabel
->Följ radnummer</guilabel
-> eller <guilabel
->Alltid på </guilabel
->. </para
-></listitem
-></varlistentry>
-<varlistentry>
-<term
-><guilabel
->Justera dynamiskt radbrutna rader till indenteringsdjupet: </guilabel
-></term>
-<listitem
-><para
->Aktiverar att dynamiskt radbrytna rader justeras vertikalt till den första radens indenteringsnivå. Det kan hjälpa till att göra kod och taggar mer läsbara.</para
-><para
->Dessutom låter det dig att ställa in en maximal bredd av skärmen, som ett procenttal. Därefter justeras inte längre dynamiskt radbrytna rader vertikalt. Vid 50 % får exempelvis inte rader vars indenteringsdjup är mer än 50 % av skärmens bredd någon vertikal justering för efterföljande radbrutna rader.</para
-></listitem>
-</varlistentry>
-</variablelist>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Färgläggning av blanktecken</guilabel
+>Visa indikering av blanktecken</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Markera tabulatorer</guilabel
+>Aldrig</guilabel
 ></term>
 <listitem
 ><para
->Editorn kommer att visa symbolen &raquo; som indikerar närvaron av en tabulator i texten.</para
+>Editorn visar aldrig punkter för att indikera närvaron av blanktecken.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
 <term
 ><guilabel
->Markera avslutande mellanslag</guilabel
+>Vid radens slut</guilabel
 ></term>
 <listitem
 ><para
@@ -137,35 +100,55 @@
 <varlistentry>
 <term
 ><guilabel
->Markörstorlek</guilabel
+>Alltid</guilabel
+></term>
+<listitem
+><para
+>Editorn visar alltid punkter för att indikera närvaron av blanktecken.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Storlek på indikering av blanktecken</guilabel
 ></term>
 <listitem
 ><para
 >Använd skjutreglaget för att ändra storlek på den synliga markören.</para
 ></listitem>
 </varlistentry>
-</variablelist>
-</listitem>
+<varlistentry>
+<term
+><guilabel
+>Visa tabulatormarkörer</guilabel
+></term>
+<listitem
+><para
+>När markerat, visar editorn symbolen &raquo; för att indikera närvaron av en tabulator i texten.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Visa fokusram omkring editorn</guilabel
+></term>
+<listitem
+><para
+>När markerat, visar editorn en fokusram omkring den huvudsakliga textpanelen.</para
+></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Avancerat </guilabel
+>Parentesmatchning </guilabel
 ></term>
 <listitem
 ><para>
 <variablelist>
-<varlistentry>
-<term
-><guilabel
->Visa indenteringslinjer </guilabel
-></term>
-<listitem
-><para
->Om det här är markerat, visar editorn vertikala linjer för att hjälpa till att identifiera indenterade rader.</para
-></listitem>
-</varlistentry>
 <varlistentry>
 <term
 ><guilabel
@@ -176,14 +159,20 @@
 >Om det här är aktiverat, markeras området mellan de valda samhörande parenteserna.</para
 ></listitem>
 </varlistentry>
-</variablelist>
-</para
+<varlistentry>
+<term
+><guilabel
+>Visa förhandsgranskning av motsvarande inledande parentes </guilabel
+></term>
+<listitem
+><para
+>När aktiverat, visar editorn ett verktygstips för motsvarande inledande parentes.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
 <term
 ><guilabel
->Animera matchande parenteser </guilabel
+>Blinka matchande parentes när markören flyttas till den andra parentesen i ett par </guilabel
 ></term>
 <listitem
 ><para
@@ -199,19 +188,33 @@
 >(</keycap
 > eller <keycap
 >)</keycap
->) animeras den motsvarande parentesen snabbt.</para
+>) så blinkar den motsvarande parentesen snabbt.</para
 ></listitem>
 </varlistentry>
+</variablelist>
+</para
+></listitem>
+</varlistentry>
+
 <varlistentry>
 <term
 ><guilabel
->Fäll ihop första raden </guilabel
+>Visa indenteringslinjer </guilabel
 ></term>
 <listitem
 ><para
->Om aktiverad fälls den första raden ihop om möjligt. Det är användbart om filen börjar med en kommentar, såsom en copyright.</para
+>Om det här är markerat, visar editorn vertikala linjer för att hjälpa till att identifiera indenterade rader.</para
 ></listitem>
 </varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Antal </guilabel
+></term>
+<listitem
+><para>
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
@@ -233,6 +236,94 @@
 ></listitem>
 </varlistentry>
 </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Fäll ihop första raden </guilabel
+></term>
+<listitem
+><para
+>Om aktiverad fälls den första raden ihop om möjligt. Det är användbart om filen börjar med en kommentar, såsom en copyright.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Dynamisk radbrytning</guilabel
+></term>
+<listitem>
+<para
+>Om det här alternativet markeras, bryts textrader vid fönstrets kant på skärmen.</para>
+<para>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Dynamisk radbrytning vid statisk radbrytningsmarkör </guilabel
+></term>
+<listitem
+><para
+>När markerat, bryter editorn rader dynamiskt vid den <link linkend="pref-word-wrap"
+>statiska radbrytningspositionen</link
+>.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Bortse från ordgränser vid dynamisk radbrytning </guilabel
+></term>
+<listitem
+><para
+>När markerat, tar inte editorn hänsyn till ordgränser när textrader brytes.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Dynamiska radbrytningsmarkörer</guilabel
+></term>
+<listitem
+><para
+>Välj när dynamiska radbrytningsmarkörer ska visas, antingen <guilabel
+>Av</guilabel
+>, <guilabel
+>Följ radnummer</guilabel
+> eller <guilabel
+>Alltid på </guilabel
+>. </para
+></listitem
+></varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Indentera radbrutna rader </guilabel
+></term>
+<listitem
+><para
+>Dessutom låter det dig att ställa in en maximal bredd av skärmen, som ett procenttal. Därefter justeras inte längre dynamiskt radbrytna rader vertikalt. Vid 50 % får exempelvis inte rader vars indenteringsdjup är mer än 50 % av skärmens bredd någon vertikal justering för efterföljande radbrutna rader.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Radhöjdsmultiplikator </guilabel
+></term>
+<listitem
+><para
+>Värdet multipliceras med teckensnittets förvalda radhöjd. Värdet 1,0 betyder att förvald höjd används.</para
+></listitem
+></varlistentry>
+</variablelist>
 </sect3>
 
 <sect3 id="appearance-borders">
@@ -243,14 +334,14 @@
 <varlistentry>
 <term
 ><guilabel
->Kanter</guilabel
+>Vikning av kodblock</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Visa vikmarkörer </guilabel
+>Visa pilar för att dra ihop kodblock </guilabel
 ></term>
 <listitem
 ><para
@@ -260,17 +351,47 @@
 <varlistentry>
 <term
 ><guilabel
->Visa förhandsgranskning av hopvikt kod </guilabel
+>Visa förhandsgranskning av vikta block när muspekaren hålls över </guilabel
 ></term>
 <listitem
 ><para
 >Om markerat, visas en förhandsgranskning av den hopvikta texten i en meddelanderuta när musen hålls över en hopvikt region.</para
 ></listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Visa ikonkant </guilabel
+>Vikningspilarnas synlighet</guilabel
+></term>
+<listitem
+><para
+>Ändra vikningspilarna mellan <guimenuitem
+>Visa när musen hålls över</guimenuitem
+> och <guimenuitem
+>Visa alltid</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Vänsterkant</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Visa markörer </guilabel
 ></term>
 <listitem
 ><para
@@ -290,17 +411,30 @@
 <varlistentry>
 <term
 ><guilabel
->Visa markörer av radändringar </guilabel
+>Markera ändrade och osparade rader </guilabel
 ></term>
 <listitem
 ><para
 >Om det här är markerat, visas markörer av radändringar. För mer information,se <xref linkend="kate-part-line-modification"/>. </para
 ></listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Visa rullningslistmarkeringar </guilabel
+>Rullningslister</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Visa markörer </guilabel
 ></term>
 <listitem
 ><para
@@ -310,17 +444,30 @@
 <varlistentry>
 <term
 ><guilabel
->Visa förhandsgranskning av text på rullningslist</guilabel
+>Visa förhandsgranskning när muspekaren hålls över rullningslister</guilabel
 ></term>
 <listitem
 ><para
 >Om alternativet är markerat, och du håller muspekaren över rullningslisten, visas en liten textförhandsgranskning med flera rader i det nuvarande dokumentet omkring pekarens position. Det låter dig snabbt gå till en annan del av dokumentet.</para>
 </listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Visa rullningslistens miniavbildning</guilabel
+>Miniavbildning</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Visa miniavbildning</guilabel
 ></term>
 <listitem
 ><para
@@ -352,18 +499,20 @@
 </variablelist>
 </listitem>
 </varlistentry>
+</variablelist>
 
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Sortera menyn bokmärken </guilabel
+>Sortera menyn bokmärken</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Enligt tillkomst </guilabel
+>Enligt skapat datum </guilabel
 ></term>
 <listitem
 ><para
@@ -373,7 +522,7 @@
 <varlistentry>
 <term
 ><guilabel
->Enligt position </guilabel
+>Enligt radnummer </guilabel
 ></term>
 <listitem
 ><para
@@ -393,21 +542,17 @@
 >Färgteman</title>
 
 <para
->Den här sidan i dialogrutan låter dig ställa in alla färger i de olika färgteman du har, och skapa nya teman eller ta bort befintliga. Varje tema har inställningar av färger, normal och markerad textstil. </para>
+>Den här sidan i dialogrutan låter dig ställa in alla färger i de olika färgteman du har, och skapa nya teman, ta bort befintliga eller bara <guilabel
+>Följa systemets färgschema</guilabel
+>. Varje tema har inställningar av färger, normal och markerad textstil. </para>
 
 <para
 >&kappname; väljer temat som för närvarande är aktivt i förväg åt dig. Om du vill arbeta med ett annat tema, börja med att välja det med kombinationsrutan <guilabel
->Tema</guilabel
+>Välj tema</guilabel
 >. Du kan skapa ett nytt tema eller ta bort befintliga med knapparna <guibutton
 >Ny</guibutton
 > och <guibutton
 >Ta bort</guibutton
->.</para>
-<para
->Längst ner på sidan kan du välja <guilabel
->Standardtema för <replaceable
->program</replaceable
-></guilabel
 >.</para>
 
 <para
@@ -427,7 +572,7 @@
 <varlistentry>
 <term id="pref-word-wrap"
 ><guilabel
->Statisk radbrytning</guilabel
+>Radbrytning</guilabel
 ></term>
 <listitem
 ><para
@@ -438,7 +583,7 @@
 <varlistentry>
 <term
 ><guilabel
->Aktivera statisk radbrytning</guilabel
+>Bryt rader vid en fast kolumn</guilabel
 ></term>
 <listitem>
 <para
@@ -448,7 +593,7 @@
 <varlistentry>
 <term
 ><guilabel
->Visa statisk radbrytningsmarkör (om tillämplig)</guilabel
+>Rita vertikal linje vid radbrytningskolumnen</guilabel
 ></term>
 <listitem>
 <para
@@ -469,7 +614,7 @@
 <listitem>
 <para
 >Om alternativet <link linkend="pref-word-wrap"
->Aktivera statisk radbrytning</link
+>Bryt rader vid en fast kolumn</link
 > är valt avgör det här värdet längden (i tecken) där editorn automatiskt påbörjar en ny rad.</para>
 </listitem>
 </varlistentry>
@@ -479,7 +624,7 @@
 <varlistentry>
 <term
 ><guilabel
->Inmatningsläge</guilabel
+>Standardläge för inmatning</guilabel
 ></term
 > <listitem
 ><para
@@ -488,14 +633,17 @@
 >. </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term
 ><guilabel
->Automatiska hakparenteser</guilabel
+>Parenteser</guilabel
 ></term
-> <listitem
-><para
->När användaren skriver en vänsterparentes (<keycap
+> <listitem>
+<para
+>Om alternativet <guilabel
+>Fyll automatiskt i parenteser när inledande parentes skrivs in</guilabel
+> är aktiverat när användaren skriver en vänsterparentes (<keycap
 >[</keycap
 >, <keycap
 >(</keycap
@@ -508,11 +656,21 @@
 >, eller <keycap
 >]</keycap
 >) till höger om markören.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Omslutande tecken</guilabel
+></term
+> <listitem>
+<para
+>Det är möjligt att markera omslutande tecken genom att använda motsvarande kombinationslista.</para>
 <para
 >När text markeras, radbryts den markerade texten om ett av tecknen skrivs in.</para>
 </listitem>
 </varlistentry>
-
 
 <varlistentry>
 <term
@@ -524,11 +682,31 @@
 <varlistentry>
 <term
 ><guilabel
->Kopiera eller klipp ut nuvarande rad om markering saknas</guilabel
+>Flytta markerad text vid drag och släpp</guilabel
+></term
+> <listitem>
+<para
+>Alternativet aktiverar dra och släpp av den markerade texten inne i editorfönstret.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Kopiera eller klipp ut nuvarande rad utförd utan markerad text</guilabel
 ></term
 > <listitem>
 <para
 >Om alternativet är aktiverat och textmarkeringen är tom, utförs åtgärderna kopiera och klipp ut för textraden på den verkliga markörpositionen.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Flytta inte textmarkören vid inklistring med musen</guilabel
+></term
+> <listitem>
+<para
+>Om alternativet är aktiverat och du klistrar in någon text i editorfönstret genom att klicka med musens mittenknapp, flyttar inte &kappname; textmarkören till den klickade positionen.</para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -656,6 +834,19 @@
 </varlistentry>
 
 </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry id="multicursor-modifier-configure">
+<term
+><guilabel
+>Väljare för flera markörer</guilabel
+></term>
+<listitem>
+<para
+>Alternativet låter dig ange väljare som används för att skapa flera markörer med vänsterklick. Du måste hålla nere väljarna och klicka med vänster musknapp för att skapa en markör på önskad plats. Se <link linkend="kate-part-create-multiple-cursors"
+>Skapa flera markörer</link
+> för att ta reda på andra sätt att skapa flera markörer.</para>
 </listitem>
 </varlistentry>
 
@@ -812,7 +1003,7 @@
 <listitem>
 <para
 >Om du vill att Tabulator ska justera nuvarande rad i nuvarande kodblock som i &Emacs;, gör Tabulator till en genväg till åtgärden <guimenuitem
->Justera</guimenuitem
+>Formatera indentering</guimenuitem
 >. </para>
 <variablelist>
 <varlistentry>
@@ -1168,6 +1359,42 @@ Remove selected Add new mapping Import from vimrc file-->
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term
+><guilabel
+>Aktivera spara automatisk (bara för lokala filer)</guilabel
+></term>
+<listitem>
+<para
+>Markera det om du vill att editorn ska spara dokument automatiskt medan du arbetar med dem. </para>
+<variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Spara dokument automatiskt när fokus lämnar editorn</guilabel
+></term>
+<listitem>
+<para
+>Editorn sparar automatiskt dokument när du byter till någonting utanför editorn, t.ex. terminalrutan i &kate;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Intervall för spara automatiskt</guilabel
+></term>
+<listitem>
+<para
+>Du kan bestämma intervallet för spara automatiskt i sekunder här. Om intervallet är 0, sparas inte dokumentet efter ett intervall.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect3>
 
@@ -1179,11 +1406,11 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Spara säkerhetskopia</guilabel
+>Skriv en säkerhetskopia vid spara för</guilabel
 ></term>
 <listitem
 ><para
->Säkerhetskopiering när du sparar gör att &kappname; kopierar filen på disk till &lt;prefix&gt;&lt;filnamn&gt;&lt;suffix&gt; innan ändringarna sparas. Suffixet har normalvärdet <emphasis role="bold"
+>Säkerhetskopiering när du sparar gör att &kappname; kopierar filen på disk (den tidigare sparade filen) till &lt;prefix&gt;&lt;filnamn&gt;&lt;suffix&gt; innan de nya ändringarna sparas. En säkerhetskopia kan vara till hjälp för att återställa arbete om något går fel när du sparar, eller om du senare vill återställa den tidigare versionen av filen. Suffixet har normalt värdet <emphasis role="bold"
 >~</emphasis
 > och prefixet är normalt tomt. </para>
 <variablelist>
@@ -1210,7 +1437,7 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Prefix</guilabel
+>Prefix för säkerhetskopierade filer</guilabel
 ></term>
 <listitem>
 <para
@@ -1220,7 +1447,7 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Suffix</guilabel
+>Suffix för säkerhetskopierade filer</guilabel
 ></term>
 <listitem>
 <para
@@ -1230,20 +1457,44 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Alternativ för växlingsfil</guilabel
+>Växlingsfilsläge</guilabel
 ></term>
 <listitem>
 <para
->&kappname; kan återställa (det mesta) som skrevs efter den senaste gången det sparats i händelse av en krasch eller strömavbrott. En växlingsfil (.swp.&lt;filnamn&gt;) skapas efter den första redigeringsåtgärden i ett dokument. Om användaren inte sparar ändringarna och &kappname; kraschar, förblir växlingsfilen på disk. När en fil öppnas, kontrollerar &kappname; om det finns en växlingsfil för dokumentet, och om det gör det, frågar användaren om förlorad data ska återställas eller inte. Användaren har också möjlighet att granska skillnaderna mellan originalfilen och den återställda filen. Växlingsfilen tas bort varje gång dokumentet sparas, och vid normal avslutning.</para>
+>&kappname; kan återställa (det mesta) osparade arbetet i händelse av en krasch eller strömavbrott. En växlingsfil (.&lt;filnamn&gt;.kate-swp) skapas när ett dokument redigeras. Om användaren inte sparar ändringarna och &kappname; kraschar, förblir växlingsfilen på disk. När en fil öppnas, kontrollerar &kappname; om det finns en växlingsfil för dokumentet, och om det gör det, frågar användaren om förlorad data ska återställas eller inte. Användaren har också möjlighet att granska skillnaderna mellan originalfilen och den återställda filen. Växlingsfilen tas bort varje gång dokumentet sparas, och vid normal avslutning.</para>
 <para
 >&kappname; synkroniserar växlingsfilen på disk var 15:e sekund, men bara om det finns ändringar sedan den senaste synkroniseringen. Användaren kan inaktivera synkroniseringen av växlingsfiler om det önskas, genom att välja <guilabel
 >Inaktivera</guilabel
 >, men det kan leda till förlust av mer data.</para>
 <para
->När aktiverat, sparas växlingsfiler i samma katalog som filen. När <guilabel
->Alternativ katalog</guilabel
+>När växlingsfilen är aktiverad är det möjligt att byta mellan två lägen, närmare bestämt <guilabel
+>Aktiverad, lagra i förvald katalog</guilabel
+> och <guilabel
+>Aktiverad, lagra i egen katalog</guilabel
+>. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Lagra växlingsfiler i</guilabel
+></term>
+<listitem
+><para
+>Normalt sparas växlingsfiler i samma katalog som filen. När <guilabel
+>Aktiverad, lagra i egen katalog</guilabel
 > väljes, skapas växlingsfiler i den angivna katalogen. Det är användbart för nätverksfilsystem för att undvika onödig nätverkstrafik.</para>
 </listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Spara växlingsfiler var</guilabel
+></term>
+<listitem
+><para
+>&kappname; synkroniserar växlingsfilen på disk var 15:e sekund, men bara om det finns ändringar sedan den senaste synkroniseringen. Du kan ändra synkroniseringsintervallet som du vill.</para
+></listitem>
 </varlistentry>
 
 </variablelist>

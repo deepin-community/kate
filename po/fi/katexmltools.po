@@ -4,7 +4,7 @@
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2003.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2003.
 # Ilpo Kantonen <ilpo@iki.fi>, 2005.
-# Tommi Nieminen <translator@legisign.org>, 2010.
+# Tommi Nieminen <translator@legisign.org>, 2010, 2022.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2013, 2014.
 #
 # KDE Finnish translation sprint participants:
@@ -13,61 +13,59 @@ msgid ""
 msgstr ""
 "Project-Id-Version: katexmltools\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2014-07-26 15:48+0300\n"
-"Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
-"Language-Team: Finnish <lokalisointi@lists.coss.fi>\n"
+"POT-Creation-Date: 2025-02-04 00:43+0000\n"
+"PO-Revision-Date: 2022-11-20 22:16+0200\n"
+"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
+"Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-POT-Import-Date: 2012-12-01 22:22:00+0000\n"
-"X-Generator: Lokalize 1.5\n"
 
-#: plugin_katexmltools.cpp:118
+#: plugin_katexmltools.cpp:117
 #, kde-format
-msgid "Kate XML Tools"
-msgstr "Kate XML-työkalut"
+msgid "XML Tools"
+msgstr "XML-työkalut"
 
-#: plugin_katexmltools.cpp:121
+#: plugin_katexmltools.cpp:120
 #, kde-format
 msgid "&Insert Element..."
 msgstr "&Lisää elementti…"
 
-#: plugin_katexmltools.cpp:126
+#: plugin_katexmltools.cpp:124
 #, kde-format
 msgid "&Close Element"
 msgstr "&Sulje elementti"
 
-#: plugin_katexmltools.cpp:131
+#: plugin_katexmltools.cpp:128
 #, kde-format
 msgid "Assign Meta &DTD..."
 msgstr "&Aseta meta-DTD…"
 
-#: plugin_katexmltools.cpp:442
+#: plugin_katexmltools.cpp:439
 #, kde-format
 msgid "Assign Meta DTD in XML Format"
 msgstr "&Aseta meta-DTD XML-muodossa"
 
-#: plugin_katexmltools.cpp:448
+#: plugin_katexmltools.cpp:445
 #, kde-format
 msgid ""
 "The current file has been identified as a document of type \"%1\". The meta "
 "DTD for this document type will now be loaded."
 msgstr "Tiedoston tyyppi on \"%1\". Asiakirjan meta-DTD ladataan nyt."
 
-#: plugin_katexmltools.cpp:452
+#: plugin_katexmltools.cpp:449
 #, kde-format
 msgid "Loading XML Meta DTD"
 msgstr "Ladataan XML:n meta-DTD:tä"
 
-#: plugin_katexmltools.cpp:484
+#: plugin_katexmltools.cpp:482
 #, kde-format
 msgid "The file '%1' could not be opened. The server returned an error."
 msgstr "Tiedostoa ”%1” ei voitu avata. Palvelin palautti virheen."
 
-#: plugin_katexmltools.cpp:487 pseudo_dtd.cpp:48 pseudo_dtd.cpp:60
+#: plugin_katexmltools.cpp:485 pseudo_dtd.cpp:48 pseudo_dtd.cpp:60
 #, kde-format
 msgid "XML Plugin Error"
 msgstr "XML-liitännäisen virhe"
@@ -92,12 +90,12 @@ msgstr "XML-attribuutit"
 msgid "XML elements"
 msgstr "XML-elementit"
 
-#: plugin_katexmltools.cpp:1039
+#: plugin_katexmltools.cpp:1038
 #, kde-format
 msgid "Insert XML Element"
 msgstr "Lisää XML-elementti"
 
-#: plugin_katexmltools.cpp:1044
+#: plugin_katexmltools.cpp:1043
 #, kde-format
 msgid ""
 "Enter XML tag name and attributes (\"<\", \">\" and closing tag will be "

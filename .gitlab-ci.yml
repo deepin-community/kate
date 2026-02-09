@@ -1,17 +1,16 @@
-variables:
-  PRODUCT: Applications
+# SPDX-FileCopyrightText: None
+# SPDX-License-Identifier: CC0-1.0
 
 include:
-  - project: 'sysadmin/ci-tooling'
-    file: '/invent/ci-before.yml'
-
-linux kf5-qt5 qt5.15:
-  image: "kdeorg/ci-suse-qt515"
-  extends: .linux
-  only:
-    - master
-    - merge_requests
-  variables:
-    PLATFORM: SUSEQt5.15
-    BRANCH_GROUP: stable-kf5-qt5
-
+  - project: sysadmin/ci-utilities
+    file:
+      - /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/linux-qt6-next.yml
+      - /gitlab-templates/freebsd-qt6.yml
+      - /gitlab-templates/windows-qt6.yml
+      - /gitlab-templates/flatpak.yml
+      - /gitlab-templates/craft-windows-x86-64-qt6.yml
+      - /gitlab-templates/craft-windows-appx-qt6.yml
+      - /gitlab-templates/craft-macos-arm64-qt6.yml
+      - /gitlab-templates/craft-macos-x86-64-qt6.yml
+      - /gitlab-templates/craft-appimage-qt6.yml

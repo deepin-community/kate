@@ -3,22 +3,19 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef BRANCHCHECKOUTDIALOG_H
-#define BRANCHCHECKOUTDIALOG_H
+#pragma once
 
 #include "branchesdialog.h"
 
 class BranchCheckoutDialog : public BranchesDialog
 {
-    Q_OBJECT
 public:
-    BranchCheckoutDialog(QWidget *mainWindow, KateProjectPluginView *pluginView, QString projectPath);
-    ~BranchCheckoutDialog();
+    BranchCheckoutDialog(QWidget *mainWindow, const QString &projectPath);
+    ~BranchCheckoutDialog() override;
     void openDialog();
 
 private Q_SLOTS:
-    void slotReturnPressed() override;
-    void reselectFirst();
+    void slotReturnPressed(const QModelIndex &index) override;
     void onCheckoutDone();
 
 private:
@@ -27,8 +24,6 @@ private:
 
 private:
     QFutureWatcher<GitUtils::CheckoutResult> m_checkoutWatcher;
-    QString m_checkoutBranchName;
+    QString m_checkoutFromBranchName;
     bool m_checkingOutFromBranch = false;
 };
-
-#endif // BRANCHCHECKOUTDIALOG_H

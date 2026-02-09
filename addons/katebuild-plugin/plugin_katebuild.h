@@ -1,5 +1,4 @@
-#ifndef PLUGIN_KATEBUILD_H
-#define PLUGIN_KATEBUILD_H
+#pragma once
 /* plugin_katebuild.h                    Kate Plugin
 **
 ** SPDX-FileCopyrightText: 2008-2015 Kåre Särs <kare.sars@iki.fi>
@@ -28,10 +27,11 @@
 #include <QRegularExpression>
 #include <QStack>
 #include <QString>
+#include <QTimer>
 
+#include <KTextEditor/ConfigPage>
 #include <KTextEditor/Document>
 #include <KTextEditor/MainWindow>
-#include <KTextEditor/MarkInterface>
 #include <KTextEditor/Message>
 #include <KTextEditor/Plugin>
 #include <KTextEditor/SessionConfigInterface>
@@ -40,8 +40,13 @@
 #include <KConfigGroup>
 #include <KXMLGUIClient>
 
+#include "diagnostics/diagnosticview.h"
 #include "targets.h"
 #include "ui_build.h"
+
+class KateBuildPlugin;
+
+class QCMakeFileApi;
 
 /******************************************************************/
 class KateBuildView : public QObject, public KXMLGUIClient, public KTextEditor::SessionConfigInterface
@@ -51,16 +56,28 @@ class KateBuildView : public QObject, public KXMLGUIClient, public KTextEditor::
     Q_PROPERTY(QUrl docUrl READ docUrl)
 
 public:
-    enum ResultDetails { FullOutput, ParsedOutput, ErrorsAndWarnings, OnlyErrors };
+    enum ResultDetails {
+        FullOutput,
+        ParsedOutput,
+        ErrorsAndWarnings,
+        OnlyErrors,
+    };
 
-    enum TreeWidgetRoles { ErrorRole = Qt::UserRole + 1, DataRole };
+    enum TreeWidgetRoles {
+        ErrorRole = Qt::UserRole + 1,
+        DataRole,
+    };
 
-    enum ErrorCategory { CategoryInfo, CategoryWarning, CategoryError };
+    enum class Category {
+        Normal,
+        Info,
+        Warning,
+        Error,
+    };
 
-    KateBuildView(KTextEditor::Plugin *plugin, KTextEditor::MainWindow *mw);
+    KateBuildView(KateBuildPlugin *plugin, KTextEditor::MainWindow *mw);
     ~KateBuildView() override;
 
-    // reimplemented: read and write session config
     void readSessionConfig(const KConfigGroup &config) override;
     void writeSessionConfig(KConfigGroup &config) override;
 
@@ -68,92 +85,137 @@ public:
 
     QUrl docUrl();
 
+    void sendError(const QString &);
+
+public Q_SLOTS:
+    void loadCMakeTargets(const QString &cmakeFile);
+
 private Q_SLOTS:
 
     // Building
     void slotSelectTarget();
-    void slotBuildActiveTarget();
+    void slotBuildSelectedTarget();
+    void slotBuildAndRunSelectedTarget();
     void slotBuildPreviousTarget();
-    void slotBuildDefaultTarget();
+    void slotCompileCurrentFile();
     bool slotStop();
+
+    void slotLoadCMakeTargets();
 
     // Parse output
     void slotProcExited(int exitCode, QProcess::ExitStatus exitStatus);
-    void slotReadReadyStdErr();
     void slotReadReadyStdOut();
-
-    // Selecting warnings/errors
-    void slotNext();
-    void slotPrev();
-    void slotErrorSelected(QTreeWidgetItem *item);
-
-    // Settings
-    void targetSetNew();
-    void targetOrSetCopy();
-    void targetDelete();
-
-    void slotAddTargetClicked();
-
-    void slotDisplayMode(int mode);
+    void slotRunAfterBuild();
+    void slotUpdateTextBrowser();
 
     void handleEsc(QEvent *e);
 
-    void slotViewChanged();
-    void slotDisplayOption();
-    void slotMarkClicked(KTextEditor::Document *doc, KTextEditor::Mark mark, bool &handled);
-    void slotInvalidateMoving(KTextEditor::Document *doc);
     /**
      * keep track if the project plugin is alive and if the project map did change
      */
     void slotPluginViewCreated(const QString &name, QObject *pluginView);
     void slotPluginViewDeleted(const QString &name, QObject *pluginView);
-    void slotProjectMapChanged();
-    void slotAddProjectTarget();
+    void slotProjectMapEdited();
+    void slotProjectChanged();
+
+    /**
+     * Save the project build target updates
+     */
+    void saveProjectTargets();
+
+    void enableCompileCurrentFile();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;
 
 private:
-#ifdef Q_OS_WIN
-    QString caseFixed(const QString &path);
-#endif
-    void processLine(const QString &);
-    void addError(const QString &filename, const QString &line, const QString &column, const QString &message);
+    struct OutputLine {
+        Category category = Category::Normal;
+        QString lineStr;
+        QString message;
+        QString file;
+        int lineNr;
+        int column;
+    };
+
+    // Support for compile_commands.json
+    struct CompileCommand {
+        QString workingDir;
+        QString command;
+    };
+
+    struct CompileCommands {
+        std::map<QString /* file*/, CompileCommand> commands;
+        QString filename;
+        QDateTime date;
+    };
+
+    CompileCommands m_parsedCompileCommands;
+
+    OutputLine processOutputLine(const QString &line);
+    QString toOutputHtml(const KateBuildView::OutputLine &out);
+    void addError(const OutputLine &err);
+    void updateDiagnostics(Diagnostic diagnostic, QUrl uri);
+    void clearDiagnostics();
     bool startProcess(const QString &dir, const QString &command);
     bool checkLocal(const QUrl &dir);
     void clearBuildResults();
+    QString parseWorkDir(QString dir) const;
 
     void displayBuildResult(const QString &message, KTextEditor::Message::MessageType level);
     void displayMessage(const QString &message, KTextEditor::Message::MessageType level);
+    void displayProgress(const QString &message, KTextEditor::Message::MessageType level);
 
-    void clearMarks();
-    void addMarks(KTextEditor::Document *doc, bool mark);
+    void updateProjectTargets();
+    QModelIndex createCMakeTargetSet(QModelIndex setIndex, const QString &name, const QCMakeFileApi &cmakeFA, const QString &cmakeConfig);
 
-    KTextEditor::MainWindow *m_win;
+    /** Check if given command line is allowed to be executed.
+     * Might ask the user for permission.
+     * @param cmdline full command line including program to check
+     * @return execution allowed?
+     */
+    bool isCommandLineAllowed(const QStringList &cmdline);
+
+    QString findCompileCommands(const QString &file) const;
+    CompileCommands parseCompileCommandsFile(const QString &compileCommandsFile) const;
+
+    KateBuildPlugin *const m_plugin;
+    KTextEditor::MainWindow *const m_win;
     QWidget *m_toolView;
     Ui::build m_buildUi{};
-    QWidget *m_buildWidget;
-    int m_outputWidgetWidth;
+    QWidget *m_buildWidget = nullptr;
     TargetsUi *m_targetsUi;
     KProcess m_proc;
     QString m_stdOut;
     QString m_stdErr;
+    QString m_pendingHtmlOutput;
+    int m_scrollStopLine = -1;
+    int m_numOutputLines = 0;
+    int m_numNonUpdatedLines = 0;
+
+    QTimer m_outputTimer;
     QString m_currentlyBuildingTarget;
-    bool m_buildCancelled;
-    int m_displayModeBeforeBuild;
-    QString m_make_dir;
-    QStack<QString> m_make_dir_stack;
+    bool m_buildCancelled = false;
+    bool m_runAfterBuild = false;
+    QString m_makeDir;
+    QStack<QString> m_makeDirStack;
     QStringList m_searchPaths;
     QRegularExpression m_filenameDetector;
-    bool m_ninjaBuildDetected = false;
     QRegularExpression m_newDirDetector;
     unsigned int m_numErrors = 0;
     unsigned int m_numWarnings = 0;
-    QString m_prevItemContent;
-    QModelIndex m_previousIndex;
+    unsigned int m_numNotes = 0;
+    QString m_progress;
+
+    QPersistentModelIndex m_previousIndex;
     QPointer<KTextEditor::Message> m_infoMessage;
-    QPointer<QAction> m_showMarks;
-    QHash<KTextEditor::Document *, QPointer<KTextEditor::Document>> m_markedDocs;
+    QPointer<KTextEditor::Message> m_progressMessage;
+    int m_projectTargetsetRow = 0;
+    bool m_firstBuild = true;
+    DiagnosticsProvider m_diagnosticsProvider;
+    QTimer m_saveProjTargetsTimer;
+    bool m_addingProjTargets = false;
+    QSet<QString> m_saveProjectTargetDirs;
 
     /**
      * current project plugin view, if any
@@ -161,7 +223,7 @@ private:
     QObject *m_projectPluginView = nullptr;
 };
 
-typedef QList<QVariant> VariantList;
+typedef QVariantList VariantList;
 
 /******************************************************************/
 class KateBuildPlugin : public KTextEditor::Plugin
@@ -175,6 +237,20 @@ public:
     }
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
-};
+    int configPages() const override;
+    KTextEditor::ConfigPage *configPage(int number = 0, QWidget *parent = nullptr) override;
 
-#endif
+    /**
+     * Read the non-session configurations
+     */
+    void readConfig();
+
+    void writeConfig() const;
+
+    bool m_addDiagnostics = true;
+    bool m_autoSwitchToOutput = true;
+    bool m_showBuildProgress = true;
+
+    // hash of allowed and blacklisted command lines
+    std::map<QString, bool> m_commandLineToAllowedState;
+};

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: katebuild-plugin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-09 03:25+0100\n"
+"POT-Creation-Date: 2025-06-10 02:39+0000\n"
 "PO-Revision-Date: 2014-08-14 16:55+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -30,339 +30,373 @@ msgid "Your emails"
 msgstr "m.j.wiese@web.de, s_dibbern@web.de"
 
 #. i18n: ectx: attribute (title), widget (QWidget, errs)
-#: build.ui:27
+#: build.ui:36
 #, kde-format
 msgid "Output"
 msgstr "Utgaav"
 
-#. i18n: ectx: property (text), widget (QLabel, showLabel)
-#: build.ui:35
-#, kde-format
-msgid "Show:"
-msgstr "Wiesen:"
-
 #. i18n: ectx: property (text), widget (QPushButton, buildAgainButton)
-#. i18n: ectx: property (text), widget (QPushButton, buildAgainButton2)
-#: build.ui:100 build.ui:125
-#, kde-format
-msgid "Build again"
+#: build.ui:56
+#, fuzzy, kde-format
+#| msgid "Build again"
+msgid "Build Again"
 msgstr "Nochmaak buen"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelBuildButton)
-#. i18n: ectx: property (text), widget (QPushButton, cancelBuildButton2)
-#: build.ui:107 build.ui:132
+#: build.ui:66
 #, kde-format
 msgid "Cancel"
 msgstr "Afbreken"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, errTreeWidget)
-#: build.ui:163
-#, kde-format
-msgctxt "Header for the file name column"
-msgid "File"
-msgstr "Datei"
+#: buildconfig.cpp:47
+#, fuzzy, kde-format
+#| msgid "Build again"
+msgid "Build & Run"
+msgstr "Nochmaak buen"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, errTreeWidget)
-#: build.ui:168
-#, kde-format
-msgctxt "Header for the line number column"
-msgid "Line"
-msgstr "Reeg"
+#: buildconfig.cpp:53
+#, fuzzy, kde-format
+#| msgid "Build selected target"
+msgid "Build & Run Settings"
+msgstr "Utsöcht Teel buen"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, errTreeWidget)
-#: build.ui:173
-#, kde-format
-msgctxt "Header for the error message column"
-msgid "Message"
-msgstr "Mellen"
+#: buildconfig.cpp:106
+#, fuzzy, kde-format
+#| msgid "Build selected target"
+msgid "Delete selected entries"
+msgstr "Utsöcht Teel buen"
 
-#: plugin_katebuild.cpp:126
+#: buildconfig.cpp:111
 #, kde-format
-msgid "Kate Build Plugin"
-msgstr "Kate-Buumoduul"
+msgid "Delete all entries"
+msgstr ""
 
-#: plugin_katebuild.cpp:133
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: buildconfigwidget.ui:33
+#, fuzzy, kde-format
+#| msgctxt "Tab label"
+#| msgid "Target Settings"
+msgid "General Settings"
+msgstr "Teel-Instellen"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useDiagnosticsCB)
+#: buildconfigwidget.ui:50
 #, kde-format
-msgid "Build Output"
-msgstr "Utgaav buen"
+msgid "Add errors and warnings to Diagnostics"
+msgstr ""
 
-#: plugin_katebuild.cpp:136
+#. i18n: ectx: property (text), widget (QCheckBox, autoSwitchToOutput)
+#: buildconfigwidget.ui:57
+#, kde-format
+msgid "Automatically switch to output pane on executing the selected target"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, u_showProgressCB)
+#: buildconfigwidget.ui:77
+#, no-c-format, kde-format
+msgid ""
+"If the output lines start with [ # / ## ] or [ ## % ], display the latest as "
+"a message."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, u_showProgressCB)
+#: buildconfigwidget.ui:80
+#, kde-format
+msgid "Show build progress as a message when the output pane is hidden"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: buildconfigwidget.ui:106
+#, kde-format
+msgid "Allowed && Blocked Commands"
+msgstr ""
+
+#: plugin_katebuild.cpp:264 plugin_katebuild.cpp:271 plugin_katebuild.cpp:715
+#: plugin_katebuild.cpp:938 plugin_katebuild.cpp:951
+#, kde-format
+msgid "Build"
+msgstr "Buen"
+
+#: plugin_katebuild.cpp:274
 #, fuzzy, kde-format
 #| msgid "Build Target..."
 msgid "Select Target..."
 msgstr "Teel buen..."
 
-#: plugin_katebuild.cpp:140
-#, kde-format
-msgid "Build Default Target"
-msgstr "Standardteel buen"
-
-#: plugin_katebuild.cpp:144
+#: plugin_katebuild.cpp:279
 #, fuzzy, kde-format
-#| msgid "Build Previous Target Again"
-msgid "Build Previous Target"
-msgstr "Verleden Teel nochmaal buen"
+#| msgid "Build selected target"
+msgid "Build Selected Target"
+msgstr "Utsöcht Teel buen"
 
-#: plugin_katebuild.cpp:148
+#: plugin_katebuild.cpp:284
+#, fuzzy, kde-format
+#| msgid "Build selected target"
+msgid "Build and Run Selected Target"
+msgstr "Utsöcht Teel buen"
+
+#: plugin_katebuild.cpp:289
+#, kde-format
+msgid "Compile Current File"
+msgstr ""
+
+#: plugin_katebuild.cpp:290
+#, kde-format
+msgid "Try to compile the current file by searching a compile_commands.json"
+msgstr ""
+
+#: plugin_katebuild.cpp:295
 #, kde-format
 msgid "Stop"
 msgstr "Anhollen"
 
-#: plugin_katebuild.cpp:153
+#: plugin_katebuild.cpp:300
 #, kde-format
-msgid "Next Error"
-msgstr "Nakamen Fehler"
-
-#: plugin_katebuild.cpp:159
-#, kde-format
-msgid "Previous Error"
-msgstr "Verleden Fehler"
-
-#: plugin_katebuild.cpp:165
-#, kde-format
-msgid "Show Marks"
+msgid "Load targets from CMake Build Dir"
 msgstr ""
 
-#: plugin_katebuild.cpp:172
+#: plugin_katebuild.cpp:304
+#, kde-format
+msgctxt "Left is also left in RTL mode"
+msgid "Focus Next Tab to the Left"
+msgstr ""
+
+#: plugin_katebuild.cpp:324
+#, kde-format
+msgctxt "Right is right also in RTL mode"
+msgid "Focus Next Tab to the Right"
+msgstr ""
+
+#: plugin_katebuild.cpp:353
 #, kde-format
 msgctxt "Tab label"
 msgid "Target Settings"
 msgstr "Teel-Instellen"
 
-#: plugin_katebuild.cpp:262 plugin_katebuild.cpp:1162
-#, fuzzy, kde-format
-#| msgid "Target set"
-msgid "Target Set"
-msgstr "Teelsett"
-
-#: plugin_katebuild.cpp:263 plugin_katebuild.cpp:283 plugin_katebuild.cpp:288
-#: plugin_katebuild.cpp:1319
+#: plugin_katebuild.cpp:393
 #, kde-format
-msgid "build"
-msgstr "Buen"
-
-#: plugin_katebuild.cpp:264 plugin_katebuild.cpp:284 plugin_katebuild.cpp:1322
-#, fuzzy, kde-format
-#| msgid "Clean"
-msgid "clean"
-msgstr "Oprümen"
-
-#: plugin_katebuild.cpp:265
-#, fuzzy, kde-format
-#| msgid "Config"
-msgid "config"
-msgstr "Instellen"
-
-#: plugin_katebuild.cpp:269 plugin_katebuild.cpp:286 plugin_katebuild.cpp:1325
-#, kde-format
-msgid "quick"
-msgstr ""
-
-#: plugin_katebuild.cpp:321 plugin_katebuild.cpp:1258 plugin_katebuild.cpp:1269
-#: plugin_katebuild.cpp:1290 plugin_katebuild.cpp:1298
-#, kde-format
-msgid "Project Plugin Targets"
-msgstr "Projektmoduul-Telen"
-
-#: plugin_katebuild.cpp:487
-#, kde-kuit-format
-msgctxt "@info"
 msgid ""
-"<title>Could not open file:</title><nl/>%1<br/>Try adding a search path to "
-"the working directory in the Target Settings"
+"<b>File not found:</b> %1<br><b>Search paths:</b><br>%2<br>Try adding a "
+"search path to the \"Working Directory\""
 msgstr ""
 
-#: plugin_katebuild.cpp:507
-#, kde-format
-msgctxt "The same word as 'make' uses to mark an error."
-msgid "error"
-msgstr "Fehler"
-
-#: plugin_katebuild.cpp:509
-#, kde-format
-msgctxt "The same word as 'ld' uses to mark an ..."
-msgid "undefined reference"
-msgstr "undefined reference"
-
-#: plugin_katebuild.cpp:515
-#, kde-format
-msgctxt "The same word as 'make' uses to mark a warning."
-msgid "warning"
-msgstr "Wohrschoen"
-
-#: plugin_katebuild.cpp:600
+#: plugin_katebuild.cpp:480
 #, fuzzy, kde-format
-#| msgctxt "The same word as 'make' uses to mark an error."
-#| msgid "error"
-msgid "Error"
-msgstr "Fehler"
+#| msgid "Build command:"
+msgid "Build Information"
+msgstr "Buubefehl:"
 
-#: plugin_katebuild.cpp:605
-#, fuzzy, kde-format
-#| msgid "Warnings"
-msgid "Warning"
-msgstr "Wohrschoen"
-
-#: plugin_katebuild.cpp:736
+#: plugin_katebuild.cpp:722
 #, kde-format
 msgid "There is no file or directory specified for building."
 msgstr "För't Buen is keen Datei oder Orner angeven."
 
-#: plugin_katebuild.cpp:740
+#: plugin_katebuild.cpp:726
 #, kde-format
 msgid ""
 "The file \"%1\" is not a local file. Non-local files cannot be compiled."
 msgstr "\"%1\" is keen lokaal Datei. Feern Dateien laat sik nich kompileren."
 
-#: plugin_katebuild.cpp:792
+#: plugin_katebuild.cpp:794
 #, kde-format
-msgid ""
-"Cannot run command: %1\n"
-"Work path does not exist: %2"
+msgid "Create directory"
 msgstr ""
 
-#: plugin_katebuild.cpp:811
+#: plugin_katebuild.cpp:797
+#, kde-format
+msgid ""
+"The configured working directory <b>%1</b> for the targetset <b>%2</b> does "
+"not exist.<br><br>Create the directory?"
+msgstr ""
+
+#: plugin_katebuild.cpp:805
+#, kde-format
+msgid "Failed to create the directory <b>%1</b>"
+msgstr ""
+
+#: plugin_katebuild.cpp:823
 #, kde-format
 msgid "Failed to run \"%1\". exitStatus = %2"
 msgstr "\"%1\" lett sik nich utföhren. Utstiegstatus: %2"
 
-#: plugin_katebuild.cpp:830
+#: plugin_katebuild.cpp:838
 #, kde-format
 msgid "Building <b>%1</b> cancelled"
 msgstr "Buen vun <b>%1</b> afbraken"
 
-#: plugin_katebuild.cpp:888
+#: plugin_katebuild.cpp:937
 #, kde-format
-msgid "Already building..."
+msgid "Did not find a compile_commands.json for file \"%1\". "
 msgstr ""
 
-#: plugin_katebuild.cpp:897
+#: plugin_katebuild.cpp:950
+#, kde-format
+msgid "Did not find a compile command for file \"%1\" in \"%2\". "
+msgstr ""
+
+#: plugin_katebuild.cpp:1058
 #, kde-format
 msgid "No target available for building."
 msgstr ""
 
-#: plugin_katebuild.cpp:911
+#: plugin_katebuild.cpp:1072
 #, kde-format
 msgid "There is no local file or directory specified for building."
 msgstr "För't Buen is keen lokaal Datei oder Orner angeven."
 
-#: plugin_katebuild.cpp:935
+#: plugin_katebuild.cpp:1078
+#, kde-format
+msgid "Already building..."
+msgstr ""
+
+#: plugin_katebuild.cpp:1091
+#, kde-format
+msgid "Cannot make substitution. No open file or the current file is untitled!"
+msgstr ""
+
+#: plugin_katebuild.cpp:1101
 #, kde-format
 msgid "Building target <b>%1</b> ..."
 msgstr "Teel <b>%1</b> warrt buut ..."
 
-#: plugin_katebuild.cpp:950
-#, kde-kuit-format
-msgctxt "@info"
-msgid "<title>Make Results:</title><nl/>%1"
+#: plugin_katebuild.cpp:1138
+#, kde-format
+msgid ""
+"Cannot load targets, the file %1 does not contain a proper CMAKE_COMMAND "
+"entry !"
 msgstr ""
 
-#: plugin_katebuild.cpp:986
+#: plugin_katebuild.cpp:1151
 #, kde-format
-msgid "Building <b>%1</b> completed."
-msgstr "Buen vun <b>%1</b> afslaten."
+msgid "Could not write CMake File API query files for build directory %1 !"
+msgstr ""
 
-#: plugin_katebuild.cpp:1005
+#: plugin_katebuild.cpp:1157
+#, kde-format
+msgid "Could not run CMake (%2) for build directory %1 !"
+msgstr ""
+
+#: plugin_katebuild.cpp:1166
+#, kde-format
+msgid ""
+"Generating CMake File API reply files for build directory %1 failed (using "
+"%2) !"
+msgstr ""
+
+#: plugin_katebuild.cpp:1285
+#, kde-format
+msgid "Build plugin wants to execute program"
+msgstr ""
+
+#: plugin_katebuild.cpp:1288
+#, kde-format
+msgid ""
+"The Kate build plugin needs to execute an external command to read the "
+"targets from the build tree.<br><br>The full command line is:<br><br><b>%1</"
+"b><br><br>Proceed and allow to run this command ?<br><br>The choice can be "
+"altered via the config page of the plugin."
+msgstr ""
+
+#: plugin_katebuild.cpp:1320
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<title>Build Finished:</title>%1"
+msgstr ""
+
+#: plugin_katebuild.cpp:1382
+#, kde-format
+msgid "Build <b>%1</b> completed. %2 error(s), %3 warning(s), %4 note(s)"
+msgstr ""
+
+#: plugin_katebuild.cpp:1388
 #, kde-format
 msgid "Found one error."
 msgid_plural "Found %1 errors."
 msgstr[0] "Een Fehler funnen"
 msgstr[1] "%1 Fehlers funnen"
 
-#: plugin_katebuild.cpp:1006
-#, kde-format
-msgid "Building <b>%1</b> had errors."
-msgstr "Bi't Buen vun <b>%1</b> geev dat Fehlers."
-
-#: plugin_katebuild.cpp:1008
+#: plugin_katebuild.cpp:1392
 #, kde-format
 msgid "Found one warning."
 msgid_plural "Found %1 warnings."
 msgstr[0] "Een Wohrschoen funnen"
 msgstr[1] "%1 Wohrschoen funnen"
 
-#: plugin_katebuild.cpp:1009
-#, kde-format
-msgid "Building <b>%1</b> had warnings."
-msgstr "Bi't Buen vun <b>%1</b> geev dat Wohrschoen."
+#: plugin_katebuild.cpp:1395
+#, fuzzy, kde-format
+#| msgid "Found one error."
+#| msgid_plural "Found %1 errors."
+msgid "Found one note."
+msgid_plural "Found %1 notes."
+msgstr[0] "Een Fehler funnen"
+msgstr[1] "%1 Fehlers funnen"
 
-#: plugin_katebuild.cpp:1013
+#: plugin_katebuild.cpp:1400
 #, kde-format
 msgid "Build failed."
 msgstr "Buen fehlslaan"
 
-#: plugin_katebuild.cpp:1015
+#: plugin_katebuild.cpp:1402
 #, kde-format
 msgid "Build completed without problems."
 msgstr "Buen ahn Problemen afslaten."
 
-#: plugin_katebuild.cpp:1163
+#: plugin_katebuild.cpp:1407
 #, kde-format
-msgid "Build"
-msgstr "Buen"
-
-#: plugin_katebuild.cpp:1164
-#, kde-format
-msgid "Clean"
-msgstr "Oprümen"
-
-#: plugin_katebuild.cpp:1165
-#, kde-format
-msgid "Config"
-msgstr "Instellen"
-
-#: plugin_katebuild.cpp:1166
-#, fuzzy, kde-format
-#| msgid "Config"
-msgid "ConfigClean"
-msgstr "Instellen"
-
-#: plugin_katebuild.cpp:1202
-#, kde-format
-msgid "Only Errors"
-msgstr "Bloots Fehlers"
-
-#: plugin_katebuild.cpp:1205
-#, kde-format
-msgid "Errors and Warnings"
-msgstr "Fehlers un Wohrschoen"
-
-#: plugin_katebuild.cpp:1208
-#, kde-format
-msgid "Parsed Output"
-msgstr "Dörkeken Utgaav"
-
-#: plugin_katebuild.cpp:1211
-#, kde-format
-msgid "Full Output"
-msgstr "Heel Utgaav"
-
-#. i18n: ectx: property (windowTitle), widget (QDialog, SelectTargetUi)
-#: SelectTargetUi.ui:14
-#, fuzzy, kde-format
-#| msgid "Delete selected target"
-msgid "Select build target"
-msgstr "Utsöcht Teel wegdoon"
-
-#. i18n: ectx: property (text), widget (QLabel, u_label)
-#: SelectTargetUi.ui:29
-#, kde-format
-msgid "Filter"
+msgid "Build <b>%1 canceled</b>. %2 error(s), %3 warning(s), %4 note(s)"
 msgstr ""
 
-#: TargetHtmlDelegate.cpp:47
+#: plugin_katebuild.cpp:1433
+#, kde-format
+msgid "Cannot execute: %1 No working directory set."
+msgstr ""
+
+#: plugin_katebuild.cpp:1683
+#, fuzzy, kde-format
+#| msgctxt "The same word as 'make' uses to mark an error."
+#| msgid "error"
+msgctxt "The same word as 'gcc' uses for an error."
+msgid "error"
+msgstr "Fehler"
+
+#: plugin_katebuild.cpp:1686
+#, fuzzy, kde-format
+#| msgctxt "The same word as 'make' uses to mark a warning."
+#| msgid "warning"
+msgctxt "The same word as 'gcc' uses for a warning."
+msgid "warning"
+msgstr "Wohrschoen"
+
+#: plugin_katebuild.cpp:1689
+#, kde-format
+msgctxt "The same words as 'gcc' uses for note or info."
+msgid "note|info"
+msgstr ""
+
+#: plugin_katebuild.cpp:1692
+#, kde-format
+msgctxt "The same word as 'ld' uses to mark an ..."
+msgid "undefined reference"
+msgstr "undefined reference"
+
+#: plugin_katebuild.cpp:1896
+#, kde-format
+msgid "Cannot save build targets in: %1"
+msgstr ""
+
+#: TargetHtmlDelegate.cpp:51
 #, kde-format
 msgctxt "T as in Target set"
 msgid "<B>T:</B> %1"
 msgstr ""
 
-#: TargetHtmlDelegate.cpp:49
+#: TargetHtmlDelegate.cpp:53
 #, kde-format
-msgctxt "D as in working Directory"
+msgctxt "Dir as in working Directory"
 msgid "<B>Dir:</B> %1"
 msgstr ""
 
-#: TargetHtmlDelegate.cpp:101
+#: TargetHtmlDelegate.cpp:104
 #, fuzzy, kde-format
 #| msgid "Leave empty to use the directory of the current document. "
 msgid ""
@@ -370,7 +404,15 @@ msgid ""
 "Add search directories by adding paths separated by ';'"
 msgstr "Leddig laten un den Orner un dat aktuelle Dokment bruken. "
 
-#: TargetHtmlDelegate.cpp:105
+#: TargetHtmlDelegate.cpp:111
+#, kde-format
+msgid ""
+"Use:\n"
+"\"%B\" for project base directory\n"
+"\"%b\" for name of project base directory"
+msgstr ""
+
+#: TargetHtmlDelegate.cpp:114
 #, fuzzy, kde-format
 #| msgid ""
 #| "Use:\n"
@@ -386,59 +428,116 @@ msgstr ""
 "\"%f\" för de aktuelle Datei\n"
 "\"%d\" för de aktuelle Datei ehr Orner"
 
-#: TargetModel.cpp:297
+#: TargetModel.cpp:316 TargetModel.cpp:328 targets.cpp:255
+#, fuzzy, kde-format
+#| msgid "Target set"
+msgid "Target Set"
+msgstr "Teelsett"
+
+#: TargetModel.cpp:549
 #, kde-format
-msgid "Check the check-box to make the command the default for the target-set."
+msgid "Projects"
 msgstr ""
 
-#: TargetModel.cpp:355
+#: TargetModel.cpp:549
+#, kde-format
+msgid "Session"
+msgstr ""
+
+#: TargetModel.cpp:659
 #, kde-format
 msgid "Command/Target-set Name"
 msgstr ""
 
-#: TargetModel.cpp:358
-#, fuzzy, kde-format
-#| msgid "Working directory"
-msgid "Working Directory / Command"
-msgstr "Arbeitorner"
-
-#: targets.cpp:18
+#: TargetModel.cpp:662
 #, kde-format
-msgid "Active target-set:"
+msgid "Build Command / Working Directory"
 msgstr ""
 
-#: targets.cpp:20
+#: TargetModel.cpp:665
 #, fuzzy, kde-format
-#| msgid "Delete selected target"
-msgid "Select active target set"
-msgstr "Utsöcht Teel wegdoon"
+#| msgid "Command:"
+msgid "Run Command"
+msgstr "Befehl:"
 
-#: targets.cpp:25
+#: targets.cpp:29
+#, kde-format
+msgid "Filter targets, use arrow keys to select, Enter to execute"
+msgstr ""
+
+#: targets.cpp:33
 #, kde-format
 msgid "Create new set of targets"
 msgstr "Nieg Sett vun Telen opstellen"
 
-#: targets.cpp:29
+#: targets.cpp:37
 #, fuzzy, kde-format
 #| msgid "Copy set of targets"
-msgid "Copy command or target set"
+msgid "Clone command or target set"
 msgstr "Sett vun Telen koperen"
 
-#: targets.cpp:33
+#: targets.cpp:41
 #, fuzzy, kde-format
 #| msgid "Delete current set of targets"
 msgid "Delete current target or current set of targets"
 msgstr "Aktuell Sett vun Telen wegdoon"
 
-#: targets.cpp:38
+#: targets.cpp:46
 #, kde-format
 msgid "Add new target"
 msgstr "Nieg Teel tofögen"
 
-#: targets.cpp:42
+#: targets.cpp:50
 #, kde-format
 msgid "Build selected target"
 msgstr "Utsöcht Teel buen"
+
+#: targets.cpp:54
+#, fuzzy, kde-format
+#| msgid "Build selected target"
+msgid "Build and run selected target"
+msgstr "Utsöcht Teel buen"
+
+#: targets.cpp:58
+#, fuzzy, kde-format
+#| msgid "Build selected target"
+msgid "Move selected target up"
+msgstr "Utsöcht Teel buen"
+
+#: targets.cpp:62
+#, fuzzy, kde-format
+#| msgid "Build selected target"
+msgid "Move selected target down"
+msgstr "Utsöcht Teel buen"
+
+#: targets.cpp:204
+#, kde-format
+msgid "Copy"
+msgstr "Koperen"
+
+#: targets.cpp:208
+#, kde-format
+msgid "Cut"
+msgstr ""
+
+#: targets.cpp:212
+#, kde-format
+msgid "Paste after"
+msgstr ""
+
+#: targets.cpp:230 targets.cpp:257
+#, fuzzy, kde-format
+#| msgid "Command:"
+msgctxt "Name/Label for a compilation or build command"
+msgid "Build Command"
+msgstr "Befehl:"
+
+#: targets.cpp:256
+#, fuzzy, kde-format
+#| msgid "Config"
+msgctxt "Name/Label for a command to configure a build"
+msgid "Configure"
+msgstr "Instellen"
 
 #. i18n: ectx: Menu (Build Menubar)
 #: ui.rc:6
@@ -455,6 +554,122 @@ msgstr ""
 #, kde-format
 msgid "Select directory to insert"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Working directory"
+#~ msgid "Working Directory / Command"
+#~ msgstr "Arbeitorner"
+
+#~ msgid "Clean"
+#~ msgstr "Oprümen"
+
+#, fuzzy
+#~| msgid "Config"
+#~ msgid "ConfigClean"
+#~ msgstr "Instellen"
+
+#~ msgid "Project Plugin Targets"
+#~ msgstr "Projektmoduul-Telen"
+
+#~ msgid "build"
+#~ msgstr "Buen"
+
+#, fuzzy
+#~| msgid "Clean"
+#~ msgid "clean"
+#~ msgstr "Oprümen"
+
+#~ msgid "Building <b>%1</b> completed."
+#~ msgstr "Buen vun <b>%1</b> afslaten."
+
+#~ msgid "Building <b>%1</b> had errors."
+#~ msgstr "Bi't Buen vun <b>%1</b> geev dat Fehlers."
+
+#~ msgid "Building <b>%1</b> had warnings."
+#~ msgstr "Bi't Buen vun <b>%1</b> geev dat Wohrschoen."
+
+#~ msgid "Show:"
+#~ msgstr "Wiesen:"
+
+#~ msgctxt "Header for the file name column"
+#~ msgid "File"
+#~ msgstr "Datei"
+
+#~ msgctxt "Header for the line number column"
+#~ msgid "Line"
+#~ msgstr "Reeg"
+
+#~ msgctxt "Header for the error message column"
+#~ msgid "Message"
+#~ msgstr "Mellen"
+
+#~ msgid "Next Error"
+#~ msgstr "Nakamen Fehler"
+
+#~ msgid "Previous Error"
+#~ msgstr "Verleden Fehler"
+
+#, fuzzy
+#~| msgctxt "The same word as 'make' uses to mark an error."
+#~| msgid "error"
+#~ msgid "Error"
+#~ msgstr "Fehler"
+
+#, fuzzy
+#~| msgid "Warnings"
+#~ msgid "Warning"
+#~ msgstr "Wohrschoen"
+
+#~ msgid "Only Errors"
+#~ msgstr "Bloots Fehlers"
+
+#~ msgid "Errors and Warnings"
+#~ msgstr "Fehlers un Wohrschoen"
+
+#~ msgid "Parsed Output"
+#~ msgstr "Dörkeken Utgaav"
+
+#~ msgid "Full Output"
+#~ msgstr "Heel Utgaav"
+
+#, fuzzy
+#~| msgid "Delete selected target"
+#~ msgid "Select active target set"
+#~ msgstr "Utsöcht Teel wegdoon"
+
+#, fuzzy
+#~| msgid "Build selected target"
+#~ msgid "Filter targets"
+#~ msgstr "Utsöcht Teel buen"
+
+#~ msgid "Build Default Target"
+#~ msgstr "Standardteel buen"
+
+#, fuzzy
+#~| msgid "Build Default Target"
+#~ msgid "Build and Run Default Target"
+#~ msgstr "Standardteel buen"
+
+#, fuzzy
+#~| msgid "Build Previous Target Again"
+#~ msgid "Build Previous Target"
+#~ msgstr "Verleden Teel nochmaal buen"
+
+#, fuzzy
+#~| msgid "Config"
+#~ msgid "config"
+#~ msgstr "Instellen"
+
+#~ msgid "Kate Build Plugin"
+#~ msgstr "Kate-Buumoduul"
+
+#, fuzzy
+#~| msgid "Delete selected target"
+#~ msgid "Select build target"
+#~ msgstr "Utsöcht Teel wegdoon"
+
+#~ msgid "Build Output"
+#~ msgstr "Utgaav buen"
 
 #~ msgid "Next Set of Targets"
 #~ msgstr "Nakamen Teelsett"
@@ -489,9 +704,6 @@ msgstr ""
 #~ msgid "from"
 #~ msgstr "vun"
 
-#~ msgid "Command:"
-#~ msgstr "Befehl:"
-
 #~ msgid "Sets of Targets"
 #~ msgstr "Teel-Setten"
 
@@ -510,9 +722,6 @@ msgstr ""
 #~ msgid "New"
 #~ msgstr "Nieg"
 
-#~ msgid "Copy"
-#~ msgstr "Koperen"
-
 #~ msgid "Delete"
 #~ msgstr "Wegmaken"
 
@@ -521,9 +730,6 @@ msgstr ""
 
 #~ msgid "Run make"
 #~ msgstr "\"Make\" opropen"
-
-#~ msgid "Build command:"
-#~ msgstr "Buubefehl:"
 
 #~ msgid "..."
 #~ msgstr "..."

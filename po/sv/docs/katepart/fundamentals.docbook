@@ -96,7 +96,7 @@
 ></entry>
 <entry
 ><para
->Gå till föregående redigeringsrad.</para
+>Gå till föregående redigeringsplats i dokumentet.</para
 ></entry>
 </row>
 <row>
@@ -110,7 +110,7 @@
 ></entry>
 <entry
 ><para
->Gå till nästa redigeringsrad.</para
+>Gå till nästa redigeringsplats i dokumentet.</para
 ></entry>
 </row>
 <row>
@@ -319,22 +319,8 @@
 <entry
 ><para
 ><keycombo action="simul"
->&Ctrl;&Alt;<keycap
->Uppåtpil</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Duplicera markerade rader uppåt.</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;&Alt;<keycap
->Neråtpil</keycap
+>&Ctrl;<keycap
+>.</keycap
 ></keycombo
 ></para
 ></entry>
@@ -467,6 +453,34 @@
 > tryck på snabbtangenten så börjar den nästa raden redan med <quote
 >// </quote
 >. Du behöver alltså inte skriva in kommentartecknen i början av varje ny rad med kommentarer.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift; <keycap
+>Enter</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Skapa en ny rad under den aktuella raden.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt; <keycap
+>Enter</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Skapa en ny rad ovanför den aktuella raden.</para
 ></entry>
 </row>
 <row>
@@ -1354,6 +1368,78 @@ action="simul"
 >Expandera förkortning.</para
 ></entry>
 </row>
+
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Uppåtpil</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Lägg till en markör ovanför aktuell markör.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Neråtpil</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Lägg till en markör under aktuell markör.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Shift;&Alt;<keycap
+>I</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Skapa en markör i slutet av varje rad av markeringen.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Slå upp nästa förekomst av ordet under markören och markera det.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Slå upp alla förekomster av ordet under markören och markera dem.</para
+></entry>
+</row>
+
 </tbody>
 </tgroup>
 </informaltable>

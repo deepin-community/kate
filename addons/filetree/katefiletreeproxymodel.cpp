@@ -8,8 +8,8 @@
 #include "katefiletreedebug.h"
 #include "katefiletreemodel.h"
 
+#include <KTextEditor/Document>
 #include <QCollator>
-#include <ktexteditor/document.h>
 
 KateFileTreeProxyModel::KateFileTreeProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
@@ -20,6 +20,16 @@ void KateFileTreeProxyModel::setSourceModel(QAbstractItemModel *model)
 {
     Q_ASSERT(qobject_cast<KateFileTreeModel *>(model)); // we don't really work with anything else
     QSortFilterProxyModel::setSourceModel(model);
+}
+
+KTextEditor::Document *KateFileTreeProxyModel::docFromIndex(const QModelIndex &index)
+{
+    return data(index, KateFileTreeModel::DocumentRole).value<KTextEditor::Document *>();
+}
+
+QList<KTextEditor::Document *> KateFileTreeProxyModel::docTreeFromIndex(const QModelIndex &index)
+{
+    return data(index, KateFileTreeModel::DocumentTreeRole).value<QList<KTextEditor::Document *>>();
 }
 
 bool KateFileTreeProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
@@ -46,12 +56,13 @@ bool KateFileTreeProxyModel::lessThan(const QModelIndex &left, const QModelIndex
     }
 
     case KateFileTreeModel::PathRole: {
-        const QString left_name = model->data(left, KateFileTreeModel::PathRole).toString();
-        const QString right_name = model->data(right, KateFileTreeModel::PathRole).toString();
-        return collate.compare(left_name, right_name) < 0;
+        const QUrl left_path(model->data(left, KateFileTreeModel::PathRole).toString());
+        const QUrl right_path(model->data(right, KateFileTreeModel::PathRole).toString());
+        return left_path < right_path;
     }
 
     case KateFileTreeModel::OpeningOrderRole:
+    case CustomSorting:
         return (left.row() - right.row()) < 0;
     }
 
@@ -66,4 +77,28 @@ QModelIndex KateFileTreeProxyModel::docIndex(const KTextEditor::Document *doc) c
 bool KateFileTreeProxyModel::isDir(const QModelIndex &index) const
 {
     return static_cast<KateFileTreeModel *>(sourceModel())->isDir(mapToSource(index));
+}
+
+QModelIndex KateFileTreeProxyModel::widgetIndex(QWidget *w) const
+{
+    return mapFromSource(static_cast<KateFileTreeModel *>(sourceModel())->widgetIndex(w));
+}
+
+bool KateFileTreeProxyModel::isWidgetDir(const QModelIndex &i) const
+{
+    return static_cast<KateFileTreeModel *>(sourceModel())->isWidgetDir(mapToSource(i));
+}
+
+bool KateFileTreeProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+    // Child rows accepted as is
+    if (source_parent.isValid()) {
+        return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
+    }
+
+    const auto index = sourceModel()->index(source_row, 0, source_parent);
+    if (static_cast<KateFileTreeModel *>(sourceModel())->isWidgetDir(index)) {
+        return sourceModel()->rowCount(index) > 0;
+    }
+    return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
 }

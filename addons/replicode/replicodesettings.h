@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef REPLICODESETTINGS_H
-#define REPLICODESETTINGS_H
+#pragma once
 
 #include <QObject>
 
@@ -17,7 +16,7 @@ class ReplicodeSettings : public QObject
 public:
     explicit ReplicodeSettings(QObject *parent = nullptr);
     void load();
-    void save();
+    void save() const;
     void setDefaults();
 
     ///////
@@ -79,5 +78,3 @@ public:
     QString modelsPath;
     bool testModels = false;
 };
-
-#endif // REPLICODESETTINGS_H

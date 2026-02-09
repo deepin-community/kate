@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef DATAOUTPUTWIDGET_H
-#define DATAOUTPUTWIDGET_H
+#pragma once
 
 class QTextStream;
 class QVBoxLayout;
@@ -20,7 +19,11 @@ class DataOutputWidget : public QWidget
     Q_OBJECT
 
 public:
-    enum Option { NoOptions = 0x0, ExportColumnNames = 0x1, ExportLineNumbers = 0x2 };
+    enum Option {
+        NoOptions = 0x0,
+        ExportColumnNames = 0x1,
+        ExportLineNumbers = 0x2
+    };
 
     Q_DECLARE_FLAGS(Options, Option)
 
@@ -63,5 +66,3 @@ private:
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(DataOutputWidget::Options)
-
-#endif // DATAOUTPUTWIDGET_H

@@ -1,5 +1,4 @@
-#ifndef KATE_CTAGS_PLUGIN_H
-#define KATE_CTAGS_PLUGIN_H
+#pragma once
 /* Description : Kate CTags plugin
  *
  * SPDX-FileCopyrightText: 2008-2011 Kare Sars <kare.sars@iki.fi>
@@ -21,7 +20,7 @@
  * License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ktexteditor/document.h>
+#include <KTextEditor/Document>
 #include <ktexteditor/view.h>
 
 #include <KTextEditor/ConfigPage>
@@ -38,7 +37,7 @@ class KateCTagsPlugin : public KTextEditor::Plugin
     Q_OBJECT
 
 public:
-    explicit KateCTagsPlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KateCTagsPlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KateCTagsPlugin() override
     {
     }
@@ -60,7 +59,7 @@ class KateCTagsConfigPage : public KTextEditor::ConfigPage
 {
     Q_OBJECT
 public:
-    explicit KateCTagsConfigPage(QWidget *parent = nullptr, KateCTagsPlugin *plugin = nullptr);
+    explicit KateCTagsConfigPage(QWidget *parent = nullptr);
     ~KateCTagsConfigPage() override
     {
     }
@@ -82,11 +81,8 @@ private Q_SLOTS:
     void updateDone(int exitCode, QProcess::ExitStatus status);
 
 private:
-    bool listContains(const QString &target);
+    bool listContains(const QString &target) const;
 
     QProcess m_proc;
-    KateCTagsPlugin *m_plugin;
     Ui_CTagsGlobalConfig m_confUi{};
 };
-
-#endif

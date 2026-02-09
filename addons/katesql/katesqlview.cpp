@@ -8,17 +8,15 @@
 #include "connectionmodel.h"
 #include "connectionwizard.h"
 #include "dataoutputmodel.h"
-#include "dataoutputview.h"
 #include "dataoutputwidget.h"
-#include "katesqlplugin.h"
 #include "outputwidget.h"
 #include "schemabrowserwidget.h"
 #include "schemawidget.h"
 #include "sqlmanager.h"
 #include "textoutputwidget.h"
 
+#include <KTextEditor/Document>
 #include <ktexteditor/application.h>
-#include <ktexteditor/document.h>
 #include <ktexteditor/plugin.h>
 #include <ktexteditor/view.h>
 
@@ -31,11 +29,10 @@
 #include <KXMLGUIFactory>
 #include <QAction>
 
-#include <QApplication>
+#include <QActionGroup>
 #include <QMenu>
 #include <QSqlQuery>
 #include <QString>
-#include <QVBoxLayout>
 #include <QWidgetAction>
 
 KateSQLView::KateSQLView(KTextEditor::Plugin *plugin, KTextEditor::MainWindow *mw)
@@ -43,20 +40,20 @@ KateSQLView::KateSQLView(KTextEditor::Plugin *plugin, KTextEditor::MainWindow *m
     , m_manager(new SQLManager(this))
     , m_mainWindow(mw)
 {
-    KXMLGUIClient::setComponentName(QStringLiteral("katesql"), i18n("Kate SQL Plugin"));
+    KXMLGUIClient::setComponentName(QStringLiteral("katesql"), i18n("SQL"));
     setXMLFile(QStringLiteral("ui.rc"));
 
     m_outputToolView = mw->createToolView(plugin,
                                           QStringLiteral("kate_private_plugin_katesql_output"),
                                           KTextEditor::MainWindow::Bottom,
-                                          QIcon::fromTheme(QStringLiteral("view-form-table")),
-                                          i18nc("@title:window", "SQL Results"));
+                                          QIcon::fromTheme(QStringLiteral("server-database")),
+                                          i18nc("@title:window", "SQL"));
 
     m_schemaBrowserToolView = mw->createToolView(plugin,
                                                  QStringLiteral("kate_private_plugin_katesql_schemabrowser"),
                                                  KTextEditor::MainWindow::Left,
-                                                 QIcon::fromTheme(QStringLiteral("view-list-tree")),
-                                                 i18nc("@title:window", "SQL Schema Browser"));
+                                                 QIcon::fromTheme(QStringLiteral("server-database")),
+                                                 i18nc("@title:window", "SQL Schema"));
 
     m_outputWidget = new KateSQLOutputWidget(m_outputToolView);
 
@@ -83,7 +80,7 @@ KateSQLView::KateSQLView(KTextEditor::Plugin *plugin, KTextEditor::MainWindow *m
     connect(m_manager, &SQLManager::queryActivated, this, &KateSQLView::slotQueryActivated);
     connect(m_manager, &SQLManager::connectionCreated, this, &KateSQLView::slotConnectionCreated);
     connect(m_manager, &SQLManager::connectionAboutToBeClosed, this, &KateSQLView::slotConnectionAboutToBeClosed);
-    connect(m_connectionsComboBox, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, &KateSQLView::slotConnectionChanged);
+    connect(m_connectionsComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KateSQLView::slotConnectionChanged);
 
     stateChanged(QStringLiteral("has_connection_selected"), KXMLGUIClient::StateReverse);
 }
@@ -104,17 +101,17 @@ void KateSQLView::setupActions()
     KActionCollection *collection = actionCollection();
 
     action = collection->addAction(QStringLiteral("connection_create"));
-    action->setText(i18nc("@action:inmenu", "Add connection..."));
+    action->setText(i18nc("@action:inmenu", "Add Connection..."));
     action->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     connect(action, &QAction::triggered, this, &KateSQLView::slotConnectionCreate);
 
     action = collection->addAction(QStringLiteral("connection_remove"));
-    action->setText(i18nc("@action:inmenu", "Remove connection"));
+    action->setText(i18nc("@action:inmenu", "Remove Connection"));
     action->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     connect(action, &QAction::triggered, this, &KateSQLView::slotConnectionRemove);
 
     action = collection->addAction(QStringLiteral("connection_edit"));
-    action->setText(i18nc("@action:inmenu", "Edit connection..."));
+    action->setText(i18nc("@action:inmenu", "Edit Connection..."));
     action->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     connect(action, &QAction::triggered, this, &KateSQLView::slotConnectionEdit);
 
@@ -123,15 +120,14 @@ void KateSQLView::setupActions()
     action->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     connect(action, &QAction::triggered, this, &KateSQLView::slotConnectionReconnect);
 
-    QWidgetAction *wa = new QWidgetAction(this);
+    auto *wa = new QWidgetAction(this);
     collection->addAction(QStringLiteral("connection_chooser"), wa);
     wa->setText(i18nc("@action:intoolbar", "Connection"));
     wa->setDefaultWidget(m_connectionsComboBox);
 
     action = collection->addAction(QStringLiteral("query_run"));
-    action->setText(i18nc("@action:inmenu", "Run query"));
+    action->setText(i18nc("@action:inmenu", "Run Query"));
     action->setIcon(QIcon::fromTheme(QStringLiteral("quickopen")));
-    collection->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_E));
     connect(action, &QAction::triggered, this, &KateSQLView::slotRunQuery);
 
     /// TODO: stop sql query
@@ -147,7 +143,7 @@ void KateSQLView::slotSQLMenuAboutToShow()
     qDeleteAll(m_connectionsGroup->actions());
 
     QMenu *sqlMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("SQL"), this));
-    QAction *before = action("query_run");
+    QAction *before = action(QStringLiteral("query_run"));
     QAbstractItemModel *model = m_manager->connectionModel();
 
     int rows = model->rowCount(QModelIndex());
@@ -159,7 +155,7 @@ void KateSQLView::slotSQLMenuAboutToShow()
 
         QString connectionName = index.data(Qt::DisplayRole).toString();
 
-        QAction *act = new QAction(connectionName, m_connectionsGroup);
+        auto *act = new QAction(connectionName, m_connectionsGroup);
         act->setCheckable(true);
 
         if (m_connectionsComboBox->currentText() == connectionName) {
@@ -177,11 +173,14 @@ void KateSQLView::slotConnectionSelectedFromMenu(QAction *action)
     m_connectionsComboBox->setCurrentItem(action->text());
 }
 
-void KateSQLView::slotConnectionChanged(const QString &connection)
+void KateSQLView::slotConnectionChanged(int index)
 {
-    stateChanged(QStringLiteral("has_connection_selected"), (connection.isEmpty()) ? KXMLGUIClient::StateReverse : KXMLGUIClient::StateNoReverse);
+    if (index >= 0) {
+        const QString connection = m_connectionsComboBox->itemText(index);
+        stateChanged(QStringLiteral("has_connection_selected"), (connection.isEmpty()) ? KXMLGUIClient::StateReverse : KXMLGUIClient::StateNoReverse);
 
-    m_schemaBrowserWidget->schemaWidget()->buildTree(connection);
+        m_schemaBrowserWidget->schemaWidget()->buildTree(connection);
+    }
 }
 
 void KateSQLView::slotGlobalSettingsChanged()
@@ -189,19 +188,9 @@ void KateSQLView::slotGlobalSettingsChanged()
     m_outputWidget->dataOutputWidget()->model()->readConfig();
 }
 
-void KateSQLView::readSessionConfig(KConfigBase *config, const QString &groupPrefix)
+void KateSQLView::readSessionConfig(KConfigGroup const &group)
 {
-    KConfigGroup globalConfig(KSharedConfig::openConfig(), "KateSQLPlugin");
-
-    bool saveConnections = globalConfig.readEntry("SaveConnections", true);
-
-    if (!saveConnections) {
-        return;
-    }
-
-    KConfigGroup group(config, groupPrefix + QLatin1String(":connections"));
-
-    m_manager->loadConnections(&group);
+    m_manager->loadConnections(group);
 
     QString lastConnection = group.readEntry("LastUsed");
 
@@ -210,13 +199,11 @@ void KateSQLView::readSessionConfig(KConfigBase *config, const QString &groupPre
     }
 }
 
-void KateSQLView::writeSessionConfig(KConfigBase *config, const QString &groupPrefix)
+void KateSQLView::writeSessionConfig(KConfigGroup &group)
 {
-    KConfigGroup group(config, groupPrefix + QLatin1String(":connections"));
+    group.deleteGroup(QLatin1String());
 
-    group.deleteGroup();
-
-    KConfigGroup globalConfig(KSharedConfig::openConfig(), "KateSQLPlugin");
+    KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("KateSQLPlugin"));
     bool saveConnections = globalConfig.readEntry("SaveConnections", true);
 
     if (saveConnections) {
@@ -224,8 +211,7 @@ void KateSQLView::writeSessionConfig(KConfigBase *config, const QString &groupPr
 
         group.writeEntry("LastUsed", m_connectionsComboBox->currentText());
     }
-
-    config->sync();
+    group.config()->sync();
 }
 
 void KateSQLView::slotConnectionCreate()
@@ -244,7 +230,7 @@ void KateSQLView::slotConnectionCreate()
 
     m_manager->createConnection(c);
 
-    if (m_manager->storeCredentials(c) != 0) {
+    if (m_manager->storeCredentials(c) != SQLManager::K_WALLET_CONNECTION_SUCCESSFUL) {
         qDebug() << "Connection credentials not saved";
     }
 }
@@ -258,7 +244,7 @@ void KateSQLView::slotConnectionEdit()
     }
 
     ConnectionModel *model = m_manager->connectionModel();
-    Connection c = model->data(model->index(i), Qt::UserRole).value<Connection>();
+    auto c = model->data(model->index(i), Qt::UserRole).value<Connection>();
 
     QString previousName = c.name;
 
@@ -271,7 +257,7 @@ void KateSQLView::slotConnectionEdit()
     m_manager->removeConnection(previousName);
     m_manager->createConnection(c);
 
-    if (m_manager->storeCredentials(c) != 0) {
+    if (m_manager->storeCredentials(c) != SQLManager::K_WALLET_CONNECTION_SUCCESSFUL) {
         qDebug() << "Connection credentials not saved";
     }
 }
@@ -364,3 +350,5 @@ void KateSQLView::slotConnectionCreated(const QString &name)
 }
 
 // END KateSQLView
+
+#include "moc_katesqlview.cpp"

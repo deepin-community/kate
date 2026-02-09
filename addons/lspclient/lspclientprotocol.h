@@ -4,8 +4,7 @@
     SPDX-License-Identifier: MIT
 */
 
-#ifndef LSPCLIENTPROTOCOL_H
-#define LSPCLIENTPROTOCOL_H
+#pragma once
 
 #include <QHash>
 #include <QJsonArray>
@@ -13,13 +12,16 @@
 #include <QList>
 #include <QString>
 #include <QUrl>
-#include <QVector>
 
 #include "lspsemantichighlighting.h"
 #include "semantic_tokens_legend.h"
+#include <diagnostics/diagnostic_types.h>
 
 #include <KTextEditor/Cursor>
 #include <KTextEditor/Range>
+
+#include <memory>
+#include <optional>
 
 // Following types roughly follow the types/interfaces as defined in LSP protocol spec
 // although some deviation may arise where it has been deemed useful
@@ -46,20 +48,34 @@ enum class LSPErrorCode {
 struct LSPResponseError {
     LSPErrorCode code{};
     QString message;
-    QJsonValue data;
+    QByteArray data;
 };
 
-enum class LSPDocumentSyncKind { None = 0, Full = 1, Incremental = 2 };
+enum class LSPDocumentSyncKind {
+    None = 0,
+    Full = 1,
+    Incremental = 2
+};
+
+struct LSPSaveOptions {
+    bool includeText = false;
+};
+
+// only used parts for now
+struct LSPTextDocumentSyncOptions {
+    LSPDocumentSyncKind change = LSPDocumentSyncKind::None;
+    std::optional<LSPSaveOptions> save;
+};
 
 struct LSPCompletionOptions {
     bool provider = false;
     bool resolveProvider = false;
-    QVector<QChar> triggerCharacters;
+    QList<QChar> triggerCharacters;
 };
 
 struct LSPSignatureHelpOptions {
     bool provider = false;
-    QVector<QChar> triggerCharacters;
+    QList<QChar> triggerCharacters;
 };
 
 // ensure distinct type
@@ -72,7 +88,7 @@ struct LSPSemanticTokensOptions {
     bool fullDelta = false;
     bool range = false;
     SemanticTokensLegend legend;
-    //     QVector<QString> types;
+    //     QList<QString> types;
 };
 
 struct LSPWorkspaceFoldersServerCapabilities {
@@ -81,7 +97,7 @@ struct LSPWorkspaceFoldersServerCapabilities {
 };
 
 struct LSPServerCapabilities {
-    LSPDocumentSyncKind textDocumentSync = LSPDocumentSyncKind::None;
+    LSPTextDocumentSyncOptions textDocumentSync;
     bool hoverProvider = false;
     LSPCompletionOptions completionProvider;
     LSPSignatureHelpOptions signatureHelpProvider;
@@ -103,9 +119,15 @@ struct LSPServerCapabilities {
     // workspace caps flattened
     // (other parts not useful/considered at present)
     LSPWorkspaceFoldersServerCapabilities workspaceFolders;
+    bool selectionRangeProvider = false;
+    bool inlayHintProvider = false;
 };
 
-enum class LSPMarkupKind { None = 0, PlainText = 1, MarkDown = 2 };
+enum class LSPMarkupKind {
+    None = 0,
+    PlainText = 1,
+    MarkDown = 2
+};
 
 struct LSPMarkupContent {
     LSPMarkupKind kind = LSPMarkupKind::None;
@@ -126,17 +148,22 @@ using LSPPosition = KTextEditor::Cursor;
  */
 using LSPRange = KTextEditor::Range;
 
-struct LSPLocation {
-    QUrl uri;
-    LSPRange range;
-};
+using LSPLocation = SourceLocation;
+// struct LSPLocation {
+//     QUrl uri;
+//     LSPRange range;
+// };
 
 struct LSPTextDocumentContentChangeEvent {
     LSPRange range;
     QString text;
 };
 
-enum class LSPDocumentHighlightKind { Text = 1, Read = 2, Write = 3 };
+enum class LSPDocumentHighlightKind {
+    Text = 1,
+    Read = 2,
+    Write = 3
+};
 
 struct LSPDocumentHighlight {
     LSPRange range;
@@ -147,7 +174,7 @@ struct LSPHover {
     // vector for contents to support all three variants:
     // MarkedString | MarkedString[] | MarkupContent
     // vector variant is still in use e.g. by Rust rls
-    QVector<LSPMarkupContent> contents;
+    QList<LSPMarkupContent> contents;
     LSPRange range;
 };
 
@@ -200,12 +227,17 @@ struct LSPSymbolInformation {
     LSPRange range;
     double score = 0.0;
     LSPSymbolTag tags;
-    QList<LSPSymbolInformation> children;
+    std::list<LSPSymbolInformation> children;
 };
 
 struct LSPTextEdit {
     LSPRange range;
     QString newText;
+};
+
+struct LSPSelectionRange {
+    LSPRange range;
+    std::shared_ptr<LSPSelectionRange> parent;
 };
 
 enum class LSPCompletionItemKind {
@@ -238,14 +270,18 @@ enum class LSPCompletionItemKind {
 
 struct LSPCompletionItem {
     QString label;
-    LSPCompletionItemKind kind;
+    QString originalLabel; // needed for completionItem/resolve
+    LSPCompletionItemKind kind = LSPCompletionItemKind::Text;
     QString detail;
     LSPMarkupContent documentation;
     QString sortText;
     QString insertText;
-    // Intentionally disabled because doesn't work well
+    QList<LSPTextEdit> additionalTextEdits;
+    // textEdit is unused because doesn't work well
     // with KTE. See: https://invent.kde.org/utilities/kate/-/merge_requests/438
-    //     LSPTextEdit textEdit;
+    // We still read it so that it can be used with completionItem/resolve
+    LSPTextEdit textEdit;
+    QByteArray data;
 };
 
 struct LSPParameterInformation {
@@ -274,35 +310,20 @@ struct LSPFormattingOptions {
     QJsonObject extra;
 };
 
-enum class LSPDiagnosticSeverity {
-    Unknown = 0,
+using LSPDiagnosticSeverity = DiagnosticSeverity;
+
+using LSPDiagnosticRelatedInformation = DiagnosticRelatedInformation;
+
+using LSPDiagnostic = Diagnostic;
+
+using LSPPublishDiagnosticsParams = FileDiagnostics;
+
+enum class LSPMessageType {
     Error = 1,
     Warning = 2,
-    Information = 3,
-    Hint = 4,
+    Info = 3,
+    Log = 4
 };
-
-struct LSPDiagnosticRelatedInformation {
-    // empty url / invalid range when absent
-    LSPLocation location;
-    QString message;
-};
-
-struct LSPDiagnostic {
-    LSPRange range;
-    LSPDiagnosticSeverity severity;
-    QString code;
-    QString source;
-    QString message;
-    QList<LSPDiagnosticRelatedInformation> relatedInformation;
-};
-
-struct LSPPublishDiagnosticsParams {
-    QUrl uri;
-    QList<LSPDiagnostic> diagnostics;
-};
-
-enum class LSPMessageType { Error = 1, Warning = 2, Info = 3, Log = 4 };
 
 struct LSPShowMessageParams {
     LSPMessageType type;
@@ -310,6 +331,34 @@ struct LSPShowMessageParams {
 };
 
 using LSPLogMessageParams = LSPShowMessageParams;
+
+enum class LSPWorkDoneProgressKind {
+    Begin,
+    Report,
+    End
+};
+
+// combines following similar interfaces
+// WorkDoneProgressBegin
+// WorkDoneProgressReport
+// WorkDoneProgressEnd
+struct LSPWorkDoneProgressValue {
+    LSPWorkDoneProgressKind kind;
+    QString title;
+    QString message;
+    bool cancellable;
+    std::optional<unsigned> percentage;
+};
+
+template<typename T>
+struct LSPProgressParams {
+    // number or string
+    QJsonValue token;
+    T value;
+};
+
+// alias convenience
+using LSPWorkDoneProgressParams = LSPProgressParams<LSPWorkDoneProgressValue>;
 
 struct LSPSemanticHighlightingToken {
     quint32 character = 0;
@@ -320,7 +369,7 @@ Q_DECLARE_TYPEINFO(LSPSemanticHighlightingToken, Q_MOVABLE_TYPE);
 
 struct LSPSemanticHighlightingInformation {
     int line = -1;
-    QVector<LSPSemanticHighlightingToken> tokens;
+    QList<LSPSemanticHighlightingToken> tokens;
 };
 
 struct LSPVersionedTextDocumentIdentifier {
@@ -330,19 +379,25 @@ struct LSPVersionedTextDocumentIdentifier {
 
 struct LSPSemanticHighlightingParams {
     LSPVersionedTextDocumentIdentifier textDocument;
-    QVector<LSPSemanticHighlightingInformation> lines;
+    QList<LSPSemanticHighlightingInformation> lines;
 };
 
 struct LSPCommand {
     QString title;
     QString command;
     // pretty opaque
-    QJsonArray arguments;
+    QByteArray arguments;
+};
+
+struct LSPTextDocumentEdit {
+    LSPVersionedTextDocumentIdentifier textDocument;
+    QList<LSPTextEdit> edits;
 };
 
 struct LSPWorkspaceEdit {
     // supported part for now
     QHash<QUrl, QList<LSPTextEdit>> changes;
+    QList<LSPTextDocumentEdit> documentChanges;
 };
 
 struct LSPCodeAction {
@@ -380,4 +435,25 @@ struct LSPSemanticTokensDelta {
     std::vector<uint32_t> data;
 };
 
-#endif
+struct LSPExpandedMacro {
+    QString name;
+    QString expansion;
+};
+
+struct LSPInlayHint {
+    LSPPosition position;
+    QString label;
+    bool paddingLeft = false;
+    bool paddingRight = false;
+    // unused fields atm, not sure if we will need them
+    // enum Kind { Type = 1, Parameter = 2 } kind;
+    // QString tooltip;
+
+    // kate specific
+    int width = 0; ///> Used to cache width
+};
+
+struct LSPMessageRequestAction {
+    QString title;
+    std::function<void()> choose;
+};

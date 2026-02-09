@@ -15,20 +15,18 @@
 #include <ktexteditor/application.h>
 #include <ktexteditor/view.h>
 
-#include <KAboutData>
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KToolBar>
 #include <KXMLGUIFactory>
 #include <KXmlGuiWindow>
 
 #include <QAction>
-#include <QApplication>
+#include <QLayout>
 #include <QLineEdit>
 #include <QStyle>
-#include <QTimer>
+#include <QToolBar>
 
 #include "katefiletreedebug.h"
 
@@ -39,7 +37,7 @@ K_PLUGIN_FACTORY_WITH_JSON(KateFileTreeFactory, "katefiletreeplugin.json", regis
 Q_LOGGING_CATEGORY(FILETREE, "kate-filetree", QtWarningMsg)
 
 // BEGIN KateFileTreePlugin
-KateFileTreePlugin::KateFileTreePlugin(QObject *parent, const QList<QVariant> &)
+KateFileTreePlugin::KateFileTreePlugin(QObject *parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
 {
 }
@@ -51,10 +49,8 @@ KateFileTreePlugin::~KateFileTreePlugin()
 
 QObject *KateFileTreePlugin::createView(KTextEditor::MainWindow *mainWindow)
 {
-    KateFileTreePluginView *view = new KateFileTreePluginView(mainWindow, this);
-    connect(view, &KateFileTreePluginView::destroyed, this, &KateFileTreePlugin::viewDestroyed);
+    auto view = new KateFileTreePluginView(mainWindow, this);
     m_views.append(view);
-
     return view;
 }
 
@@ -75,7 +71,7 @@ KTextEditor::ConfigPage *KateFileTreePlugin::configPage(int number, QWidget *par
         return nullptr;
     }
 
-    KateFileTreeConfigPage *page = new KateFileTreeConfigPage(parent, this);
+    auto *page = new KateFileTreeConfigPage(parent, this);
     return page;
 }
 
@@ -91,7 +87,8 @@ void KateFileTreePlugin::applyConfig(bool shadingEnabled,
                                      int sortRole,
                                      bool showFullPath,
                                      bool showToolbar,
-                                     bool showCloseButton)
+                                     bool showCloseButton,
+                                     bool middleClickToClose)
 {
     // save to settings
     m_settings.setShadingEnabled(shadingEnabled);
@@ -103,19 +100,22 @@ void KateFileTreePlugin::applyConfig(bool shadingEnabled,
     m_settings.setShowFullPathOnRoots(showFullPath);
     m_settings.setShowToolbar(showToolbar);
     m_settings.setShowCloseButton(showCloseButton);
+    m_settings.middleClickToClose = middleClickToClose;
     m_settings.save();
 
     // update views
-    for (KateFileTreePluginView *view : qAsConst(m_views)) {
+    for (KateFileTreePluginView *view : std::as_const(m_views)) {
         view->setHasLocalPrefs(false);
         view->model()->setShadingEnabled(shadingEnabled);
         view->model()->setViewShade(viewShade);
         view->model()->setEditShade(editShade);
         view->setListMode(listMode);
         view->proxy()->setSortRole(sortRole);
+        view->tree()->setDragDropMode(sortRole == CustomSorting ? QAbstractItemView::InternalMove : QAbstractItemView::DragOnly);
         view->model()->setShowFullPathOnRoots(showFullPath);
         view->setToolbarVisible(showToolbar);
         view->tree()->setShowCloseButton(showCloseButton);
+        view->tree()->setMiddleClickToClose(middleClickToClose);
     }
 }
 
@@ -127,20 +127,21 @@ KateFileTreePluginView::KateFileTreePluginView(KTextEditor::MainWindow *mainWind
     , m_plug(plug)
     , m_mainWindow(mainWindow)
 {
-    KXMLGUIClient::setComponentName(QStringLiteral("katefiletree"), i18n("Kate File Tree"));
+    KXMLGUIClient::setComponentName(QStringLiteral("katefiletree"), i18n("Documents"));
     setXMLFile(QStringLiteral("ui.rc"));
 
     m_toolView = mainWindow->createToolView(plug,
                                             QStringLiteral("kate_private_plugin_katefiletreeplugin"),
                                             KTextEditor::MainWindow::Left,
-                                            QIcon::fromTheme(QStringLiteral("document-open")),
+                                            QIcon::fromTheme(QStringLiteral("folder-documents-symbolic")),
                                             i18n("Documents"));
 
     // create toolbar
-    m_toolbar = new KToolBar(m_toolView);
+    m_toolbar = new QToolBar(m_toolView);
     m_toolbar->setMovable(false);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_toolbar->setContextMenuPolicy(Qt::NoContextMenu);
+    m_toolbar->layout()->setContentsMargins(0, 0, 0, 0);
 
     // ensure reasonable icons sizes, like e.g. the quick-open and co. icons
     // the normal toolbar sizes are TOO large, e.g. for scaled stuff even more!
@@ -148,15 +149,17 @@ KateFileTreePluginView::KateFileTreePluginView(KTextEditor::MainWindow *mainWind
     m_toolbar->setIconSize(QSize(iconSize, iconSize));
 
     // create filetree
-    m_fileTree = new KateFileTree(m_toolView);
+    m_fileTree = new KateFileTree(m_mainWindow, m_toolView);
     m_fileTree->setSortingEnabled(true);
     m_fileTree->setShowCloseButton(m_plug->settings().showCloseButton());
+    m_fileTree->setMiddleClickToClose(m_plug->settings().middleClickToClose);
+    m_fileTree->setProperty("_breeze_borders_sides", QVariant::fromValue(QFlags{Qt::TopEdge}));
 
     connect(m_fileTree, &KateFileTree::activateDocument, this, &KateFileTreePluginView::activateDocument);
     connect(m_fileTree, &KateFileTree::viewModeChanged, this, &KateFileTreePluginView::viewModeChanged);
     connect(m_fileTree, &KateFileTree::sortRoleChanged, this, &KateFileTreePluginView::sortRoleChanged);
 
-    m_documentModel = new KateFileTreeModel(this);
+    m_documentModel = new KateFileTreeModel(m_mainWindow, this);
     m_proxyModel = new KateFileTreeProxyModel(this);
     m_proxyModel->setSourceModel(m_documentModel);
     m_proxyModel->setDynamicSortFilter(true);
@@ -168,8 +171,9 @@ KateFileTreePluginView::KateFileTreePluginView(KTextEditor::MainWindow *mainWind
     m_documentModel->setEditShade(m_plug->settings().editShade());
 
     m_filter = new QLineEdit(m_toolView);
-    m_filter->setPlaceholderText(QStringLiteral("Filter..."));
+    m_filter->setPlaceholderText(i18n("Filter…"));
     m_filter->setClearButtonEnabled(true);
+    m_filter->setProperty("_breeze_borders_sides", QVariant::fromValue(QFlags{Qt::TopEdge}));
     connect(m_filter, &QLineEdit::textChanged, this, [this](const QString &text) {
         m_proxyModel->setFilterRegularExpression(QRegularExpression(text, QRegularExpression::CaseInsensitiveOption));
         if (!text.isEmpty()) {
@@ -189,21 +193,30 @@ KateFileTreePluginView::KateFileTreePluginView(KTextEditor::MainWindow *mainWind
     m_documentsCreatedTimer.setInterval(0);
     connect(&m_documentsCreatedTimer, &QTimer::timeout, this, &KateFileTreePluginView::slotDocumentsCreated);
 
-    connect(m_documentModel, &KateFileTreeModel::triggerViewChangeAfterNameChange, [=] {
-        KateFileTreePluginView::viewChanged();
+    m_proxyInvalidateTimer.setSingleShot(true);
+    m_proxyInvalidateTimer.setInterval(10);
+    m_proxyInvalidateTimer.callOnTimeout(proxy(), &QSortFilterProxyModel::invalidate);
+
+    connect(m_documentModel, &KateFileTreeModel::triggerViewChangeAfterNameChange, this, [this] {
+        viewChanged();
     });
 
     m_fileTree->setModel(m_proxyModel);
-
-    m_fileTree->setDragEnabled(false);
-    m_fileTree->setDragDropMode(QAbstractItemView::InternalMove);
-    m_fileTree->setDropIndicatorShown(false);
-
     m_fileTree->setSelectionMode(QAbstractItemView::SingleSelection);
 
     connect(m_fileTree->selectionModel(), &QItemSelectionModel::currentChanged, m_fileTree, &KateFileTree::slotCurrentChanged);
 
     connect(mainWindow, &KTextEditor::MainWindow::viewChanged, this, &KateFileTreePluginView::viewChanged);
+
+    connect(mainWindow, &KTextEditor::MainWindow::widgetAdded, this, &KateFileTreePluginView::slotWidgetCreated);
+    connect(mainWindow, &KTextEditor::MainWindow::widgetRemoved, this, &KateFileTreePluginView::slotWidgetRemoved);
+
+    connect(m_fileTree, &KateFileTree::closeWidget, this, [this](QWidget *w) {
+        m_mainWindow->removeWidget(w);
+    });
+    connect(m_fileTree, &KateFileTree::activateWidget, this, [this](QWidget *w) {
+        m_mainWindow->activateWidget(w);
+    });
 
     //
     // actions
@@ -215,6 +228,7 @@ KateFileTreePluginView::KateFileTreePluginView(KTextEditor::MainWindow *mainWind
     setToolbarVisible(m_plug->settings().showToolbar());
 
     m_proxyModel->setSortRole(Qt::DisplayRole);
+    m_fileTree->setDragDropMode(QAbstractItemView::DragOnly);
 
     m_proxyModel->sort(0, Qt::AscendingOrder);
     m_proxyModel->invalidate();
@@ -222,10 +236,12 @@ KateFileTreePluginView::KateFileTreePluginView(KTextEditor::MainWindow *mainWind
 
 KateFileTreePluginView::~KateFileTreePluginView()
 {
+    m_plug->viewDestroyed(this);
+
     m_mainWindow->guiFactory()->removeClient(this);
 
     // clean up tree and toolview
-    delete m_fileTree->parentWidget();
+    delete m_fileTree->parent();
     // delete m_toolView;
     // and TreeModel
     delete m_documentModel;
@@ -236,40 +252,42 @@ void KateFileTreePluginView::setupActions()
     auto aPrev = actionCollection()->addAction(QStringLiteral("filetree_prev_document"));
     aPrev->setText(i18n("Previous Document"));
     aPrev->setIcon(QIcon::fromTheme(QStringLiteral("go-up")));
-    actionCollection()->setDefaultShortcut(aPrev, Qt::ALT | Qt::Key_Up);
+    KActionCollection::setDefaultShortcut(aPrev, Qt::ALT | Qt::Key_Up);
     connect(aPrev, &QAction::triggered, m_fileTree, &KateFileTree::slotDocumentPrev);
 
     auto aNext = actionCollection()->addAction(QStringLiteral("filetree_next_document"));
     aNext->setText(i18n("Next Document"));
     aNext->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
-    actionCollection()->setDefaultShortcut(aNext, Qt::ALT | Qt::Key_Down);
+    KActionCollection::setDefaultShortcut(aNext, Qt::ALT | Qt::Key_Down);
     connect(aNext, &QAction::triggered, m_fileTree, &KateFileTree::slotDocumentNext);
 
     auto aShowActive = actionCollection()->addAction(QStringLiteral("filetree_show_active_document"));
-    aShowActive->setText(i18n("&Show Active"));
+    aShowActive->setText(i18n("&Show Active Document"));
     aShowActive->setIcon(QIcon::fromTheme(QStringLiteral("folder-sync")));
     connect(aShowActive, &QAction::triggered, this, &KateFileTreePluginView::showActiveDocument);
 
-    auto aSave = actionCollection()->addAction(QStringLiteral("filetree_save"), this, SLOT(slotDocumentSave()));
-    aSave->setText(i18n("Save Current Document"));
+    auto aSave = actionCollection()->addAction(QStringLiteral("filetree_save"));
+    connect(aSave, &QAction::triggered, this, &KateFileTreePluginView::slotDocumentSave);
+    aSave->setText(i18n("Save"));
     aSave->setToolTip(i18n("Save the current document"));
     aSave->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
 
-    auto aSaveAs = actionCollection()->addAction(QStringLiteral("filetree_save_as"), this, SLOT(slotDocumentSaveAs()));
-    aSaveAs->setText(i18n("Save Current Document As"));
-    aSaveAs->setToolTip(i18n("Save current document under new name"));
+    auto aSaveAs = actionCollection()->addAction(QStringLiteral("filetree_save_as"));
+    connect(aSaveAs, &QAction::triggered, this, &KateFileTreePluginView::slotDocumentSaveAs);
+    aSaveAs->setText(i18n("Save As"));
+    aSaveAs->setToolTip(i18n("Save the current document under a new name"));
     aSaveAs->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
 
     /**
      * add new & open, if hosting application has it
      */
-    if (KXmlGuiWindow *parentClient = qobject_cast<KXmlGuiWindow *>(m_mainWindow->window())) {
+    if (auto *parentClient = qobject_cast<KXmlGuiWindow *>(m_mainWindow->window())) {
         bool newOrOpen = false;
-        if (auto a = parentClient->action("file_new")) {
+        if (auto a = parentClient->action(QStringLiteral("file_new"))) {
             m_toolbar->addAction(a);
             newOrOpen = true;
         }
-        if (auto a = parentClient->action("file_open")) {
+        if (auto a = parentClient->action(QStringLiteral("file_open"))) {
             m_toolbar->addAction(a);
             newOrOpen = true;
         }
@@ -281,11 +299,12 @@ void KateFileTreePluginView::setupActions()
     /**
      * add own actions
      */
-    m_toolbar->addAction(aPrev);
-    m_toolbar->addAction(aNext);
-    m_toolbar->addSeparator();
     m_toolbar->addAction(aSave);
     m_toolbar->addAction(aSaveAs);
+    m_toolbar->addSeparator();
+    m_toolbar->addAction(aPrev);
+    m_toolbar->addAction(aNext);
+    m_toolbar->addAction(aShowActive);
 }
 
 KateFileTreeModel *KateFileTreePluginView::model() const
@@ -313,7 +332,7 @@ void KateFileTreePluginView::documentOpened(KTextEditor::Document *doc)
 void KateFileTreePluginView::documentClosed(KTextEditor::Document *doc)
 {
     m_documentsCreated.removeAll(doc);
-    m_proxyModel->invalidate();
+    m_proxyInvalidateTimer.start();
 }
 
 void KateFileTreePluginView::setToolbarVisible(bool visible)
@@ -323,16 +342,20 @@ void KateFileTreePluginView::setToolbarVisible(bool visible)
 
 void KateFileTreePluginView::viewChanged(KTextEditor::View *)
 {
-    KTextEditor::View *view = m_mainWindow->activeView();
-    if (!view) {
+    QWidget *activeWidget = m_mainWindow->activeWidget();
+    if (!activeWidget) {
         return;
     }
 
-    KTextEditor::Document *doc = view->document();
-    QModelIndex index = m_proxyModel->docIndex(doc);
-
-    // update the model on which doc is active
-    m_documentModel->documentActivated(doc);
+    QModelIndex index;
+    if (auto view = qobject_cast<KTextEditor::View *>(activeWidget)) {
+        KTextEditor::Document *doc = view->document();
+        index = m_proxyModel->docIndex(doc);
+        // update the model on which doc is active
+        m_documentModel->documentActivated(doc);
+    } else {
+        index = m_proxyModel->widgetIndex(activeWidget);
+    }
 
     m_fileTree->selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
@@ -369,6 +392,7 @@ void KateFileTreePluginView::sortRoleChanged(int role)
     setHasLocalPrefs(true);
     m_proxyModel->setSortRole(role);
     m_proxyModel->invalidate();
+    m_fileTree->setDragDropMode(role == CustomSorting ? QAbstractItemView::InternalMove : QAbstractItemView::DragOnly);
 }
 
 void KateFileTreePluginView::activateDocument(KTextEditor::Document *doc)
@@ -423,6 +447,7 @@ void KateFileTreePluginView::readSessionConfig(const KConfigGroup &g)
 
     int sortRole = g.readEntry("sortRole", defaults.sortRole());
     m_proxyModel->setSortRole(sortRole);
+    m_fileTree->setDragDropMode(sortRole == CustomSorting ? QAbstractItemView::InternalMove : QAbstractItemView::DragOnly);
 }
 
 void KateFileTreePluginView::writeSessionConfig(KConfigGroup &g)
@@ -458,6 +483,16 @@ void KateFileTreePluginView::slotDocumentSaveAs() const
     if (auto view = m_mainWindow->activeView()) {
         view->document()->documentSaveAs();
     }
+}
+
+void KateFileTreePluginView::slotWidgetCreated(QWidget *w)
+{
+    m_documentModel->addWidget(w);
+}
+
+void KateFileTreePluginView::slotWidgetRemoved(QWidget *w)
+{
+    m_documentModel->removeWidget(w);
 }
 
 // END KateFileTreePluginView

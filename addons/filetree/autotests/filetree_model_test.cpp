@@ -8,7 +8,9 @@
 
 #include "document_dummy.h"
 
+#include <QAbstractItemModelTester>
 #include <QTest>
+
 QTEST_MAIN(FileTreeModelTest)
 
 // BEGIN ResultNode
@@ -16,12 +18,8 @@ class ResultNode
 {
 public:
     ResultNode() = default; // root node
-    ResultNode(const ResultNode &other)
-        : name(other.name)
-        , dir(other.dir)
-        , children(other.children)
-    {
-    }
+    ResultNode(const ResultNode &other) = default;
+    ResultNode &operator=(const ResultNode &other) = default;
     ResultNode(const char *_name, const bool _dir = false)
         : ResultNode(QString::fromLatin1(_name), _dir)
     {
@@ -98,21 +96,13 @@ public:
 
 Q_DECLARE_METATYPE(ResultNode)
 
+static const ResultNode openWidgetsNode("Open Widgets", false);
+
 namespace QTest
 {
-inline bool qCompare(const ResultNode &t1, const ResultNode &t2, const char *actual, const char *expected, const char *file, int line)
+inline static bool qCompare(const ResultNode &t1, const ResultNode &t2, const char *actual, const char *expected, const char *file, int line)
 {
-    /* compare_helper is not helping that much, we need to prepare copy of data */
-    const QByteArray a = t1.toString().toLatin1();
-    const QByteArray b = t2.toString().toLatin1();
-
-    char *val1 = new char[a.size() + 1];
-    char *val2 = new char[b.size() + 1];
-
-    memcpy(val1, a.constData(), a.size() + 1);
-    memcpy(val2, b.constData(), b.size() + 1);
-
-    return compare_helper(t1 == t2, "Compared ResultNode trees are not the same", val1, val2, actual, expected, file, line);
+    return compare_helper(t1 == t2, "Compared ResultNode trees are not the same", actual, expected, file, line);
 }
 }
 // END ResultNode
@@ -135,17 +125,18 @@ void FileTreeModelTest::cleanup()
 
 void FileTreeModelTest::basic()
 {
-    QScopedPointer<DummyDocument> d1(new DummyDocument());
-    QScopedPointer<DummyDocument> d2(new DummyDocument());
+    DummyDocument d1;
+    DummyDocument d2;
 
-    KateFileTreeModel m(this);
-    QCOMPARE(m.rowCount(QModelIndex()), 0);
-
-    m.documentOpened(d1.data());
+    KateFileTreeModel m(nullptr, this);
+    // 1 because, there is always a "open widgets" node
     QCOMPARE(m.rowCount(QModelIndex()), 1);
 
-    m.documentOpened(d2.data());
+    m.documentOpened(&d1);
     QCOMPARE(m.rowCount(QModelIndex()), 2);
+
+    m.documentOpened(&d2);
+    QCOMPARE(m.rowCount(QModelIndex()), 3);
 }
 
 void FileTreeModelTest::buildTree_data()
@@ -236,7 +227,8 @@ void FileTreeModelTest::buildTree_data()
 
 void FileTreeModelTest::buildTree()
 {
-    KateFileTreeModel m(this);
+    KateFileTreeModel m(nullptr, this);
+    QAbstractItemModelTester tester(&m, this);
     QFETCH(const QList<DummyDocument *>, documents);
     QFETCH(ResultNode, nodes);
 
@@ -259,7 +251,8 @@ void FileTreeModelTest::buildTreeBatch_data()
 
 void FileTreeModelTest::buildTreeBatch()
 {
-    KateFileTreeModel m(this);
+    KateFileTreeModel m(nullptr, this);
+    QAbstractItemModelTester tester(&m, this);
     QFETCH(const QList<DummyDocument *>, documents);
     QFETCH(ResultNode, nodes);
 
@@ -295,7 +288,8 @@ void FileTreeModelTest::buildTreeBatchPrefill_data()
 
 void FileTreeModelTest::buildTreeBatchPrefill()
 {
-    KateFileTreeModel m(this);
+    KateFileTreeModel m(nullptr, this);
+    QAbstractItemModelTester tester(&m, this);
     QFETCH(const QList<DummyDocument *>, prefill);
     QFETCH(const QList<DummyDocument *>, documents);
     QFETCH(ResultNode, nodes);
@@ -333,6 +327,7 @@ void FileTreeModelTest::walkTree(KateFileTreeModel &model, const QModelIndex &ro
         walkTree(model, idx, node);
         rootNode << node;
     }
+    rootNode.children.removeAll(openWidgetsNode);
 }
 
 void FileTreeModelTest::buildTreeFullPath_data()
@@ -397,7 +392,8 @@ void FileTreeModelTest::buildTreeFullPath_data()
 
 void FileTreeModelTest::buildTreeFullPath()
 {
-    KateFileTreeModel m(this);
+    KateFileTreeModel m(nullptr, this);
+    QAbstractItemModelTester tester(&m, this);
     m.setShowFullPathOnRoots(true);
 
     QFETCH(const QList<DummyDocument *>, documents);
@@ -435,7 +431,8 @@ void FileTreeModelTest::listMode_data()
 
 void FileTreeModelTest::listMode()
 {
-    KateFileTreeModel m(this);
+    KateFileTreeModel m(nullptr, this);
+    QAbstractItemModelTester tester(&m, this);
     m.setListMode(true);
 
     QFETCH(const QList<DummyDocument *>, documents);
@@ -497,7 +494,8 @@ void FileTreeModelTest::deleteDocument_data()
 
 void FileTreeModelTest::deleteDocument()
 {
-    KateFileTreeModel m(this);
+    KateFileTreeModel m(nullptr, this);
+    QAbstractItemModelTester tester(&m, this);
     QFETCH(const QList<DummyDocument *>, documents);
     QFETCH(const QList<int>, remove);
     QFETCH(ResultNode, nodes);
@@ -535,7 +533,8 @@ void FileTreeModelTest::deleteDocumentBatch_data()
 
 void FileTreeModelTest::deleteDocumentBatch()
 {
-    KateFileTreeModel m(this);
+    KateFileTreeModel m(nullptr, this);
+    QAbstractItemModelTester tester(&m, this);
     QFETCH(const QList<DummyDocument *>, documents);
     QFETCH(const QList<int>, remove);
     QFETCH(const QList<int>, fail);
@@ -578,7 +577,8 @@ void FileTreeModelTest::rename_data()
 
 void FileTreeModelTest::rename()
 {
-    KateFileTreeModel m(this);
+    KateFileTreeModel m(nullptr, this);
+    QAbstractItemModelTester tester(&m, this);
     QFETCH(const QList<DummyDocument *>, documents);
     QFETCH(int, rename_idx);
     QFETCH(QString, rename_url);
@@ -598,4 +598,4 @@ void FileTreeModelTest::rename()
     qDeleteAll(documents);
 }
 
-// kate: space-indent on; indent-width 2; replace-tabs on;
+#include "moc_filetree_model_test.cpp"

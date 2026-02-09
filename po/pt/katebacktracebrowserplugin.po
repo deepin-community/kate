@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: katebacktracebrowserplugin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
+"POT-Creation-Date: 2023-07-08 01:19+0000\n"
 "PO-Revision-Date: 2017-03-14 18:00+0000\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-pt@kde.org>\n"
@@ -12,16 +12,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-POFile-SpellExtra: pre space kdelibs cpp wrap white codigo\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "José Nuno Pires"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "zepires@gmail.com"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, lstBacktrace)
 #: btbrowserwidget.ui:27
@@ -150,52 +140,58 @@ msgstr "Lista de extensões de ficheiros. Exemplo: *.cpp, *.h, *.c, etc..."
 msgid "Indexing files..."
 msgstr "A indexar os ficheiros..."
 
-#: katebacktracebrowser.cpp:117
-#, kde-format
-msgid "Backtrace Browser"
-msgstr "Gestor de Estoiros"
-
-#: katebacktracebrowser.cpp:151
-#, kde-format
-msgid "Load Backtrace"
-msgstr "Carregar um Estoiro"
-
-#: katebacktracebrowser.cpp:193
-#, kde-format
-msgid "Loading backtrace succeeded"
-msgstr "O carregamento do estoiro foi bem-sucedido"
-
-#: katebacktracebrowser.cpp:195
-#, kde-format
-msgid "Loading backtrace failed"
-msgstr "O carregamento do estoiro foi mal-sucedido"
-
-#: katebacktracebrowser.cpp:229
-#, kde-format
-msgid "File not found: %1"
-msgstr "O ficheiro não foi encontrado: %1"
-
-#: katebacktracebrowser.cpp:240
-#, kde-format
-msgid "Opened file: %1"
-msgstr "Abriu-se o ficheiro: %1"
-
-#: katebacktracebrowser.cpp:243
-#, kde-format
-msgid "No debugging information available"
-msgstr "Não existe nenhuma informação de depuração disponível"
-
-#: katebacktracebrowser.cpp:280
+#: katebacktracebrowser.cpp:116 katebacktracebrowser.cpp:279
 #, kde-format
 msgid "Backtrace"
 msgstr "Registo de Chamadas"
 
-#: katebacktracebrowser.cpp:285
+#: katebacktracebrowser.cpp:150
+#, kde-format
+msgid "Load Backtrace"
+msgstr "Carregar um Estoiro"
+
+#: katebacktracebrowser.cpp:192
+#, kde-format
+msgid "Loading backtrace succeeded"
+msgstr "O carregamento do estoiro foi bem-sucedido"
+
+#: katebacktracebrowser.cpp:194
+#, kde-format
+msgid "Loading backtrace failed"
+msgstr "O carregamento do estoiro foi mal-sucedido"
+
+#: katebacktracebrowser.cpp:228
+#, kde-format
+msgid "File not found: %1"
+msgstr "O ficheiro não foi encontrado: %1"
+
+#: katebacktracebrowser.cpp:239
+#, kde-format
+msgid "Opened file: %1"
+msgstr "Abriu-se o ficheiro: %1"
+
+#: katebacktracebrowser.cpp:242
+#, kde-format
+msgid "No debugging information available"
+msgstr "Não existe nenhuma informação de depuração disponível"
+
+#: katebacktracebrowser.cpp:284
 #, kde-format
 msgid "Backtrace Settings"
 msgstr "Configuração do Registo de Chamadas"
 
-#: katebacktracebrowser.cpp:363
+#: katebacktracebrowser.cpp:358
 #, kde-format
 msgid "Backtrace Browser Settings"
 msgstr "Configuração do Gestor de Estoiros"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "José Nuno Pires"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "zepires@gmail.com"
+
+#~ msgid "Backtrace Browser"
+#~ msgstr "Gestor de Estoiros"

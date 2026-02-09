@@ -6,18 +6,15 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KATE_COLORPICKER_CONFIGPAGE_H
-#define KATE_COLORPICKER_CONFIGPAGE_H
+#pragma once
 
 #include "katecolorpickerplugin.h"
 #include <KTextEditor/ConfigPage>
 
 #include <QCheckBox>
-#include <QMap>
 
 class KateColorPickerConfigPage : public KTextEditor::ConfigPage
 {
-    Q_OBJECT
 public:
     explicit KateColorPickerConfigPage(QWidget *parent = nullptr, KateColorPickerPlugin *plugin = nullptr);
     ~KateColorPickerConfigPage() override
@@ -37,9 +34,7 @@ public:
 private:
     QCheckBox *chkNamedColors;
     QCheckBox *chkPreviewAfterColor;
-    QMap<int, QCheckBox *> chkHexLengths;
+    std::map<int, QCheckBox *> chkHexLengths;
     KateColorPickerPlugin *m_plugin;
     bool m_colorConfigChanged = false;
 };
-
-#endif // KATE_COLORPICKER_H

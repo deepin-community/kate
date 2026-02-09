@@ -10,11 +10,10 @@
 #include "snippetcompletionitem.h"
 
 #include <KLocalizedString>
+#include <KTextEditor/Document>
 #include <QModelIndex>
 #include <QTextEdit>
-#include <ktexteditor/document.h>
 
-#include <ktexteditor/codecompletioninterface.h>
 #include <ktexteditor/codecompletionmodel.h>
 #include <ktexteditor/view.h>
 
@@ -60,7 +59,7 @@ QVariant SnippetCompletionItem::data(const QModelIndex &index, int role, const K
     case KTextEditor::CodeCompletionModel::IsExpandable:
         return QVariant(true);
     case KTextEditor::CodeCompletionModel::ExpandingWidget: {
-        QTextEdit *textEdit = new QTextEdit();
+        auto *textEdit = new QTextEdit();
         /// TODO: somehow make it possible to scroll like in other expanding widgets
         // don't make it too large, only show a few lines
         textEdit->resize(textEdit->width(), 100);
@@ -80,6 +79,6 @@ QVariant SnippetCompletionItem::data(const QModelIndex &index, int role, const K
 void SnippetCompletionItem::execute(KTextEditor::View *view, const KTextEditor::Range &word)
 {
     // insert snippet content
-    view->insertTemplate(view->cursorPosition(), m_snippet, m_repo->script());
     view->document()->removeText(word);
+    view->insertTemplate(view->cursorPosition(), m_snippet, m_repo->script());
 }

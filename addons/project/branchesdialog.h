@@ -3,11 +3,9 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef BRANCHES_DIALOG_H
-#define BRANCHES_DIALOG_H
+#pragma once
 
 #include <QFutureWatcher>
-#include <QMenu>
 
 #include "git/gitutils.h"
 #include "quickdialog.h"
@@ -25,33 +23,17 @@ namespace KTextEditor
 class MainWindow;
 }
 
-class BranchesDialog : public QuickDialog
+class BranchesDialog : public HUDDialog
 {
-    Q_OBJECT
 public:
-    BranchesDialog(QWidget *window, KateProjectPluginView *pluginView, QString projectPath);
+    BranchesDialog(QWidget *window, QString projectPath);
     void openDialog(GitUtils::RefType r);
     void sendMessage(const QString &message, bool warn);
-    QString branch() const
-    {
-        return m_branch;
-    }
-
-Q_SIGNALS:
-    void branchSelected(const QString &branch);
-
-private Q_SLOTS:
-    void slotReturnPressed() override;
-    void reselectFirst();
 
 protected:
-    BranchesDialogModel *m_model;
-    QSortFilterProxyModel *m_proxyModel;
+    BranchesDialogModel *const m_model;
     QString m_projectPath;
 
 private:
-    KateProjectPluginView *m_pluginView;
     QString m_branch;
 };
-
-#endif

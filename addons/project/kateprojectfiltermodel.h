@@ -6,13 +6,11 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATEPROJECTFILTERMODEL_H
-#define KATEPROJECTFILTERMODEL_H
+#pragma once
 
-#include <QDebug>
 #include <QSortFilterProxyModel>
 
-#include <kfts_fuzzy_match.h>
+#include <KFuzzyMatcher>
 
 class KateProjectFilterProxyModel : public QSortFilterProxyModel
 {
@@ -35,13 +33,19 @@ protected:
             return true;
         }
 
-        int score = 0; // unused intentionally
-        QString file = sourceModel()->index(sourceRow, 0, sourceParent).data().toString();
-        return kfts::fuzzy_match(m_pattern, file, score);
+        // If index is invalid(root index), return true
+        // The rowCount(invalidIndex) can be same as model->rowCount() and when
+        // we are recursively filtering, we get stuck on this index i.e.,
+        // trying to check its children again and again recursively.
+        auto index = sourceModel()->index(sourceRow, 0, sourceParent);
+        if (!index.isValid()) {
+            return true;
+        }
+
+        const QString file = index.data().toString();
+        return KFuzzyMatcher::matchSimple(m_pattern, file);
     }
 
 private:
     QString m_pattern;
 };
-
-#endif // KATEPROJECTFILTERMODEL_H

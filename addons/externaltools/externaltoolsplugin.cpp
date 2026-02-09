@@ -16,11 +16,11 @@
 #include <KLocalizedString>
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
+#include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
 #include <QAction>
 #include <kparts/part.h>
 
-#include <KAboutData>
 #include <KAuthorized>
 #include <KConfig>
 #include <KConfigGroup>
@@ -30,29 +30,41 @@
 #include <QClipboard>
 #include <QGuiApplication>
 
-static QVector<KateExternalTool> readDefaultTools()
-{
-    QVector<KateExternalTool> tools;
-    KConfig systemConfig(QStringLiteral("defaultexternaltoolsrc"));
-    KConfigGroup config(&systemConfig, "Global");
-    const int toolCount = config.readEntry("tools", 0);
-    for (int i = 0; i < toolCount; ++i) {
-        config = KConfigGroup(&systemConfig, QStringLiteral("Tool %1").arg(i));
+#include <ktexteditor_utils.h>
 
-        KateExternalTool t;
-        t.load(config);
-        tools.push_back(t);
+static QString toolsConfigDir()
+{
+    static const QString dir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String("/kate/externaltools/");
+    return dir;
+}
+
+static QList<KateExternalTool> readDefaultTools()
+{
+    QDir dir(QStringLiteral(":/kconfig/externaltools-config/"));
+    const QStringList entries = dir.entryList(QDir::NoDotAndDotDot | QDir::Files);
+
+    QList<KateExternalTool> tools;
+    for (const auto &file : entries) {
+        KConfig config(dir.absoluteFilePath(file));
+        KConfigGroup cg = config.group(QStringLiteral("General"));
+
+        KateExternalTool tool;
+        tool.load(cg);
+        tools.push_back(tool);
     }
+
     return tools;
 }
 
 K_PLUGIN_FACTORY_WITH_JSON(KateExternalToolsFactory, "externaltoolsplugin.json", registerPlugin<KateExternalToolsPlugin>();)
 
-KateExternalToolsPlugin::KateExternalToolsPlugin(QObject *parent, const QList<QVariant> &)
+KateExternalToolsPlugin::KateExternalToolsPlugin(QObject *parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
 {
-    // read built-in external tools from compiled-in resource file
-    m_defaultTools = readDefaultTools();
+    m_config = KSharedConfig::openConfig(QStringLiteral("kate-externaltoolspluginrc"), KConfig::NoGlobals, QStandardPaths::GenericConfigLocation);
+    QDir().mkdir(toolsConfigDir());
+
+    migrateConfig();
 
     // load config from disk
     reload();
@@ -63,9 +75,38 @@ KateExternalToolsPlugin::~KateExternalToolsPlugin()
     clearTools();
 }
 
+void KateExternalToolsPlugin::migrateConfig()
+{
+    const QString oldFile = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("externaltools"));
+
+    if (!oldFile.isEmpty()) {
+        KConfig oldConf(oldFile);
+        KConfigGroup oldGroup(&oldConf, QStringLiteral("Global"));
+
+        const bool isFirstRun = oldGroup.readEntry("firststart", true);
+        m_config->group(QStringLiteral("Global")).writeEntry("firststart", isFirstRun);
+
+        const int toolCount = oldGroup.readEntry("tools", 0);
+        for (int i = 0; i < toolCount; ++i) {
+            oldGroup = oldConf.group(QStringLiteral("Tool %1").arg(i));
+            const QString name = KateExternalTool::configFileName(oldGroup.readEntry("name"));
+            const QString newConfPath = toolsConfigDir() + name;
+            if (QFileInfo::exists(newConfPath)) { // Already migrated ?
+                continue;
+            }
+
+            KConfig newConfig(newConfPath);
+            KConfigGroup newGroup = newConfig.group(QStringLiteral("General"));
+            oldGroup.copyTo(&newGroup, KConfigBase::Persistent);
+        }
+
+        QFile::remove(oldFile);
+    }
+}
+
 QObject *KateExternalToolsPlugin::createView(KTextEditor::MainWindow *mainWindow)
 {
-    KateExternalToolsPluginView *view = new KateExternalToolsPluginView(mainWindow, this);
+    auto *view = new KateExternalToolsPluginView(mainWindow, this);
     connect(this, &KateExternalToolsPlugin::externalToolsChanged, view, &KateExternalToolsPluginView::rebuildMenu);
     return view;
 }
@@ -79,34 +120,91 @@ void KateExternalToolsPlugin::clearTools()
     m_tools.clear();
 }
 
+void KateExternalToolsPlugin::addNewTool(KateExternalTool *tool)
+{
+    m_tools.push_back(tool);
+    if (tool->canExecute() && !tool->cmdname.isEmpty()) {
+        m_commands.push_back(tool->cmdname);
+    }
+    if (KAuthorized::authorizeAction(QStringLiteral("shell_access"))) {
+        m_command = new KateExternalToolsCommand(this);
+    }
+}
+
+void KateExternalToolsPlugin::removeTools(const std::vector<KateExternalTool *> &toRemove)
+{
+    for (auto *tool : toRemove) {
+        if (!tool) {
+            continue;
+        }
+
+        if (QString configFile = KateExternalTool::configFileName(tool->name); !configFile.isEmpty()) {
+            QFile::remove(toolsConfigDir() + configFile);
+        }
+
+        // remove old name variant, too
+        if (QString configFile = KateExternalTool::configFileNameOldStyleOnlyForRemove(tool->name); !configFile.isEmpty()) {
+            QFile::remove(toolsConfigDir() + configFile);
+        }
+
+        delete tool;
+    }
+
+    auto it = std::remove_if(m_tools.begin(), m_tools.end(), [&toRemove](KateExternalTool *tool) {
+        return std::find(toRemove.cbegin(), toRemove.cend(), tool) != toRemove.cend();
+    });
+    m_tools.erase(it, m_tools.end());
+}
+
+void KateExternalToolsPlugin::save(KateExternalTool *tool, const QString &oldName)
+{
+    const QString name = KateExternalTool::configFileName(tool->name);
+    KConfig config(toolsConfigDir() + name);
+    KConfigGroup cg = config.group(QStringLiteral("General"));
+    tool->save(cg);
+
+    // The tool was renamed, remove the old config file
+    if (!oldName.isEmpty()) {
+        const QString oldFile = toolsConfigDir() + KateExternalTool::configFileName(oldName);
+        QFile::remove(oldFile);
+
+        // remove old variant, too
+        const QString oldFile2 = toolsConfigDir() + KateExternalTool::configFileNameOldStyleOnlyForRemove(oldName);
+        QFile::remove(oldFile2);
+    }
+}
+
 void KateExternalToolsPlugin::reload()
 {
-    clearTools();
+    KConfigGroup group(m_config, QStringLiteral("Global"));
+    const bool firstStart = group.readEntry("firststart", true);
 
-    KConfig _config(QStringLiteral("externaltools"), KConfig::NoGlobals, QStandardPaths::ApplicationsLocation);
-    KConfigGroup config(&_config, "Global");
-    const int toolCount = config.readEntry("tools", 0);
-    const bool firstStart = config.readEntry("firststart", true);
-
-    if (!firstStart || toolCount > 0) {
+    if (!firstStart) {
         // read user config
-        for (int i = 0; i < toolCount; ++i) {
-            config = KConfigGroup(&_config, QStringLiteral("Tool %1").arg(i));
+        QDir dir(toolsConfigDir());
+        const QStringList entries = dir.entryList(QDir::NoDotAndDotDot | QDir::Files);
+        for (const auto &file : entries) {
+            KConfig config(dir.absoluteFilePath(file));
+            KConfigGroup cg = config.group(QStringLiteral("General"));
 
             auto t = new KateExternalTool();
-            t->load(config);
+            t->load(cg);
             m_tools.push_back(t);
         }
     } else {
         // first start -> use system config
-        for (const auto &tool : m_defaultTools) {
+        const auto defaultTools = this->defaultTools();
+        for (const auto &tool : defaultTools) {
             m_tools.push_back(new KateExternalTool(tool));
+            save(m_tools.back(), {});
         }
+        // not first start anymore
+        group.writeEntry("firststart", false);
     }
 
     // FIXME test for a command name first!
-    for (auto tool : m_tools) {
-        if (tool->hasexec && (!tool->cmdname.isEmpty())) {
+    for (auto *tool : std::as_const(m_tools)) {
+        if (tool->canExecute() && !tool->cmdname.isEmpty()) {
             m_commands.push_back(tool->cmdname);
         }
     }
@@ -133,34 +231,39 @@ const KateExternalTool *KateExternalToolsPlugin::toolForCommand(const QString &c
     return nullptr;
 }
 
-const QVector<KateExternalTool *> &KateExternalToolsPlugin::tools() const
+const QList<KateExternalTool *> &KateExternalToolsPlugin::tools() const
 {
     return m_tools;
 }
 
-QVector<KateExternalTool> KateExternalToolsPlugin::defaultTools() const
+QList<KateExternalTool> KateExternalToolsPlugin::defaultTools() const
 {
+    if (m_defaultTools.isEmpty()) {
+        const_cast<KateExternalToolsPlugin *>(this)->m_defaultTools = readDefaultTools();
+    }
     return m_defaultTools;
 }
 
-void KateExternalToolsPlugin::runTool(const KateExternalTool &tool, KTextEditor::View *view)
+KateToolRunner *KateExternalToolsPlugin::runnerForTool(const KateExternalTool &tool, KTextEditor::View *view, bool executingSaveTrigger)
 {
     // expand the macros in command if any,
     // and construct a command with an absolute path
     auto mw = view->mainWindow();
 
     // save documents if requested
-    if (tool.saveMode == KateExternalTool::SaveMode::CurrentDocument) {
-        // only save if modified, to avoid unnecessary recompiles
-        if (view->document()->isModified()) {
-            view->document()->save();
-        }
-    } else if (tool.saveMode == KateExternalTool::SaveMode::AllDocuments) {
-        const auto guiClients = mw->guiFactory()->clients();
-        for (KXMLGUIClient *client : guiClients) {
-            if (QAction *a = client->actionCollection()->action(QStringLiteral("file_save_all"))) {
-                a->trigger();
-                break;
+    if (!executingSaveTrigger) {
+        if (tool.saveMode == KateExternalTool::SaveMode::CurrentDocument) {
+            // only save if modified, to avoid unnecessary recompiles
+            if (view->document()->isModified() && view->document()->url().isValid()) {
+                view->document()->save();
+            }
+        } else if (tool.saveMode == KateExternalTool::SaveMode::AllDocuments) {
+            const auto guiClients = mw->guiFactory()->clients();
+            for (KXMLGUIClient *client : guiClients) {
+                if (QAction *a = client->actionCollection()->action(QStringLiteral("file_save_all"))) {
+                    a->trigger();
+                    break;
+                }
             }
         }
     }
@@ -174,32 +277,55 @@ void KateExternalToolsPlugin::runTool(const KateExternalTool &tool, KTextEditor:
 
     // expand macros
     auto editor = KTextEditor::Editor::instance();
-    editor->expandText(copy->executable, view, copy->executable);
-    editor->expandText(copy->arguments, view, copy->arguments);
-    editor->expandText(copy->workingDir, view, copy->workingDir);
-    editor->expandText(copy->input, view, copy->input);
+    copy->executable = editor->expandText(copy->executable, view);
+    copy->arguments = editor->expandText(copy->arguments, view);
+    copy->workingDir = editor->expandText(copy->workingDir, view);
+    copy->input = editor->expandText(copy->input, view);
+
+    if (!copy->checkExec()) {
+        Utils::showMessage(
+            i18n("Failed to find executable '%1'. Please make sure the executable file exists and that variable names, if used, are correct", tool.executable),
+            QIcon::fromTheme(QStringLiteral("system-run")),
+            i18n("External Tools"),
+            MessageType::Error,
+            pluginView->mainWindow());
+        return nullptr;
+    }
 
     const QString messageText = copy->input.isEmpty() ? i18n("Running %1: %2 %3", copy->name, copy->executable, copy->arguments)
                                                       : i18n("Running %1: %2 %3 with input %4", copy->name, copy->executable, copy->arguments, tool.input);
 
     // use generic output view for status
-    QVariantMap genericMessage;
-    genericMessage.insert(QStringLiteral("type"), QStringLiteral("Info"));
-    genericMessage.insert(QStringLiteral("category"), i18n("External Tools"));
-    genericMessage.insert(QStringLiteral("categoryIcon"), QIcon::fromTheme(QStringLiteral("system-run")));
-    genericMessage.insert(QStringLiteral("text"), messageText);
-    Q_EMIT pluginView->message(genericMessage);
+    Utils::showMessage(messageText, QIcon::fromTheme(QStringLiteral("system-run")), i18n("External Tools"), MessageType::Info, pluginView->mainWindow());
 
     // Allocate runner on heap such that it lives as long as the child
     // process is running and does not block the main thread.
-    auto runner = new KateToolRunner(std::move(copy), view, this);
+    return new KateToolRunner(std::move(copy), view, this);
+}
 
+void KateExternalToolsPlugin::runTool(const KateExternalTool &tool, KTextEditor::View *view, bool executingSaveTrigger)
+{
+    auto runner = runnerForTool(tool, view, executingSaveTrigger);
+    if (!runner) {
+        return;
+    }
     // use QueuedConnection, since handleToolFinished deletes the runner
     connect(runner, &KateToolRunner::toolFinished, this, &KateExternalToolsPlugin::handleToolFinished, Qt::QueuedConnection);
     runner->run();
 }
 
-void KateExternalToolsPlugin::handleToolFinished(KateToolRunner *runner, int exitCode, bool crashed)
+void KateExternalToolsPlugin::blockingRunTool(const KateExternalTool &tool, KTextEditor::View *view, bool executingSaveTrigger)
+{
+    auto runner = runnerForTool(tool, view, executingSaveTrigger);
+    if (!runner) {
+        return;
+    }
+    connect(runner, &KateToolRunner::toolFinished, this, &KateExternalToolsPlugin::handleToolFinished);
+    runner->run();
+    runner->waitForFinished();
+}
+
+void KateExternalToolsPlugin::handleToolFinished(KateToolRunner *runner, int exitCode, bool crashed) const
 {
     auto view = runner->view();
     if (view && !runner->outputData().isEmpty()) {
@@ -248,7 +374,14 @@ void KateExternalToolsPlugin::handleToolFinished(KateToolRunner *runner, int exi
         // updates-enabled trick: avoid some flicker
         const bool wereUpdatesEnabled = view->updatesEnabled();
         view->setUpdatesEnabled(false);
+
+        Utils::KateScrollBarRestorer scrollRestorer(view);
+
+        // Reload doc
         view->document()->documentReload();
+
+        scrollRestorer.restore();
+
         view->setUpdatesEnabled(wereUpdatesEnabled);
     }
 
@@ -261,15 +394,15 @@ void KateExternalToolsPlugin::handleToolFinished(KateToolRunner *runner, int exi
         }
 
         QString messageBody;
-        QString messageType = QStringLiteral("Info");
+        MessageType messageType = MessageType::Info;
         if (!runner->errorData().isEmpty()) {
             messageBody += i18n("Data written to stderr:\n");
             messageBody += runner->errorData();
             messageBody += QStringLiteral("\n");
-            messageType = QStringLiteral("Warning");
+            messageType = MessageType::Warning;
         }
         if (crashed || exitCode != 0) {
-            messageType = QStringLiteral("Error");
+            messageType = MessageType::Error;
         }
 
         // print crash or exit code
@@ -280,12 +413,7 @@ void KateExternalToolsPlugin::handleToolFinished(KateToolRunner *runner, int exi
         }
 
         // use generic output view for status
-        QVariantMap genericMessage;
-        genericMessage.insert(QStringLiteral("type"), messageType);
-        genericMessage.insert(QStringLiteral("category"), i18n("External Tools"));
-        genericMessage.insert(QStringLiteral("categoryIcon"), QIcon::fromTheme(QStringLiteral("system-run")));
-        genericMessage.insert(QStringLiteral("text"), messageBody);
-        Q_EMIT pluginView->message(genericMessage);
+        Utils::showMessage(messageBody, QIcon::fromTheme(QStringLiteral("system-run")), i18n("External Tools"), messageType, pluginView->mainWindow());
 
         // on successful execution => show output
         // otherwise the global output pane settings will ensure we see the error output
@@ -333,5 +461,6 @@ KateExternalToolsPluginView *KateExternalToolsPlugin::viewForMainWindow(KTextEdi
 }
 
 #include "externaltoolsplugin.moc"
+#include "moc_externaltoolsplugin.cpp"
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

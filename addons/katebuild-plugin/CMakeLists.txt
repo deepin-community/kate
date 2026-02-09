@@ -1,9 +1,16 @@
-add_library(katebuildplugin MODULE "")
+kate_add_plugin(katebuildplugin)
 target_compile_definitions(katebuildplugin PRIVATE TRANSLATION_DOMAIN="katebuild-plugin")
-target_link_libraries(katebuildplugin PRIVATE KF5::I18n KF5::TextEditor)
+target_link_libraries(katebuildplugin PRIVATE KF6::I18n KF6::TextEditor kateprivate)
 
-ki18n_wrap_ui(UI_SOURCES build.ui SelectTargetUi.ui)
-target_sources(katebuildplugin PRIVATE ${UI_SOURCES})
+ki18n_wrap_ui(katebuildplugin build.ui buildconfigwidget.ui)
+
+include(ECMQtDeclareLoggingCategory)
+ecm_qt_declare_logging_category(
+  DEBUG_SOURCES
+  HEADER kate_buildplugin_debug.h
+  IDENTIFIER KTEBUILD
+  CATEGORY_NAME "katebuildplugin"
+)
 
 target_sources(
   katebuildplugin
@@ -13,10 +20,14 @@ target_sources(
     TargetHtmlDelegate.cpp
     TargetModel.cpp
     UrlInserter.cpp
-    SelectTargetView.cpp
+    TargetFilterProxyModel.cpp
+    AppOutput.cpp
+    buildconfig.cpp
     plugin.qrc
+    qcmakefileapi.cpp
+    ${DEBUG_SOURCES}
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(katebuildplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS katebuildplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(katebuildplugin REUSE_FROM katepch)
+endif()

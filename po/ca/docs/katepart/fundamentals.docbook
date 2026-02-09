@@ -7,10 +7,10 @@
 
 <sect1 id="drag-and-drop">
 <title
->L'acció arrossega i deixa</title>
+>L'acció arrossega i deixa anar</title>
 
 <para
->La &katepart; utilitza el protocol arrossega i deixa del &kde;. Els fitxers es poden arrossegar i deixar dins de la &katepart; des de l'escriptori, el gestor de fitxers &dolphin; o algun servidor remot d'&FTP; obert en una de les finestres del &dolphin;. </para>
+>La &katepart; utilitza el protocol arrossegar i deixar anar del &kde;. Els fitxers es poden arrossegar i deixar anar dins de la &katepart; des de l'escriptori, el gestor de fitxers &dolphin; o algun servidor remot d'&FTP; obert en una de les finestres del &dolphin;. </para>
 </sect1>
 
 <sect1 id="keybindings">
@@ -86,7 +86,7 @@
 ></entry>
 <entry
 ><para
->Vés a la línia d'edició anterior.</para
+>Va cap a la ubicació anterior d'edició en el document.</para
 ></entry>
 </row>
 <row>
@@ -100,7 +100,7 @@
 ></entry>
 <entry
 ><para
->Vés a la línia d'edició següent.</para
+>Va cap a la ubicació següent d'edició en el document.</para
 ></entry>
 </row>
 <row>
@@ -281,19 +281,9 @@
 <entry
 ><para
 ><keycombo action="simul"
->&Ctrl;&Alt;&Up;</keycombo
-></para
-></entry>
-<entry
-><para
->Duplica les línies seleccionades cap amunt.</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;&Alt;&Down;</keycombo
+>&Ctrl;<keycap
+>.</keycap
+></keycombo
 ></para
 ></entry>
 <entry
@@ -406,11 +396,31 @@
 ></entry>
 <entry
 ><para
->Insereix una nova línia incloent caràcters al començament de la línia actual, que no siguin lletres o números. És útil, &pex;, per escriure comentaris en el codi: Al final de la línia <quote
->// algun text</quote
-> premeu aquesta drecera i la següent línia ja començarà amb <quote
->//</quote
->. De manera que no haureu d'introduir els caràcters de comentari al començament de cada nova línia.</para
+>Insereix una nova línia incloent caràcters al començament de la línia actual, que no siguin lletres o números. És útil, &pex;, per a escriure comentaris en el codi: Al final de la línia «// algun text» premeu aquesta drecera i la següent línia ja començarà amb «//». De manera que no haureu d'introduir els caràcters de comentari al començament de cada nova línia.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Maj;&Intro;</keycombo
+></para
+></entry>
+<entry
+><para
+>Crea una línia nova sota la línia actual.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Intro;</keycombo
+></para
+></entry>
+<entry
+><para
+>Crea una línia nova sobre la línia actual.</para
 ></entry>
 </row>
 <row>
@@ -781,7 +791,7 @@ action="simul"
 ></entry>
 <entry
 ><para
->Vés a la línia...</para
+>Ves a la línia...</para
 ></entry>
 </row>
 <row>
@@ -939,7 +949,7 @@ action="simul"
 ></entry>
 <entry
 ><para
->Capitalitza.</para
+>Posa la primera lletra en majúscula.</para
 ></entry>
 </row>
 <row>
@@ -1020,7 +1030,7 @@ action="simul"
 ></entry>
 <entry
 ><para
->Minva el tipus de lletra.</para
+>Minva la lletra.</para
 ></entry>
 </row>
 <row>
@@ -1038,7 +1048,7 @@ action="simul"
 ></entry>
 <entry
 ><para
->Augmenta el tipus de lletra.</para
+>Augmenta la lletra.</para
 ></entry>
 </row>
 <row>
@@ -1242,6 +1252,74 @@ action="simul"
 >Expandeix les abreviatures.</para
 ></entry>
 </row>
+
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Up;</keycombo
+></para
+></entry>
+<entry
+><para
+>Afegeix un cursor sobre el cursor actual.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Down;</keycombo
+></para
+></entry>
+<entry
+><para
+>Afegeix un cursor sota el cursor actual.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Maj;&Alt;<keycap
+>I</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Crea un cursor al final de cada línia de la selecció.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Cerca l'ocurrència següent de la paraula sota el cursor i la selecciona.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Maj;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Cerca totes les ocurrències de la paraula sota el cursor i les selecciona.</para
+></entry>
+</row>
+
 </tbody>
 </tgroup>
 </informaltable>

@@ -113,9 +113,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->10/10/2020</date>
+>02/05/2022</date>
 <releaseinfo
->&frameworks; 5.75</releaseinfo>
+>&frameworks; 5.94</releaseinfo>
 
 <abstract>
 <para
@@ -168,7 +168,7 @@
 >Riconoscimenti e licenza</title>
 
 <para
->Copyright 2001-2021 di &katepart; e &kwrite; della squadra di &kate;.</para>
+>Copyright 2001-2022 di &katepart; e &kwrite; della squadra di &kate;.</para>
 
 <para
 >Basato sull'originale &kwrite;, che era Copyright 2000 by Jochen Wilhelmy <email

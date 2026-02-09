@@ -9,7 +9,7 @@
 
 #include "snippetcompletionmodel.h"
 
-#include <ktexteditor/document.h>
+#include <KTextEditor/Document>
 #include <ktexteditor/view.h>
 
 #include "snippet.h"
@@ -71,9 +71,11 @@ void SnippetCompletionModel::completionInvoked(KTextEditor::View *view, const KT
 
 void SnippetCompletionModel::initData(KTextEditor::View *view)
 {
-    QString mode = view->document()->highlightingModeAt(view->cursorPosition());
-    if (mode.isEmpty()) {
-        mode = view->document()->highlightingMode();
+    QString posMode = view->document()->highlightingModeAt(view->cursorPosition());
+    QString docMode = view->document()->highlightingMode();
+    if (docMode.isEmpty() && posMode.isEmpty()) {
+        qWarning() << Q_FUNC_INFO << "Unexpected empty modes";
+        return;
     }
 
     beginResetModel();
@@ -85,10 +87,14 @@ void SnippetCompletionModel::initData(KTextEditor::View *view)
         if (store->item(i, 0)->checkState() != Qt::Checked) {
             continue;
         }
-        SnippetRepository *repo = dynamic_cast<SnippetRepository *>(store->item(i, 0));
-        if (repo && (repo->fileTypes().isEmpty() || repo->fileTypes().contains(mode))) {
+        SnippetRepository *repo = SnippetRepository::fromItem(store->item(i, 0));
+        if (!repo) {
+            continue;
+        }
+        const QStringList fileTypes = repo->fileTypes();
+        if (fileTypes.isEmpty() || fileTypes.contains(docMode) || fileTypes.contains(posMode)) {
             for (int j = 0; j < repo->rowCount(); ++j) {
-                if (Snippet *snippet = dynamic_cast<Snippet *>(repo->child(j))) {
+                if (Snippet *snippet = Snippet::fromItem(repo->child(j))) {
                     m_snippets << new SnippetCompletionItem(snippet, repo);
                 }
             }
@@ -136,27 +142,23 @@ int SnippetCompletionModel::rowCount(const QModelIndex &parent) const
         return m_snippets.count(); // only the children
     }
 }
-KTextEditor::Range SnippetCompletionModel::completionRange(KTextEditor::View *view, const KTextEditor::Cursor &position)
+
+static int minimalCompletionLength(KTextEditor::View *view)
 {
-    const QString &line = view->document()->line(position.line());
-    KTextEditor::Range range(position, position);
-    // include everything non-space before
-    for (int i = position.column() - 1; i >= 0; --i) {
-        if (line.at(i).isSpace()) {
-            break;
-        } else {
-            range.setStart(KTextEditor::Cursor(range.start().line(), i));
-        }
+    bool valueFound = false;
+    const int length = view->configValue(QStringLiteral("word-completion-minimal-word-length")).toInt(&valueFound);
+
+    // handle bogus values or old versions that don't export that setting
+    return valueFound ? length : 3;
+}
+
+bool SnippetCompletionModel::shouldStartCompletion(KTextEditor::View *view, const QString &insertedText, bool userInsertion, const KTextEditor::Cursor &)
+{
+    if (userInsertion && QStringView(insertedText).trimmed().size() >= minimalCompletionLength(view)) {
+        // last must be a letter to avoid some annoyance
+        return insertedText.back().isLetter();
     }
-    // include everything non-space after
-    for (int i = position.column() + 1; i < line.length(); ++i) {
-        if (line.at(i).isSpace()) {
-            break;
-        } else {
-            range.setEnd(KTextEditor::Cursor(range.end().line(), i));
-        }
-    }
-    return range;
+    return false;
 }
 
 bool SnippetCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range, const QString &currentCompletion)
@@ -173,3 +175,5 @@ bool SnippetCompletionModel::shouldAbortCompletion(KTextEditor::View *view, cons
     // else it's valid
     return false;
 }
+
+#include "moc_snippetcompletionmodel.cpp"

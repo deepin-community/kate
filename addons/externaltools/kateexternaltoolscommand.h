@@ -4,8 +4,7 @@
  *
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
-#ifndef KTEXTEDITOR_KATE_EXTERNALTOOLS_COMMAND_H
-#define KTEXTEDITOR_KATE_EXTERNALTOOLS_COMMAND_H
+#pragma once
 
 #include <KTextEditor/Command>
 
@@ -19,7 +18,7 @@ class KateExternalToolsCommand : public KTextEditor::Command
 {
 public:
     KateExternalToolsCommand(KateExternalToolsPlugin *plugin);
-    virtual ~KateExternalToolsCommand() = default;
+    ~KateExternalToolsCommand() override = default;
 
 public:
     bool exec(KTextEditor::View *view, const QString &cmd, QString &msg, const KTextEditor::Range &range = KTextEditor::Range::invalid()) override;
@@ -31,7 +30,5 @@ private:
 private:
     KateExternalToolsPlugin *m_plugin;
 };
-
-#endif // KTEXTEDITOR_KATE_EXTERNALTOOLS_COMMAND_H
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

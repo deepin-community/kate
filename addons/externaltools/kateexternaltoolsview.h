@@ -4,8 +4,7 @@
  *
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
-#ifndef KTEXTEDITOR_EXTERNALTOOLS_H
-#define KTEXTEDITOR_EXTERNALTOOLS_H
+#pragma once
 
 namespace KTextEditor
 {
@@ -18,8 +17,9 @@ class View;
 }
 
 #include <KActionMenu>
-#include <KMacroExpander>
 #include <KXMLGUIClient>
+
+#include <QPointer>
 
 class QTextDocument;
 
@@ -38,13 +38,12 @@ class ToolView;
  */
 class KateExternalToolsMenuAction : public KActionMenu
 {
-    Q_OBJECT
 public:
     KateExternalToolsMenuAction(const QString &text,
                                 KActionCollection *collection,
                                 KateExternalToolsPlugin *plugin,
                                 class KTextEditor::MainWindow *mw = nullptr);
-    virtual ~KateExternalToolsMenuAction();
+    ~KateExternalToolsMenuAction() override;
 
     /**
      * This will load all the configured services.
@@ -56,7 +55,7 @@ public:
         return m_actionCollection;
     }
 
-private Q_SLOTS:
+private:
     /**
      * Called whenever the current view changed.
      * Calls updateActionState() for the corresponding document.
@@ -93,14 +92,14 @@ public:
     /**
      * Virtual destructor.
      */
-    ~KateExternalToolsPluginView();
+    ~KateExternalToolsPluginView() override;
 
     /**
      * Returns the associated mainWindow
      */
     KTextEditor::MainWindow *mainWindow() const;
 
-public Q_SLOTS:
+public:
     /**
      * Called by the plugin view to reload the menu
      */
@@ -136,13 +135,17 @@ public Q_SLOTS:
      */
     void handleEsc(QEvent *event);
 
-Q_SIGNALS:
+public Q_SLOTS:
     /**
-     * Signal for outgoing message, the host application will handle them!
-     * Will only be handled inside the main windows of this plugin view.
-     * @param message outgoing message we send to the host application
+     * Returns an action with a menu that has all the tools that
+     * match the mimetype of current document
      */
-    void message(const QVariantMap &message);
+    QAction *externalToolsForDocumentAction(KTextEditor::Document *doc);
+
+private:
+    void slotViewChanged(KTextEditor::View *v);
+    void onDocumentSaved(KTextEditor::Document *doc);
+    void onDocumentAboutToSave(KTextEditor::Document *doc);
 
 private:
     KateExternalToolsPlugin *m_plugin;
@@ -151,8 +154,7 @@ private:
     QWidget *m_toolView = nullptr;
     Ui::ToolView *m_ui = nullptr;
     QTextDocument *m_outputDoc = nullptr;
+    QPointer<KTextEditor::View> m_currentView;
 };
-
-#endif // KTEXTEDITOR_EXTERNALTOOLS_H
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

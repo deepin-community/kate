@@ -7,7 +7,7 @@
 
 <sect1 id="drag-and-drop">
 <title
->Slepen en neerzetten</title>
+>Slepen en loslaten</title>
 
 <para
 >&katepart; gebruikt het protocol voor slepen en neerzetten van &kde;. Bestanden kunnen vanuit het bureaublad, de bestandsbeheerder &dolphin; of vanaf een externe &FTP;-site, geopend in een venster van &dolphin;, naar &katepart; gesleept worden. </para>
@@ -86,7 +86,7 @@
 ></entry>
 <entry
 ><para
->Naar vorige bewerkingsregel.</para
+>Naar vorige bewerkingslocatie in het document.</para
 ></entry>
 </row>
 <row>
@@ -100,7 +100,7 @@
 ></entry>
 <entry
 ><para
->Naar volgende bewerkingsregel.</para
+>Naar volgende bewerkingslocatie in het document.</para
 ></entry>
 </row>
 <row>
@@ -281,19 +281,9 @@
 <entry
 ><para
 ><keycombo action="simul"
->&Ctrl;&Alt;&Up;</keycombo
-></para
-></entry>
-<entry
-><para
->Geselecteerde regels naar boven dupliceren.</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;&Alt;&Down;</keycombo
+>&Ctrl;<keycap
+>.</keycap
+></keycombo
 ></para
 ></entry>
 <entry
@@ -411,6 +401,30 @@
 > en de volgende regel begint al met <quote
 >// </quote
 >. U hoeft dus niet meer de commentaar-tekens in te typen aan het begin van elke nieuwe regel met commentaar. </para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;&Enter;</keycombo
+></para
+></entry>
+<entry
+><para
+>Een nieuwe regel aanmaken onder de huidige regel.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Enter;</keycombo
+></para
+></entry>
+<entry
+><para
+>Een nieuwe regel aanmaken boven de huidige regel.</para
 ></entry>
 </row>
 <row>
@@ -1242,6 +1256,74 @@ action="simul"
 >Afkortingen uitbreiden.</para
 ></entry>
 </row>
+
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Up;</keycombo
+></para
+></entry>
+<entry
+><para
+>Voeg een cursor toe boven de huidige cursor.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Down;</keycombo
+></para
+></entry>
+<entry
+><para
+>Voeg een cursor toe onder de huidige cursor.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Shift;&Alt;<keycap
+>I</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Een cursor aan het eind van elke regel in de selectie aanmaken.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Volgende overeenkomst van het woord onder de cursor zoeken en het selecteren.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Alle overeenkomsten van het woord onder de cursor zoeken en deze selecteren.</para
+></entry>
+</row>
+
 </tbody>
 </tgroup>
 </informaltable>

@@ -5,15 +5,13 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_INFO_VIEW_CODE_ANALYSIS_H
-#define KATE_PROJECT_INFO_VIEW_CODE_ANALYSIS_H
+#pragma once
 
 #include <QComboBox>
-#include <QLabel>
 #include <QPointer>
 #include <QProcess>
 #include <QPushButton>
-#include <QTreeView>
+#include <QTimer>
 #include <QWidget>
 
 class KateProjectPluginView;
@@ -21,6 +19,14 @@ class KateProjectCodeAnalysisTool;
 class KMessageWidget;
 class KateProject;
 class QStandardItemModel;
+class DiagnosticsProvider;
+class QSortFilterProxyModel;
+class QLabel;
+
+namespace KTextEditor
+{
+class Document;
+}
 
 /**
  * View for Code Analysis.
@@ -28,8 +34,6 @@ class QStandardItemModel;
  */
 class KateProjectInfoViewCodeAnalysis : public QWidget
 {
-    Q_OBJECT
-
 public:
     /**
      * construct project info view for given project
@@ -52,7 +56,7 @@ public:
         return m_project;
     }
 
-private Q_SLOTS:
+private:
     /**
      * Called if the tool is changed (currently via Combobox)
      */
@@ -67,12 +71,6 @@ private Q_SLOTS:
      * More checker output is available
      */
     void slotReadyRead();
-
-    /**
-     * item got clicked, do stuff, like open document
-     * @param index model index of clicked item
-     */
-    void slotClicked(const QModelIndex &index);
 
     /**
      * Analysis finished
@@ -93,24 +91,9 @@ private:
     KateProject *m_project;
 
     /**
-     * information widget showing a warning about missing ctags.
-     */
-    QPointer<KMessageWidget> m_messageWidget;
-
-    /**
      * start/stop analysis button
      */
     QPushButton *m_startStopAnalysis;
-
-    /**
-     * tree view for results
-     */
-    QTreeView *m_treeView;
-
-    /**
-     * standard item model for results
-     */
-    QStandardItemModel *m_model;
 
     /**
      * running analyzer process
@@ -128,9 +111,15 @@ private:
     QComboBox *m_toolSelector;
 
     /**
-     * contains a rich text to explain what the current tool does
+     * Contains a rich text to explain what the current tool does
      */
-    QString m_toolInfoText;
-};
+    QLabel *m_toolInfoLabel;
 
-#endif
+    DiagnosticsProvider *const m_diagnosticProvider;
+
+    /**
+     * Output read in the slotReadyRead
+     * will be cleared after process finishes
+     */
+    QByteArray m_errOutput;
+};
