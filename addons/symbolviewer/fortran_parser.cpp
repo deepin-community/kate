@@ -19,23 +19,17 @@ void KatePluginSymbolViewerView::parseFortranSymbols(void)
         return;
     }
 
-    QString currline;
     QString subrStr(QStringLiteral("subroutine "));
     QString funcStr(QStringLiteral("function "));
     QString modStr(QStringLiteral("module "));
 
     QString stripped;
-    int i;
     int fnd, block = 0, blockend = 0, paro = 0, parc = 0;
     bool mainprog;
 
     QTreeWidgetItem *node = nullptr;
     QTreeWidgetItem *subrNode = nullptr, *funcNode = nullptr, *modNode = nullptr;
     QTreeWidgetItem *lastSubrNode = nullptr, *lastFuncNode = nullptr, *lastModNode = nullptr;
-
-    QPixmap func(class_xpm);
-    QPixmap subr(macro_xpm);
-    QPixmap mod(struct_xpm);
 
     // It is necessary to change names
     m_macro->setText(i18n("Show Subroutines"));
@@ -46,9 +40,9 @@ void KatePluginSymbolViewerView::parseFortranSymbols(void)
         funcNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Functions")));
         subrNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Subroutines")));
         modNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Modules")));
-        funcNode->setIcon(0, QIcon(func));
-        modNode->setIcon(0, QIcon(mod));
-        subrNode->setIcon(0, QIcon(subr));
+        funcNode->setIcon(0, m_icon_function);
+        modNode->setIcon(0, m_icon_block);
+        subrNode->setIcon(0, m_icon_context);
 
         if (m_expandOn->isChecked()) {
             m_symbols->expandItem(funcNode);
@@ -66,8 +60,8 @@ void KatePluginSymbolViewerView::parseFortranSymbols(void)
 
     KTextEditor::Document *kDoc = m_mainWindow->activeView()->document();
 
-    for (i = 0; i < kDoc->lines(); i++) {
-        currline = kDoc->line(i);
+    for (int i = 0; i < kDoc->lines(); i++) {
+        QString currline = kDoc->line(i);
         currline = currline.trimmed();
         // currline = currline.simplified(); is this really needed ?
         // Fortran is case insensitive
@@ -114,7 +108,7 @@ void KatePluginSymbolViewerView::parseFortranSymbols(void)
                 }
                 if (m_macro->isChecked()) // not really a macro, but a subroutines
                 {
-                    stripped += currline.rightRef(currline.length());
+                    stripped += QStringView(currline).right(currline.length());
                     stripped = stripped.simplified();
                     stripped.remove(QLatin1Char('*'));
                     stripped.remove(QLatin1Char('+'));
@@ -144,7 +138,7 @@ void KatePluginSymbolViewerView::parseFortranSymbols(void)
                                 node = new QTreeWidgetItem(m_symbols);
                             }
                             node->setText(0, stripped);
-                            node->setIcon(0, QIcon(subr));
+                            node->setIcon(0, m_icon_context);
                             node->setText(1, QString::number(i, 10));
                         }
                         stripped.clear();
@@ -178,7 +172,7 @@ void KatePluginSymbolViewerView::parseFortranSymbols(void)
                             node = new QTreeWidgetItem(m_symbols);
                         }
                         node->setText(0, stripped);
-                        node->setIcon(0, QIcon(mod));
+                        node->setIcon(0, m_icon_context);
                         node->setText(1, QString::number(i, 10));
                     }
                     stripped.clear();
@@ -190,7 +184,7 @@ void KatePluginSymbolViewerView::parseFortranSymbols(void)
             // Functions
             else if (block == 3) {
                 if (m_func->isChecked()) {
-                    stripped += currline.rightRef(currline.length());
+                    stripped += QStringView(currline).right(currline.length());
                     stripped = stripped.trimmed();
                     stripped.remove(QLatin1String("function"));
                     stripped.remove(QLatin1Char('*'));
@@ -214,7 +208,7 @@ void KatePluginSymbolViewerView::parseFortranSymbols(void)
                             node = new QTreeWidgetItem(m_symbols);
                         }
                         node->setText(0, stripped);
-                        node->setIcon(0, QIcon(func));
+                        node->setIcon(0, m_icon_function);
                         node->setText(1, QString::number(i, 10));
                         stripped.clear();
                         block = 0;

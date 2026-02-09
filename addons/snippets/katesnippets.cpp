@@ -10,18 +10,15 @@
 #include "snippetview.h"
 
 #include <QAction>
-#include <QBoxLayout>
 
 #include <KActionCollection>
 #include <KLocalizedString>
 #include <KPluginFactory>
 #include <KXMLGUIFactory>
 
-#include <KTextEditor/CodeCompletionInterface>
-
 K_PLUGIN_FACTORY_WITH_JSON(KateSnippetsPluginFactory, "katesnippetsplugin.json", registerPlugin<KateSnippetsPlugin>();)
 
-KateSnippetsPlugin::KateSnippetsPlugin(QObject *parent, const QList<QVariant> &)
+KateSnippetsPlugin::KateSnippetsPlugin(QObject *parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
     , m_snippetGlobal(new KateSnippetGlobal(this))
 {
@@ -33,7 +30,7 @@ KateSnippetsPlugin::~KateSnippetsPlugin()
 
 QObject *KateSnippetsPlugin::createView(KTextEditor::MainWindow *mainWindow)
 {
-    KateSnippetsPluginView *view = new KateSnippetsPluginView(this, mainWindow);
+    auto *view = new KateSnippetsPluginView(this, mainWindow);
     return view;
 }
 
@@ -44,7 +41,7 @@ KateSnippetsPluginView::KateSnippetsPluginView(KateSnippetsPlugin *plugin, KText
     , m_toolView(nullptr)
     , m_snippets(nullptr)
 {
-    KXMLGUIClient::setComponentName(QStringLiteral("katesnippets"), i18n("Snippets tool view"));
+    KXMLGUIClient::setComponentName(QStringLiteral("katesnippets"), i18n("Snippets"));
     setXMLFile(QStringLiteral("ui.rc"));
 
     // Toolview for snippets
@@ -85,12 +82,11 @@ KateSnippetsPluginView::KateSnippetsPluginView(KateSnippetsPlugin *plugin, KText
 KateSnippetsPluginView::~KateSnippetsPluginView()
 {
     // cleanup for all views
-    for (auto view : qAsConst(m_textViews)) {
+    for (const QPointer<KTextEditor::View> &view : std::as_const(m_textViews)) {
         if (!view) {
             continue;
         }
-        auto iface = qobject_cast<KTextEditor::CodeCompletionInterface *>(view);
-        iface->unregisterCompletionModel(KateSnippetGlobal::self()->completionModel());
+        view->unregisterCompletionModel(KateSnippetGlobal::self()->completionModel());
     }
 
     // unregister if factory around
@@ -109,14 +105,13 @@ void KateSnippetsPluginView::slotViewCreated(KTextEditor::View *view)
 
     // add snippet completion
     auto model = KateSnippetGlobal::self()->completionModel();
-    auto iface = qobject_cast<KTextEditor::CodeCompletionInterface *>(view);
-    iface->unregisterCompletionModel(model);
-    iface->registerCompletionModel(model);
+    view->unregisterCompletionModel(model);
+    view->registerCompletionModel(model);
 }
 
 void KateSnippetsPluginView::createSnippet()
 {
-    KateSnippetGlobal::self()->createSnippet(m_mainWindow->activeView());
+    KateSnippetGlobal::createSnippet(m_mainWindow->activeView());
 }
 
 #include "katesnippets.moc"

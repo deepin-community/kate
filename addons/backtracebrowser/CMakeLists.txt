@@ -1,10 +1,8 @@
-add_library(katebacktracebrowserplugin MODULE "")
+kate_add_plugin(katebacktracebrowserplugin)
 target_compile_definitions(katebacktracebrowserplugin PRIVATE TRANSLATION_DOMAIN="katebacktracebrowserplugin")
-target_link_libraries(katebacktracebrowserplugin PRIVATE KF5::I18n KF5::TextEditor)
+target_link_libraries(katebacktracebrowserplugin PRIVATE KF6::I18n KF6::TextEditor KF6::KIOWidgets)
 
-ki18n_wrap_ui(UI_SOURCES btbrowserwidget.ui btconfigwidget.ui)
-target_sources(katebacktracebrowserplugin PRIVATE ${UI_SOURCES})
-
+ki18n_wrap_ui(katebacktracebrowserplugin btbrowserwidget.ui btconfigwidget.ui)
 target_sources(
   katebacktracebrowserplugin
   PRIVATE
@@ -14,9 +12,9 @@ target_sources(
     btdatabase.cpp
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(katebacktracebrowserplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS katebacktracebrowserplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(katebacktracebrowserplugin REUSE_FROM katepch)
+endif()
 
 if(BUILD_TESTING)
   add_subdirectory(autotests)

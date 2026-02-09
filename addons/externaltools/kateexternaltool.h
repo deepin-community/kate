@@ -4,12 +4,14 @@
  *
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
-#ifndef KTEXTEDITOR_KATE_EXTERNALTOOL_H
-#define KTEXTEDITOR_KATE_EXTERNALTOOL_H
+#pragma once
 
 #include <QMetaType>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
+
+#include <optional>
 
 class KConfigGroup;
 
@@ -45,6 +47,15 @@ public:
         DisplayInPane
     };
 
+    enum class Trigger {
+        //! No trigger
+        None,
+        //! Run the tool before saving
+        BeforeSave,
+        //! Run the tool after saving
+        AfterSave,
+    };
+
 public:
     /// The category used in the menu to categorize the tool.
     QString category;
@@ -73,13 +84,26 @@ public:
     bool reload = false;
     /// Defines where to redirect the tool's output
     OutputMode outputMode = OutputMode::Ignore;
+    /// Trigger to run tool
+    Trigger trigger = Trigger::None;
 
 public:
     /// This is set when loading the Tool from disk.
-    bool hasexec = false;
+    /// If the tool has an expandable variable, this will nullopt
+    std::optional<bool> hasexec = false;
 
     /**
-     * @return true if mimetypes is empty, or the @p mimetype matches.
+     * @return true if the executable has a valid executable.
+     * Will also return true, if the execuable contains an
+     * expandable variable
+     */
+    bool canExecute() const
+    {
+        return !hasexec || (hasexec.has_value() && hasexec.value() == true);
+    }
+
+    /**
+     * @return true if the @p mimetype matches.
      */
     bool matchesMimetype(const QString &mimetype) const;
 
@@ -109,6 +133,33 @@ public:
      * Returns the translated category if possible.
      */
     QString translatedCategory() const;
+
+    /**
+     * Returns the config file name for this tool, created based on the tool "name".
+     * this will be the name of the config file in e.g. ~/.config/kate/externaltools/
+     * will ensure we end up with some valid file name
+     */
+    static QString configFileName(QString name)
+    {
+        // just percent encode the name, see bug 453272
+        // we add a file ending to not clash with old files, old files were all lowercase
+        return QString::fromUtf8(QUrl::toPercentEncoding(name)) + QStringLiteral(".ini");
+    }
+
+    /**
+     * OLD names: we need this to cleanup!
+     * Returns the config file name for this tool, created based on the tool "name", e.g.
+     * "Clang Format Full File" -> clang_format_full_file
+     * this will be the name of the config file in e.g. ~/.config/kate/externaltools/
+     */
+    static QString configFileNameOldStyleOnlyForRemove(QString name)
+    {
+        name.replace(QLatin1Char(' '), QLatin1Char('_'));
+        // '(' and ')' are problematic as file names in the .qrc file
+        name.replace(QLatin1Char('('), QLatin1Char('_'));
+        name.replace(QLatin1Char(')'), QLatin1Char('_'));
+        return name.toLower();
+    }
 };
 
 /**
@@ -118,7 +169,5 @@ bool operator==(const KateExternalTool &lhs, const KateExternalTool &rhs);
 
 // for use in QVariant (QAction::setData() and QAction::data())
 Q_DECLARE_METATYPE(KateExternalTool *)
-
-#endif // KTEXTEDITOR_KATE_EXTERNALTOOL_H
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

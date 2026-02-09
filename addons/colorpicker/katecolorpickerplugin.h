@@ -6,8 +6,9 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KATE_COLORPICKER_H
-#define KATE_COLORPICKER_H
+#pragma once
+
+#include <unordered_map>
 
 #include <KTextEditor/ConfigPage>
 #include <KTextEditor/InlineNoteProvider>
@@ -18,22 +19,20 @@
 #include <QList>
 #include <QRegularExpression>
 #include <QVariant>
-#include <QVector>
 
 class ColorPickerInlineNoteProvider : public KTextEditor::InlineNoteProvider
 {
-    Q_OBJECT
 public:
-    ColorPickerInlineNoteProvider(KTextEditor::Document *doc);
-    ~ColorPickerInlineNoteProvider();
+    explicit ColorPickerInlineNoteProvider(KTextEditor::Document *doc);
+    ~ColorPickerInlineNoteProvider() override;
 
     void updateColorMatchingCriteria();
     // if startLine == -1, update all notes. endLine is optional
     void updateNotes(int startLine = -1, int endLine = -1);
 
-    QVector<int> inlineNotes(int line) const override;
+    QList<int> inlineNotes(int line) const override;
     QSize inlineNoteSize(const KTextEditor::InlineNote &note) const override;
-    void paintInlineNote(const KTextEditor::InlineNote &note, QPainter &painter) const override;
+    void paintInlineNote(const KTextEditor::InlineNote &note, QPainter &painter, Qt::LayoutDirection) const override;
     void inlineNoteActivated(const KTextEditor::InlineNote &note, Qt::MouseButtons buttons, const QPoint &globalPos) override;
 
 private:
@@ -45,24 +44,23 @@ private:
     struct ColorIndices {
         // When m_putPreviewAfterColor is true, otherColorIndices holds the starting color indices while colorNoteIndices holds the end color indices (and vice
         // versa) colorNoteIndices[i] corresponds to otherColorIndices[i]
-        QVector<int> colorNoteIndices;
-        QVector<int> otherColorIndices;
+        QList<int> colorNoteIndices;
+        QList<int> otherColorIndices;
     };
 
     // mutable is used here since InlineNoteProvider::inlineNotes() is const only, and we update the notes lazily (only when inlineNotes() is called)
     mutable QHash<int, ColorIndices> m_colorNoteIndices;
 
     QRegularExpression m_colorRegex;
-    QVector<int> m_matchHexLengths;
+    QList<int> m_matchHexLengths;
     bool m_putPreviewAfterColor;
     bool m_matchNamedColors;
 };
 
 class KateColorPickerPlugin : public KTextEditor::Plugin
 {
-    Q_OBJECT
 public:
-    explicit KateColorPickerPlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KateColorPickerPlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KateColorPickerPlugin() override;
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
@@ -78,7 +76,5 @@ private:
     KTextEditor::ConfigPage *configPage(int number = 0, QWidget *parent = nullptr) override;
 
     KTextEditor::MainWindow *m_mainWindow;
-    QHash<KTextEditor::Document *, ColorPickerInlineNoteProvider *> m_inlineColorNoteProviders;
+    std::unordered_map<KTextEditor::Document *, std::unique_ptr<ColorPickerInlineNoteProvider>> m_inlineColorNoteProviders;
 };
-
-#endif // KATE_COLORPICKER_H

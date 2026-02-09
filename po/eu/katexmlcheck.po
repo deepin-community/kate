@@ -1,66 +1,74 @@
-# Translation of katexmlcheck.po to Euskara/Basque (eu).
-# Copyright (C) 2018, Free Software Foundation.
-# This file is distributed under the same license as the applications package.
-# KDE euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+# Translation for katexmlcheck.po to Euskara/Basque (eu).
+# Copyright (C) 2018-2023 This file is copyright:
+# This file is distributed under the same license as the kate package.
+# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
 #
 # Translators:
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2018.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2018, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: katexmlcheck\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2018-08-09 21:20+0100\n"
-"Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
-"Language-Team: Basque <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2024-12-17 00:43+0000\n"
+"PO-Revision-Date: 2023-01-16 07:41+0100\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
+"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
-#: plugin_katexmlcheck.cpp:106
+#: plugin_katexmlcheck.cpp:94
 #, kde-format
-msgid "Kate XML check"
-msgstr "Kate XML azterketa"
+msgid "XML Check"
+msgstr "XML ikuskatzea"
 
-#: plugin_katexmlcheck.cpp:113
-#, kde-format
-msgid "XML Checker Output"
-msgstr "XML azterketaren irteera"
-
-#: plugin_katexmlcheck.cpp:117
+#: plugin_katexmlcheck.cpp:99
 #, kde-format
 msgid "Validate XML"
 msgstr "Balioztatu XML"
 
-#: plugin_katexmlcheck.cpp:125
+#: plugin_katexmlcheck.cpp:129
 #, kde-format
-msgid "#"
-msgstr "zk."
+msgid "Validate process crashed"
+msgstr "Baliozkotzeko prozesua kraskatu egin da"
 
-#: plugin_katexmlcheck.cpp:126
+#: plugin_katexmlcheck.cpp:129 plugin_katexmlcheck.cpp:147
+#: plugin_katexmlcheck.cpp:207 plugin_katexmlcheck.cpp:232
+#: plugin_katexmlcheck.cpp:252 plugin_katexmlcheck.cpp:335
 #, kde-format
-msgid "Line"
-msgstr "Lerroa"
+msgid "XMLCheck"
+msgstr "XMLCheck"
 
-#: plugin_katexmlcheck.cpp:127
+#: plugin_katexmlcheck.cpp:143
 #, kde-format
-msgid "Column"
-msgstr "Zutabea"
+msgid "No DOCTYPE found, will only check well-formedness."
+msgstr ""
+"Ez da «DOCTYPE» aurkitu, ondo eratuta dagoela besterik ez da ikuskatuko."
 
-#: plugin_katexmlcheck.cpp:128
+#: plugin_katexmlcheck.cpp:145
 #, kde-format
-msgid "Message"
-msgstr "Mezua"
+msgctxt "%1 refers to the XML DTD"
+msgid "'%1' not found, will only check well-formedness."
+msgstr "Ez da '%1' aurkitu, ondo eratuta dagoela besterik ez da ikuskatuko."
 
-#: plugin_katexmlcheck.cpp:299
+#: plugin_katexmlcheck.cpp:231
 #, kde-format
 msgid "<b>Error:</b> Could not create temporary file '%1'."
-msgstr "<b>Errorea:</b> Ezin izan da '%1' aldi baterako fitxategia sortu."
+msgstr "<b>Errorea:</b>Ezin izan du '%1' aldi baterako fitxategia sortu."
 
-#: plugin_katexmlcheck.cpp:393
+#: plugin_katexmlcheck.cpp:250
+#, kde-format
+msgid ""
+"<b>Error:</b> Failed to find xmllint. Please make sure that xmllint is "
+"installed. It is part of libxml2."
+msgstr ""
+"<b>Errorea:</b> «xmllint» aurkitzea huts egin du. Mesedez, ziurtatu "
+"«xmllint» instalatuta dagoela. «libxml2»ren zati da."
+
+#: plugin_katexmlcheck.cpp:333
 #, kde-format
 msgid ""
 "<b>Error:</b> Failed to execute xmllint. Please make sure that xmllint is "
@@ -74,3 +82,21 @@ msgstr ""
 #, kde-format
 msgid "&XML"
 msgstr "&XML"
+
+#~ msgid "XML Checker"
+#~ msgstr "XML ikuskatzailea"
+
+#~ msgid "#"
+#~ msgstr "zk."
+
+#~ msgid "Line"
+#~ msgstr "Lerroa"
+
+#~ msgid "Column"
+#~ msgstr "Zutabea"
+
+#~ msgid "Message"
+#~ msgstr "Mezua"
+
+#~ msgid "Kate XML check"
+#~ msgstr "Kate XML azterketa"

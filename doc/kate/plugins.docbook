@@ -52,6 +52,10 @@ The available application plugins are:
 - Show preview for known color names</para>
 </listitem>
 <listitem>
+<para><link linkend="kate-application-plugin-colored-brackets">Colored Brackets</link>
+- Colored brackets for readability</para>
+</listitem>
+<listitem>
 <para><link linkend="kate-application-plugin-ctags">CTags</link> -
 Look up definitions/declarations with CTags</para>
 </listitem>
@@ -74,11 +78,6 @@ Quick document switching with <keycombo action="simul">&Alt;&Tab;</keycombo> beh
 <para><link linkend="kate-application-plugin-gdb">&gdb;</link> - Provides a
 simple &gdb; frontend</para>
 </listitem>
-<!--from workspace/plasma-sdk, why picked up here?
-<listitem>
-<para>Icon picker - Invokes Cuttlefish icon picker</para>
-</listitem>
--->
 <listitem>
 <para><link linkend="kate-application-plugin-projects">Project Plugin</link> - Integration with &git; and other source control systems</para>
 </listitem>
@@ -97,6 +96,10 @@ Search and replace in documents, folders, or projects</para>
 <para><link linkend="kate-application-plugin-snippets">Snippets tool view</link> - Tool view embedding the snippets management</para>
 </listitem>
 <listitem>
+<para><link linkend="kate-application-plugin-keyboardmacros">Keyboard Macros</link>
+- Record and play keyboard macros (i.e., keyboard action sequences)</para>
+</listitem>
+<listitem>
 <para><link linkend="kate-application-plugin-sql">SQL Plugin</link> - Execute
 query on SQL databases</para>
 </listitem>
@@ -111,11 +114,17 @@ query on SQL databases</para>
 <para><link linkend="kate-application-plugin-textfilter">Text Filter</link> - Process text using terminal commands</para>
 </listitem>
 <listitem>
-<para><link linkend="kate-application-plugin-xmltools">&XML;Completetion</link> - Lists &XML; elements,
+<para><link linkend="kate-application-plugin-xmltools">&XML; Completion</link> - Lists &XML; elements,
 attributes, attribute values and entities allowed by DTD</para>
 </listitem>
 <listitem>
 <para><link linkend="kate-application-plugin-xmlcheck">&XML; Validation</link>- Validates &XML; files using xmllint</para>
+</listitem>
+<listitem>
+<para><link linkend="kate-application-plugin-compilerexplorer">Compiler Explorer</link>- Interface to compiler explorer tool</para>
+</listitem>
+<listitem>
+<para><link linkend="kate-application-plugin-formatting">Formatting</link>- Code formatting plugin</para>
 </listitem>
 </itemizedlist>
 </sect1>
@@ -172,6 +181,15 @@ configuration of the tool:</para>
 <para><userinput>Working directory</userinput>, the working directory the tool will be started in. If empty, the working directory is set to the current document’s path.</para>
 <para><userinput>Mime types</userinput>, if set, the tool is active only if the current document’s mime type matches.</para>
 <para><userinput>Save</userinput>, when invoked, saves none, the current document, or all documents.</para>
+<para><userinput>Trigger</userinput>, a trigger to execute this tool. A trigger will only affect the currently active document and will only execute if the mimetype of current active document matches the mimetype of the external tool.</para>
+    <variablelist><varlistentry>
+    <term>Following triggers are available:</term>
+    <listitem>
+    <para><userinput>None</userinput>, this is the default, it means the tool has no trigger.</para>
+    <para><userinput>Before Save</userinput>, this trigger will execute right before saving the document.</para>
+    <para><userinput>After Save</userinput>, this trigger will execute the tool after the document was saved.</para>
+    </listitem>
+    </varlistentry></variablelist>
 <para><userinput>Reload current document after execution</userinput>, useful when the current file is modified on disk.</para>
 <para><userinput>Output</userinput>, the output defines the target of stdout. It is either set to <userinput>Ignored</userinput>, <userinput>Insert at Cursor Position</userinput>, <userinput>Replace Selected Text</userinput>, <userinput>Replace Current Document</userinput>, <userinput>Append to Current Document</userinput>, <userinput>Insert in New Document</userinput>, <userinput>Copy to Clipboard</userinput>, or <userinput>Display in Pane</userinput>.</para>
 <para><userinput>Editor command</userinput>, optional command that can be used to invoke the external tool via the built-in <ulink url="help:/katepart/advanced.html#advanced-editing-tools-commandline">command line</ulink>.</para>
@@ -227,7 +245,7 @@ gets invoked. There are two kind of variables supported:
 The first form <userinput>%{variable-name}</userinput> simply replaces the
 variable with its contents. For instance, the variable <userinput>%{Document:FileName}</userinput>
 is replaced by the current document’s filename without its path.
-The second form <userinput>%{variable-name:&lg;value&gt;}</userinput> gets the
+The second form <userinput>%{variable-name:&lt;value&gt;}</userinput> gets the
 <userinput>&lt;value&gt;</userinput> as contents. For example, this can be used
 to expand an environment variable with <userinput>%{ENV:HOME}</userinput>,
 or one can obtain the current date in the preferred format like
@@ -566,17 +584,21 @@ When indexing is finished, open the toolview <guilabel>Backtrace Browser</guilab
 <title>Introduction</title>
 
 <para>The Build plugin allows you to run actions like build, clean and compile
-on a project.</para>
+on a project. You can also automatically run the generated applications. The plugin basically
+gives you a way to configure sets of commands to run and it can parse the output for links to
+files and specific lines and columns in those files. So even if the plugin is originally created
+for compiling C/C++ and mostly tested with it, the plugin can also be useful for other
+purposes and languages.</para>
 
 </sect2>
 
 <sect2 id="build-using">
 <title>Using the Build Plugin</title>
 
-<para>The Build plugin adds a <guilabel>Build Output</guilabel> tool view at the
-bottom and a <guimenu>Build</guimenu> menu on the menubar. The tool view can be used to configure
-build target settings, while the menu can be used to perform build, clean and
-compile actions.</para>
+<para>The Build plugin adds a <guilabel>Build</guilabel> tool view at the
+bottom and a <guimenu>Build</guimenu> menu on the menu bar. The tool view can be used to select and
+configure build targets, while the menu and its shortcuts can be used to select and execute the
+configured shell commands.</para>
 
 <screenshot id="screenshot-build-output">
 <screeninfo>Build Output</screeninfo>
@@ -585,7 +607,7 @@ compile actions.</para>
 </mediaobject>
 </screenshot>
 
-<para>The <guilabel>Build Output</guilabel> tool view has two tabs:</para>
+<para>The <guilabel>Build</guilabel> tool view has two static tabs:</para>
 
 <itemizedlist>
 <listitem><para><guilabel>Target Settings</guilabel></para></listitem>
@@ -595,52 +617,63 @@ compile actions.</para>
 <sect3 id="build-using-target-settings">
 <title>Target Settings tab</title>
 
-<para>The target settings tab can be used to configure various build targets and define targets sets.</para>
+<para>The target settings tab can be used to configure various build targets and define target sets.</para>
 
-<para>To change the names or commands double click on the entries in the table and use the
-dropdown box to select the active target set. Use the checkbox in front of each target to define a default.</para>
+<para>A target-set is a group of commands that can be run in a specified working directory.
+Target sets can be added under either <guilabel>Projects</guilabel> or <guilabel>Session</guilabel>.
+The custom target-sets added under <guilabel>Projects</guilabel> are stored in a <guilabel>.kateproject.build</guilabel>
+file in the project root directory and are restored when the project is re-opened. The target-sets added
+under <guilabel>Session</guilabel> are stored in the current Kate session configuration.</para>
 
-<para>A new target set contains several configuration options:</para>
+<para>The first row, in a target-set, contains a name for the set in column one, and in column two we
+    have the directory where the commands should be executed. On each following row, we have
+    a name for the command in column one, a build command in column two and a run command in column three.
+    To edit one of these, double-click on the entry or use the edit shortcut (often <keycap>F2</keycap>).</para>
 
 <variablelist>
 <varlistentry>
 <term><guilabel>Working Directory</guilabel></term>
-<listitem><para>You can set the path to the project here. Leave this empty to
-use the directory the current document is located in.</para></listitem>
+<listitem><para>The second column of the first row in a target-set, is used to configure the
+working directory used for compiling and running commands. If the project plugin is enabled, the
+working directory string can also contain placeholders for the project base directory path:
+<guilabel>%B</guilabel> and name: <guilabel>%b</guilabel></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Build</guilabel></term>
-<listitem><para>This option lets you define the build command. It is set to
-<command>make</command> by default.</para></listitem>
+<term><guilabel>Build Command</guilabel></term>
+<listitem><para>The second column in the "non-first rows", contains the shell command to run in
+the working directory. Note the word shell. Almost any shell command will do. The build command can
+contain placeholders. <guilabel>%f</guilabel> for the current file, <guilabel>%d</guilabel> for directory
+of the current file and <guilabel>%n</guilabel> for the base-name of the current file (file name without
+suffix).</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Clean</guilabel></term>
-<listitem><para>The option lets you define the clean command. It is set to
-<command>make clean</command> by default.</para></listitem>
+<term><guilabel>Run Command</guilabel></term>
+<listitem><para>The third column in the "non-first rows", can contain a shell command, for execution
+in an actual terminal in the target-set working directory. The terminal is opened as a tab. The plugin
+will try to reuse the terminal tab, if the same command is executed and the previous application has
+exited.</para></listitem>
 </varlistentry>
 
-<varlistentry>
-<term><guilabel>Config</guilabel></term>
-<listitem><para>This option lets you define the config command. It is set
-to <command>cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr/local ../</command>
-by default.</para></listitem>
-</varlistentry>
 </variablelist>
 
-<para>On the top this plugin has a toolbar with the following buttons :</para>
+<para>On the top of the <guilabel>Target Settings</guilabel> tab, we have a toolbar with a target
+filter and the following buttons:</para>
 
 <simplelist>
 <member>
-<guiicon><inlinemediaobject><imageobject><imagedata fileref="dialog-ok-22.png" format="PNG"/></imageobject></inlinemediaobject></guiicon>
+<guiicon><inlinemediaobject><imageobject><imagedata fileref="run-build-22.png" format="PNG"/></imageobject></inlinemediaobject></guiicon>
 Build the selected target</member>
+<member>
+<guiicon><inlinemediaobject><imageobject><imagedata fileref="media-playback-start-22.png" format="PNG"/></imageobject></inlinemediaobject></guiicon>
+Build and run the selected target</member>
 <member>
 <guiicon><inlinemediaobject><imageobject><imagedata fileref="list-add-22.png" format="PNG"/></imageobject></inlinemediaobject></guiicon>
 Add a new build target</member>
 <member>
 <guiicon><inlinemediaobject><imageobject><imagedata fileref="document-new-22.png" format="PNG"/></imageobject></inlinemediaobject></guiicon>
-Create a new build target set</member>
+Create a new set of targets</member>
 <member>
 <guiicon><inlinemediaobject><imageobject><imagedata fileref="edit-copy-22.png" format="PNG"/></imageobject></inlinemediaobject></guiicon>
 Copy a command or target set</member>
@@ -655,19 +688,14 @@ Delete the current command or target set</member>
 <title>Output tab</title>
 
 <para>The <guilabel>Output</guilabel> tab shows the console output generated by
-the last command.</para>
-
-<para>Use the slider at the top to show or hide categories of output:</para>
-
-<para><guilabel>Full Output</guilabel>, <guilabel>Parsed Output</guilabel>,
-<guilabel>Errors and Warnings</guilabel> or <guilabel>Only Errors</guilabel>
+the running (build) command. If a line contains a file location, that line will be clickable.
+If the line in the output also shows an error or warning, the line will have a different color.
 </para>
 
-<para>Each line contains a message and the file name and line number if available.
-Clicking on the error or warning takes you to the appropriate file and places
-the cursor on the corresponding line number.</para>
+<para>If the option <guilabel>Add errors and warnings to Diagnostics</guilabel> is enabled in the
+plugin's settings page in Kate settings, the errors and warnings will also be added to the diagnostics view.
 
-<para>To navigate to the previous error, press
+To navigate to the previous error in the diagnostics view, press
 <keycombo action="simul">&Alt;&Shift;&Left;</keycombo>.
 To navigate to the next error, press
 <keycombo action="simul">&Alt;&Shift;&Right;</keycombo>.</para>
@@ -681,23 +709,36 @@ To navigate to the next error, press
 <variablelist id="build-build">
 <varlistentry>
 <term><menuchoice id="build-targets">
-<guimenu>Build</guimenu><guisubmenu>Select Target</guisubmenu>
+<guimenu>Build</guimenu><guisubmenu>Select Target...</guisubmenu>
 </menuchoice></term>
-<listitem><para>Select from a list of targets configured by the user.</para></listitem>
+<listitem><para>The target selection filter is focused in the Target Settings tab. Typing a name will filter
+out targets that do not match the typed string. It is also possible to use the arrow keys to navigate the
+tree of targets. When the wanted target is selected, pressing <guilabel>Return</guilabel> or
+<guilabel>Enter</guilabel> will execute and run the selected target.</para></listitem>
 </varlistentry>
 
-<varlistentry id="build-default">
+<varlistentry id="build-selected">
 <term><menuchoice>
-<guimenu>Build</guimenu><guimenuitem>Build Default Target</guimenuitem>
+<guimenu>Build</guimenu><guimenuitem>Build Selected Target</guimenuitem>
 </menuchoice></term>
-<listitem><para>Builds the target defined as default in the active target set.</para></listitem>
+<listitem><para>Builds the last selected target. If none has been selected, it works as
+<guilabel>Select Target...</guilabel></para></listitem>
 </varlistentry>
 
-<varlistentry id="build-previous">
+<varlistentry id="build-selected-run">
 <term><menuchoice>
-<guimenu>Build</guimenu><guimenuitem>Build Previous Target</guimenuitem>
+<guimenu>Build</guimenu><guimenuitem>Build and Run Selected Target</guimenuitem>
 </menuchoice></term>
-<listitem><para>Switch to the previous target configured by the user.</para></listitem>
+<listitem><para>Builds the last selected target and run the run command after the build command has
+finished successfully.</para></listitem>
+</varlistentry>
+
+<varlistentry id="build-currentfile">
+<term><menuchoice>
+<guimenu>Build</guimenu><guimenuitem>Compile Current File</guimenuitem>
+</menuchoice></term>
+<listitem><para>Try to compile the current file by searching for a command in a possible
+compile_commands.json.</para></listitem>
 </varlistentry>
 
 <varlistentry id="build-stop">
@@ -707,22 +748,27 @@ To navigate to the next error, press
 <listitem><para>Stop building a target.</para></listitem>
 </varlistentry>
 
-<varlistentry id="build-previous-error">
+<varlistentry id="build-previous-run-tab">
 <term><menuchoice>
-<shortcut><keycombo action="simul">&Ctrl;&Alt;&Left;</keycombo></shortcut>
-<guimenu>Build</guimenu><guimenuitem>Previous Error</guimenuitem>
+<guimenu>Build</guimenu><guimenuitem>Focus Next Tab to the Left</guimenuitem>
 </menuchoice></term>
-<listitem><para>Moves the cursor to the location of the previous error in the
-document.</para></listitem>
+<listitem><para>Focus the next build plugin tab to the left. Or open the build plugin tool-view if it is hidden.</para></listitem>
 </varlistentry>
 
-<varlistentry id="build-next-error">
+<varlistentry id="build-next-run-tab">
 <term><menuchoice>
-<shortcut><keycombo action="simul">&Ctrl;&Alt;&Right;</keycombo></shortcut>
-<guimenu>Build</guimenu><guimenuitem>Next Error</guimenuitem>
+<guimenu>Build</guimenu><guimenuitem>Focus Next Tab to the Right</guimenuitem>
 </menuchoice></term>
-<listitem><para>Moves the cursor to the location of the next error in the
-document.</para></listitem>
+<listitem><para>Focus the next build plugin tab to the right. Or open the build plugin tool-view if it is hidden.</para></listitem>
+</varlistentry>
+
+<varlistentry id="build-load-cmake-targets">
+<term><menuchoice>
+<guimenu>Build</guimenu><guimenuitem>Load targets from CMake Build Dir</guimenuitem>
+</menuchoice></term>
+<listitem><para>Opens the file dialog and let's the user select a <guilabel>CMakeCache.txt</guilabel>.
+When a file is selected, the plugin generates cmake build command targets that can be executed in
+the build directory for the CMake based project.</para></listitem>
 </varlistentry>
 
 </variablelist>
@@ -853,6 +899,20 @@ Then select <guilabel>Color Picker</guilabel> and close the dialog.
 
 </sect2>
 
+</sect1>
+
+<sect1 id="kate-application-plugin-colored-brackets">
+<title>Colored Brackets</title>
+
+<sect2><title>Introduction</title>
+<para>
+Colored brackets plugin colors matching bracket pairs in different colors to enhance readability. However, not all brackets get colored. A bracket whose matching opener or closer is not visible will be ignored. Similarly, a bracket pair that is the sole bracket pair on a line will not get colored.
+</para>
+</sect2>
+
+<sect2><title>Configuration</title>
+<para>The plugin doesn't provide any configurations.</para>
+</sect2>
 </sect1>
 
 <sect1 id="kate-application-plugin-ctags">
@@ -1383,7 +1443,7 @@ active frame, click the document name in the list.</para>
 <para>The context menu has some common actions from the <guimenu>File</guimenu> menu.</para>
 
 <para>Additionally there are filemanager actions to rename or delete the file. With
-<guimenuitem>Copy File Path</guimenuitem> you can copy the full path of the document
+<guimenuitem>Copy Location</guimenuitem> you can copy the full path of the document
 to the clipboard.</para>
 
 <para>You can sort the list in a few different ways by right clicking the
@@ -1505,7 +1565,7 @@ View.</para></listitem>
 <varlistentry>
 <term><guilabel>Show Toolbar</guilabel></term>
 <listitem><para>When Tree View and this option are enabled, a toolbar with
-actions like <guibutton>Save</guibutton> is displayed above the 
+actions like <guibutton>Save</guibutton> is displayed above the
 list of documents. Uncheck this option if the toolbar should be
 hidden.</para></listitem>
 </varlistentry>
@@ -1930,31 +1990,6 @@ exits, so the plugin does not pollute any folder with unwanted files.</para>
 
 </sect2>
 
-<sect2 id="project-quickopen">
-<title>Quick Opening Files</title>
-
-<para>As clicking on files in the tree view is not the fastest way to open a file, &kate;
-provides a built-in quick open mechanism you can activate with
-<keycombo action="simul">&Ctrl;&Alt;<keycap>O</keycap></keycombo>.
-What you the get is a list like this:</para>
-
-<screenshot id="screenshot-project-quickopen">
-<screeninfo>Quick Open</screeninfo>
-<mediaobject>
-<imageobject><imagedata fileref="project-quickopen.png" format="PNG"/></imageobject>
-</mediaobject>
-</screenshot>
-
-<para>You can filter by typing parts of the file name you are looking for, and you can
-also navigate with the arrow keys and page up/down through the list.
-Hitting &Enter; activates the selected file, while &Esc; hides the quick open view again.</para>
-
-<para>Further, the quick open remembers the previous file. So when you change to the
-quick open view the previously activated file is automatically selected and you just
-need to hit &Enter;, which comes very handy at times.</para>
-
-</sect2>
-
 <sect2 id="project-build">
 <title>Support for Building the Project</title>
 
@@ -1993,8 +2028,12 @@ For instance, the <quote>Kate</quote> <filename>.kateproject</filename> file loo
 
 <screen>
 {
-  "name": "Kate"
-, "files": [ { "git": 1 } ]
+  "name": "Kate",
+  "files": [
+    {
+      "git": 1
+    }
+  ]
 }
 </screen>
 
@@ -2005,37 +2044,84 @@ the files contained in should be read from &git;.
 <para>
 Also supported instead of <literal>git</literal> is subversion through <literal>svn</literal> and
 mercurial through <literal>hg</literal>.
-If you do not want to read from a version control system, you can tell it to recursively
-load files from directories as follows:
+
+If you do not want to read files from a version control system, you can just invoke kate from command line as:
+<screen>
+kate /path/to/folder
+</screen>
+or you can tell it to recursively load files from directories as follows:
 </para>
 
 <screen>
 {
-  "name": "Kate"
-, "files": [ { "directory": "kate", "filters": ["*.cpp", "*.h", "*.ui", "CMakeLists.txt", "Find*.cmake"], "recursive": 1 } ]
+  "name": "Kate",
+  "files": [
+    {
+      "directory": "kate",
+      "filters": [
+        "*.cpp",
+        "*.h",
+        "*.ui",
+        "CMakeLists.txt",
+        "Find*.cmake"
+      ],
+      "recursive": 1,
+      "hidden": 1
+    }
+  ],
+  "exclude_patterns" : [
+    "^build/.*"
+  ]
 }
 </screen>
 
 <para>
 Here, subfolders and filters define what’s part of the project.
 You can also mix version control and files based on filters.
+Hidden files will not be retrieved if the option <code>"hidden"</code> is 0.
+<code>"exclude_patterns"</code> is a list of regex patterns that can be used 
+to exclude folders and files from the project tree. In this example, All files
+and folders in a directory <filename>build</filename> from the root will be excluded.
 </para>
 
-<para id="projects-build-support">If you want to add support for the Build plugin, you could write a
+<para id="projects-build-support">If you want to add support for the building, you can write a
 <filename>.kateproject</filename> like this:</para>
 
 <screen>
 {
-  "name": "Kate"
-, "files": [ { "git": 1 } ]
-, "build": {
-    "directory": "build"
-  , "build": "make all"
-  , "clean": "make clean"
-  , "install": "make install"
+  "name": "Kate",
+  "files": [
+    {
+      "git": 1
+    }
+  ],
+  "build": {
+    "directory": "build",
+    "build": "make all",
+    "clean": "make clean",
+    "install": "make install",
+    "targets": [
+      {
+        "name": "all",
+        "build_cmd": "ninja"
+        "run_cmd": "./bin/kate"
+      },
+      {
+        "name": "kate",
+        "build_cmd": "ninja kate-bin"
+      }
+    ]
   }
 }
 </screen>
+
+<para>
+The targets specified above will then appear in the <link linkend="kate-application-plugin-build">Build Plugin </link> under <emphasis role="bold">
+"Project Plugin Targets"</emphasis>.
+
+If the <code>"targets"</code> array is specified then <code>"build"</code>, <code>"clean"</code> and <code>"install"</code> are ignored. Each element in the array specifies a target. <code>"name"</code> is the name of the target, <code>"build_cmd"</code> will be used to build the target, <code>"run_cmd"</code> will be used to run the target. Most important of all is <code>"directory"</code>, this is where the commands will be executed.
+
+</para>
 
 <para>
 In case you have a <filename>.kateproject</filename> file tracked by a control
@@ -2456,6 +2542,58 @@ and so it may not be advisable to have both enabled at the same time.
 
 </sect2>
 
+<sect2 id="lspclient-go-to-symbol">
+<title>Goto Symbol support</title>
+<para>
+LSP Client can help you jump to any symbol in your project or current file.
+
+To jump to any symbol in the file, use the toolview "LSP Client Symbol Outline"
+on the right border of kate. This toolview lists all symbols found by the server
+in current document.
+</para>
+
+<sect3 id="lspclient-symbol-outline-config">
+<title>Configuring LSP Client Symbol Outline</title>
+
+<para>
+By default the symbols are sorted by their occurrence in the
+document but you can change the sort to be alphabetical. To do so, right click in
+the toolview and check "Sort Alphabetically".
+</para>
+
+<para>
+The toolview shows the symbols in tree mode by default, however you can change it to a list using the
+context menu.
+</para>
+</sect3>
+
+<sect3 id="lspclient-global-go-to-symbol">
+<title>Global Goto symbol support</title>
+<para>
+To jump to any symbol in your project, you can open the goto symbol dialog using
+<keycombo action="simul">&Ctrl;&Alt;<keycap>p</keycap></keycombo>.
+The dialog is empty when it opens but as soon as you type something the dialog will start showing
+you matching symbols. The quality of matches as well as filtering capabilities depend upon the server
+that you use. For example, clangd supports fuzzy filtering but some other server may not.
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="lspclient-extra">
+<title>Other Features</title>
+
+<para>
+Clangd switch source header command is supported. To switch source header in a C or C++ project either use the "Switch Source Header"
+option from the context menu or the shortcut <keycombo action="simul"><keycap>F12</keycap></keycombo>.
+</para>
+
+<para>
+You can jump to a symbol quickly by putting your mouse over the symbol and then pressing
+<keycombo action="simul">&Ctrl;</keycombo> + left mouse button.
+</para>
+
+</sect2>
 
 <sect2 id="lspclient-configuration">
 <title>Configuration</title>
@@ -2567,6 +2705,10 @@ entry object may also have an "initializationOptions" entry, which is passed
 along to the server as part of the 'initialize' method.
 If present, a "settings" entry is passed to the server by means of the
 'workspace/didChangeConfiguration' notification.
+Either of "completionTriggerCharacters" or "signatureTriggerCharacters" may be
+specified as a JSON object with string members "exclude" and/or "include".
+These will be used to respectively exclude or add some characters to
+the respective trigger set as provided by the server.
 </para>
 
 <para>
@@ -2590,7 +2732,10 @@ to the <quote>projectBase</quote> (as determined by the <link
 linkend="kate-application-plugin-projects">Project plugin</link>) if applicable,
 or otherwise relative to the document's directory. If not specified and
 "rootIndicationFileNames" is an array as filenames, then a parent directory of
-current document containing such a file is selected. As a last fallback, the
+current document containing such a file is selected.
+Alternatively, if "root" is not specified and "rootIndicationFilePatterns" is
+an array of file patterns, then a parent directory of the current document
+matching the file pattern is selected. As a last fallback, the
 home directory is selected as "root". For any document, the resulting "root"
 then determines whether or not a separate instance is needed. If so, the "root"
 is passed as rootUri/rootPath. </para>
@@ -2601,6 +2746,49 @@ important for a server (your mileage may vary though).  Fewer server instances
 are obviously more efficient, and they also have a 'wider' view than
 the view of many separate instances.
 </para>
+
+<para>
+As mentioned above, several entries are subject to variable expansion.
+A suitable application of that combined with "wrapper script" approaches
+allows for customization to a great many circumstances.
+For example, consider a python development scenario that consists of multiple
+projects (e.g. git repos), each with its own virtualenv setup.  Using the default
+configuration, the python language server will not be aware of the virtual env.
+However, that can be remedied with the following approach.  First, the following
+fragment can be entered in LSPClient plugin's "User Server Settings":
+</para>
+<screen>
+{
+        "servers":
+        {
+                "python":
+                {
+                        "command": ["pylsp_in_env", "%{Project:NativePath}"],
+                        "root": "."
+                }
+        }
+}
+</screen>
+<para>
+The root entry above is relative to the project directory and ensures that a
+separate language server is started for each project, which is necessary in
+this case as each has a distinct virtual environment.
+</para>
+<para>
+<filename>pylsp_in_env</filename> is a small "wrapper script" that should be placed
+in <literal>PATH</literal> with the following (to-be-adjusted) content:
+</para>
+<screen>
+#!/bin/bash
+cd $1
+# run the server (python-lsp-server) within the virtualenv
+# (i.e. with virtualenv variables setup)
+# so source the virtualenv
+source XYZ
+# server mileage or arguments may vary
+exec myserver
+</screen>
+
 
 <sect3 id="lspclient-customization">
 <title>LSP Server Configuration</title>
@@ -2657,6 +2845,63 @@ transformed to the &JSON; configuration that is used here and outlined above.
 
 </sect3>
 
+<sect3 id="lspclient-format-on-save">
+<title>LSP Server Format On Save</title>
+
+<para>
+You can enable "format on save" from LSP settings in configure dialog.
+</para>
+
+</sect3>
+
+<sect3 id="lspclient-diagnostics-suppression">
+<title>LSP Server Diagnostic Suppression</title>
+
+<para>
+It may happen that diagnostics are reported which are not quite useful.
+This can be quite cumbersome, especially if there are many (often of the same
+kind). In some cases, this may be tweaked by language (server) specific means.
+For example, the <ulink url="https://clangd.llvm.org/config.html">clangd
+configuration  mechanism</ulink> allows tweaking of some diagnostics aspects. In
+general, however, it may not always be evident how to do so, or it may not even
+be possible at all in desired ways due to server limitations or bug.
+</para>
+
+<para>
+As such, the plugin supports diagnostics suppression similar to e.g. valgrind
+suppressions. The most fine-grained configuration can be supplied in a
+"suppressions" key in the (merged) &JSON; configuration.
+</para>
+
+<screen>
+{
+    "servers": {
+        "c": {
+            "suppressions": {
+                "rulename": ["filename", "foo"],
+                "clang_pointer": ["", "clang-tidy", "clear_pointer"],
+            }
+        }
+    }
+}
+</screen>
+
+<para>
+Each (valid) rule has an arbitrary name and is defined by an array of length
+2 or 3 which provides a regex to match against the (full) filename, a regex
+to match against the diagnostic (text) and an optional regex matched against
+the (source code range of) text to which the diagnostic applies.
+</para>
+
+<para>
+In addition to the above fine-grained configuration, the context menu in the
+diagnostics tab also supports add/remove of suppressions that match a particular
+diagnostic (text) exactly, either globally (any file) or locally (the specific
+file in question).  These suppression are stored in and loaded from session config.
+</para>
+
+</sect3>
+
 <sect3 id="lspclient-troubleshooting">
 <title>LSP Server Troubleshooting</title>
 
@@ -2685,7 +2930,7 @@ It may also be informative to examine the protocol exchange between &kate;'s
 LSP client and the LSP server.  Again, the latter usually has ways to trace
 that.  The LSP client also provides additional debug tracing (to stderr)
 when &kate; is invoked with the following
-<literal>QT_LOGGING_RULES=katelspclientplugin=true</literal> suitably
+<literal>LSPCLIENT_DEBUG=1</literal> suitably
 <literal>export</literal>'ed.
 </para>
 
@@ -2800,8 +3045,12 @@ Replacement text that will be added to file(s) in place of the text in the
 <term><guibutton>Search</guibutton></term>
 <listitem><para>
 When you've finished configuring everything, just press the
-<guibutton>Search</guibutton> button to perform your search.  You may also press
-&Enter; in the <guilabel>Find</guilabel> text box to do the same.
+<guibutton>Search</guibutton> button to perform your search; to perform the
+search in a new tab press and hold &Ctrl; before pressing the
+<guibutton>Search</guibutton> button.  You may also press &Enter; in the
+<guilabel>Find</guilabel> text box to do the same (similarly pressing
+<keycombo action="simul">&Ctrl;&Enter;</keycombo> will perform the search in
+a new tab).
 </para></listitem>
 </varlistentry>
 
@@ -3264,7 +3513,31 @@ the <ulink url="help:/katepart/dev-scripting.html#dev-scripting-api">&kate; scri
 to get the selected text, full text, file name and
 more by using the appropriate methods of the <userinput>document</userinput>
 and <userinput>view</userinput> objects. Refer to the scripting API
-documentation for more information</para>
+documentation for more information.</para>
+<para>For more complex scripts it may be important to understand that
+<emphasis>first</emphasis>, the raw snippet is inserted into the document, and <emphasis>then</emphasis>
+functions are being evaluated. E.g., if a function retrieves the text on the
+line where the snippet is being inserted, that text will also contain
+<userinput>${functionCall()}</userinput>.</para>
+<para>As an example of working with selections using the scripting API, a simple way
+to wrap selected text inside tags is this snippet:
+<userinput>&lt;strong&gt;${view.selectedText()}&lt;/strong&gt;</userinput>
+</para>
+<para>The following example invokes a script that inserts a default text in case
+there is no selection. Snippet:</para>
+<para>
+<userinput>${rangeCommand("&lt;strong&gt;%%1&lt;/strong&gt;", "Bold")}</userinput></para>
+<para>Script:
+<programlisting>
+function rangeCommand(command, def) {
+    if (view.selectedText().length > 0) {
+        return command.replace("%%1", view.selectedText());
+    } else {
+        return command.replace("%%1", def);
+    }
+}
+</programlisting>
+</para>
 </listitem>
 </varlistentry>
 
@@ -3306,6 +3579,123 @@ to the next variable, and so on.</para>
 <para>&kate; Snippets was written by Joseph Wenninger.</para>
 <para>Special thanks to Google Code-In 2011 participant Martin Gergov for
 writing much of this section.</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="kate-application-plugin-keyboardmacros">
+<sect1info>
+<authorgroup>
+<!--author>&Pablo.Rauzy; &Pablo.Rauzy.mail;</author--> <!-- TODO: use that when the version of KDocTools that Kate depends on has it -->
+<author><firstname>Pablo</firstname> <surname>Rauzy</surname> <email>r .at. uzy.me</email></author>
+</authorgroup>
+</sect1info>
+<title>Keyboard Macros Plugin</title>
+
+<sect2 id="keyboardmacros-intro">
+<title>Introduction</title>
+<para>Record and play keyboard macros (i.e., keyboard action sequences).</para>
+</sect2>
+
+<sect2 id="keyboardmacros-basicusage">
+<title>Basic usage</title>
+
+<sect3 id="keyboardmacros-basicusage-record">
+<title>To start recording a keyboard macro:</title>
+<para>
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Keyboard Macros</guimenuitem><guimenuitem>Record Macro...</guimenuitem></menuchoice>
+(<keycombo action="simul">&Ctrl;&Shift;<keycap>K</keycap></keycombo>).
+</para>
+<para>The plugin will record every key presses until you end recording.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-record-end">
+<title>To end recording:</title>
+<para>
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Keyboard Macros</guimenuitem><guimenuitem>End Macro Recording</guimenuitem></menuchoice>
+(<keycombo action="simul">&Ctrl;&Shift;<keycap>K</keycap></keycombo>).
+</para>
+<para>The plugin will stop recording key presses and save the sequence as the current macro.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-record-cancel">
+<title>To cancel recording:</title>
+<para>
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Keyboard Macros</guimenuitem><guimenuitem>Cancel Macro Recording</guimenuitem></menuchoice>
+(<keycombo action="simul">&Ctrl;&Alt;&Shift;<keycap>K</keycap></keycombo>).
+</para>
+<para>The plugin will stop recording key presses but the current macro won't change.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-play">
+<title>To play the current macro:</title>
+<para>
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Keyboard Macros</guimenuitem><guimenuitem>Play Macro</guimenuitem></menuchoice>
+(<keycombo action="simul">&Ctrl;&Alt;<keycap>K</keycap></keycombo>).
+</para>
+<para>The plugin will play the current macro.</para>
+<para>The <userinput>kmplay</userinput> command without any arguments will also play the current macro.</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="keyboardmacros-namedmacros">
+<title>Named macros</title>
+
+<para>It is possible to save keyboard macros by giving them a name.</para>
+<para>Named macros are persistent between Kate's sessions, they're saved in the <filename>keyboardmacros.json</filename> file in Kate's user data directory (usually <filename>~/.local/share/kate/</filename>).</para>
+
+<sect3 id="keyboardmacros-namedmacros-save">
+<title>To save the current macro:</title>
+<para>
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Keyboard Macros</guimenuitem><guimenuitem>Save Current Macro</guimenuitem></menuchoice>
+(<keycombo action="simul">&Alt;&Shift;<keycap>K</keycap></keycombo>).
+</para>
+<para>The plugin will prompt you for a name and save the macro under it.</para>
+<para>The <userinput>kmsave <replaceable>name</replaceable></userinput> command will save the current macro under the name <userinput><replaceable>name</replaceable></userinput>.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-load">
+<title>To load a saved macro as the current one:</title>
+<para>
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Keyboard Macros</guimenuitem><guimenuitem>Load Named Macro...</guimenuitem></menuchoice>.
+</para>
+<para>The plugin lists saved macros as items in this submenu, activating an item will load the corresponding macro as the current one.</para>
+<para>The <userinput>kmload <replaceable>name</replaceable></userinput> command will load the macro saved under the name <userinput><replaceable>name</replaceable></userinput> as the current one.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-play">
+<title>To play a saved macro without loading it:</title>
+<para>
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Keyboard Macros</guimenuitem><guimenuitem>Play Named Macro...</guimenuitem></menuchoice>.
+</para>
+<para>The plugin lists saved macros as items in this submenu, activating an item will play the corresponding macro without loading it.</para>
+<para>Note that each saved macros is an action that is part of the current action collection so that a custom shortcut can be assigned to it through the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Keyboard Shortcuts...</guimenuitem></menuchoice> interface.</para>
+<para>The <userinput>kmplay <replaceable>name</replaceable></userinput> command will play the macro saved under the name <userinput><replaceable>name</replaceable></userinput> without loading it.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-wipe">
+<title>To wipe (i.e., delete) a saved macro:</title>
+<para>
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Keyboard Macros</guimenuitem><guimenuitem>Wipe Named Macro...</guimenuitem></menuchoice>.
+</para>
+<para>The plugin lists saved macros as items in this submenu, activating an item will wipe (i.e., delete) the corresponding macro.</para>
+<para>The <userinput>kmwipe <replaceable>name</replaceable></userinput> command will wipe the macro saved under the name <userinput><replaceable>name</replaceable></userinput>.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-command-tips">
+<title>Tips for commands:</title>
+<para>Note that after the <userinput>km</userinput> prefix, all these commands use a different letter so you can efficiently call them using tab-completion!</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="keyboardmacros-limitations">
+<title>Limitations</title>
+
+<para>As of now, keyboard macros fail to play properly if some types of GUI widgets are used: QMenu, QuickOpenLineEdit, or TabSwitcherTreeView, for example.
+I'm not sure why but my first guess would be that these widgets work in a non-standard way regarding keyboard events.</para>
+
 </sect2>
 
 </sect1>
@@ -3666,6 +4056,17 @@ sync with the current document.  See
 </listitem>
 </varlistentry>
 
+<varlistentry id="tools-run-current-document">
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Run Current Document</guimenuitem></menuchoice></term>
+<listitem>
+<para>Run the current document in &konsole;. Only the local documents can be run.
+&kate; will show a warning before running document because this action can be
+a serious security threat.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry id="tools-focus-terminal">
 <term><menuchoice>
 <guimenu>Tools</guimenu>
@@ -4017,5 +4418,181 @@ You will have to repeat it when you start &kate; the next time.</para></listitem
 </sect2>
 </sect1>
 
+<sect1 id="kate-application-plugin-compilerexplorer">
+<title>Compiler Explorer Plugin</title>
+
+<para>The compiler explorer plugin allows you to use compiler explorer from within Kate. Compiler explorer is usually limited to 1 file only and it is difficult to use it to see the codegen of a file in your project. This plugin aims to simplify this process by automatically detecting compile commands for your file.</para>
+
+<sect2 id="ce-how-to-use">
+<title>Usage</title>
+
+<para>
+The first thing you need to do is to open a compiler explorer tab. Hit <keycombo action="simul">&Ctrl;&Alt;<keycap>I</keycap></keycombo> to open the command bar and search for "Open Current File in Compiler Explorer" and hit enter. You can add this action to the toolbar or assign a shortcut to it for easier access.
+</para>
+
+<para>Next you need to setup a local instance of compiler explorer or use the public <ulink url="https://godbolt.org/">https://godbolt.org/</ulink> instance. See <ulink url="https://github.com/compiler-explorer/compiler-explorer">https://github.com/compiler-explorer/compiler-explorer</ulink>. Once you have an instance, click on <guilabel>Option</guilabel> combobox in the compiler explorer tab you opened earlier and select <guilabel>Change Url...</guilabel> and then enter the url of the compiler explorer server.</para>
+
+<para>Next you need a compile_commands.json if you need to see codegen for a file in your project. Otherwise you can skip this part. This can easily be obtained if you are using a modern build system like CMake or Meson. For CMake it is enough to pass <code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code> when invoking cmake. The <code>compile_commands.json</code> should be placed at the root of your project. Close and reopen the compiler explorer tab in Kate. After reopening the tab it should show the compile commands need to compile the file</para>
+
+<para>If you are just using compiler explorer to see the codegen for something temporary, you can just write down the compile commands for your file and click the <guilabel>Compile</guilabel>. Note that auto recompilation on editing is not supported. You need to click Compile every time you want to recompile the file</para>
+
+<para>Once the file is compiled you should see the codegen on the right hand side. You can right-click and select <guilabel>Reveal linked code</guilabel> to see the codegen for a particular line. Similarly on the right hand side, you can right click and select <guilabel>Scroll to source</guilabel> to show the source code for a given codegen line</para>
+
+</sect2>
+
+</sect1>
+
+<!-- BEGIN Format plugin -->
+
+<sect1 id="kate-application-plugin-formatting">
+<title>Formatting Plugin</title>
+
+<para>The formatting plugin allows one to format code easily. The plugin aims to preserve the
+document's undo history and user's cursor position when formatting the code so that the formatting
+of code doesn't disrupt user's work. This is especially important for automatic formatting on save.</para>
+
+<sect2 id="formatting-how-to-use">
+<title>Usage</title>
+
+<para>
+It allows the user to format code in two ways:
+<itemizedlist>
+<listitem><para>Manually using the "Format Document" action.</para></listitem>
+<listitem><para>Automatically on save</para></listitem>
+</itemizedlist>
+</para>
+
+<tip><para>You can search for this action in the command bar and bind a shortcut to it for easier access</para></tip>
+
+</sect2>
+
+<sect2 id="formatting-supported-langs-formatters">
+<title>Supported languages and formatters</title>
+
+<para>
+The current list of supported languages and formatters are as follows:
+<itemizedlist>
+
+<listitem><para>C/C++/ObjectiveC/ObjectiveC++/Protobuf/GLSL/Java - <command>clang-format</command>
+</para></listitem>
+
+<listitem><para>Javascript/Typescript/JSX/TSX - <command>prettier</command>
+</para></listitem>
+
+<listitem><para>JSON
+<itemizedlist>
+  <listitem><para><command>prettier</command></para></listitem>
+  <listitem><para><command>clang-format</command></para></listitem>
+  <listitem><para><command>jq</command></para></listitem>
+</itemizedlist>
+</para></listitem>
+
+<listitem><para>Dart - <command>dartfmt</command></para></listitem>
+<listitem><para>Rust - <command>rustfmt</command></para></listitem>
+<listitem><para>Go - <command>gofmt</command></para></listitem>
+<listitem><para>XML - <command>xmllint</command></para></listitem>
+<listitem><para>Zig - <command>zigfmt</command></para></listitem>
+<listitem><para>CMake - <command>cmake-format</command></para></listitem>
+<listitem><para>D - <command>dfmt</command></para></listitem>
+<listitem><para>Fish Shell - <command>fish_indent</command></para></listitem>
+<listitem><para>Bash - <command>shfmt</command></para></listitem>
+<listitem><para>Nix - <command>nixfmt</command></para></listitem>
+<listitem><para>QML - <command>qmlformat</command></para></listitem>
+<listitem><para>HTML - <command>prettier</command></para></listitem>
+<listitem><para>Swift - <command>swiftformat</command></para></listitem>
+<listitem><para>Erlang - <command>erlfmt</command></para></listitem>
+<listitem><para>Godot Script - <command>gdformat</command></para></listitem>
+
+<listitem><para>Python
+<itemizedlist>
+  <listitem><para><command>autopep8</command></para></listitem>
+  <listitem><para><command>ruff</command></para></listitem>
+</itemizedlist>
+</para></listitem>
+
+<listitem><para>YAML
+<itemizedlist>
+  <listitem><para><command>yamlfmt</command></para></listitem>
+  <listitem><para><command>prettier</command></para></listitem>
+</itemizedlist>
+</para></listitem>
+
+</itemizedlist>
+</para>
+
+</sect2>
+
+<sect2 id="formatting-plugin-configuring">
+<title>Configuring</title>
+
+<para>The plugin can be configured in two ways:
+<itemizedlist>
+<listitem><para>Globally, from the Configure dialog</para></listitem>
+<listitem><para>On a per project basis using the <filename>.kateproject</filename> file</para></listitem>
+</itemizedlist>
+</para>
+
+<para>When reading the config, the plugin will first try to read the config from <filename>.kateproject</filename> file and then read the global config.
+Example:
+</para>
+
+<screen>
+{
+    "formatOnSave": true,
+    "formatterForJson": "jq",
+    "cmake-format": {
+        "formatOnSave": false
+    },
+    "autopep8": {
+        "formatOnSave": false
+    }
+}
+</screen>
+
+<para>The above:
+<itemizedlist>
+<listitem><para>enables "format on save" globally</para></listitem>
+<listitem><para>specifies "jq" as the formatter for JSON</para></listitem>
+<listitem><para>disables "format on save" for cmake-format and autopep8</para></listitem>
+</itemizedlist>
+</para>
+
+<para>To configure formatting for a project, first create a <filename>.kateproject</filename> file and then add a <code>"formatting"</code> object to it.
+In the <code>"formatting"</code> object you can specify your settings as shown in the previous example. Example:
+</para>
+<note><para>You need to enable the <link linkend="kate-application-plugin-projects">Project plugin</link> for this to work</para></note>
+
+<screen>
+{
+    "name": "My Cool Project",
+    "files": [
+        {
+            "git": 1
+        }
+    ],
+    "formatting": {
+        "formatterForJson": "clang-format",
+        "autopep8": {
+            "formatOnSave": false
+        }
+    }
+}
+</screen>
+
+</sect2>
+
+<sect2 id="formatting-plugin-temp-disable-autosave-format">
+<title>Temporarily disable format on save</title>
+
+<para>
+While working you will often need to disable the formatting for a short while due to any reason.
+You can do this from the menubar, <menuchoice><guimenu>Tools</guimenu> <guimenuitem>Format on Save</guimenuitem></menuchoice>. You can also trigger this action from the <guilabel>Command bar</guilabel>.
+</para>
+
+</sect2>
+
+</sect1>
+
+<!-- END Format plugin -->
 
 </chapter>

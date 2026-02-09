@@ -22,8 +22,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SRC__CLOSE_EXCEPT_PLUGIN_H__
-#define __SRC__CLOSE_EXCEPT_PLUGIN_H__
+#pragma once
 
 // Project specific includes
 
@@ -50,8 +49,7 @@ class CloseExceptPlugin; // forward declaration
  */
 class CloseExceptPluginView : public QObject, public KXMLGUIClient
 {
-    Q_OBJECT
-    typedef QMap<QString, QPointer<QAction>> actions_map_type;
+    typedef std::map<QString, QPointer<QAction>> actions_map_type;
 
 public:
     /// Default constructor
@@ -59,9 +57,9 @@ public:
     /// Destructor
     ~CloseExceptPluginView() override;
 
-private Q_SLOTS:
+private:
     void viewCreated(KTextEditor::View *);
-    void documentCreated(KTextEditor::Editor *, KTextEditor::Document *);
+    void documentCreated(KTextEditor::Document *);
     void updateMenuSlotStub(KTextEditor::Document *);
     void close(const QString &, const bool);
     void closeExcept(const QString &item)
@@ -75,7 +73,7 @@ private Q_SLOTS:
 
 private:
     void displayMessage(const QString &, const QString &, KTextEditor::Message::MessageType);
-    void connectToDocument(KTextEditor::Document *);
+    void connectToDocument(KTextEditor::Document *) const;
     void updateMenu();
     using CloseFunction = void (CloseExceptPluginView::*)(const QString &);
     void updateMenu(const std::set<QUrl> &, const std::set<QString> &, actions_map_type &, KActionMenu *, CloseFunction);
@@ -101,7 +99,7 @@ class CloseExceptPlugin : public KTextEditor::Plugin, public KTextEditor::Sessio
     Q_INTERFACES(KTextEditor::SessionConfigInterface)
 public:
     /// Default constructor
-    CloseExceptPlugin(QObject * = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit CloseExceptPlugin(QObject * = nullptr, const QVariantList & = QVariantList());
     /// Destructor
     ~CloseExceptPlugin() override
     {
@@ -129,4 +127,3 @@ private:
 };
 
 } // namespace kate
-#endif // __SRC__CLOSE_EXCEPT_PLUGIN_H__

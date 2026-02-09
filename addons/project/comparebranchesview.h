@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef COMAREBRANCHESVIEW_H
-#define COMAREBRANCHESVIEW_H
+#pragma once
 
 #include <QPushButton>
 #include <QStandardItemModel>
@@ -18,7 +17,7 @@ class CompareBranchesView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CompareBranchesView(QWidget *parent, const QString &gitPath, const QString fromB, const QString &toBr, QVector<GitUtils::StatusItem> items);
+    explicit CompareBranchesView(QWidget *parent, const QString &gitPath, QString fromB, const QString &toBr, const QList<GitUtils::StatusItem> &items);
     void setPluginView(KateProjectPluginView *pv)
     {
         m_pluginView = pv;
@@ -38,5 +37,3 @@ private:
     QString m_toBr;
     KateProjectPluginView *m_pluginView;
 };
-
-#endif // COMAREBRANCHESVIEW_H

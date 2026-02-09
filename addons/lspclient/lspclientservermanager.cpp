@@ -10,19 +10,19 @@
 
 #include "lspclientservermanager.h"
 
+#include "hostprocess.h"
+#include "ktexteditor_utils.h"
 #include "lspclient_debug.h"
 
 #include <KLocalizedString>
+#include <KTextEditor/Application>
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
 #include <KTextEditor/MainWindow>
-#include <KTextEditor/MovingInterface>
 #include <KTextEditor/View>
 
 #include <QDir>
-#include <QEventLoop>
 #include <QFileInfo>
-#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
@@ -39,9 +39,14 @@
 typedef QMap<QString, QString> QStringMap;
 Q_DECLARE_METATYPE(QStringMap)
 
-// helper to find a proper root dir for the given document & file name that indicate the root dir
-static QString rootForDocumentAndRootIndicationFileName(KTextEditor::Document *document, const QString &rootIndicationFileName)
+// helper to find a proper root dir for the given document & file name/pattern that indicates the root dir
+static QString findRootForDocument(KTextEditor::Document *document, const QStringList &rootIndicationFileNames, const QStringList &rootIndicationFilePatterns)
 {
+    // skip search if nothing there to look at
+    if (rootIndicationFileNames.isEmpty() && rootIndicationFilePatterns.isEmpty()) {
+        return QString();
+    }
+
     // search only feasible if document is local file
     if (!document->url().isLocalFile()) {
         return QString();
@@ -55,8 +60,18 @@ static QString rootForDocumentAndRootIndicationFileName(KTextEditor::Document *d
         seenDirectories.insert(dir.absolutePath());
 
         // the file that indicates the root dir is there => all fine
-        if (dir.exists(rootIndicationFileName)) {
-            return dir.absolutePath();
+        for (const auto &fileName : rootIndicationFileNames) {
+            if (dir.exists(fileName)) {
+                return dir.absolutePath();
+            }
+        }
+
+        // look for matching file patterns, if any
+        if (!rootIndicationFilePatterns.isEmpty()) {
+            dir.setNameFilters(rootIndicationFilePatterns);
+            if (!dir.entryList().isEmpty()) {
+                return dir.absolutePath();
+            }
         }
 
         // else: cd up, if possible or abort
@@ -69,21 +84,50 @@ static QString rootForDocumentAndRootIndicationFileName(KTextEditor::Document *d
     return QString();
 }
 
+static QStringList indicationDataToStringList(const QJsonValue &indicationData)
+{
+    if (indicationData.isArray()) {
+        QStringList indications;
+        for (auto indication : indicationData.toArray()) {
+            if (indication.isString()) {
+                indications << indication.toString();
+            }
+        }
+
+        return indications;
+    }
+
+    return {};
+}
+
+static LSPClientServer::TriggerCharactersOverride parseTriggerOverride(const QJsonValue &json)
+{
+    LSPClientServer::TriggerCharactersOverride adjust;
+    if (json.isObject()) {
+        auto ob = json.toObject();
+        for (const auto &c : ob.value(QStringLiteral("exclude")).toString()) {
+            adjust.exclude.push_back(c);
+        }
+        for (const auto &c : ob.value(QStringLiteral("include")).toString()) {
+            adjust.include.push_back(c);
+        }
+    }
+    return adjust;
+}
+
 #include <memory>
+#include <utility>
 
 // helper guard to handle revision (un)lock
 struct RevisionGuard {
     QPointer<KTextEditor::Document> m_doc;
-    KTextEditor::MovingInterface *m_movingInterface = nullptr;
     qint64 m_revision = -1;
 
     RevisionGuard(KTextEditor::Document *doc = nullptr)
         : m_doc(doc)
-        , m_movingInterface(qobject_cast<KTextEditor::MovingInterface *>(doc))
     {
-        Q_ASSERT(m_movingInterface);
-        m_revision = m_movingInterface->revision();
-        m_movingInterface->lockRevision(m_revision);
+        m_revision = doc->revision();
+        doc->lockRevision(m_revision);
     }
 
     // really only need/allow this one (out of 5)
@@ -91,21 +135,19 @@ struct RevisionGuard {
         : RevisionGuard(nullptr)
     {
         std::swap(m_doc, other.m_doc);
-        std::swap(m_movingInterface, other.m_movingInterface);
         std::swap(m_revision, other.m_revision);
     }
 
     void release()
     {
-        m_movingInterface = nullptr;
         m_revision = -1;
     }
 
     ~RevisionGuard()
     {
         // NOTE: hopefully the revision is still valid at this time
-        if (m_doc && m_movingInterface && m_revision >= 0) {
-            m_movingInterface->unlockRevision(m_revision);
+        if (m_doc && m_revision >= 0) {
+            m_doc->unlockRevision(m_revision);
         }
     }
 };
@@ -136,27 +178,27 @@ public:
 
         // make sure revision is cleared when needed and no longer used (to unlock or otherwise)
         // see e.g. implementation in katetexthistory.cpp and assert's in place there
-        // clang-format off
-        auto conn = connect(doc, SIGNAL(aboutToInvalidateMovingInterfaceContent(KTextEditor::Document*)), this, SLOT(clearRevisions(KTextEditor::Document*)));
-        Q_ASSERT(conn);
-        conn = connect(doc, SIGNAL(aboutToDeleteMovingInterfaceContent(KTextEditor::Document*)), this, SLOT(clearRevisions(KTextEditor::Document*)));
-        Q_ASSERT(conn);
-        // clang-format on
+        connect(doc, &KTextEditor::Document::aboutToInvalidateMovingInterfaceContent, this, &self_type::clearRevisions);
+#if KTEXTEDITOR_VERSION < QT_VERSION_CHECK(6, 9, 0)
+        connect(doc, &KTextEditor::Document::aboutToDeleteMovingInterfaceContent, this, &self_type::clearRevisions);
+#endif
         m_guards.emplace(doc->url(), doc);
     }
 
-    void find(const QUrl &url, KTextEditor::MovingInterface *&miface, qint64 &revision) const override
+    void find(const QUrl &url, KTextEditor::Document *&doc, qint64 &revision) const override
     {
         auto it = m_guards.find(url);
         if (it != m_guards.end()) {
-            miface = it->second.m_movingInterface;
+            doc = it->second.m_doc;
             revision = it->second.m_revision;
         } else {
-            miface = nullptr;
+            doc = nullptr;
             revision = -1;
         }
     }
 };
+
+static const QString PROJECT_PLUGIN{QStringLiteral("kateprojectplugin")};
 
 // helper class to sync document changes to LSP server
 class LSPClientServerManagerImpl : public LSPClientServerManager
@@ -166,7 +208,7 @@ class LSPClientServerManagerImpl : public LSPClientServerManager
     typedef LSPClientServerManagerImpl self_type;
 
     struct ServerInfo {
-        QSharedPointer<LSPClientServer> server;
+        std::shared_ptr<LSPClientServer> server;
         // config specified server url
         QString url;
         QTime started;
@@ -178,8 +220,10 @@ class LSPClientServerManagerImpl : public LSPClientServerManager
     };
 
     struct DocumentInfo {
-        QSharedPointer<LSPClientServer> server;
-        KTextEditor::MovingInterface *movingInterface;
+        std::shared_ptr<LSPClientServer> server;
+        // merged server config as obtain from various sources
+        QJsonObject config;
+        KTextEditor::Document *doc;
         QUrl url;
         qint64 version;
         bool open : 1;
@@ -189,13 +233,14 @@ class LSPClientServerManagerImpl : public LSPClientServerManager
     };
 
     LSPClientPlugin *m_plugin;
-    KTextEditor::MainWindow *m_mainWindow;
+    QPointer<QObject> m_projectPlugin;
     // merged default and user config
     QJsonObject m_serverConfig;
     // root -> (mode -> server)
     QMap<QUrl, QMap<QString, ServerInfo>> m_servers;
     QHash<KTextEditor::Document *, DocumentInfo> m_docs;
     bool m_incrementalSync = false;
+    LSPClientCapabilities m_clientCapabilities;
 
     // highlightingModeRegex => language id
     std::vector<std::pair<QRegularExpression, QString>> m_highlightingModeRegexToLanguageId;
@@ -205,31 +250,31 @@ class LSPClientServerManagerImpl : public LSPClientServerManager
     // most either do not care about the id, or can find out themselves
     // (and might get confused if we pass a not so accurate one)
     QHash<QString, bool> m_documentLanguageId;
+    typedef QList<std::shared_ptr<LSPClientServer>> ServerList;
 
-    typedef QVector<QSharedPointer<LSPClientServer>> ServerList;
+    // Servers which were not found to be installed. We use this
+    // variable to avoid warning more than once
+    QSet<QString> m_failedToFindServers;
 
 public:
-    LSPClientServerManagerImpl(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin)
+    LSPClientServerManagerImpl(LSPClientPlugin *plugin)
         : m_plugin(plugin)
-        , m_mainWindow(mainWin)
     {
         connect(plugin, &LSPClientPlugin::update, this, &self_type::updateServerConfig);
         QTimer::singleShot(100, this, &self_type::updateServerConfig);
 
         // stay tuned on project situation
-        QObject *projectView = projectPluginView();
-        if (projectView) {
-            // clang-format off
-            connect(projectView,
-                    SIGNAL(pluginProjectAdded(QString,QString)),
-                    this,
-                    SLOT(onProjectAdded(QString,QString)));
-            connect(projectView,
-                    SIGNAL(pluginProjectRemoved(QString,QString)),
-                    this,
-                    SLOT(onProjectRemoved(QString,QString)));
-            // clang-format on
-        }
+        auto app = KTextEditor::Editor::instance()->application();
+        auto h = [this](const QString &name, KTextEditor::Plugin *plugin) {
+            if (name == PROJECT_PLUGIN) {
+                m_projectPlugin = plugin;
+                monitorProjects(plugin);
+            }
+        };
+        connect(app, &KTextEditor::Application::pluginCreated, this, h);
+        auto projectPlugin = app->plugin(PROJECT_PLUGIN);
+        m_projectPlugin = projectPlugin;
+        monitorProjects(projectPlugin);
     }
 
     ~LSPClientServerManagerImpl() override
@@ -257,13 +302,13 @@ public:
          */
 
         int count = 0;
-        for (const auto &el : m_servers) {
+        for (const auto &el : std::as_const(m_servers)) {
             for (const auto &si : el) {
                 auto &s = si.server;
                 if (!s) {
                     continue;
                 }
-                disconnect(s.data(), nullptr, this, nullptr);
+                disconnect(s.get(), nullptr, this, nullptr);
                 if (s->state() != LSPClientServer::State::None) {
                     ++count;
                     s->stop(-1, -1);
@@ -280,7 +325,7 @@ public:
         count = 0;
         for (count = 0; count < 2; ++count) {
             bool wait = false;
-            for (const auto &el : m_servers) {
+            for (const auto &el : std::as_const(m_servers)) {
                 for (const auto &si : el) {
                     auto &s = si.server;
                     if (!s) {
@@ -297,7 +342,7 @@ public:
     }
 
     // map (highlight)mode to lsp languageId
-    QString languageId(const QString &mode)
+    QString _languageId(const QString &mode)
     {
         // query cache first
         const auto cacheIt = m_highlightingModeToLanguageIdCache.find(mode);
@@ -306,7 +351,7 @@ public:
         }
 
         // match via regexes + cache result
-        for (auto it : m_highlightingModeRegexToLanguageId) {
+        for (const auto &it : m_highlightingModeRegexToLanguageId) {
             if (it.first.match(mode).hasMatch()) {
                 m_highlightingModeToLanguageIdCache[mode] = it.second;
                 return it.second;
@@ -318,14 +363,31 @@ public:
         return QString();
     }
 
-    QObject *projectPluginView()
+    QString languageId(KTextEditor::Document *doc)
     {
-        return m_mainWindow->pluginView(QStringLiteral("kateprojectplugin"));
+        if (!doc) {
+            return {};
+        }
+
+        // prefer the mode over the highlighting to allow to
+        // use known a highlighting with existing LSP
+        // for a mode for a new language and own LSP
+        // see bug 474887
+        if (const auto langId = _languageId(doc->mode()); !langId.isEmpty()) {
+            return langId;
+        }
+
+        return _languageId(doc->highlightingMode());
     }
 
-    QString documentLanguageId(const QString mode)
+    QObject *projectPluginView(KTextEditor::MainWindow *mainWindow)
     {
-        auto langId = languageId(mode);
+        return mainWindow->pluginView(PROJECT_PLUGIN);
+    }
+
+    QString documentLanguageId(KTextEditor::Document *doc)
+    {
+        auto langId = languageId(doc);
         const auto it = m_documentLanguageId.find(langId);
         // FIXME ?? perhaps use default false
         // most servers can find out much better on their own
@@ -343,7 +405,12 @@ public:
         m_incrementalSync = inc;
     }
 
-    QSharedPointer<LSPClientServer> findServer(KTextEditor::View *view, bool updatedoc = true) override
+    LSPClientCapabilities &clientCapabilities() override
+    {
+        return m_clientCapabilities;
+    }
+
+    std::shared_ptr<LSPClientServer> findServer(KTextEditor::View *view, bool updatedoc = true) override
     {
         if (!view) {
             return nullptr;
@@ -357,15 +424,24 @@ public:
         auto it = m_docs.find(document);
         auto server = it != m_docs.end() ? it->server : nullptr;
         if (!server) {
-            if ((server = _findServer(view, document))) {
-                trackDocument(document, server);
+            QJsonObject serverConfig;
+            if ((server = _findServer(view, document, serverConfig))) {
+                trackDocument(document, server, serverConfig);
             }
         }
 
         if (server && updatedoc) {
-            update(server.data(), false);
+            update(server.get(), false);
         }
         return server;
+    }
+
+    virtual QJsonValue findServerConfig(KTextEditor::Document *document) override
+    {
+        // check if document has been seen/processed by now
+        auto it = m_docs.find(document);
+        auto config = it != m_docs.end() ? QJsonValue(it->config) : QJsonValue::Null;
+        return config;
     }
 
     // restart a specific server or all servers if server == nullptr
@@ -375,7 +451,7 @@ public:
         // find entry for server(s) and move out
         for (auto &m : m_servers) {
             for (auto it = m.begin(); it != m.end();) {
-                if (!server || it->server.data() == server) {
+                if (!server || it->server.get() == server) {
                     servers.push_back(it->server);
                     it = m.erase(it);
                 } else {
@@ -396,7 +472,7 @@ public:
     {
         auto result = new LSPClientRevisionSnapshotImpl;
         for (auto it = m_docs.begin(); it != m_docs.end(); ++it) {
-            if (it->server == server) {
+            if (it->server.get() == server) {
                 // sync server to latest revision that will be recorded
                 update(it.key(), false);
                 result->add(it.key());
@@ -409,7 +485,7 @@ private:
     void showMessage(const QString &msg, KTextEditor::Message::MessageType level)
     {
         // inform interested view(er) which will decide how/where to show
-        Q_EMIT LSPClientServerManager::showMessage(level, msg);
+        Q_EMIT m_plugin->showMessage(level, msg);
     }
 
     // caller ensures that servers are no longer present in m_servers
@@ -417,8 +493,11 @@ private:
     {
         // close docs
         for (const auto &server : servers) {
+            if (!server) {
+                continue;
+            }
             // controlling server here, so disable usual state tracking response
-            disconnect(server.data(), nullptr, this, nullptr);
+            disconnect(server.get(), nullptr, this, nullptr);
             for (auto it = m_docs.begin(); it != m_docs.end();) {
                 auto &item = it.value();
                 if (item.server == server) {
@@ -436,7 +515,9 @@ private:
         // helper captures servers
         auto stopservers = [servers](int t, int k) {
             for (const auto &server : servers) {
-                server->stop(t, k);
+                if (server) {
+                    server->stop(t, k);
+                }
             }
         };
 
@@ -473,7 +554,7 @@ private:
             ServerInfo *info = nullptr;
             for (auto &m : m_servers) {
                 for (auto &si : m) {
-                    if (si.server.data() == server) {
+                    if (si.server.get() == server) {
                         info = &si;
                         break;
                     }
@@ -502,12 +583,12 @@ private:
             // find server info to see how bad this is
             // if this is an occasional termination/crash ... ok then
             // if this happens quickly (bad/missing server, wrong cmdline/config), then no restart
-            QSharedPointer<LSPClientServer> sserver;
+            std::shared_ptr<LSPClientServer> sserver;
             QString url;
             bool retry = true;
             for (auto &m : m_servers) {
                 for (auto &si : m) {
-                    if (si.server.data() == server) {
+                    if (si.server.get() == server) {
                         url = si.url;
                         if (si.started.secsTo(QTime::currentTime()) < 60) {
                             ++si.failcount;
@@ -534,18 +615,22 @@ private:
         }
     }
 
-    QSharedPointer<LSPClientServer> _findServer(KTextEditor::View *view, KTextEditor::Document *document)
+    std::shared_ptr<LSPClientServer> _findServer(KTextEditor::View *view, KTextEditor::Document *document, QJsonObject &mergedConfig)
     {
         // compute the LSP standardized language id, none found => no change
-        auto langId = languageId(document->highlightingMode());
+        auto langId = languageId(document);
         if (langId.isEmpty()) {
             return nullptr;
         }
 
-        QObject *projectView = projectPluginView();
-        // preserve raw QString value so it can be used and tested that way below
-        const auto projectBase = projectView ? projectView->property("projectBaseDir").toString() : QString();
-        const auto &projectMap = projectView ? projectView->property("projectMap").toMap() : QVariantMap();
+        if (m_plugin->m_alwaysDisabledLanguages.contains(langId)) {
+            qCInfo(LSPCLIENT) << "skipping always disabled language ID" << langId;
+            return nullptr;
+        }
+
+        // get project plugin infos if available
+        const auto projectBase = Utils::projectBaseDirForDocument(document);
+        const auto projectMap = Utils::projectMapForDocument(document);
 
         // merge with project specific
         auto projectConfig = QJsonDocument::fromVariant(projectMap).object().value(QStringLiteral("lspclient")).toObject();
@@ -586,7 +671,7 @@ private:
         const auto rootv = serverConfig.value(QStringLiteral("root"));
         if (rootv.isString()) {
             auto sroot = rootv.toString();
-            editor->expandText(sroot, view, sroot);
+            sroot = editor->expandText(sroot, view);
             if (QDir::isAbsolutePath(sroot)) {
                 rootpath = sroot;
             } else if (!projectBase.isEmpty()) {
@@ -606,19 +691,11 @@ private:
          * clangd does
          */
         if (!rootpath) {
-            const auto fileNamesForDetection = serverConfig.value(QStringLiteral("rootIndicationFileNames"));
-            if (fileNamesForDetection.isArray()) {
-                // we try each file name alternative in the listed order
-                // this allows to have preferences
-                for (auto name : fileNamesForDetection.toArray()) {
-                    if (name.isString()) {
-                        auto root = rootForDocumentAndRootIndicationFileName(document, name.toString());
-                        if (!root.isEmpty()) {
-                            rootpath = root;
-                            break;
-                        }
-                    }
-                }
+            const auto fileNamesForDetection = indicationDataToStringList(serverConfig.value(QStringLiteral("rootIndicationFileNames")));
+            const auto filePatternsForDetection = indicationDataToStringList(serverConfig.value(QStringLiteral("rootIndicationFilePatterns")));
+            const auto root = findRootForDocument(document, fileNamesForDetection, filePatternsForDetection);
+            if (!root.isEmpty()) {
+                rootpath = root;
             }
         }
 
@@ -653,7 +730,7 @@ private:
 
         // maybe there is a server with other root that is workspace capable
         if (!server && useWorkspace) {
-            for (const auto &l : m_servers) {
+            for (const auto &l : std::as_const(m_servers)) {
                 // for (auto it = l.begin(); it != l.end(); ++it) {
                 auto it = l.find(langId);
                 if (it != l.end()) {
@@ -669,9 +746,9 @@ private:
             }
         }
 
+        QStringList cmdline;
         if (!server) {
-            QStringList cmdline;
-
+            // need to find command line for server
             // choose debug command line for debug mode, fallback to command
             auto vcmdline = serverConfig.value(m_plugin->m_debugMode ? QStringLiteral("commandDebug") : QStringLiteral("command"));
             if (vcmdline.isUndefined()) {
@@ -682,7 +759,8 @@ private:
             if (!scmdline.isEmpty()) {
                 cmdline = scmdline.split(QLatin1Char(' '));
             } else {
-                for (const auto &c : vcmdline.toArray()) {
+                const auto cmdOpts = vcmdline.toArray();
+                for (const auto &c : cmdOpts) {
                     cmdline.push_back(c.toString());
                 }
             }
@@ -690,62 +768,105 @@ private:
             // some more expansion and substitution
             // unlikely to be used here, but anyway
             for (auto &e : cmdline) {
-                editor->expandText(e, view, e);
-            }
-
-            if (cmdline.length() > 0) {
-                // optionally search in supplied path(s)
-                auto vpath = serverConfig.value(QStringLiteral("path")).toArray();
-                if (vpath.size() > 0) {
-                    auto cmd = QStandardPaths::findExecutable(cmdline[0]);
-                    if (cmd.isEmpty()) {
-                        // collect and expand in case home dir or other (environment) variable reference is used
-                        QStringList path;
-                        for (const auto &e : vpath) {
-                            auto p = e.toString();
-                            editor->expandText(p, view, p);
-                            path.push_back(p);
-                        }
-                        cmd = QStandardPaths::findExecutable(cmdline[0], path);
-                        if (!cmd.isEmpty()) {
-                            cmdline[0] = cmd;
-                        }
-                    }
-                }
-                // an empty list is always passed here (or null)
-                // the initial list is provided/updated using notification after start
-                // since that is what a server is more aware of
-                // and should support if it declares workspace folder capable
-                // (as opposed to the new initialization property)
-                LSPClientServer::FoldersType folders;
-                if (useWorkspace) {
-                    folders = QList<LSPWorkspaceFolder>();
-                }
-                server.reset(new LSPClientServer(cmdline, root, realLangId, serverConfig.value(QStringLiteral("initializationOptions")), folders));
-                connect(server.data(), &LSPClientServer::stateChanged, this, &self_type::onStateChanged, Qt::UniqueConnection);
-                if (!server->start()) {
-                    QString errorMessage = i18n("Failed to start server: %1", cmdline.join(QLatin1Char(' ')));
-                    const auto url = serverConfig.value(QStringLiteral("url")).toString();
-                    if (!url.isEmpty()) {
-                        errorMessage += QStringLiteral("\n") + i18n("Please check your PATH for the binary");
-                        errorMessage += QStringLiteral("\n") + i18n("See also %1 for installation or details", url);
-                    }
-                    showMessage(errorMessage, KTextEditor::Message::Error);
-                } else {
-                    showMessage(i18n("Started server %2: %1", cmdline.join(QLatin1Char(' ')), serverDescription(server.data())),
-                                KTextEditor::Message::Positive);
-                    using namespace std::placeholders;
-                    server->connect(server.data(), &LSPClientServer::logMessage, this, std::bind(&self_type::onMessage, this, true, _1));
-                    server->connect(server.data(), &LSPClientServer::showMessage, this, std::bind(&self_type::onMessage, this, false, _1));
-                    server->connect(server.data(), &LSPClientServer::workspaceFolders, this, &self_type::onWorkspaceFolders, Qt::UniqueConnection);
-                }
-                serverinfo.settings = serverConfig.value(QStringLiteral("settings"));
-                serverinfo.started = QTime::currentTime();
-                serverinfo.url = serverConfig.value(QStringLiteral("url")).toString();
-                // leave failcount as-is
-                serverinfo.useWorkspace = useWorkspace;
+                e = editor->expandText(e, view);
             }
         }
+
+        if (!cmdline.empty()) {
+            // always update some info
+            // (even if eventually no server found/started)
+            serverinfo.settings = serverConfig.value(QStringLiteral("settings"));
+            serverinfo.started = QTime::currentTime();
+            serverinfo.url = serverConfig.value(QStringLiteral("url")).toString();
+            // leave failcount as-is
+            serverinfo.useWorkspace = useWorkspace;
+
+            // ensure we always only take the server executable from the PATH or user defined paths
+            // QProcess will take the executable even just from current working directory without this => BAD
+            auto cmd = safeExecutableName(cmdline[0]);
+
+            // optionally search in supplied path(s)
+            const auto vpath = serverConfig.value(QStringLiteral("path")).toArray();
+            if (cmd.isEmpty() && !vpath.isEmpty()) {
+                // collect and expand in case home dir or other (environment) variable reference is used
+                QStringList path;
+                for (const auto &e : vpath) {
+                    auto p = e.toString();
+                    p = editor->expandText(p, view);
+                    path.push_back(p);
+                }
+                cmd = safeExecutableName(cmdline[0], path);
+            }
+
+            // we can only start the stuff if we did find the binary in the paths
+            if (!cmd.isEmpty()) {
+                // use full path to avoid security issues
+                cmdline[0] = cmd;
+            } else {
+                if (!m_failedToFindServers.contains(cmdline[0])) {
+                    m_failedToFindServers.insert(cmdline[0]);
+                    // we didn't find the server binary at all!
+                    QString message = i18n("Failed to find server binary: %1", cmdline[0]);
+                    const auto url = serverConfig.value(QStringLiteral("url")).toString();
+                    if (!url.isEmpty()) {
+                        message += QStringLiteral("\n") + i18n("Please check your PATH for the binary");
+                        message += QStringLiteral("\n") + i18n("See also %1 for installation or details", url);
+                    }
+                    showMessage(message, KTextEditor::Message::Warning);
+                }
+                // clear to cut branch below
+                cmdline.clear();
+            }
+        }
+
+        // check if allowed to start, function will query user if needed and emit messages
+        if (!cmdline.empty() && !m_plugin->isCommandLineAllowed(cmdline)) {
+            cmdline.clear();
+        }
+
+        // made it here with a command line; spin up server
+        if (!cmdline.empty()) {
+            // an empty list is always passed here (or null)
+            // the initial list is provided/updated using notification after start
+            // since that is what a server is more aware of
+            // and should support if it declares workspace folder capable
+            // (as opposed to the new initialization property)
+            LSPClientServer::FoldersType folders;
+            if (useWorkspace) {
+                folders = QList<LSPWorkspaceFolder>();
+            }
+            // spin up using currently configured client capabilities
+            auto &caps = m_clientCapabilities;
+            // extract some more additional config
+            auto completionOverride = parseTriggerOverride(serverConfig.value(QStringLiteral("completionTriggerCharacters")));
+            auto signatureOverride = parseTriggerOverride(serverConfig.value(QStringLiteral("signatureTriggerCharacters")));
+            // request server and setup
+            server.reset(new LSPClientServer(cmdline,
+                                             root,
+                                             realLangId,
+                                             serverConfig.value(QStringLiteral("initializationOptions")),
+                                             {.folders = folders, .caps = caps, .completion = completionOverride, .signature = signatureOverride}));
+            connect(server.get(), &LSPClientServer::stateChanged, this, &self_type::onStateChanged, Qt::UniqueConnection);
+            if (!server->start(m_plugin->m_debugMode)) {
+                QString message = i18n("Failed to start server: %1", cmdline.join(QLatin1Char(' ')));
+                const auto url = serverConfig.value(QStringLiteral("url")).toString();
+                if (!url.isEmpty()) {
+                    message += QStringLiteral("\n") + i18n("Please check your PATH for the binary");
+                    message += QStringLiteral("\n") + i18n("See also %1 for installation or details", url);
+                }
+                showMessage(message, KTextEditor::Message::Warning);
+            } else {
+                showMessage(i18n("Started server %2: %1", cmdline.join(QLatin1Char(' ')), serverDescription(server.get())), KTextEditor::Message::Positive);
+                using namespace std::placeholders;
+                connect(server.get(), &LSPClientServer::logMessage, this, std::bind(&self_type::onMessage, this, true, _1));
+                connect(server.get(), &LSPClientServer::showMessage, this, std::bind(&self_type::onMessage, this, false, _1));
+                connect(server.get(), &LSPClientServer::workDoneProgress, this, &self_type::onWorkDoneProgress);
+                connect(server.get(), &LSPClientServer::workspaceFolders, this, &self_type::onWorkspaceFolders, Qt::UniqueConnection);
+                connect(server.get(), &LSPClientServer::showMessageRequest, this, &self_type::showMessageRequest);
+            }
+        }
+        // set out param value
+        mergedConfig = serverConfig;
         return (server && server->state() == LSPClientServer::State::Running) ? server : nullptr;
     }
 
@@ -799,6 +920,7 @@ private:
                 m_documentLanguageId[it.key()] = docLanguageId.toBool();
             }
         }
+        m_failedToFindServers.clear();
 
         // we could (but do not) perform restartAll here;
         // for now let's leave that up to user
@@ -806,18 +928,27 @@ private:
         Q_EMIT serverChanged();
     }
 
-    void trackDocument(KTextEditor::Document *doc, const QSharedPointer<LSPClientServer> &server)
+    void trackDocument(KTextEditor::Document *doc, const std::shared_ptr<LSPClientServer> &server, QJsonObject serverConfig)
     {
         auto it = m_docs.find(doc);
         if (it == m_docs.end()) {
-            KTextEditor::MovingInterface *miface = qobject_cast<KTextEditor::MovingInterface *>(doc);
-            it = m_docs.insert(doc, {server, miface, doc->url(), 0, false, false, {}});
+            // TODO: Further simplify once we are Qt6
             // track document
             connect(doc, &KTextEditor::Document::documentUrlChanged, this, &self_type::untrack, Qt::UniqueConnection);
+            it = m_docs.insert(doc,
+                               {.server = server,
+                                .config = std::move(serverConfig),
+                                .doc = doc,
+                                .url = doc->url(),
+                                .version = 0,
+                                .open = false,
+                                .modified = false,
+                                .changes = {}});
             connect(doc, &KTextEditor::Document::highlightingModeChanged, this, &self_type::untrack, Qt::UniqueConnection);
             connect(doc, &KTextEditor::Document::aboutToClose, this, &self_type::untrack, Qt::UniqueConnection);
             connect(doc, &KTextEditor::Document::destroyed, this, &self_type::untrack, Qt::UniqueConnection);
             connect(doc, &KTextEditor::Document::textChanged, this, &self_type::onTextChanged, Qt::UniqueConnection);
+            connect(doc, &KTextEditor::Document::documentSavedOrUploaded, this, &self_type::onDocumentSaved, Qt::UniqueConnection);
             // in case of incremental change
             connect(doc, &KTextEditor::Document::textInserted, this, &self_type::onTextInserted, Qt::UniqueConnection);
             connect(doc, &KTextEditor::Document::textRemoved, this, &self_type::onTextRemoved, Qt::UniqueConnection);
@@ -865,9 +996,9 @@ private:
 
     void update(const decltype(m_docs)::iterator &it, bool force)
     {
-        auto doc = it.key();
         if (it != m_docs.end() && it->server) {
-            it->version = it->movingInterface->revision();
+            auto doc = it.key();
+            it->version = it->doc->revision();
 
             if (!m_incrementalSync) {
                 it->changes.clear();
@@ -877,7 +1008,7 @@ private:
                     (it->server)->didChange(it->url, it->version, (it->changes.empty()) ? doc->text() : QString(), it->changes);
                 }
             } else {
-                (it->server)->didOpen(it->url, it->version, documentLanguageId(doc->highlightingMode()), doc->text());
+                (it->server)->didOpen(it->url, it->version, documentLanguageId(doc), doc->text());
                 it->open = true;
             }
             it->modified = false;
@@ -893,7 +1024,7 @@ private:
     void update(LSPClientServer *server, bool force)
     {
         for (auto it = m_docs.begin(); it != m_docs.end(); ++it) {
-            if (it->server == server) {
+            if (it->server.get() == server) {
                 update(it, force);
             }
         }
@@ -916,7 +1047,7 @@ private:
         auto it = m_docs.find(doc);
         if (it != m_docs.end() && it->server) {
             const auto &caps = it->server->capabilities();
-            if (caps.textDocumentSync == LSPDocumentSyncKind::Incremental) {
+            if (caps.textDocumentSync.change == LSPDocumentSyncKind::Incremental) {
                 return &(*it);
             }
         }
@@ -927,7 +1058,7 @@ private:
     {
         auto info = getDocumentInfo(doc);
         if (info) {
-            info->changes.push_back({LSPRange{position, position}, text});
+            info->changes.push_back({.range = LSPRange{position, position}, .text = text});
         }
     }
 
@@ -936,7 +1067,7 @@ private:
         (void)text;
         auto info = getDocumentInfo(doc);
         if (info) {
-            info->changes.push_back({range, QString()});
+            info->changes.push_back({.range = range, .text = QString()});
         }
     }
 
@@ -957,15 +1088,28 @@ private:
             LSPRange oldrange{{line - 1, 0}, {line + 1, 0}};
             LSPRange newrange{{line - 1, 0}, {line, 0}};
             auto text = doc->text(newrange);
-            info->changes.push_back({oldrange, text});
+            info->changes.push_back({.range = oldrange, .text = text});
+        }
+    }
+
+    void onDocumentSaved(KTextEditor::Document *doc, bool saveAs)
+    {
+        if (!saveAs) {
+            auto it = m_docs.find(doc);
+            if (it != m_docs.end() && it->server) {
+                auto server = it->server;
+                const auto &saveOptions = server->capabilities().textDocumentSync.save;
+                if (saveOptions) {
+                    server->didSave(doc->url(), saveOptions->includeText ? doc->text() : QString());
+                }
+            }
         }
     }
 
     void onMessage(bool isLog, const LSPLogMessageParams &params)
     {
         // determine server description
-        auto server = dynamic_cast<LSPClientServer *>(sender());
-        auto message = params.message;
+        auto server = qobject_cast<LSPClientServer *>(sender());
         if (isLog) {
             Q_EMIT serverLogMessage(server, params);
         } else {
@@ -973,14 +1117,26 @@ private:
         }
     }
 
+    void onWorkDoneProgress(const LSPWorkDoneProgressParams &params)
+    {
+        // determine server description
+        auto server = qobject_cast<LSPClientServer *>(sender());
+        Q_EMIT serverWorkDoneProgress(server, params);
+    }
+
+    static std::pair<QString, QString> getProjectNameDir(const QObject *kateProject)
+    {
+        return {kateProject->property("name").toString(), kateProject->property("baseDir").toString()};
+    }
+
     QList<LSPWorkspaceFolder> currentWorkspaceFolders()
     {
         QList<LSPWorkspaceFolder> folders;
-        auto projectView = projectPluginView();
-        if (projectView) {
-            auto projectsMap = projectView->property("allProjects").value<QStringMap>();
-            for (auto it = projectsMap.begin(); it != projectsMap.end(); ++it) {
-                folders.push_back(workspaceFolder(it.key(), it.value()));
+        if (m_projectPlugin) {
+            auto projects = m_projectPlugin->property("projects").value<QObjectList>();
+            for (auto proj : projects) {
+                auto props = getProjectNameDir(proj);
+                folders.push_back(workspaceFolder(props.second, props.first));
             }
         }
         return folders;
@@ -988,13 +1144,16 @@ private:
 
     static LSPWorkspaceFolder workspaceFolder(const QString &baseDir, const QString &name)
     {
-        return {QUrl::fromLocalFile(baseDir), name};
+        return {.uri = QUrl::fromLocalFile(baseDir), .name = name};
     }
 
-    void updateWorkspace(bool added, const QString &baseDir, const QString &name)
+    void updateWorkspace(bool added, const QObject *project)
     {
+        auto props = getProjectNameDir(project);
+        auto &name = props.first;
+        auto &baseDir = props.second;
         qCInfo(LSPCLIENT) << "update workspace" << added << baseDir << name;
-        for (const auto &u : m_servers) {
+        for (const auto &u : std::as_const(m_servers)) {
             for (const auto &si : u) {
                 if (auto server = si.server) {
                     const auto &caps = server->capabilities();
@@ -1008,14 +1167,32 @@ private:
         }
     }
 
-    Q_SLOT void onProjectAdded(QString baseDir, QString name)
+    Q_SLOT void onProjectAdded(QObject *project)
     {
-        updateWorkspace(true, baseDir, name);
+        updateWorkspace(true, project);
     }
 
-    Q_SLOT void onProjectRemoved(QString baseDir, QString name)
+    Q_SLOT void onProjectRemoved(QObject *project)
     {
-        updateWorkspace(false, baseDir, name);
+        updateWorkspace(false, project);
+    }
+
+    void monitorProjects(KTextEditor::Plugin *projectPlugin)
+    {
+        if (projectPlugin) {
+            // clang-format off
+            auto c = connect(projectPlugin,
+                        SIGNAL(projectAdded(QObject*)),
+                        this,
+                        SLOT(onProjectAdded(QObject*)),
+                        Qt::UniqueConnection);
+            c = connect(projectPlugin,
+                        SIGNAL(projectRemoved(QObject*)),
+                        this,
+                        SLOT(onProjectRemoved(QObject*)),
+                        Qt::UniqueConnection);
+            // clang-format on
+        }
     }
 
     void onWorkspaceFolders(const WorkspaceFoldersReplyHandler &h, bool &handled)
@@ -1031,9 +1208,10 @@ private:
     }
 };
 
-QSharedPointer<LSPClientServerManager> LSPClientServerManager::new_(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin)
+std::shared_ptr<LSPClientServerManager> LSPClientServerManager::new_(LSPClientPlugin *plugin)
 {
-    return QSharedPointer<LSPClientServerManager>(new LSPClientServerManagerImpl(plugin, mainWin));
+    return std::shared_ptr<LSPClientServerManager>(new LSPClientServerManagerImpl(plugin));
 }
 
 #include "lspclientservermanager.moc"
+#include "moc_lspclientservermanager.cpp"

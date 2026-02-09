@@ -4,19 +4,15 @@
  *
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
-#ifndef KTEXTEDITOR_EXTERNALTOOLS_CONFIGWIDGET_H
-#define KTEXTEDITOR_EXTERNALTOOLS_CONFIGWIDGET_H
+#pragma once
 
 #include "ui_configwidget.h"
 #include "ui_tooldialog.h"
 
-#include <KTextEditor/Application>
 #include <KTextEditor/ConfigPage>
-#include <KTextEditor/MainWindow>
 #include <KTextEditor/Plugin>
 
 #include <QDialog>
-#include <QPixmap>
 #include <QStandardItemModel>
 
 class KConfig;
@@ -30,16 +26,15 @@ class KateExternalTool;
  */
 class KateExternalToolsConfigWidget : public KTextEditor::ConfigPage, public Ui::ExternalToolsConfigWidget
 {
-    Q_OBJECT
 public:
     KateExternalToolsConfigWidget(QWidget *parent, KateExternalToolsPlugin *plugin);
-    virtual ~KateExternalToolsConfigWidget();
+    ~KateExternalToolsConfigWidget() override;
 
     QString name() const override;
     QString fullName() const override;
     QIcon icon() const override;
 
-public Q_SLOTS:
+public:
     void apply() override;
     void reset() override;
     void defaults() override
@@ -47,7 +42,7 @@ public Q_SLOTS:
         reset();
     }
 
-private Q_SLOTS:
+private:
     void addNewTool(KateExternalTool *tool);
     void lazyInitDefaultsMenu(QMenu *defaultsMenu);
     void slotAddDefaultTool(int defaultToolsIndex);
@@ -56,6 +51,7 @@ private Q_SLOTS:
     void slotEdit();
     void slotRemove();
     void slotSelectionChanged();
+    void slotItemChanged(QStandardItem *item);
 
     /**
      * Helper to open the ToolDialog.
@@ -73,17 +69,18 @@ private Q_SLOTS:
      */
     QStandardItem *currentCategory() const;
 
-    /**
-     * Clears the tools model.
-     */
-    void clearTools();
-
 private:
-    KConfig *m_config = nullptr;
     bool m_changed = false;
     KateExternalToolsPlugin *m_plugin;
+    std::vector<KateExternalTool *> m_toolsToRemove;
     QStandardItemModel m_toolsModel;
     QStandardItem *m_noCategory = nullptr;
+
+    struct ChangedToolInfo {
+        KateExternalTool *tool = nullptr;
+        QString oldName;
+    };
+    std::vector<ChangedToolInfo> m_changedTools;
 };
 
 /**
@@ -91,12 +88,10 @@ private:
  */
 class KateExternalToolServiceEditor : public QDialog
 {
-    Q_OBJECT
-
 public:
     explicit KateExternalToolServiceEditor(KateExternalTool *tool, KateExternalToolsPlugin *plugin, QWidget *parent = nullptr);
 
-private Q_SLOTS:
+private:
     /**
      * Run when the OK button is clicked, to ensure critical values are provided.
      */
@@ -114,7 +109,5 @@ private:
     KateExternalToolsPlugin *m_plugin;
     KateExternalTool *m_tool;
 };
-
-#endif // KTEXTEDITOR_EXTERNALTOOLS_CONFIGWIDGET_H
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

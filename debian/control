@@ -2,40 +2,35 @@ Source: kate
 Section: kde
 Priority: optional
 Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
-Uploaders: Sune Vuorela <sune@debian.org>,
-           Norbert Preining <norbert@preining.info>,
-Build-Depends: cmake (>= 3.1~),
-               debhelper-compat (= 13),
-               extra-cmake-modules (>= 5.79.0~),
+Uploaders: Aurélien COUDERC <coucouf@debian.org>,
+Build-Depends: debhelper-compat (= 13),
+               dh-sequence-kf6,
+               cmake (>= 3.16~),
+               extra-cmake-modules (>= 6.0.0~),
                gettext,
-               kinit-dev (>= 5.79.0~),
-               kuserfeedback-dev,
-               libkf5activities-dev (>= 5.79.0~),
-               libkf5config-dev (>= 5.79.0~),
-               libkf5crash-dev (>= 5.79.0~),
-               libkf5dbusaddons-dev (>= 5.79.0~),
-               libkf5doctools-dev (>= 5.79.0~),
-               libkf5guiaddons-dev (>= 5.79.0~),
-               libkf5i18n-dev (>= 5.79.0~),
-               libkf5iconthemes-dev (>= 5.79.0~),
-               libkf5itemmodels-dev (>= 5.79.0~),
-               libkf5jobwidgets-dev (>= 5.79.0~),
-               libkf5kio-dev (>= 5.79.0~),
-               libkf5newstuff-dev (>= 5.79.0~),
-               libkf5parts-dev (>= 5.79.0~),
-               libkf5plasma-dev (>= 5.79.0~),
-               libkf5service-dev (>= 5.79.0~),
-               libkf5syntaxhighlighting-dev (>= 5.79.0~),
-               libkf5texteditor-dev (>= 5.79.0~),
-               libkf5textwidgets-dev (>= 5.79.0~),
-               libkf5threadweaver-dev (>= 5.79.0~),
-               libkf5wallet-dev (>= 5.79.0~),
-               libkf5windowsystem-dev (>= 5.79.0~),
-               libkf5xmlgui-dev (>= 5.79.0~),
-               pkg-config,
-               pkg-kde-tools (>= 0.15.15ubuntu1~),
-               qtbase5-dev (>= 5.14.0~),
-Standards-Version: 4.6.0
+               libkf6config-dev (>= 6.0.0~),
+               libkf6coreaddons-dev (>= 6.0.0~),
+               libkf6crash-dev (>= 6.0.0~),
+               libkf6dbusaddons-dev (>= 6.0.0~),
+               libkf6doctools-dev (>= 6.0.0~),
+               libkf6guiaddons-dev (>= 6.0.0~),
+               libkf6i18n-dev (>= 6.0.0~),
+               libkf6iconthemes-dev (>= 6.0.0~),
+               libkf6newstuff-dev (>= 6.0.0~),
+               libkf6texteditor-dev (>= 6.0.0~),
+               libkf6textwidgets-dev (>= 6.0.0~),
+               libkf6userfeedback-dev (>= 6.0.0~),
+               libkf6wallet-dev (>= 6.0.0~),
+               libkf6windowsystem-dev (>= 6.0.0~),
+               libkf6xmlgui-dev (>= 6.0.0~),
+               pkgconf,
+               qt6-base-dev (>= 6.5.0~),
+               qt6-base-private-dev (>= 6.5.0~),
+               qt6-declarative-dev (>= 6.5.0~),
+               qtkeychain-qt6-dev,
+               xauth <!nocheck>,
+               xvfb <!nocheck>,
+Standards-Version: 4.7.2
 Rules-Requires-Root: no
 Homepage: https://kate-editor.org/
 Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/kate
@@ -44,20 +39,20 @@ Vcs-Git: https://salsa.debian.org/qt-kde-team/kde/kate.git
 Package: kate
 Section: editors
 Architecture: any
-Depends: kate5-data (>= ${source:Version}),
-         ktexteditor-katepart,
-         plasma-framework,
-         qml-module-org-kde-kquickcontrolsaddons,
-         qml-module-qtquick-layouts,
-         qml-module-qtquick2,
+Depends: kate-data (>= ${source:Version}),
+         libkf6texteditor-katepart,
+         plasma-desktoptheme,
+         qml6-module-org-kde-kquickcontrolsaddons,
+         qml6-module-qtquick,
+         qml6-module-qtquick-layouts,
          ${misc:Depends},
          ${shlibs:Depends},
-Recommends: sonnet-plugins
+Recommends: sonnet6-plugins,
 Suggests: darcs,
           exuberant-ctags,
           git,
-          khelpcenter,
-          konsole-kpart,
+          khelpcenter (>=24.05~),
+          konsole-kpart (>=24.05~),
           mercurial,
           subversion,
 Description: powerful text editor
@@ -75,11 +70,11 @@ Description: powerful text editor
   * Symbol viewers for C, C++, and Python
   * XML completion and validation
 
-Package: kate5-data
+Package: kate-data
 Architecture: all
-Depends: ${misc:Depends}
-Replaces: kate (<< 4:17.08.3-3~)
-Breaks: kate (<< 4:17.08.3-3~)
+Depends: ${misc:Depends},
+Breaks: kate5-data,
+Replaces: kate5-data,
 Description: shared data files for Kate text editor
  This package contains the architecture-independent shared data files needed
  for Kate editor
@@ -87,9 +82,7 @@ Description: shared data files for Kate text editor
 Package: kwrite
 Section: editors
 Architecture: any
-Depends: ktexteditor-katepart, ${misc:Depends}, ${shlibs:Depends}
-Breaks: kate5-data (<< 4:17.08.3-3~)
-Replaces: kate5-data (<< 4:17.08.3-3~)
+Depends: libkf6texteditor-katepart, ${misc:Depends}, ${shlibs:Depends},
 Description: simple text editor
  KWrite is a simple text editor built on the KDE Platform. It uses the Kate
  editor component, so it supports powerful features such as flexible syntax

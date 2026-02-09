@@ -2,7 +2,7 @@ add_executable(tstestapp "")
 
 target_link_libraries(
   tstestapp 
-  PRIVATE KF5::TextEditor
+  PRIVATE KF6::TextEditor kateprivate
 )
 
 target_sources(
@@ -11,3 +11,7 @@ target_sources(
     tstestapp.cpp 
     ../tabswitcherfilesmodel.cpp
 )
+
+if(ENABLE_PCH)
+    target_precompile_headers(tstestapp REUSE_FROM katepch_tests)
+endif()

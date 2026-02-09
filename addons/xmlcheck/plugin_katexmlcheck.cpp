@@ -44,49 +44,36 @@
 // Maybe use QXmlReader to take dtds and xsds?
 
 #include "plugin_katexmlcheck.h"
-#include <QHBoxLayout>
-//#include "plugin_katexmlcheck.moc" this goes to end
 
 #include <KActionCollection>
 #include <QApplication>
 #include <QFile>
-#include <QHeaderView>
-#include <QInputDialog>
-#include <QRegExp>
 #include <QString>
 #include <QTextStream>
-#include <QTreeWidget>
 
-#include <KCursor>
+#include "hostprocess.h"
+#include "ktexteditor_utils.h"
+
 #include <KLocalizedString>
-#include <KMessageBox>
 #include <KPluginFactory>
 #include <QAction>
 #include <QTemporaryFile>
 
-#include <QComboBox>
-#include <QFile>
-#include <QFileDialog>
-#include <QGuiApplication>
-#include <QLabel>
-#include <QLineEdit>
 #include <QPushButton>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
-#include <QString>
 #include <QUrl>
-#include <QVBoxLayout>
 
 #include <ktexteditor/editor.h>
 
 #include <kxmlguifactory.h>
+#include <qregularexpression.h>
 
 K_PLUGIN_FACTORY_WITH_JSON(PluginKateXMLCheckFactory, "katexmlcheck.json", registerPlugin<PluginKateXMLCheck>();)
 
 PluginKateXMLCheck::PluginKateXMLCheck(QObject *const parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
 {
-    qDebug() << "PluginXmlCheck()";
 }
 
 PluginKateXMLCheck::~PluginKateXMLCheck()
@@ -99,19 +86,14 @@ QObject *PluginKateXMLCheck::createView(KTextEditor::MainWindow *mainWindow)
 }
 
 //---------------------------------
-PluginKateXMLCheckView::PluginKateXMLCheckView(KTextEditor::Plugin *plugin, KTextEditor::MainWindow *mainwin)
+PluginKateXMLCheckView::PluginKateXMLCheckView(KTextEditor::Plugin *, KTextEditor::MainWindow *mainwin)
     : QObject(mainwin)
     , m_mainWindow(mainwin)
+    , m_provider(mainwin, this)
 {
-    KXMLGUIClient::setComponentName(QStringLiteral("katexmlcheck"), i18n("Kate XML check")); // where i18n resources?
+    KXMLGUIClient::setComponentName(QStringLiteral("katexmlcheck"), i18n("XML Check")); // where i18n resources?
     setXMLFile(QStringLiteral("ui.rc"));
 
-    dock = m_mainWindow->createToolView(plugin,
-                                        QStringLiteral("kate_plugin_xmlcheck_ouputview"),
-                                        KTextEditor::MainWindow::Bottom,
-                                        QIcon::fromTheme(QStringLiteral("misc")),
-                                        i18n("XML Checker Output"));
-    listview = new QTreeWidget(dock);
     m_tmp_file = nullptr;
     QAction *a = actionCollection()->addAction(QStringLiteral("xml_check"));
     a->setText(i18n("Validate XML"));
@@ -120,34 +102,11 @@ PluginKateXMLCheckView::PluginKateXMLCheckView(KTextEditor::Plugin *plugin, KTex
     //(void)  new KAction ( i18n("Indent XML"), KShortcut(), this,
     //	SLOT(slotIndent()), actionCollection(), "xml_indent" );
 
-    listview->setFocusPolicy(Qt::NoFocus);
-    QStringList headers;
-    headers << i18n("#");
-    headers << i18n("Line");
-    headers << i18n("Column");
-    headers << i18n("Message");
-    listview->setHeaderLabels(headers);
-    listview->setRootIsDecorated(false);
-    connect(listview, &QTreeWidget::itemClicked, this, &PluginKateXMLCheckView::slotClicked);
-
-    QHeaderView *header = listview->header();
-    header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    header->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    header->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-
-    /* TODO?: invalidate the listview when document has changed
-       Kate::View *kv = application()->activeMainWindow()->activeView();
-       if( ! kv ) {
-       qDebug() << "Warning: no Kate::View";
-       return;
-       }
-       connect(kv, SIGNAL(modifiedChanged()), this, SLOT(slotUpdate()));
-    */
-
     connect(&m_proc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &PluginKateXMLCheckView::slotProcExited);
     // we currently only want errors:
     m_proc.setProcessChannelMode(QProcess::SeparateChannels);
     // m_proc.setProcessChannelMode(QProcess::ForwardedChannels); // For Debugging. Do not use this.
+
     mainwin->guiFactory()->addClient(this);
 }
 
@@ -155,7 +114,6 @@ PluginKateXMLCheckView::~PluginKateXMLCheckView()
 {
     m_mainWindow->guiFactory()->removeClient(this);
     delete m_tmp_file;
-    delete dock;
 }
 
 void PluginKateXMLCheckView::slotProcExited(int exitCode, QProcess::ExitStatus exitStatus)
@@ -168,10 +126,7 @@ void PluginKateXMLCheckView::slotProcExited(int exitCode, QProcess::ExitStatus e
     //	}
 
     if (exitStatus != QProcess::NormalExit) {
-        QTreeWidgetItem *item = new QTreeWidgetItem();
-        item->setText(0, QStringLiteral("1").rightJustified(4, ' '));
-        item->setText(3, QStringLiteral("Validate process crashed."));
-        listview->addTopLevelItem(item);
+        Utils::showMessage(i18n("Validate process crashed"), {}, i18n("XMLCheck"), MessageType::Error);
         return;
     }
 
@@ -180,63 +135,65 @@ void PluginKateXMLCheckView::slotProcExited(int exitCode, QProcess::ExitStatus e
     delete m_tmp_file;
     QString proc_stderr = QString::fromLocal8Bit(m_proc.readAllStandardError());
     m_tmp_file = nullptr;
-    listview->clear();
-    uint list_count = 0;
     uint err_count = 0;
     if (!m_validating) {
         // no i18n here, so we don't get an ugly English<->Non-english mixup:
         QString msg;
         if (m_dtdname.isEmpty()) {
-            msg = QStringLiteral("No DOCTYPE found, will only check well-formedness.");
+            msg = i18n("No DOCTYPE found, will only check well-formedness.");
         } else {
-            msg = '\'' + m_dtdname + "' not found, will only check well-formedness.";
+            msg = i18nc("%1 refers to the XML DTD", "'%1' not found, will only check well-formedness.", m_dtdname);
         }
-        QTreeWidgetItem *item = new QTreeWidgetItem();
-        item->setText(0, QStringLiteral("1").rightJustified(4, ' '));
-        item->setText(3, msg);
-        listview->addTopLevelItem(item);
-        list_count++;
+        Utils::showMessage(msg, {}, i18n("XMLCheck"), MessageType::Warning);
     }
     if (!proc_stderr.isEmpty()) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList lines = proc_stderr.split('\n', QString::SkipEmptyParts);
-#else
-        QStringList lines = proc_stderr.split('\n', Qt::SkipEmptyParts);
-#endif
+        QList<Diagnostic> diags;
+        QStringList lines = proc_stderr.split(u'\n', Qt::SkipEmptyParts);
         QString linenumber, msg;
         int line_count = 0;
         for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it) {
-            QString line = *it;
+            const QString &line = *it;
             line_count++;
-            int semicolon_1 = line.indexOf(':');
-            int semicolon_2 = line.indexOf(':', semicolon_1 + 1);
-            int semicolon_3 = line.indexOf(':', semicolon_2 + 2);
-            int caret_pos = line.indexOf('^');
+            int semicolon_1 = line.indexOf(u':');
+            int semicolon_2 = line.indexOf(u':', semicolon_1 + 1);
+            int semicolon_3 = line.indexOf(u':', semicolon_2 + 2);
+            int caret_pos = line.indexOf(u'^');
             if (semicolon_1 != -1 && semicolon_2 != -1 && semicolon_3 != -1) {
                 linenumber = line.mid(semicolon_1 + 1, semicolon_2 - semicolon_1 - 1).trimmed();
-                linenumber = linenumber.rightJustified(6, ' '); // for sorting numbers
+                linenumber = linenumber.rightJustified(6, u' '); // for sorting numbers
                 msg = line.mid(semicolon_3 + 1, line.length() - semicolon_3 - 1).trimmed();
             } else if (caret_pos != -1 || line_count == lines.size()) {
                 // TODO: this fails if "^" occurs in the real text?!
                 if (line_count == lines.size() && caret_pos == -1) {
-                    msg = msg + '\n' + line;
+                    msg = msg + u'\n' + line;
                 }
                 QString col = QString::number(caret_pos);
                 if (col == QLatin1String("-1")) {
                     col = QLatin1String("");
                 }
                 err_count++;
-                list_count++;
-                QTreeWidgetItem *item = new QTreeWidgetItem();
-                item->setText(0, QString::number(list_count).rightJustified(4, ' '));
-                item->setText(1, linenumber);
-                item->setTextAlignment(1, (item->textAlignment(1) & ~Qt::AlignHorizontal_Mask) | Qt::AlignRight);
-                item->setText(2, col);
-                item->setTextAlignment(2, (item->textAlignment(2) & ~Qt::AlignHorizontal_Mask) | Qt::AlignRight);
-                item->setText(3, msg);
-                listview->addTopLevelItem(item);
+                // Diag item here
+                Diagnostic d;
+                int ln = linenumber.toInt() - 1;
+                ln = ln >= 0 ? ln : 0;
+                int cl = col.toInt() - 1;
+                cl = cl >= 0 ? cl : 0;
+                d.range = {ln, cl, ln, cl};
+                d.message = msg;
+                d.source = QStringLiteral("xmllint");
+                d.severity = DiagnosticSeverity::Warning;
+                diags << d;
             } else {
-                msg = msg + '\n' + line;
+                msg = msg + u'\n' + line;
+            }
+        }
+        if (!diags.empty()) {
+            if (auto v = m_mainWindow->activeView()) {
+                FileDiagnostics fd;
+                fd.uri = v->document()->url();
+                fd.diagnostics = diags;
+                Q_EMIT m_provider.diagnosticsAdded(fd);
+                m_provider.showDiagnosticsView();
             }
         }
     }
@@ -247,30 +204,7 @@ void PluginKateXMLCheckView::slotProcExited(int exitCode, QProcess::ExitStatus e
         } else {
             msg = QStringLiteral("No errors found, document is well-formed."); // no i18n here
         }
-        QTreeWidgetItem *item = new QTreeWidgetItem();
-        item->setText(0, QString::number(list_count + 1).rightJustified(4, ' '));
-        item->setText(3, msg);
-        listview->addTopLevelItem(item);
-    }
-}
-
-void PluginKateXMLCheckView::slotClicked(QTreeWidgetItem *item, int column)
-{
-    Q_UNUSED(column);
-    qDebug() << "slotClicked";
-    if (item) {
-        bool ok = true;
-        uint line = item->text(1).toUInt(&ok);
-        bool ok2 = true;
-        uint column = item->text(2).toUInt(&ok);
-        if (ok && ok2) {
-            KTextEditor::View *kv = m_mainWindow->activeView();
-            if (!kv) {
-                return;
-            }
-
-            kv->setCursorPosition(KTextEditor::Cursor(line - 1, column));
-        }
+        Utils::showMessage(msg, {}, i18n("XMLCheck"), MessageType::Info);
     }
 }
 
@@ -283,7 +217,6 @@ bool PluginKateXMLCheckView::slotValidate()
 {
     qDebug() << "slotValidate()";
 
-    m_mainWindow->showToolView(dock);
     m_validating = false;
     m_dtdname = QLatin1String("");
 
@@ -295,10 +228,8 @@ bool PluginKateXMLCheckView::slotValidate()
     m_tmp_file = new QTemporaryFile();
     if (!m_tmp_file->open()) {
         qDebug() << "Error (slotValidate()): could not create '" << m_tmp_file->fileName() << "': " << m_tmp_file->errorString();
-        KMessageBox::error(nullptr,
-                           i18n("<b>Error:</b> Could not create "
-                                "temporary file '%1'.",
-                                m_tmp_file->fileName()));
+        const QString msg = i18n("<b>Error:</b> Could not create temporary file '%1'.", m_tmp_file->fileName());
+        Utils::showMessage(msg, {}, i18n("XMLCheck"), MessageType::Error, m_mainWindow);
         delete m_tmp_file;
         m_tmp_file = nullptr;
         return false;
@@ -308,10 +239,20 @@ bool PluginKateXMLCheckView::slotValidate()
     s << kv->document()->text();
     s.flush();
 
-    QString exe = QStandardPaths::findExecutable(QStringLiteral("xmllint"));
+    // ensure we only execute xmllint from PATH or application package
+    static const auto executableName = QStringLiteral("xmllint");
+    QString exe = safeExecutableName(executableName);
     if (exe.isEmpty()) {
-        exe = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("xmllint"));
+        exe = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, executableName);
     }
+    if (exe.isEmpty()) {
+        const QString msg = i18n(
+            "<b>Error:</b> Failed to find xmllint. Please make "
+            "sure that xmllint is installed. It is part of libxml2.");
+        Utils::showMessage(msg, {}, i18n("XMLCheck"), MessageType::Error, m_mainWindow);
+        return false;
+    }
+
     // qDebug() << "exe=" <<exe;
     // 	// use catalogs for KDE docbook:
     // 	if( ! getenv("XML_CATALOG_FILES") ) {
@@ -342,7 +283,7 @@ bool PluginKateXMLCheckView::slotValidate()
     // xmllint --noout --path "/home/user/my/with:colon/" --valid "/tmp/kate.X23725"
     // As workaround we can encode ':' with %3A
     QString path = kv->document()->url().toString(QUrl::RemoveFilename | QUrl::PreferLocalFile | QUrl::EncodeSpaces);
-    path.replace(':', QLatin1String("%3A"));
+    path.replace(u':', QLatin1String("%3A"));
     // because of such inconvenience with xmllint and paths, maybe switch to xmlstarlet?
 
     qDebug() << "path=" << path;
@@ -355,18 +296,17 @@ bool PluginKateXMLCheckView::slotValidate()
     QString text_start = kv->document()->text().left(10000);
     // remove comments before looking for doctype (as a doctype might be commented out
     // and needs to be ignored then):
-    QRegExp re("<!--.*-->");
-    re.setMinimal(true);
+    static const QRegularExpression re(QStringLiteral("<!--.*-->"), QRegularExpression::InvertedGreedinessOption);
     text_start.remove(re);
-    QRegExp re_doctype("<!DOCTYPE\\s+(.*)\\s+(?:PUBLIC\\s+[\"'].*[\"']\\s+[\"'](.*)[\"']|SYSTEM\\s+[\"'](.*)[\"'])", Qt::CaseInsensitive);
-    re_doctype.setMinimal(true);
+    static const QRegularExpression re_doctype(QStringLiteral("<!DOCTYPE\\s+(.*)\\s+(?:PUBLIC\\s+[\"'].*[\"']\\s+[\"'](.*)[\"']|SYSTEM\\s+[\"'](.*)[\"'])"),
+                                               QRegularExpression::InvertedGreedinessOption | QRegularExpression::CaseInsensitiveOption);
 
-    if (re_doctype.indexIn(text_start) != -1) {
+    if (QRegularExpressionMatch match = re_doctype.match(text_start); match.hasMatch()) {
         QString dtdname;
-        if (!re_doctype.cap(2).isEmpty()) {
-            dtdname = re_doctype.cap(2);
+        if (!match.captured(2).isEmpty()) {
+            dtdname = match.captured(2);
         } else {
-            dtdname = re_doctype.cap(3);
+            dtdname = match.captured(2);
         }
         if (!dtdname.startsWith(QLatin1String("http:"))) { // todo: u_dtd.isLocalFile() doesn't work :-(
             // a local DTD is used
@@ -384,14 +324,15 @@ bool PluginKateXMLCheckView::slotValidate()
     args << m_tmp_file->fileName();
     qDebug() << "m_tmp_file->fileName()=" << m_tmp_file->fileName();
 
-    m_proc.start(exe, args);
+    startHostProcess(m_proc, exe, args);
     qDebug() << "m_proc.program():" << m_proc.program(); // I want to see parameters
     qDebug() << "args=" << args;
     qDebug() << "exit code:" << m_proc.exitCode();
     if (!m_proc.waitForStarted(-1)) {
-        KMessageBox::error(nullptr,
-                           i18n("<b>Error:</b> Failed to execute xmllint. Please make "
-                                "sure that xmllint is installed. It is part of libxml2."));
+        const QString msg = i18n(
+            "<b>Error:</b> Failed to execute xmllint. Please make "
+            "sure that xmllint is installed. It is part of libxml2.");
+        Utils::showMessage(msg, {}, i18n("XMLCheck"), MessageType::Error, m_mainWindow);
         return false;
     }
     QApplication::setOverrideCursor(Qt::WaitCursor);

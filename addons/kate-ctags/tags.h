@@ -6,12 +6,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TAGS_H
-#define TAGS_H
+#pragma once
 
 #include <QString>
 #include <QStringList>
-#include <QVector>
 
 class Tags
 {
@@ -26,7 +24,7 @@ public:
         QString pattern;
     };
 
-    typedef QVector<TagEntry> TagList;
+    typedef QList<TagEntry> TagList;
 
     /**
      *    Method to set the tag database filename
@@ -60,7 +58,5 @@ public:
 private:
     static QString _tagsfile;
 };
-
-#endif
 
 // kate: space-indent off; indent-width 4; tab-width 4; show-tabs off;

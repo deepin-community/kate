@@ -5,8 +5,7 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef _KATE_PROJECT_PLUGIN_VIEW_H_
-#define _KATE_PROJECT_PLUGIN_VIEW_H_
+#pragma once
 
 #include <QComboBox>
 #include <QMenu>
@@ -19,15 +18,19 @@
 
 #include <memory>
 
+#include <kateprojectview.h>
+
 class QAction;
 class QDir;
 class KateProject;
-class KateProjectView;
 class KateProjectPlugin;
 class KateProjectInfoView;
+class GitWidget;
 
 typedef QMap<QString, QString> QStringMap;
 Q_DECLARE_METATYPE(QStringMap)
+
+using ProjectNamesDirAndMap = QList<std::tuple<QString, QString, QVariantMap>>;
 
 class KateProjectPluginView : public QObject, public KXMLGUIClient
 {
@@ -42,6 +45,7 @@ class KateProjectPluginView : public QObject, public KXMLGUIClient
     Q_PROPERTY(QString allProjectsCommonBaseDir READ allProjectsCommonBaseDir)
     Q_PROPERTY(QStringList allProjectsFiles READ allProjectsFiles)
     Q_PROPERTY(QStringMap allProjects READ allProjects)
+    Q_PROPERTY(ProjectNamesDirAndMap allProjectMaps READ allProjectMaps)
 
 public:
     KateProjectPluginView(KateProjectPlugin *plugin, KTextEditor::MainWindow *mainWindow);
@@ -94,6 +98,18 @@ public:
     QMap<QString, QString> allProjects() const;
 
     /**
+     * @returns a list of all open projects in the following format
+     * tuple<ProjectName, ProjectBaseDir, ProjectMap>
+     * @see ProjectNamesDirAndMap
+     */
+    ProjectNamesDirAndMap allProjectMaps() const;
+
+    /**
+     * @returns the project map of the specified base directory (base directory is unique)
+     */
+    Q_INVOKABLE QVariantMap projectMapFor(const QString &baseDir) const;
+
+    /**
      * the main window we belong to
      * @return our main window
      */
@@ -112,29 +128,24 @@ public:
     }
 
     /**
-     * @brief Shows diff in a fixed view, i.e., the view is recycled instead
-     * of creating new view every time
-     * @param contents diff contents
-     */
-    void showDiffInFixedView(const QByteArray &contents);
-
-    /**
-     * Same as above with call back for setting a context menu
-     *
-     * @param cb Callback on the view. This should always take KTextEditor::View*
-     * as a parameter. This is mainly used to plug-in context-menu actions.
-     */
-    template<typename ViewCallback>
-    void showDiffInFixedView(const QByteArray &contents, ViewCallback cb)
-    {
-        showDiffInFixedView(contents);
-        cb(m_fixedView.view);
-    }
-
-    /**
      * Open terminal view at \p dirPath location for project \p project
      */
     void openTerminal(const QString &dirPath, KateProject *project);
+
+    /**
+     * Open a project
+     */
+    void openProject(KateProject *project);
+
+    /**
+     * Returns the current widget in m_stackedGitViews
+     */
+    GitWidget *gitWidget();
+
+    /**
+     * Runs the given @p cmd in active project's terminal
+     */
+    void runCmdInTerminal(const QString &cmd);
 
 public Q_SLOTS:
     /**
@@ -150,6 +161,8 @@ public Q_SLOTS:
      * @param dir dir with the project
      */
     void switchToProject(const QDir &dir);
+
+    void updateGitBranchButton(KateProject *project);
 
 private Q_SLOTS:
     /**
@@ -186,15 +199,24 @@ private Q_SLOTS:
     void slotProjectReload();
 
     /**
-     * Getting project for others windows
-     * and closing project documents.
+     * Close currently active project.
      */
-    void slotProjectAboutToClose();
+    void slotCloseProject();
 
     /**
-     * Close current project.
+     * Close all projects.
      */
-    void slotProjectClose(KateProject *project);
+    void slotCloseAllProjects();
+
+    /**
+     * Close all projects without open documents.
+     */
+    void slotCloseAllProjectsWithoutDocuments();
+
+    /**
+     * Handle closing of a project.
+     */
+    void slotHandleProjectClosing(KateProject *project);
 
     /**
      * Lookup current word
@@ -205,6 +227,13 @@ private Q_SLOTS:
      * Goto current word
      */
     void slotGotoSymbol();
+
+    /**
+     * activate the given project inside the project tool view
+     * will NOT show the project toolview
+     * @param project project to activate
+     */
+    void slotActivateProject(KateProject *project);
 
 Q_SIGNALS:
 
@@ -246,19 +275,9 @@ Q_SIGNALS:
     void gotoSymbol(const QString &word, int &results);
 
     /**
-     * Signal for outgoing message, the host application will handle them!
-     * Will only be handled inside the main windows of this plugin view.
-     * @param message outgoing message we send to the host application
+     * Emitted if projectMap was edited.
      */
-    void message(const QVariantMap &message);
-
-    /**
-     * Signal for location changed. Location gets saved in history
-     * of the current KateViewSpace
-     * @param document url
-     * @param c pos in document
-     */
-    void addPositionToHistory(const QUrl &url, KTextEditor::Cursor c);
+    void projectMapEdited();
 
 private Q_SLOTS:
     /**
@@ -276,6 +295,11 @@ private Q_SLOTS:
      * Url changed, to auto-load projects
      */
     void slotDocumentUrlChanged(KTextEditor::Document *document);
+
+    /**
+     * A helper to trigger an update of the git-widget.
+     */
+    void slotDocumentSaved();
 
     /**
      * Show context menu
@@ -296,11 +320,17 @@ private Q_SLOTS:
      * Open a folder / project
      */
     void openDirectoryOrProject();
+    void openDirectoryOrProject(const QDir &dir);
 
     /**
      * Show projects To-Dos and Fix-mes
      */
-    void showProjectTodos();
+    static void showProjectTodos();
+
+    /**
+     * Enable/disable project actions
+     */
+    void updateActions();
 
 private:
     /**
@@ -309,6 +339,12 @@ private:
     QString currentWord() const;
 
 private:
+    /**
+     * Watches for changes to .git/index
+     * If this is non-empty, we registered that file in the project watcher
+     */
+    QString m_gitChangedWatcherFile;
+
     /**
      * our plugin
      */
@@ -345,24 +381,14 @@ private:
     QComboBox *m_projectsCombo;
 
     /**
-     * combo box with all loaded projects inside
-     */
-    QComboBox *m_projectsComboGit;
-
-    /**
      * Reload button
      */
     QToolButton *m_reloadButton;
 
     /**
-     * Closeing button
+     * Closing button for current project
      */
     QToolButton *m_closeProjectButton;
-
-    /**
-     * Git status refresh button
-     */
-    QToolButton *m_gitStatusRefreshButton;
 
     /**
      * stacked widget will all currently created project views
@@ -374,10 +400,7 @@ private:
      */
     QStackedWidget *m_stackedProjectInfoViews;
 
-    /**
-     * stacked widget will all currently created git views
-     */
-    QStackedWidget *m_stackedgitViews;
+    GitWidget *m_gitWidget;
 
     /**
      * project => view
@@ -396,34 +419,22 @@ private:
     QSet<QObject *> m_textViews;
 
     /**
-     * lookup action
+     * project related actions
      */
     QAction *m_lookupAction;
-
-    /**
-     * goto symbol action
-     */
     QAction *m_gotoSymbolAction;
     QAction *m_gotoSymbolActionAppMenu;
-
-    class FixedView
-    {
-    public:
-        QPointer<KTextEditor::View> view;
-        QPointer<QMenu> defaultMenu;
-
-        void restoreMenu()
-        {
-            if (view && defaultMenu) {
-                view->setContextMenu(defaultMenu);
-            }
-        }
-    };
+    QAction *m_projectTodosAction;
+    QAction *m_projectPrevAction;
+    QAction *m_projectNextAction;
+    QAction *m_projectGotoIndexAction;
+    QAction *m_projectCloseAction;
+    QAction *m_projectCloseAllAction;
+    QAction *m_projectCloseWithoutDocumentsAction;
+    QAction *m_projectReloadAction;
 
     /**
-     * Fixed view for viewing diffs
+      checkout branch button in the statusbar
      */
-    FixedView m_fixedView;
+    std::unique_ptr<QToolButton> m_branchBtn = nullptr;
 };
-
-#endif

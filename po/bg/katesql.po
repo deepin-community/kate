@@ -2,30 +2,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Yasen Pramatarov <yasen@lindeas.com>, 2011.
+# SPDX-FileCopyrightText: 2022, 2023, 2025 Mincho Kondarev <mkondarev@yahoo.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-02 00:21+0000\n"
-"PO-Revision-Date: 2011-07-09 23:07+0300\n"
-"Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
-"Language-Team: Bulgarian <dict@fsa-bg.org>\n"
+"POT-Creation-Date: 2025-01-17 00:44+0000\n"
+"PO-Revision-Date: 2025-01-21 20:28+0100\n"
+"Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
+"Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.2\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Ясен Праматаров"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "yasen@lindeas.com"
+"X-Generator: Lokalize 25.03.70\n"
 
 #: connectionwizard.cpp:27
 #, kde-format
@@ -99,7 +90,7 @@ msgctxt "@label:textbox"
 msgid "Database name:"
 msgstr "Име на базата от данни:"
 
-#: connectionwizard.cpp:100 connectionwizard.cpp:180
+#: connectionwizard.cpp:100 connectionwizard.cpp:179
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Connection options:"
@@ -125,36 +116,36 @@ msgstr ""
 msgid "Database files"
 msgstr "Файлове на бази от данни"
 
-#: connectionwizard.cpp:177
+#: connectionwizard.cpp:177 exportwizard.cpp:54
 #, kde-format
 msgid "All files"
 msgstr "Всички файлове"
 
-#: connectionwizard.cpp:179
+#: connectionwizard.cpp:178
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Path:"
 msgstr "Път:"
 
-#: connectionwizard.cpp:212
+#: connectionwizard.cpp:211
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Unable to connect to database.<nl/><message>%1</message>"
 msgstr "Грешка при свързване с базата от данни.<nl/><message>%1</message>"
 
-#: connectionwizard.cpp:227
+#: connectionwizard.cpp:226
 #, kde-format
 msgctxt "@title Wizard page title"
 msgid "Connection Name"
 msgstr "Име на връзката"
 
-#: connectionwizard.cpp:228
+#: connectionwizard.cpp:227
 #, kde-format
 msgctxt "@title Wizard page subtitle"
 msgid "Enter a unique connection name"
 msgstr "Въведете име на връзката"
 
-#: connectionwizard.cpp:234
+#: connectionwizard.cpp:233
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Connection name:"
@@ -182,9 +173,9 @@ msgstr "Копиране"
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Export..."
-msgstr "Изнасяне..."
+msgstr "Експортиране..."
 
-#: dataoutputwidget.cpp:80 textoutputwidget.cpp:48
+#: dataoutputwidget.cpp:80 textoutputwidget.cpp:47
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Clear"
@@ -202,56 +193,54 @@ msgctxt "@info"
 msgid "Unable to open file <filename>%1</filename>"
 msgstr "Грешка при отваряне на файла <filename>%1</filename>"
 
-#: exportwizard.cpp:26
+#: exportwizard.cpp:25
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Wizard"
 msgstr "Помощник за изнасяне"
 
-#: exportwizard.cpp:41
+#: exportwizard.cpp:40
 #, kde-format
 msgctxt "@title Wizard page title"
 msgid "Output Target"
-msgstr ""
+msgstr "Цел на изход"
 
-#: exportwizard.cpp:42
+#: exportwizard.cpp:41
 #, kde-format
 msgctxt "@title Wizard page subtitle"
 msgid "Select the output target."
-msgstr ""
+msgstr "Избиране на цел на изхода."
 
-#: exportwizard.cpp:46
+#: exportwizard.cpp:45
 #, kde-format
 msgctxt "@option:radio Output target"
 msgid "Current document"
 msgstr "Текущ документ"
 
-#: exportwizard.cpp:47
+#: exportwizard.cpp:46
 #, kde-format
 msgctxt "@option:radio Output target"
 msgid "Clipboard"
 msgstr "Системен буфер"
 
-#: exportwizard.cpp:48
+#: exportwizard.cpp:47
 #, kde-format
 msgctxt "@option:radio Output target"
 msgid "File"
 msgstr "Файл"
 
-#: exportwizard.cpp:55
+#: exportwizard.cpp:54
 #, kde-format
-msgid ""
-"*.csv|Comma Separated Values\n"
-"*|All files"
-msgstr ""
+msgid "Comma Separated Values"
+msgstr "Данни, разделени със запетайка"
 
-#: exportwizard.cpp:97
+#: exportwizard.cpp:96
 #, kde-format
 msgctxt "@title Wizard page title"
 msgid "Fields Format"
 msgstr "Формат на полетата"
 
-#: exportwizard.cpp:98
+#: exportwizard.cpp:97
 #, kde-format
 msgctxt "@title Wizard page subtitle"
 msgid ""
@@ -261,55 +250,55 @@ msgstr ""
 "Изберете формат на полетата.\n"
 "След приключване данните ще бъдат изнесени."
 
-#: exportwizard.cpp:102
+#: exportwizard.cpp:101
 #, kde-format
 msgctxt "@title:group"
 msgid "Headers"
 msgstr "Заглавки"
 
-#: exportwizard.cpp:105
+#: exportwizard.cpp:104
 #, kde-format
 msgctxt "@option:check"
 msgid "Export column names"
 msgstr "Изнасяне имената на колоните"
 
-#: exportwizard.cpp:106
+#: exportwizard.cpp:105
 #, kde-format
 msgctxt "@option:check"
 msgid "Export line numbers"
 msgstr "Изнасяне номерата на редовете"
 
-#: exportwizard.cpp:113
+#: exportwizard.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Quotes"
-msgstr ""
+msgstr "Кавички"
+
+#: exportwizard.cpp:115
+#, kde-format
+msgctxt "@option:check"
+msgid "Quote strings"
+msgstr "Поставяне на низ в кавички"
 
 #: exportwizard.cpp:116
 #, kde-format
 msgctxt "@option:check"
-msgid "Quote strings"
-msgstr ""
-
-#: exportwizard.cpp:117
-#, kde-format
-msgctxt "@option:check"
 msgid "Quote numbers"
-msgstr ""
+msgstr "Поставяне на числа в кавички"
 
-#: exportwizard.cpp:125 exportwizard.cpp:128
+#: exportwizard.cpp:124 exportwizard.cpp:127
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Character:"
 msgstr "Знак:"
 
-#: exportwizard.cpp:134
+#: exportwizard.cpp:133
 #, kde-format
 msgctxt "@title:group"
 msgid "Delimiters"
 msgstr "Разделители"
 
-#: exportwizard.cpp:140
+#: exportwizard.cpp:139
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Field delimiter:"
@@ -327,125 +316,120 @@ msgctxt "@title:group"
 msgid "Output Customization"
 msgstr "Настройки на изхода"
 
-#: katesqlconfigpage.cpp:49
+#: katesqlconfigpage.cpp:53
 #, kde-format
 msgctxt "@title"
 msgid "SQL"
 msgstr "SQL"
 
-#: katesqlconfigpage.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "SQL Plugin Settings"
+#: katesqlconfigpage.cpp:58
+#, kde-format
 msgctxt "@title:window"
 msgid "SQL ConfigPage Settings"
-msgstr "Настройки на приставката за SQL"
+msgstr "Настройки на SQL ConfigPage"
 
-#: katesqlview.cpp:46
-#, fuzzy, kde-format
-#| msgid "KateSQLPlugin"
-msgid "Kate SQL Plugin"
-msgstr "Приставка на Kate за SQL"
+#: katesqlview.cpp:43
+#, kde-format
+msgid "SQL"
+msgstr "SQL"
 
-#: katesqlview.cpp:53
+#: katesqlview.cpp:50
 #, kde-format
 msgctxt "@title:window"
-msgid "SQL Results"
-msgstr ""
+msgid "SQL"
+msgstr "SQL"
 
-#: katesqlview.cpp:59
+#: katesqlview.cpp:56
 #, kde-format
 msgctxt "@title:window"
-msgid "SQL Schema Browser"
-msgstr ""
+msgid "SQL Schema"
+msgstr "Схема на SQL"
 
-#: katesqlview.cpp:107
+#: katesqlview.cpp:104
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Add connection..."
+msgid "Add Connection..."
 msgstr "Добавяне на връзка..."
 
-#: katesqlview.cpp:112
+#: katesqlview.cpp:109
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Remove connection"
+msgid "Remove Connection"
 msgstr "Премахване на връзка"
 
-#: katesqlview.cpp:117
+#: katesqlview.cpp:114
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Edit connection..."
+msgid "Edit Connection..."
 msgstr "Редактиране на връзка..."
 
-#: katesqlview.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Remove connection"
+#: katesqlview.cpp:119
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Reconnect"
-msgstr "Премахване на връзка"
+msgstr "Повторно свързване"
 
-#: katesqlview.cpp:128
+#: katesqlview.cpp:125
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Connection"
 msgstr "Връзка"
 
-#: katesqlview.cpp:132
+#: katesqlview.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Run query"
+msgid "Run Query"
 msgstr "Изпълнение на заявка"
 
-#: outputstylewidget.cpp:31
+#: outputstylewidget.cpp:29
 #, kde-format
 msgctxt "@title:column"
 msgid "Context"
 msgstr "Контекст"
 
-#: outputstylewidget.cpp:31
+#: outputstylewidget.cpp:29
 #, kde-format
 msgctxt "@title:column"
 msgid "Text Color"
 msgstr "Цвят на текста"
 
-#: outputstylewidget.cpp:32
+#: outputstylewidget.cpp:30
 #, kde-format
 msgctxt "@title:column"
 msgid "Background Color"
 msgstr "Фонов цвят"
 
-#: outputstylewidget.cpp:41
+#: outputstylewidget.cpp:39
 #, kde-format
 msgctxt "@item:intable"
 msgid "Text"
 msgstr "Текст"
 
-#: outputstylewidget.cpp:42
+#: outputstylewidget.cpp:40
 #, kde-format
 msgctxt "@item:intable"
 msgid "Number"
 msgstr "Число"
 
-#: outputstylewidget.cpp:43
+#: outputstylewidget.cpp:41
 #, kde-format
 msgctxt "@item:intable"
 msgid "Bool"
 msgstr "Булева стойност"
 
-#: outputstylewidget.cpp:44
+#: outputstylewidget.cpp:42
 #, kde-format
 msgctxt "@item:intable"
 msgid "Date & Time"
 msgstr "Дата и час"
 
-#: outputstylewidget.cpp:45
+#: outputstylewidget.cpp:43
 #, kde-format
 msgctxt "@item:intable"
 msgid "NULL"
 msgstr "NULL"
 
-#: outputstylewidget.cpp:46
+#: outputstylewidget.cpp:44
 #, kde-format
 msgctxt "@item:intable"
 msgid "BLOB"
@@ -455,94 +439,106 @@ msgstr "BLOB"
 #, kde-format
 msgctxt "@title:window"
 msgid "SQL Text Output"
-msgstr ""
+msgstr "Изходен текст на SQL"
 
 #: outputwidget.cpp:18
 #, kde-format
 msgctxt "@title:window"
 msgid "SQL Data Output"
-msgstr ""
+msgstr "Изходни данни на SQL"
 
-#: schemawidget.cpp:36
+#: schemawidget.cpp:34
 #, kde-format
 msgctxt "@title:column"
 msgid "Database schema"
 msgstr "Схема на базата от данни"
 
-#: schemawidget.cpp:93
+#: schemawidget.cpp:91
 #, kde-format
 msgctxt "@title Folder name"
 msgid "Tables"
 msgstr "Таблици"
 
-#: schemawidget.cpp:98
+#: schemawidget.cpp:96
 #, kde-format
 msgctxt "@title Folder name"
 msgid "Views"
 msgstr "Изгледи"
 
-#: schemawidget.cpp:112
+#: schemawidget.cpp:110
 #, kde-format
 msgctxt "@title Folder name"
 msgid "System Tables"
 msgstr "Системни таблици"
 
-#: schemawidget.cpp:267
+#: schemawidget.cpp:270
 #, kde-format
 msgctxt "@action:inmenu Context menu"
-msgid "Refresh"
-msgstr "Обновяване"
+msgid "Select Data"
+msgstr "Избиране на данни"
 
-#: schemawidget.cpp:275
+#: schemawidget.cpp:273
 #, kde-format
 msgctxt "@action:inmenu Submenu title"
 msgid "Generate"
 msgstr "Създаване"
 
-#: schemawidget.cpp:277
+#: schemawidget.cpp:275
 #, kde-format
 msgid "SELECT"
-msgstr ""
+msgstr "SELECT"
+
+#: schemawidget.cpp:276
+#, kde-format
+msgid "UPDATE"
+msgstr "UPDATE"
+
+#: schemawidget.cpp:277
+#, kde-format
+msgid "INSERT"
+msgstr "INSERT"
 
 #: schemawidget.cpp:278
 #, kde-format
-msgid "UPDATE"
-msgstr ""
-
-#: schemawidget.cpp:279
-#, kde-format
-msgid "INSERT"
-msgstr ""
-
-#: schemawidget.cpp:280
-#, kde-format
 msgid "DELETE"
-msgstr ""
+msgstr "DELETE"
 
-#: sqlmanager.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@info/plain"
-#| msgid "Query completed successfully"
+#: schemawidget.cpp:282
+#, kde-format
+msgctxt "@action:inmenu Context menu"
+msgid "Refresh"
+msgstr "Обновяване"
+
+#: sqlmanager.cpp:314
+#, kde-format
+msgid "Prepare Statement Failure"
+msgstr "Изготвяне на изявление за неуспех"
+
+#: sqlmanager.cpp:315
+#, kde-format
+msgid ""
+"<p>Preparing the query failed with the following error: %1</p><p>Do you want "
+"to continue without preparing the query?</p>"
+msgstr ""
+"<p>Приготвянето на заявката се оказа неуспешно със следната грешка: %1</"
+"p><p>Искате ли да продължите, без да подготвяте заявката?</p>"
+
+#: sqlmanager.cpp:345
+#, kde-format
 msgctxt "@info"
 msgid "Query completed successfully"
 msgstr "Заявката е изпълнена успешно"
 
-#: sqlmanager.cpp:349
-#, fuzzy, kde-format
-#| msgctxt "@info/plain"
-#| msgid "%1 record selected"
-#| msgid_plural "%1 records selected"
+#: sqlmanager.cpp:348
+#, kde-format
 msgctxt "@info"
 msgid "%1 record selected"
 msgid_plural "%1 records selected"
 msgstr[0] "Избран е %1 запис"
 msgstr[1] "Избрани са %1 записа"
 
-#: sqlmanager.cpp:353
-#, fuzzy, kde-format
-#| msgctxt "@info/plain"
-#| msgid "%1 row affected"
-#| msgid_plural "%1 rows affected"
+#: sqlmanager.cpp:352
+#, kde-format
 msgctxt "@info"
 msgid "%1 row affected"
 msgid_plural "%1 rows affected"
@@ -566,6 +562,3 @@ msgstr "Инструменти за връзки с SQL"
 #, kde-format
 msgid "SQL Toolbar"
 msgstr "Инструменти за SQL"
-
-#~ msgid "SQL Plugin"
-#~ msgstr "Приставка за SQL"

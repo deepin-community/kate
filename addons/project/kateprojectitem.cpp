@@ -8,10 +8,8 @@
 #include "kateprojectitem.h"
 #include "kateproject.h"
 
-#include <QCoreApplication>
-#include <QDir>
+#include <QApplication>
 #include <QFile>
-#include <QFileInfo>
 #include <QIcon>
 #include <QMessageBox>
 #include <QMimeDatabase>
@@ -22,9 +20,10 @@
 
 #include <KTextEditor/Document>
 
-KateProjectItem::KateProjectItem(Type type, const QString &text)
+KateProjectItem::KateProjectItem(Type type, const QString &text, const QString &path)
     : QStandardItem(text)
     , m_type(type)
+    , m_path(path)
 {
 }
 
@@ -40,7 +39,7 @@ void KateProjectItem::slotModifiedChanged(KTextEditor::Document *doc)
         m_icon = nullptr;
     }
 
-    if (doc->isModified()) {
+    if (doc && doc->isModified()) {
         if (m_emblem.isEmpty()) {
             m_icon = new QIcon(QIcon::fromTheme(QStringLiteral("document-save")));
         } else {
@@ -50,7 +49,7 @@ void KateProjectItem::slotModifiedChanged(KTextEditor::Document *doc)
     emitDataChanged();
 }
 
-void KateProjectItem::slotModifiedOnDisk(KTextEditor::Document *document, bool isModified, KTextEditor::ModificationInterface::ModifiedOnDiskReason reason)
+void KateProjectItem::slotModifiedOnDisk(KTextEditor::Document *document, bool isModified, KTextEditor::Document::ModifiedOnDiskReason reason)
 {
     Q_UNUSED(document)
     Q_UNUSED(isModified)
@@ -62,7 +61,7 @@ void KateProjectItem::slotModifiedOnDisk(KTextEditor::Document *document, bool i
 
     m_emblem.clear();
 
-    if (reason != KTextEditor::ModificationInterface::OnDiskUnmodified) {
+    if (reason != KTextEditor::Document::OnDiskUnmodified) {
         m_emblem = QStringLiteral("emblem-important");
     }
     emitDataChanged();
@@ -70,6 +69,10 @@ void KateProjectItem::slotModifiedOnDisk(KTextEditor::Document *document, bool i
 
 QVariant KateProjectItem::data(int role) const
 {
+    if (role == Qt::UserRole) {
+        return m_path;
+    }
+
     if (role == Qt::DecorationRole) {
         /**
          * this should only happen in main thread
@@ -145,13 +148,13 @@ void KateProjectItem::setData(const QVariant &value, int role)
          *  retrieve the ref to project that we stored
          *  in KateProjectTreeViewContextMenu
          */
-        KateProject *project = data(KateProjectItem::ProjectRole).value<KateProject *>();
+        auto *project = data(KateProjectItem::ProjectRole).value<KateProject *>();
         if (!project) {
             return;
         }
 
         auto oldFileName = data(Qt::DisplayRole).toString();
-        auto oldName = data(Qt::UserRole).toString();
+        auto oldName = m_path;
         QString newName = oldName;
         newName.replace(oldFileName, newFileName);
 
@@ -160,7 +163,7 @@ void KateProjectItem::setData(const QVariant &value, int role)
         }
 
         if (!QFile::rename(oldName, newName)) {
-            QMessageBox::critical(nullptr, i18n("Error"), i18n("File name already exists"));
+            QMessageBox::critical(QApplication::activeWindow(), i18n("Error"), i18n("File name already exists"));
             return;
         }
 
@@ -170,7 +173,7 @@ void KateProjectItem::setData(const QVariant &value, int role)
         project->renameFile(newName, oldName);
 
         // change internal path
-        setData(newName, Qt::UserRole);
+        m_path = newName;
     }
 
     QStandardItem::setData(value, role);

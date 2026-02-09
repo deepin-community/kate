@@ -51,10 +51,6 @@
 ></group
 > <group choice="opt"
 ><option
->--new-session</option
-></group
-> <group choice="opt"
-><option
 >-n, --new</option
 ></group
 > <group choice="opt"
@@ -110,7 +106,7 @@
 <para
 >El &kate; també proveeix la part editora a diverses aplicacions, sota el nom &kwrite;.</para>
 <para
->Algunes de les característiques de &kate; inclouen la configurabilitat del ressaltat de la sintaxi per a ordenar llenguatges com C i C++, &HTML; o scripts de bash, l'habilitat de crear i mantenir projectes, una interfície de múltiples documents (<acronym
+>Algunes de les característiques de &kate; inclouen el ressaltat configurable de la sintaxi per a llenguatges com C i C++, &HTML; o scripts de bash, l'habilitat de crear i mantenir projectes, una interfície de múltiples documents (<acronym
 >MDI</acronym
 >), i un emulador de terminal contingut a dins seu. </para>
 
@@ -143,18 +139,6 @@
 <term
 ><option
 >--startanon</option
-></term>
-<listitem
-><para
->Inicia el &kate; amb una nova sessió anònima, implica <option
->-n</option
-> (obsoleta).</para
-></listitem>
-</varlistentry>
-<varlistentry>
-<term
-><option
->--new-session</option
 ></term>
 <listitem
 ><para
@@ -299,9 +283,9 @@
 ></userinput
 >).</member>
 <member
->kf5options(7)</member>
+>kf6options(7)</member>
 <member
->qt5options(7)</member>
+>qt6options(7)</member>
 <member
 >També hi ha més informació disponible al <ulink url="https://kate-editor.org/"
 >lloc web del &kate;</ulink

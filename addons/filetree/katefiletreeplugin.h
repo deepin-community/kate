@@ -4,15 +4,12 @@
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KATE_FILETREE_PLUGIN_H
-#define KATE_FILETREE_PLUGIN_H
+#pragma once
 
-#include <QIcon>
 #include <QTimer>
 
-#include <KTextEditor/Command>
+#include <KTextEditor/Document>
 #include <KTextEditor/Plugin>
-#include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
 #include <ktexteditor/mainwindow.h>
 #include <ktexteditor/sessionconfiginterface.h>
@@ -21,7 +18,7 @@
 
 #include <KXMLGUIClient>
 
-class KToolBar;
+class QToolBar;
 
 class KateFileTree;
 class KateFileTreeModel;
@@ -33,10 +30,8 @@ class QLineEdit;
 
 class KateFileTreePlugin : public KTextEditor::Plugin
 {
-    Q_OBJECT
-
 public:
-    explicit KateFileTreePlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KateFileTreePlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KateFileTreePlugin() override;
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
@@ -53,14 +48,14 @@ public:
                      int sortRole,
                      bool showFullPath,
                      bool showToolbar,
-                     bool closeButton);
+                     bool closeButton,
+                     bool middleClickToClose);
 
-public Q_SLOTS:
+public:
     void viewDestroyed(QObject *view);
 
 private:
     QList<KateFileTreePluginView *> m_views;
-    KateFileTreeConfigPage *m_confPage = nullptr;
     KateFileTreePluginSettings m_settings;
 };
 
@@ -106,12 +101,17 @@ public:
     bool hasLocalPrefs() const;
     void setHasLocalPrefs(bool);
 
+    KTextEditor::MainWindow *mainWindow() const
+    {
+        return m_mainWindow;
+    }
+
 protected:
     void setupActions();
 
 private:
     QWidget *m_toolView;
-    KToolBar *m_toolbar;
+    QToolBar *m_toolbar;
     KateFileTree *m_fileTree;
     KateFileTreeProxyModel *m_proxyModel;
     QLineEdit *m_filter;
@@ -120,9 +120,10 @@ private:
     KateFileTreePlugin *m_plug;
     KTextEditor::MainWindow *m_mainWindow;
     QTimer m_documentsCreatedTimer;
+    QTimer m_proxyInvalidateTimer;
     QList<KTextEditor::Document *> m_documentsCreated;
 
-private Q_SLOTS:
+private:
     void showToolView();
     void hideToolView();
     void showActiveDocument();
@@ -135,6 +136,7 @@ private Q_SLOTS:
     void slotDocumentsCreated();
     void slotDocumentSave() const;
     void slotDocumentSaveAs() const;
-};
 
-#endif // KATE_FILETREE_PLUGIN_H
+    void slotWidgetCreated(QWidget *);
+    void slotWidgetRemoved(QWidget *);
+};

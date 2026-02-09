@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef CONNECTIONMODEL_H
-#define CONNECTIONMODEL_H
+#pragma once
 
 #include "connection.h"
 
@@ -16,10 +15,8 @@
 
 class ConnectionModel : public QAbstractListModel
 {
-    Q_OBJECT
-
 public:
-    ConnectionModel(QObject *parent = nullptr);
+    explicit ConnectionModel(QObject *parent = nullptr);
     ~ConnectionModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -42,5 +39,3 @@ private:
     QHash<QString, Connection> m_connections;
     QHash<Connection::Status, QIcon> m_icons;
 };
-
-#endif // CONNECTIONMODEL_H

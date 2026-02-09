@@ -39,23 +39,22 @@
 
 #include "plugin_katesymbolviewer.h"
 
-#include <KAboutData>
-#include <KActionCollection>
 #include <KConfigGroup>
+#include <KFuzzyMatcher>
+#include <KLineEdit>
 #include <KPluginFactory>
 #include <KSharedConfig>
-#include <KToggleAction>
 #include <KXMLGUIFactory>
 #include <QAction>
+#include <QKeyEvent>
 
-#include <ktexteditor/configinterface.h>
+#include <KTextEditor/Document>
 #include <ktexteditor/cursor.h>
 
 #include <QGroupBox>
 #include <QVBoxLayout>
 
 #include <QHeaderView>
-#include <QPainter>
 
 K_PLUGIN_FACTORY_WITH_JSON(KatePluginSymbolViewerFactory, "katesymbolviewerplugin.json", registerPlugin<KatePluginSymbolViewer>();)
 
@@ -64,8 +63,6 @@ KatePluginSymbolViewerView::KatePluginSymbolViewerView(KatePluginSymbolViewer *p
     , m_mainWindow(mw)
     , m_plugin(plugin)
 {
-    // FIXME KF5 KGlobal::locale()->insertCatalog("katesymbolviewerplugin");
-
     KXMLGUIClient::setComponentName(QStringLiteral("katesymbolviewer"), i18n("SymbolViewer"));
     setXMLFile(QStringLiteral("ui.rc"));
 
@@ -91,7 +88,7 @@ KatePluginSymbolViewerView::KatePluginSymbolViewerView(KatePluginSymbolViewer *p
     m_typesOn = m_popup->addAction(i18n("Show Parameters"), this, &KatePluginSymbolViewerView::displayOptionChanged);
     m_typesOn->setCheckable(true);
 
-    KConfigGroup config(KSharedConfig::openConfig(), "PluginSymbolViewer");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("PluginSymbolViewer"));
     m_typesOn->setChecked(config.readEntry(QStringLiteral("ViewTypes"), false));
     m_expandOn->setChecked(config.readEntry(QStringLiteral("ExpandTree"), false));
     m_treeOn->setChecked(config.readEntry(QStringLiteral("TreeView"), false));
@@ -110,12 +107,14 @@ KatePluginSymbolViewerView::KatePluginSymbolViewerView(KatePluginSymbolViewer *p
     m_currItemTimer.setSingleShot(true);
     connect(&m_currItemTimer, &QTimer::timeout, this, &KatePluginSymbolViewerView::updateCurrTreeItem);
 
-    QPixmap cls(class_xpm);
+    m_toolview = m_mainWindow->createToolView(plugin,
+                                              QStringLiteral("kate_plugin_symbolviewer"),
+                                              KTextEditor::MainWindow::Left,
+                                              QIcon::fromTheme(QStringLiteral("class")),
+                                              i18n("Symbol List"));
 
-    m_toolview = m_mainWindow->createToolView(plugin, QStringLiteral("kate_plugin_symbolviewer"), KTextEditor::MainWindow::Left, cls, i18n("Symbol List"));
-
-    QWidget *container = new QWidget(m_toolview);
-    QHBoxLayout *layout = new QHBoxLayout(container);
+    auto *container = new QWidget(m_toolview);
+    auto *layout = new QVBoxLayout(container);
 
     m_symbols = new QTreeWidget();
     m_symbols->setFocusPolicy(Qt::NoFocus);
@@ -127,6 +126,15 @@ KatePluginSymbolViewerView::KatePluginSymbolViewerView(KatePluginSymbolViewer *p
     connect(m_symbols, &QTreeWidget::customContextMenuRequested, this, &KatePluginSymbolViewerView::slotShowContextMenu);
     connect(m_symbols, &QTreeWidget::itemExpanded, this, &KatePluginSymbolViewerView::updateCurrTreeItem);
     connect(m_symbols, &QTreeWidget::itemCollapsed, this, &KatePluginSymbolViewerView::updateCurrTreeItem);
+
+    m_filter = new KLineEdit(container);
+    m_filter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
+    m_filter->setPlaceholderText(i18n("Filter…"));
+    m_filter->setClearButtonEnabled(true);
+    m_filter->setProperty("_breeze_borders_sides", QVariant::fromValue(QFlags{Qt::TopEdge}));
+    layout->addWidget(m_filter);
+
+    connect(m_filter, &KLineEdit::textChanged, this, &KatePluginSymbolViewerView::slotFilterChange);
 
     connect(m_mainWindow, &KTextEditor::MainWindow::viewChanged, this, &KatePluginSymbolViewerView::slotDocChanged);
 
@@ -264,19 +272,22 @@ QTreeWidgetItem *KatePluginSymbolViewerView::newActveItem(int &newItemLine, int 
 bool KatePluginSymbolViewerView::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
+        auto *ke = static_cast<QKeyEvent *>(event);
         if ((obj == m_toolview) && (ke->key() == Qt::Key_Escape)) {
             m_mainWindow->activeView()->setFocus();
             event->accept();
             return true;
         }
+    } else if (event->type() == QEvent::Show) {
+        slotDocChanged();
+        return true;
     }
     return QObject::eventFilter(obj, event);
 }
 
-void KatePluginSymbolViewerView::slotShowContextMenu(const QPoint &)
+void KatePluginSymbolViewerView::slotShowContextMenu(const QPoint &pos)
 {
-    m_popup->popup(QCursor::pos(), m_treeOn);
+    m_popup->popup(m_symbols->viewport()->mapToGlobal(pos), m_treeOn);
 }
 
 /**
@@ -342,8 +353,10 @@ void KatePluginSymbolViewerView::parseSymbols()
         parseBashSymbols();
     } else if (hlModeName == QLatin1String("ActionScript 2.0") || hlModeName == QLatin1String("JavaScript") || hlModeName == QLatin1String("QML")) {
         parseEcmaSymbols();
+    } else if (hlModeName == QLatin1String("Julia")) {
+        parseJuliaSymbols();
     } else {
-        QTreeWidgetItem *node = new QTreeWidgetItem(m_symbols);
+        auto *node = new QTreeWidgetItem(m_symbols);
         node->setText(0, i18n("Sorry, not supported yet!"));
         // Setting invalid line number avoid jump to top of document when clicked
         node->setText(1, QStringLiteral("-1"));
@@ -358,6 +371,8 @@ void KatePluginSymbolViewerView::parseSymbols()
         m_symbols->setSortingEnabled(true);
         m_symbols->sortItems(0, sortOrder);
     }
+
+    slotFilterChange(m_filter->text());
 }
 
 void KatePluginSymbolViewerView::goToSymbol(QTreeWidgetItem *it)
@@ -377,7 +392,33 @@ void KatePluginSymbolViewerView::goToSymbol(QTreeWidgetItem *it)
     kv->setCursorPosition(KTextEditor::Cursor(it->text(1).toInt(nullptr, 10), 0));
 }
 
-KatePluginSymbolViewer::KatePluginSymbolViewer(QObject *parent, const QList<QVariant> &)
+void KatePluginSymbolViewerView::slotFilterChange(const QString &text)
+{
+    QString filter = text.trimmed();
+    for (int i = 0; i < m_symbols->invisibleRootItem()->childCount(); ++i) {
+        QTreeWidgetItem *group_item = m_symbols->invisibleRootItem()->child(i);
+        filterSymbols(group_item, filter);
+        for (int j = 0; j < group_item->childCount(); ++j) {
+            filterSymbols(group_item->child(j), filter);
+        }
+    }
+}
+
+bool KatePluginSymbolViewerView::filterSymbols(QTreeWidgetItem *item, const QString &filter)
+{
+    bool at_least_one_child_shown = false;
+    for (int i = 0; i < item->childCount(); ++i) {
+        if (filterSymbols(item->child(i), filter)) {
+            at_least_one_child_shown = true;
+        }
+    }
+    bool is_item_match = KFuzzyMatcher::matchSimple(filter, item->text(0));
+    bool is_item_shown = at_least_one_child_shown || filter.isEmpty() || is_item_match;
+    item->setHidden(!is_item_shown);
+    return is_item_shown;
+}
+
+KatePluginSymbolViewer::KatePluginSymbolViewer(QObject *parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
 {
     // qDebug()<<"KatePluginSymbolViewer";
@@ -395,7 +436,7 @@ QObject *KatePluginSymbolViewer::createView(KTextEditor::MainWindow *mainWindow)
 
 KTextEditor::ConfigPage *KatePluginSymbolViewer::configPage(int, QWidget *parent)
 {
-    KatePluginSymbolViewerConfigPage *p = new KatePluginSymbolViewerConfigPage(this, parent);
+    auto *p = new KatePluginSymbolViewerConfigPage(this, parent);
 
     KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("PluginSymbolViewer"));
     p->viewReturns->setChecked(config.readEntry(QStringLiteral("ViewTypes"), false));
@@ -414,7 +455,7 @@ void KatePluginSymbolViewer::applyConfig(KatePluginSymbolViewerConfigPage *p)
     config.writeEntry(QStringLiteral("TreeView"), p->treeView->isChecked());
     config.writeEntry(QStringLiteral("SortSymbols"), p->sortSymbols->isChecked());
 
-    for (auto view : m_views) {
+    for (auto view : std::as_const(m_views)) {
         view->m_typesOn->setChecked(p->viewReturns->isChecked());
         view->m_expandOn->setChecked(p->expandTree->isChecked());
         view->m_treeOn->setChecked(p->treeView->isChecked());
@@ -429,7 +470,7 @@ void KatePluginSymbolViewer::applyConfig(KatePluginSymbolViewerConfigPage *p)
 KatePluginSymbolViewerConfigPage::KatePluginSymbolViewerConfigPage(QObject * /*parent*/ /*= 0L*/, QWidget *parentWidget /*= 0L*/)
     : KTextEditor::ConfigPage(parentWidget)
 {
-    QVBoxLayout *lo = new QVBoxLayout(this);
+    auto *lo = new QVBoxLayout(this);
     // int spacing = KDialog::spacingHint();
     // lo->setSpacing( spacing );
 
@@ -438,8 +479,8 @@ KatePluginSymbolViewerConfigPage::KatePluginSymbolViewerConfigPage(QObject * /*p
     treeView = new QCheckBox(i18n("Always display symbols in tree mode"));
     sortSymbols = new QCheckBox(i18n("Always sort symbols"));
 
-    QGroupBox *parserGBox = new QGroupBox(i18n("Parser Options"), this);
-    QVBoxLayout *top = new QVBoxLayout(parserGBox);
+    auto *parserGBox = new QGroupBox(i18n("Parser Options"), this);
+    auto *top = new QVBoxLayout(parserGBox);
     top->addWidget(viewReturns);
     top->addWidget(expandTree);
     top->addWidget(treeView);
@@ -468,13 +509,15 @@ QString KatePluginSymbolViewerConfigPage::name() const
 {
     return i18n("Symbol Viewer");
 }
+
 QString KatePluginSymbolViewerConfigPage::fullName() const
 {
     return i18n("Symbol Viewer Configuration Page");
 }
+
 QIcon KatePluginSymbolViewerConfigPage::icon() const
 {
-    return QPixmap(class_xpm);
+    return QIcon::fromTheme(QLatin1String("code-class"));
 }
 
 void KatePluginSymbolViewerConfigPage::apply()
@@ -483,6 +526,20 @@ void KatePluginSymbolViewerConfigPage::apply()
 }
 // END KatePluginSymbolViewerConfigPage
 
-#include "plugin_katesymbolviewer.moc"
+// BEGIN parsers
+#include "bash_parser.cpp"
+#include "cpp_parser.cpp"
+#include "ecma_parser.cpp"
+#include "fortran_parser.cpp"
+#include "julia_parser.cpp"
+#include "perl_parser.cpp"
+#include "php_parser.cpp"
+#include "python_parser.cpp"
+#include "ruby_parser.cpp"
+#include "tcl_parser.cpp"
+#include "xml_parser.cpp"
+#include "xslt_parser.cpp"
+// END parsers
 
-// kate: space-indent on; indent-width 2; replace-tabs on;
+#include "moc_plugin_katesymbolviewer.cpp"
+#include "plugin_katesymbolviewer.moc"

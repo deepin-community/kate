@@ -43,7 +43,7 @@ K_PLUGIN_FACTORY_WITH_JSON(CloseExceptPluginFactory, "katecloseexceptplugin.json
 namespace kate
 {
 // BEGIN CloseExceptPlugin
-CloseExceptPlugin::CloseExceptPlugin(QObject *application, const QList<QVariant> &)
+CloseExceptPlugin::CloseExceptPlugin(QObject *application, const QVariantList &)
     : KTextEditor::Plugin(application)
 {
 }
@@ -82,7 +82,7 @@ CloseExceptPluginView::CloseExceptPluginView(KTextEditor::MainWindow *mw, CloseE
     actionCollection()->addAction(QStringLiteral("file_close_except"), m_except_menu);
     actionCollection()->addAction(QStringLiteral("file_close_like"), m_like_menu);
 
-    connect(KTextEditor::Editor::instance(), &KTextEditor::Editor::documentCreated, this, &CloseExceptPluginView::documentCreated);
+    connect(KTextEditor::Editor::instance()->application(), &KTextEditor::Application::documentCreated, this, &CloseExceptPluginView::documentCreated);
     // Configure toggle action and connect it to update state
     m_show_confirmation_action->setChecked(m_plugin->showConfirmationNeeded());
     connect(m_show_confirmation_action.data(), &KToggleAction::toggled, m_plugin, &CloseExceptPlugin::toggleShowConfirmation);
@@ -105,13 +105,13 @@ void CloseExceptPluginView::viewCreated(KTextEditor::View *view)
     updateMenu();
 }
 
-void CloseExceptPluginView::documentCreated(KTextEditor::Editor *, KTextEditor::Document *document)
+void CloseExceptPluginView::documentCreated(KTextEditor::Document *document)
 {
     connectToDocument(document);
     updateMenu();
 }
 
-void CloseExceptPluginView::connectToDocument(KTextEditor::Document *document)
+void CloseExceptPluginView::connectToDocument(KTextEditor::Document *document) const
 {
     // Subscribe self to document close and name changes
     connect(document, &KTextEditor::Document::aboutToClose, this, &CloseExceptPluginView::updateMenuSlotStub);
@@ -158,10 +158,11 @@ void CloseExceptPluginView::updateMenu(const std::set<QUrl> &paths,
     menu->setEnabled(!paths.empty());
 
     // Clear previous menus
-    for (actions_map_type::iterator it = actions.begin(), last = actions.end(); it != last;) {
-        menu->removeAction(*it);
-        actions.erase(it++);
+    for (const auto &[_, action] : actions) {
+        menu->removeAction(action);
     }
+    actions.clear();
+
     // Form a new one
     appendActionsFrom(paths, actions, menu, closeFunction);
     if (!masks.empty()) {
@@ -201,9 +202,9 @@ void CloseExceptPluginView::updateMenu()
         paths_set_type paths = doc_paths;
         // qDebug() << "stage #1: Collected" << paths.size() << "paths and" << masks.size() << "masks";
         // Add common paths to the collection
-        for (paths_set_type::iterator it = doc_paths.begin(), last = doc_paths.end(); it != last; ++it) {
+        for (auto it = doc_paths.begin(), last = doc_paths.end(); it != last; ++it) {
             for (QUrl url = *it; (!url.path().isEmpty()) && url.path() != QLatin1String("/"); url = KIO::upUrl(url)) {
-                paths_set_type::iterator not_it = it;
+                auto not_it = it;
                 for (++not_it; not_it != last; ++not_it) {
                     if (!not_it->path().startsWith(url.path())) {
                         break;

@@ -1,0 +1,32 @@
+From 79765d29d45be90378bb56d68431ab2f09fbebae Mon Sep 17 00:00:00 2001
+From: Igor Kushnir <igorkuo@gmail.com>
+Date: Sat, 10 May 2025 20:37:33 +0300
+Subject: [PATCH] Emit changed() when LSP servers are forgotten about
+
+Emit the signal ConfigPage::changed() to enable the Apply button in the
+Configure dialog when the user chooses to forget about some LSP servers.
+---
+ addons/lspclient/lspclientconfigpage.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/addons/lspclient/lspclientconfigpage.cpp b/addons/lspclient/lspclientconfigpage.cpp
+index ef60d787b5..f55079e3f4 100644
+--- a/addons/lspclient/lspclientconfigpage.cpp
++++ b/addons/lspclient/lspclientconfigpage.cpp
+@@ -280,11 +280,13 @@ void LSPClientConfigPage::showContextMenuAllowedBlocked(const QPoint &pos)
+ 
+     auto currentDelete = myMenu.addAction(i18n("Delete selected entries"), this, [this]() {
+         qDeleteAll(ui->allowedAndBlockedServers->selectedItems());
++        Q_EMIT changed();
+     });
+     currentDelete->setEnabled(!ui->allowedAndBlockedServers->selectedItems().isEmpty());
+ 
+     auto allDelete = myMenu.addAction(i18n("Delete all entries"), this, [this]() {
+         ui->allowedAndBlockedServers->clear();
++        Q_EMIT changed();
+     });
+     allDelete->setEnabled(ui->allowedAndBlockedServers->count() > 0);
+ 
+-- 
+GitLab
+

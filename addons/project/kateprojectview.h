@@ -5,14 +5,12 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_VIEW_H
-#define KATE_PROJECT_VIEW_H
+#pragma once
 
 #include "kateproject.h"
 #include "kateprojectviewtree.h"
 
-#include <QFileSystemWatcher>
-#include <QPointer>
+#include <QTimer>
 
 class KLineEdit;
 class KateProjectPluginView;
@@ -27,15 +25,13 @@ class FileHistoryWidget;
  */
 class KateProjectView : public QWidget
 {
-    Q_OBJECT
-
 public:
     /**
      * construct project view for given project
      * @param pluginView our plugin view
      * @param project project this view is for
      */
-    KateProjectView(KateProjectPluginView *pluginView, KateProject *project, KTextEditor::MainWindow *mainWindow);
+    KateProjectView(KateProjectPluginView *pluginView, KateProject *project);
 
     /**
      * deconstruct project
@@ -62,16 +58,12 @@ public:
      */
     void openSelectedDocument();
 
-private Q_SLOTS:
+private:
     /**
      * React on filter change
      * @param filterText new filter text
      */
-    void filterTextChanged(const QString &filterText);
-
-    void setTreeViewAsCurrent();
-
-    void showFileGitHistory(const QString &file);
+    void filterTextChanged();
 
     /**
      * On project model change, check if project
@@ -97,24 +89,18 @@ private:
     KateProjectViewTree *m_treeView;
 
     /**
-     * Contains treeview + file history commit list
-     */
-    QStackedWidget *m_stackWidget;
-
-    /**
      * filter
      */
     KLineEdit *m_filter;
 
     /**
-      checkout branch button
+     * watches for changes to .git/HEAD
+     * If this is non-empty, we registered that file in the project watcher
      */
-    QToolButton *m_branchBtn;
+    QString m_branchChangedWatcherFile;
 
     /**
-     * watches for changes to .git/HEAD
+     * filter timer
      */
-    QFileSystemWatcher m_branchChangedWatcher;
+    QTimer m_filterStartTimer;
 };
-
-#endif

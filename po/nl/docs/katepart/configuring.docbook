@@ -1,6 +1,6 @@
 <chapter id="config-dialog">
 <title
->&kappname; instellen</title>
+>&kappname; configureren</title>
 <para
 >Met het kiezen van <menuchoice
 ><guimenu
@@ -46,9 +46,17 @@
 <title
 >Uiterlijk</title>
 
-<sect3 id="prefcolors-fonts">
+<sect3 id="appearance-general">
 <title
->Lettertype</title>
+>Algemeen</title>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Lettertype voor editor</guilabel
+></term>
+<listitem>
 <para
 >Hier kunt u het lettertype kiezen voor de tekst in de bewerker. U kunt kiezen uit elk beschikbare lettertype op uw systeem, en een standaardgrootte instellen. Onderaan het dialoogvenster wordt een voorbeeldtekst getoond, zodat u het effect van uw keuze kunt zien. </para>
 <para
@@ -59,75 +67,30 @@
 >&kde; Fundamentals</emphasis
 ></ulink
 >.</para>
-</sect3>
-
-<sect3 id="appearance-general">
-<title
->Algemeen</title>
-
-<variablelist>
-<varlistentry>
-<term
-><guilabel
->Dynamische regelafbreking</guilabel
-></term>
-<listitem>
-<para
->Wanneer deze optie aangevinkt is, zullen de tekstregels afgebroken worden aan de rechter rand van het editorvenster.</para>
-<variablelist>
-<varlistentry>
-<term
-><guilabel
->Dynamische regelafbreking-indicators (indien van toepassing)</guilabel
-></term>
-<listitem
-><para
->Kies wanneer de dynamische regelafbreking-indicators getoond moeten worden, ofwel <guilabel
->Uit</guilabel
->, <guilabel
->Volg regelnummers</guilabel
-> of <guilabel
->Altijd aan</guilabel
->. </para
-></listitem
-></varlistentry>
-<varlistentry>
-<term
-><guilabel
->Dynamisch afgebroken regels uitlijnen op inspringpositie: </guilabel
-></term>
-<listitem
-><para
->Dynamisch afgebroken regels kunnen verticaal worden uitgelijnd op het inspringniveau van de eerste regel. Dit kan helpen code en markup leesbaarder te maken.</para
-><para
->Bovendien kunt u hier een maximale breedte van het venster, als percentage, instellen waarna dynamisch afgebroken regels niet langer verticaal worden uitgelijnd. Ingesteld op bijvoorbeeld 50 % zullen regels, waarvan het inspringniveau groter is dan 50 % van de vensterbreedte, na afbreking niet verticaal worden uitgelijnd.</para
-></listitem>
-</varlistentry>
-</variablelist>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Witruimte accentueren</guilabel
+>Witruimte-indicatoren tonen</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Tabulators accentueren</guilabel
+>Nooit</guilabel
 ></term>
 <listitem
 ><para
->De editor zal het symbool &raquo; tonen om de aanwezigheid van een tab in de tekst aan te geven.</para
+>De tekstbewerker zal nooit punten tonen om het aanwezig zijn van witruimte aan te geven.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
 <term
 ><guilabel
->Spaties aan het einde van de regel accentueren</guilabel
+>Aan het regeleinde</guilabel
 ></term>
 <listitem
 ><para
@@ -137,35 +100,45 @@
 <varlistentry>
 <term
 ><guilabel
->Grootte van markering van accentueren</guilabel
+>Altijd</guilabel
 ></term>
 <listitem
 ><para
->De schuifregelaar gebruiken om de grootte van de zichtbare markering van accentuering te wijzigen.</para
+>De tekstbewerker zal altijd punten tonen om het aanwezig zijn van extra witruimte aan te geven.</para
 ></listitem>
 </varlistentry>
 </variablelist>
 </listitem>
 </varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Grootte van witruimte-indicator</guilabel
+></term>
+<listitem
+><para
+>De schuifregelaar gebruiken om de grootte van de zichtbare indicatormarkering te wijzigen.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Tabindicatoren tonen</guilabel
+></term>
+<listitem
+><para
+>Indien geactiveerd zal de editor het symbool &raquo; tonen om de aanwezigheid van een tab in de tekst aan te geven.</para
+></listitem>
+</varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Geavanceerd </guilabel
+>Haken overeen laten komen </guilabel
 ></term>
 <listitem
 ><para>
 <variablelist>
-<varlistentry>
-<term
-><guilabel
->Inspronglijnen tonen </guilabel
-></term>
-<listitem
-><para
->Wanneer dit aangevinkt is, toont de editor verticale lijnen om ingesprongen regels beter te herkennen.</para
-></listitem>
-</varlistentry>
 <varlistentry>
 <term
 ><guilabel
@@ -176,14 +149,20 @@
 >Wanneer dit ingeschakeld is, zal het bereik tussen de geselecteerde, bij elkaar horende haakjes geaccentueerd worden.</para
 ></listitem>
 </varlistentry>
-</variablelist>
-</para
+<varlistentry>
+<term
+><guilabel
+>Voorbeeld van overeenkomend openhaakje tonen </guilabel
+></term>
+<listitem
+><para
+>Indien geactiveerd zal de editor een tekstballon van het bijbehorende opening vierkante haakje tonen.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
 <term
 ><guilabel
->Overeenkomende vierkante haken animeren </guilabel
+>Bijbehorend vierkante haakje laten knipperen wanneer de cursor naar het andere haakje van het paar beweegt </guilabel
 ></term>
 <listitem
 ><para
@@ -199,19 +178,33 @@
 >(</keycap
 > of <keycap
 >)</keycap
->) zal snel de overeenkomstige haak animeren.</para
+>) zal snel de overeenkomstige haak laten knipperen.</para
 ></listitem>
 </varlistentry>
+</variablelist>
+</para
+></listitem>
+</varlistentry>
+
 <varlistentry>
 <term
 ><guilabel
->Eerste regel invouwen </guilabel
+>Inspronglijnen tonen </guilabel
 ></term>
 <listitem
 ><para
->Indien ingeschakeld zal de eerste regel invouwen zijn, indien mogelijk. Dit is nuttig, als het bestand begint met een commentaarregel, zoals een copyright</para
+>Wanneer dit aangevinkt is, toont de editor verticale lijnen om ingesprongen regels beter te herkennen.</para
 ></listitem>
 </varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Aantallen </guilabel
+></term>
+<listitem
+><para>
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
@@ -233,6 +226,94 @@
 ></listitem>
 </varlistentry>
 </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Eerste regel invouwen </guilabel
+></term>
+<listitem
+><para
+>Indien ingeschakeld zal de eerste regel invouwen zijn, indien mogelijk. Dit is nuttig, als het bestand begint met een commentaarregel, zoals een copyright</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Dynamische regelafbreking</guilabel
+></term>
+<listitem>
+<para
+>Wanneer deze optie aangevinkt is, zullen de tekstregels afgebroken worden aan de rechter rand van het editorvenster.</para>
+<para>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Dynamisch regel afbreken op statische afbreekmarkering van woord </guilabel
+></term>
+<listitem
+><para
+>Indien geactiveerd zal de editor regels dynamisch afbreken op de <link linkend="pref-word-wrap"
+>positie voor statische regelafbreking</link
+>.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Niet op woordgrenzen letten voor dynamische regelafbreking </guilabel
+></term>
+<listitem
+><para
+>Indien geactiveerd, houdt de editor geen rekening met woordgrenzen bij afbreken van tekstregels.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Dynamische regelafbrekingindicatoren:</guilabel
+></term>
+<listitem
+><para
+>Kies wanneer de dynamische regelafbrekingindicatoren getoond moeten worden, ofwel <guilabel
+>Uit</guilabel
+>, <guilabel
+>Volg regelnummers</guilabel
+> of <guilabel
+>Altijd aan</guilabel
+>. </para
+></listitem
+></varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Afgebroken regels laten inspringen </guilabel
+></term>
+<listitem
+><para
+>Bovendien kunt u hier een maximale breedte van het venster, als percentage, instellen waarna dynamisch afgebroken regels niet langer verticaal worden uitgelijnd. Ingesteld op bijvoorbeeld 50 % zullen regels, waarvan het inspringniveau groter is dan 50 % van de vensterbreedte, na afbreking niet verticaal worden uitgelijnd.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Vermenigvuldiger van regelhoogte </guilabel
+></term>
+<listitem
+><para
+>Deze waarde zal vermenigvuldigd worden met de standaard regelhoogte van het lettertype. Een waarde van 1,0 betekent dat de standaard hoogte gebruikt zal worden.</para
+></listitem
+></varlistentry>
+</variablelist>
 </sect3>
 
 <sect3 id="appearance-borders">
@@ -243,14 +324,14 @@
 <varlistentry>
 <term
 ><guilabel
->Randen</guilabel
+>Codeblok-invouwing</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Invouwmarkeringen tonen </guilabel
+>Pijlen tonen om codeblokken in te vouwen </guilabel
 ></term>
 <listitem
 ><para
@@ -260,17 +341,47 @@
 <varlistentry>
 <term
 ><guilabel
->Voorbeeld van de ingevouwen code tonen </guilabel
+>Voorbeeld van de ingevouwen blokken tonen bij erboven zweven </guilabel
 ></term>
 <listitem
 ><para
 >Als deze optie is geselecteerd zal met de muis over het ingevouwen gebied gaan een voorbeeld van de ingevouwen tekst laten zien in een pop-up.</para
 ></listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Pictogramrand tonen </guilabel
+>Zichtbaarheid van invouwpijlen</guilabel
+></term>
+<listitem
+><para
+>Schakel de invouwpijlen tussen <guimenuitem
+>Bij er boven zweven tonen</guimenuitem
+> en <guimenuitem
+>Altijd tonen</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Linkerkant</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Markeringen tonen </guilabel
 ></term>
 <listitem
 ><para
@@ -290,17 +401,30 @@
 <varlistentry>
 <term
 ><guilabel
->Markeringen voor wijzigingen in regels tonen </guilabel
+>Gewijzigde en niet opgeslagen regels accentueren </guilabel
 ></term>
 <listitem
 ><para
 >Als dit is geactiveerd zullen markeringen voor wijzigingen in regels zichtbaar zijn. Voor meer informatie, zie <xref linkend="kate-part-line-modification"/>. </para
 ></listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Schuifbalkmarkeringen tonen </guilabel
+>Schuifbalken</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Markeringen tonen </guilabel
 ></term>
 <listitem
 ><para
@@ -310,21 +434,34 @@
 <varlistentry>
 <term
 ><guilabel
->Voorbeeld van tekst laten zien op de schuifbalk</guilabel
+>Voorbeeld tonen bij zweven boven schuifbalk</guilabel
 ></term>
 <listitem
 ><para
 >Als deze optie is geactiveerd en u zweeft met de muiswijzer boven de schuifbalk dan zal een klein tekstvoorbeeld met enkele regels van het huidige document rond de cursorpositie worden getoond. Dit stelt u in staat om snel te schakelen naar een ander gedeelte van het document.</para>
 </listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Schuifbalk van mini-weergave tonen</guilabel
+>Mini-weergave</guilabel
+></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Mini-weergave tonen</guilabel
 ></term>
 <listitem
 ><para
->Als u deze optie selecteert zal elke nieuwe weergave een mini-map van het document op de verticale schuifbalk tonen.</para>
+>Als u deze optie selecteert zal elke nieuwe weergave een mini-weergave van het document op de verticale schuifbalk tonen.</para>
 <para
 >Voor meer informatie over de schuifbalk met mini-map, zie <xref linkend="kate-part-scrollbar-minimap"/>.</para
 ></listitem>
@@ -352,18 +489,20 @@
 </variablelist>
 </listitem>
 </varlistentry>
+</variablelist>
 
+<variablelist>
 <varlistentry>
 <term
 ><guilabel
->Bladwijzermenu sorteren </guilabel
+>Bladwijzermenu sorteren</guilabel
 ></term>
 <listitem>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Op aanmaakdatum </guilabel
+>Op datum aangemaakt </guilabel
 ></term>
 <listitem
 ><para
@@ -373,7 +512,7 @@
 <varlistentry>
 <term
 ><guilabel
->Op positie </guilabel
+>Op regelnummer </guilabel
 ></term>
 <listitem
 ><para
@@ -393,22 +532,18 @@
 >Kleurenthema's</title>
 
 <para
->In deze sectie van het dialoogvenster kunt u alle kleuren in elk kleurenschema waarover u beschikt configureren. Tevens kunt u nieuwe thema's creëren of bestaande thema's wissen. Elk thema heeft instellingen voor kleuren en stijlen voor normale en geaccentueerde tekst. </para>
+>In deze sectie van het dialoogvenster kunt u alle kleuren in elk kleurenschema waarover u beschikt configureren. Tevens kunt u nieuwe thema's creëren, bestaande thema's wissen of gewoon <guilabel
+>Systeemkleurenschema volgen</guilabel
+>. Elk thema heeft instellingen voor kleuren en stijlen voor normale en geaccentueerde tekst. </para>
 
 <para
 >&kappname; zal het huidige actieve thema voor u voorselecteren. Als u aan een ander thema wilt werken moet u dat eerst kiezen uit de keuzelijst <guilabel
->Thema</guilabel
+>Thema selecteren</guilabel
 >. Met de knoppen <guibutton
 >Kopiëren</guibutton
 > en <guibutton
 >Verwijderen</guibutton
 > kunt u een nieuw thema (een bestaande kopiëren) creëren of een bestaande verwijderen.</para>
-<para
->Onderaan de pagina kunt u het <guilabel
->Standaard thema voor <replaceable
->Toepassing</replaceable
-></guilabel
-> selecteren.</para>
 
 <para
 >Dit is in detail beschreven in <xref linkend="color-themes-gui"/>.</para>
@@ -427,18 +562,18 @@
 <varlistentry>
 <term id="pref-word-wrap"
 ><guilabel
->Statische regelafbreking</guilabel
+>Regelafbreking</guilabel
 ></term>
 <listitem
 ><para
->Regelafbreking is een functie die ervoor zorgt dat de editor automatisch een nieuwe tekstregel begint en de cursor naar het begin van die nieuwe regel verplaatst. &kappname; zal automatisch een nieuwe tekstregel beginnen wanneer de huidige regel de positie bereikt opgegeven bij de optie <link linkend="pref-wrap-words-at"
+>Regelafbreking is een functie die ervoor zorgt dat de editor automatisch een nieuwe tekstregel begint en de cursor naar het begin van die nieuwe regel verplaatst. &kappname; zal automatisch een nieuwe tekstregel beginnen wanneer de huidige regel de positie bereikt die is opgegeven bij de optie <link linkend="pref-wrap-words-at"
 >Regels afbreken op:</link
 >.</para>
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Statische regelafbreking activeren</guilabel
+>Regels op woord afbreken op een vaste kolom</guilabel
 ></term>
 <listitem>
 <para
@@ -448,7 +583,7 @@
 <varlistentry>
 <term
 ><guilabel
->Statische-regelafbreking-markering tonen (indien van toepassing)</guilabel
+>Verticale lijn tekenen op de kolom voor regelafbreking</guilabel
 ></term>
 <listitem>
 <para
@@ -469,7 +604,7 @@
 <listitem>
 <para
 >Wanneer de optie <link linkend="pref-word-wrap"
->Statische regelafbreking activeren</link
+>Regels afbreken op een vaste kolom</link
 > geselecteerd is, bepaalt de invoer hier de positie (in tekens) waarop de editor automatisch naar een nieuwe regel zal gaan.</para>
 </listitem>
 </varlistentry>
@@ -479,7 +614,7 @@
 <varlistentry>
 <term
 ><guilabel
->Invoermodus</guilabel
+>Standaard invoermodus</guilabel
 ></term
 > <listitem
 ><para
@@ -488,14 +623,17 @@
 >. </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term
 ><guilabel
->Automatische blokhaakjes</guilabel
+>Blokhaakjes</guilabel
 ></term
-> <listitem
-><para
->Wanneer de gebruiker een linker haakje (<keycap
+> <listitem>
+<para
+>Als de optie <guilabel
+>Automatisch haak sluiten wanneer openingshaak is getypt</guilabel
+> is geselecteerd wanneer de gebruiker een linker haak (<keycap
 >[</keycap
 >, <keycap
 >(</keycap
@@ -508,11 +646,21 @@
 > of <keycap
 >]</keycap
 >) rechts van de cursor.</para>
-<para
->Wanneer tekst is geselecteerd, zorgt typen van één van de tekens dat de geselecteerde tekst verdeelt wordt over meer regels.</para>
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term
+><guilabel
+>Omsluitende tekens</guilabel
+></term
+> <listitem>
+<para
+>Het is mogelijk de omsluitende tekens te selecteren met de bijbehorende afrollijst.</para>
+<para
+>Wanneer tekst is geselecteerd, zorgt typen van één van deze tekens dat de geselecteerde tekst verdeelt wordt over meer regels.</para>
+</listitem>
+</varlistentry>
 
 <varlistentry>
 <term
@@ -524,11 +672,31 @@
 <varlistentry>
 <term
 ><guilabel
->Kopieer/knip de huidige regel als er geen selectie is</guilabel
+>Geselecteerde tekst verplaatsen bij slepen</guilabel
+></term
+> <listitem>
+<para
+>Deze optie schakelt slepen-en-loslaten in van de geselecteerde tekst in het venster van de bewerker.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Kopieer/knip de huidige regel als er geen geselecteerde tekst is</guilabel
 ></term
 > <listitem>
 <para
 >Als deze optie is ingeschakeld, en er geen tekst is geselecteerd, worden kopieer- en knipacties toegepast op de tekstregel waar de cursor zich bevindt.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>De tekstcursor niet verplaatsen bij plakken met de muis</guilabel
+></term
+> <listitem>
+<para
+>Als deze optie is ingeschakeld en u plakt enige tekst in het venster van de bewerker met klikken met de &MMB;, zal &kappname; de tekstcursor niet verplaatsen naar de positie van de klik.</para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -652,6 +820,19 @@
 </varlistentry>
 
 </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry id="multicursor-modifier-configure">
+<term
+><guilabel
+>Multicursor-modifier</guilabel
+></term>
+<listitem>
+<para
+>Deze optie laat u de modifier instellen die gebruikt zal worden om meerdere cursors met een &LMB;-klik aan te maken. U moet de modifiers indrukken en op de &LMB; klikken om een cursor aan te maken op de gewenste locatie. Zie <link linkend="kate-part-create-multiple-cursors"
+>Meerdere cursors aanmaken</link
+> om andere manieren te ontdekken bij het aanmaken van meerdere cursors.</para>
 </listitem>
 </varlistentry>
 
@@ -808,7 +989,7 @@
 <listitem>
 <para
 >Als u wilt dat &Tab; de huidige regel uitlijnt in het huidige codeblok zoals in &Emacs;, maak dan van &Tab; een sneltoets voor de actie <guimenuitem
->Uitlijnen</guimenuitem
+>Inspringen formatteren</guimenuitem
 >. </para>
 <variablelist>
 <varlistentry>
@@ -1166,6 +1347,42 @@ Remove selected Add new mapping Import from vimrc file-->
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term
+><guilabel
+>Automatisch opslaan inschakelen (alleen lokale bestanden)</guilabel
+></term>
+<listitem>
+<para
+>Activeer dit als u wilt dat de bewerker documenten automatisch opslaat terwijl u er aan werkt. </para>
+<variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Document automatisch opslaan wanneer de bewerker geen focus meer heeft</guilabel
+></term>
+<listitem>
+<para
+>De bewerker zal documenten automatisch opslaan wanneer u omschakelt naar iets buiten de bewerker, &eg;, het terminalpaneel in &kate;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Tijdsinterval tussen automatisch opslaan</guilabel
+></term>
+<listitem>
+<para
+>U kunt hier het interval, in seconden, voor automatisch opslaan bepalen. Als het interval 0 is, zal het document niet na intervallen automatisch worden opgeslagen.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect3>
 
@@ -1177,11 +1394,11 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Reservekopie maken bij opslaan</guilabel
+>Een backup-bestand schrijven bij opslaan voor</guilabel
 ></term>
 <listitem
 ><para
->Het maken van een reservekopie bij opslaan houdt in dat &kappname; het bestand op schijf kopieert naar &lt;voorvoegsel&gt;&lt;bestandsnaam&gt;&lt;achtervoegsel&gt; voordat wijzigingen worden opgeslagen. Het standaard achtervoegsel is <emphasis role="bold"
+>Het maken van een reservekopie bij opslaan houdt in dat &kappname; het bestand op schijf (de eerder opgeslagen versie van het bestand) kopieert naar &lt;voorvoegsel&gt;&lt;bestandsnaam&gt;&lt;achtervoegsel&gt; voordat de nieuwe wijzigingen worden opgeslagen. Een reserve bestand kan helpen bij het herstellen van werk als er iets verkeerd gaat bij opslaan of als u later de vorige versie van het bestand wilt herstellen. Het standaard achtervoegsel is <emphasis role="bold"
 >~</emphasis
 > en standaard is het voorvoegsel leeg. </para>
 <variablelist>
@@ -1208,7 +1425,7 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Voorvoegsel</guilabel
+>Voorvoegsel voor backup-bestanden</guilabel
 ></term>
 <listitem>
 <para
@@ -1218,7 +1435,7 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Achtervoegsel</guilabel
+>Achtervoegsel voor backup-bestanden</guilabel
 ></term>
 <listitem>
 <para
@@ -1228,20 +1445,44 @@ Remove selected Add new mapping Import from vimrc file-->
 <varlistentry>
 <term
 ><guilabel
->Opties voor swap-bestand</guilabel
+>Modus van swap-bestand</guilabel
 ></term>
 <listitem>
 <para
->&kappname; kan (het meeste van) wat is geschreven na een laatste opslag, in geval van een crash of stroomuitval herstellen. Een swapbestand (.swp.&lt;bestandsnaam&gt;) wordt aangemaakt na de eerste bewerkingsactie op een document. Als de gebruiker de wijzigingen niet opslaat en &kappname; crasht, dan blijft het swapbestand op de schijf. Bij het openen van een bestand controleert &kappname; of er een swapbestand voor het document bestaat en als het bestaat, dan vraagt het aan de gebruiker of hij de verloren gegevens wil herstellen of niet. De gebruiker heeft ook de mogelijkheid om de verschillen tussen het originele bestand en het herstelde te bekijken. Het swapbestand wordt verwijderd na elk opslaan en bij normaal beëindigen.</para>
+>&kappname; kan (het meeste van) niet-opgeslagen werk, in het geval van een crash of stroomuitval herstellen. Een swapbestand (.&lt;bestandsnaam&gt;.kate-swp) wordt aangemaakt wanneer een document wordt bewerkt. Als de gebruiker de wijzigingen niet opslaat en &kappname; crasht, dan blijft het swapbestand op de schijf. Bij het openen van een bestand controleert &kappname; of er een swapbestand voor het document bestaat en als het bestaat, dan vraagt het aan de gebruiker of hij de verloren gegevens wil herstellen of niet. De gebruiker heeft ook de mogelijkheid om de verschillen tussen het originele bestand en het herstelde te bekijken. Het swapbestand wordt verwijderd na elk opslaan en bij normaal beëindigen.</para>
 <para
 >&kappname; synchroniseert de swapbestanden op de schijf elke 15 seconden, maar alleen als ze zijn gewijzigd sinds de laatste synchronisatie. De gebruiker kan het synchroniseren van de swapbestanden uitschakelen, als hij dat wil, door het vakje <guilabel
 >Uitschakelen</guilabel
 > te selecteren, maar dat kan tot meer verlies van gegevens leiden.</para>
 <para
->Indien ingeschakeld worden de swapbestanden opgeslagen in dezelfde map als het bestand. Wanneer <guilabel
->Alternatieve map</guilabel
-> is gekozen worden swapbestanden aangemaakt in de gespecificeerde map. Dit is nuttig voor netwerkbestandssystemen om onnodig netwerkverkeer te voorkomen.</para>
+>Wanneer het swap-bestand is ingeschakeld is het mogelijk om te schakelen tussen twee modi, namelijk <guilabel
+>Ingeschakeld, opslaan in standaard map</guilabel
+> en <guilabel
+>Ingeschakeld, opslaan in aangepaste map</guilabel
+>. </para>
 </listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Swap-bestanden opslaan in</guilabel
+></term>
+<listitem
+><para
+>Standaard worden de swap-bestanden opgeslagen in dezelfde map als het bestand. Wanneer <guilabel
+>Ingeschakeld, opslaan in aangepaste map</guilabel
+> is gekozen voor modus voor swap-bestanden, worden swap-bestanden aangemaakt in de gespecificeerde map. Dit is nuttig voor netwerkbestandssystemen om onnodig netwerkverkeer te voorkomen.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Swap-bestanden opslaan elke</guilabel
+></term>
+<listitem
+><para
+>&kappname; synchroniseert de swap-bestanden op de schijf elke 15 seconden, maar alleen als ze zijn gewijzigd sinds de laatste synchronisatie. U kunt het interval voor synchronisatie maar eigen behoefte aanpassen.</para
+></listitem>
 </varlistentry>
 
 </variablelist>

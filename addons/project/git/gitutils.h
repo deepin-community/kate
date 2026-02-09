@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef GITUTILS_H
-#define GITUTILS_H
+#pragma once
 
 #include <QString>
 #include <functional>
@@ -28,13 +27,18 @@ struct Branch {
     /** remote name, will be empty for local branches */
     QString remote;
     /** Ref type @see RefType */
-    RefType type;
+    RefType type = All;
+    /** last commit on this branch, may be empty **/
+    QString lastCommit;
 };
 
-struct CheckoutResult {
-    QString branch;
+struct Result {
     QString error;
-    int returnCode;
+    int returnCode = 0;
+};
+
+struct CheckoutResult : public Result {
+    QString branch;
 };
 
 struct StatusEntry {
@@ -49,15 +53,6 @@ struct StatusEntry {
  * @return
  */
 bool isGitRepo(const QString &repo);
-
-/**
- * @brief get the .git folder path
- * Returns the path without the .git in the string e.g:
- * ~/projects/kate/ instead of ~/projects/kate/.git
- *
- * Can be used to check whether you are in a git repo as well
- */
-std::optional<QString> getDotGitPath(const QString &repo);
 
 /**
  * @brief get name of current branch in @p repo
@@ -77,16 +72,21 @@ CheckoutResult checkoutNewBranch(const QString &repo, const QString &newBranch, 
 /**
  * @brief get all local and remote branches
  */
-QVector<Branch> getAllBranches(const QString &repo);
+QList<Branch> getAllBranches(const QString &repo);
 
 /**
  * @brief get all local and remote branches + tags
  */
-QVector<Branch> getAllBranchesAndTags(const QString &repo, RefType ref = RefType::All);
+QList<Branch> getAllBranchesAndTags(const QString &repo, RefType ref = RefType::All);
+
+/**
+ * @brief get all local branches with last commit
+ */
+QList<Branch> getAllLocalBranchesWithLastCommitSubject(const QString &repo);
 
 std::pair<QString, QString> getLastCommitMessage(const QString &repo);
+
+Result deleteBranches(const QStringList &branches, const QString &repo);
 }
 
 Q_DECLARE_TYPEINFO(GitUtils::Branch, Q_MOVABLE_TYPE);
-
-#endif // GITUTILS_H

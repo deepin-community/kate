@@ -15,10 +15,10 @@
 
 <para
 >Igual que qualsevol editor de text avançat, el &kate; ofereix una varietat de maneres d'estendre la seva funcionalitat. Podeu <link linkend="dev-scripting"
->escriure scripts senzills per a afegir funcionalitat amb &javascript;</link
->, o afegir encara més funcionalitat a l'editor amb els <link linkend="dev-app"
+>escriure scripts senzills per a afegir funcionalitats amb &javascript;</link
+>, o afegir encara més funcionalitats a l'editor amb els <link linkend="dev-app"
 >Connectors de l'aplicació &kate; escrits en C++</link
->. Finalment, un cop esteneu el &kate;, sereu benvinguts/des a <ulink url="https://kate-editor.org/join-us/"
+>. Finalment, un cop esteneu el &kate;, us donarem la benvinguda per <ulink url="https://kate-editor.org/join-us/"
 >unir-vos amb nosaltres</ulink
 > i compartir les vostres millores amb el món!</para>
 

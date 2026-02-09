@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
+"POT-Creation-Date: 2022-09-27 00:48+0000\n"
 "PO-Revision-Date: 2020-04-03 21:21+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -16,16 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 19.04.3\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "박신조"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "kde@peremen.name"
 
 #. i18n: ectx: attribute (title), widget (QWidget, run)
 #: config.ui:18
@@ -291,93 +281,88 @@ msgstr "파일로 모델 출력:"
 msgid "Test models:"
 msgstr "모델 테스트:"
 
-#: replicodeconfigpage.cpp:26
+#: replicodeconfigpage.cpp:24
 #, kde-format
 msgid "Path to replicode executor:"
 msgstr "Replicode 실행기 경로:"
 
-#: replicodeconfigpage.cpp:41
+#: replicodeconfigpage.cpp:39 replicodeview.cpp:51
 #, kde-format
 msgid "Replicode"
 msgstr "Replicode"
 
-#: replicodeconfigpage.cpp:46
+#: replicodeconfigpage.cpp:44
 #, kde-format
 msgid "Replicode configuration"
 msgstr "Replicode 설정"
 
-#: replicodeview.cpp:40
+#: replicodeview.cpp:38
 #, kde-format
 msgid "Run replicode"
 msgstr "Replicode 실행"
 
-#: replicodeview.cpp:44
+#: replicodeview.cpp:42
 #, kde-format
 msgid "Stop replicode"
 msgstr "Replicode 정지"
 
-#: replicodeview.cpp:53
-#, kde-format
-msgid "Replicode Output"
-msgstr "Replicode 출력"
-
-#: replicodeview.cpp:63
+#: replicodeview.cpp:61
 #, kde-format
 msgid "Replicode Config"
 msgstr "Replicode 설정"
 
-#: replicodeview.cpp:66
+#: replicodeview.cpp:64
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Run (%1)"
 msgstr "실행(%1)"
 
-#: replicodeview.cpp:67
+#: replicodeview.cpp:65
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Stop (%1)"
 msgstr "정지(%1)"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgctxt "@title:window"
 msgid "Active Document Not Found"
 msgstr "활성 문서를 찾을 수 없음"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgid "Could not find an active document to run."
 msgstr "실행할 활성 문서를 찾을 수 없습니다."
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgctxt "@title:window"
 msgid "Empty Document"
 msgstr "빈 문서"
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgid "Cannot execute an empty document."
 msgstr "빈 문서를 실행할 수 없습니다."
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgctxt "@title:window"
 msgid "File Not Found"
 msgstr "파일을 찾을 수 없음"
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgid "Unable to open source file for reading."
 msgstr "원본 파일에서 읽으려고 열 수 없습니다."
 
-#: replicodeview.cpp:122
+#: replicodeview.cpp:127
 #, kde-format
 msgctxt "@title:window"
 msgid "Replicode Executable Not Found"
 msgstr "Replicode 실행 파일을 찾을 수 없음"
 
-#: replicodeview.cpp:123
+#: replicodeview.cpp:128
 #, kde-format
 msgid ""
 "Unable to find replicode executor.\n"
@@ -386,13 +371,13 @@ msgstr ""
 "Replicode 실행기를 찾을 수 없습니다.\n"
 "설정에서 Replicode 실행 파일 경로를 지정하십시오."
 
-#: replicodeview.cpp:130
+#: replicodeview.cpp:135
 #, kde-format
 msgctxt "@title:window"
 msgid "User Operator Library Not Found"
 msgstr "사용자 작업 라이브러리를 찾을 수 없음"
 
-#: replicodeview.cpp:131
+#: replicodeview.cpp:136
 #, kde-format
 msgid ""
 "Unable to find user operator library.\n"
@@ -401,12 +386,23 @@ msgstr ""
 "사용자 작업 라이브러리를 찾을 수 없습니다.\n"
 "설정에서 라이브러리 경로를 지정하십시오."
 
-#: replicodeview.cpp:196
+#: replicodeview.cpp:201
 #, kde-format
 msgid "Replicode execution failed: %1"
 msgstr "Replicode 실행 실패: %1"
 
-#: replicodeview.cpp:206
+#: replicodeview.cpp:211
 #, kde-format
 msgid "Replicode execution finished."
 msgstr "Replicode 실행이 완료되었습니다."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "박신조"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "kde@peremen.name"
+
+#~ msgid "Replicode Output"
+#~ msgstr "Replicode 출력"

@@ -9,7 +9,6 @@
 #include "tabswitcherfilesmodel.h"
 
 #include <QBrush>
-#include <QDebug>
 #include <QFileInfo>
 #include <QMimeDatabase>
 
@@ -19,37 +18,39 @@
 
 namespace detail
 {
-FilenameListItem::FilenameListItem(KTextEditor::Document *doc)
+FilenameListItem::FilenameListItem(DocOrWidget doc)
     : document(doc)
 {
 }
 
 QIcon FilenameListItem::icon() const
 {
-    return QIcon::fromTheme(QMimeDatabase().mimeTypeForUrl(document->url()).iconName());
+    if (auto document = this->document.doc()) {
+        return QIcon::fromTheme(QMimeDatabase().mimeTypeForUrl(document->url()).iconName());
+    } else if (auto widget = this->document.widget()) {
+        return widget->windowIcon();
+    }
+    return {};
 }
 
 QString FilenameListItem::documentName() const
 {
-    return document->documentName();
+    return document.doc() ? document.doc()->documentName() : document.widget()->windowTitle();
 }
 
 QString FilenameListItem::fullPath() const
 {
-    return document->url().toLocalFile();
+    return document.doc() ? document.doc()->url().toLocalFile() : QString();
 }
 
 /**
- * Note that if strs contains the empty string, the result will be ""
+ * Note that if strs contains less than 2 items, the result will be an empty string.
  */
 QString longestCommonPrefix(std::vector<QString> const &strs)
 {
-    if (strs.empty()) {
+    // only 2 or more items can have a common prefix
+    if (strs.size() < 2) {
         return QString();
-    }
-
-    if (strs.size() == 1) {
-        return strs.front();
     }
 
     // get the min length
@@ -62,7 +63,7 @@ QString longestCommonPrefix(std::vector<QString> const &strs)
         for (size_t i = 1; i < strs.size(); i++) {
             if (strs[i][pos] != strs[i - 1][pos]) { // we found a mis-match
                 // reverse search to find path separator
-                const int sepIndex = strs.front().leftRef(pos).lastIndexOf(QLatin1Char('/'));
+                const int sepIndex = QStringView(strs.front()).left(pos).lastIndexOf(QLatin1Char('/'));
                 if (sepIndex >= 0) {
                     pos = sepIndex + 1;
                 }
@@ -74,7 +75,7 @@ QString longestCommonPrefix(std::vector<QString> const &strs)
     return strs.front().left(n);
 }
 
-void post_process(FilenameList &data)
+static void post_process(FilenameList &data)
 {
     // collect non-empty paths
     std::vector<QString> paths;
@@ -101,6 +102,8 @@ void post_process(FilenameList &data)
         if (len > 0) { // only assign in case item.fullPath() is not empty
             // "PREFIXPATH/REMAININGPATH/BASENAME" --> "REMAININGPATH"
             item.displayPathPrefix = item.fullPath().mid(prefix_length, len);
+        } else {
+            item.displayPathPrefix.clear();
         }
     }
 }
@@ -111,10 +114,19 @@ detail::TabswitcherFilesModel::TabswitcherFilesModel(QObject *parent)
 {
 }
 
-bool detail::TabswitcherFilesModel::insertDocument(int row, KTextEditor::Document *document)
+bool detail::TabswitcherFilesModel::insertDocuments(int row, const QList<DocOrWidget> &documents)
 {
-    beginInsertRows(QModelIndex(), row, row);
-    data_.insert(data_.begin() + row, FilenameListItem(document));
+    if (documents.isEmpty()) {
+        // no documents to add
+        return false;
+    }
+    beginInsertRows(QModelIndex(), row, row + documents.size() - 1);
+    FilenameList items;
+    items.reserve(documents.size());
+    for (auto d : std::as_const(documents)) {
+        items.push_back(FilenameListItem(d));
+    }
+    data_.insert(data_.begin() + row, items.begin(), items.end());
     endInsertRows();
 
     // update all other items, since the common prefix path may have changed
@@ -123,7 +135,7 @@ bool detail::TabswitcherFilesModel::insertDocument(int row, KTextEditor::Documen
     return true;
 }
 
-bool detail::TabswitcherFilesModel::removeDocument(KTextEditor::Document *document)
+bool detail::TabswitcherFilesModel::removeDocument(DocOrWidget document)
 {
     auto it = std::find_if(data_.begin(), data_.end(), [document](FilenameListItem &item) {
         return item.document == document;
@@ -165,7 +177,7 @@ void detail::TabswitcherFilesModel::clear()
     }
 }
 
-void detail::TabswitcherFilesModel::raiseDocument(KTextEditor::Document *document)
+void detail::TabswitcherFilesModel::raiseDocument(DocOrWidget document)
 {
     // skip row 0, since row 0 is already correct
     for (int row = 1; row < rowCount(); ++row) {
@@ -178,7 +190,7 @@ void detail::TabswitcherFilesModel::raiseDocument(KTextEditor::Document *documen
     }
 }
 
-KTextEditor::Document *detail::TabswitcherFilesModel::item(int row) const
+DocOrWidget detail::TabswitcherFilesModel::item(int row) const
 {
     return data_[row].document;
 }
@@ -186,7 +198,7 @@ KTextEditor::Document *detail::TabswitcherFilesModel::item(int row) const
 void detail::TabswitcherFilesModel::updateItems()
 {
     post_process(data_);
-    Q_EMIT dataChanged(createIndex(0, 0), createIndex(data_.size() - 1, 1), {});
+    Q_EMIT dataChanged(createIndex(0, 0), createIndex((int)data_.size() - 1, 1), {});
 }
 
 int detail::TabswitcherFilesModel::columnCount(const QModelIndex &parent) const
@@ -198,7 +210,7 @@ int detail::TabswitcherFilesModel::columnCount(const QModelIndex &parent) const
 int detail::TabswitcherFilesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return data_.size();
+    return (int)data_.size();
 }
 
 QVariant detail::TabswitcherFilesModel::data(const QModelIndex &index, int role) const
@@ -220,7 +232,7 @@ QVariant detail::TabswitcherFilesModel::data(const QModelIndex &index, int role)
         return row.fullPath();
     } else if (role == Qt::TextAlignmentRole) {
         if (index.column() == 0) {
-            return Qt::AlignRight + Qt::AlignVCenter;
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         } else {
             return Qt::AlignVCenter;
         }

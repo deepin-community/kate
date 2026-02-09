@@ -3,16 +3,16 @@
 # Copyright (C) 2003, 2005 Free Software Foundation, Inc.
 # Kim Enkovaara <kim.enkovaara@iki.fi>, 2003.
 # Ilpo Kantonen <ilpo@iki.fi>, 2005.
-# Tommi Nieminen <translator@legisign.org>, 2010, 2018, 2021.
-# Lasse Liehu <lasse.liehu@gmail.com>, 2013, 2015.
+# SPDX-FileCopyrightText: 2010, 2018, 2021, 2024 Tommi Nieminen <translator@legisign.org>
+# Lasse Liehu <lasse.liehu@gmail.com>, 2013, 2015, 2022.
 #
 # KDE Finnish translation sprint participants:
 msgid ""
 msgstr ""
 "Project-Id-Version: katetextfilter\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
-"PO-Revision-Date: 2021-05-28 21:07+0300\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
+"PO-Revision-Date: 2024-11-07 16:33+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -20,10 +20,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-POT-Import-Date: 2012-12-01 22:22:00+0000\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -33,7 +32,12 @@ msgstr ""
 "<title>Tulos:</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr "Prosessin käynnistäminen epäonnistui"
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
@@ -42,22 +46,22 @@ msgstr ""
 "Et voi suorittaa mielivaltaista ulkoista sovellusta. Jos haluat tehdä sen, "
 "ota yhteyttä järjestelmän ylläpitäjään."
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
 msgstr "Käyttörajoitukset"
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
 #, kde-format
 msgid "Text Filter"
 msgstr "Tekstisuodatin"
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
 msgstr "Käyttö: textfilter KOMENTO"
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
@@ -66,10 +70,10 @@ msgstr ""
 "<qt><p>Käyttö: <code>textfilter KOMENTO</code></p><p>Korvaa valinnan "
 "määritellyllä komentoriviojelman KOMENTO tulostuksella.</p></qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
-msgstr "Suodat &komennolla…"
+msgstr "Suodata &komennolla…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, TextFilterWidget)
 #: textfilterwidget.ui:14

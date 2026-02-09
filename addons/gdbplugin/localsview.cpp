@@ -6,18 +6,28 @@
 //  SPDX-License-Identifier: LGPL-2.0-only
 
 #include "localsview.h"
+#include "dap/entities.h"
+
 #include <KLocalizedString>
+#include <QApplication>
+#include <QClipboard>
 #include <QDebug>
 #include <QLabel>
+#include <QMenu>
 
 LocalsView::LocalsView(QWidget *parent)
     : QTreeWidget(parent)
 {
     QStringList headers;
     headers << i18n("Symbol");
+    headers << i18n("Type");
     headers << i18n("Value");
     setHeaderLabels(headers);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setUniformRowHeights(true);
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &QTreeWidget::customContextMenuRequested, this, &LocalsView::onContextMenu);
+    connect(this, &QTreeWidget::itemExpanded, this, &LocalsView::onItemExpanded);
 }
 
 LocalsView::~LocalsView()
@@ -34,236 +44,160 @@ void LocalsView::hideEvent(QHideEvent *)
     Q_EMIT localsVisible(false);
 }
 
-void LocalsView::createWrappedItem(QTreeWidgetItem *parent, const QString &name, const QString &value)
+static QString nameTip(const dap::Variable &variable)
 {
-    QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList(name));
-    QLabel *label = new QLabel(value);
-    label->setWordWrap(true);
-    setItemWidget(item, 1, label);
-    item->setData(1, Qt::UserRole, value);
-    item->setToolTip(0, QStringLiteral("<qt>%1<qt>").arg(name));
-    item->setToolTip(1, QStringLiteral("<qt>%1<qt>").arg(value));
-    parent->setToolTip(0, QStringLiteral("<qt>%1<qt>").arg(parent->text(0)));
+    QString text = QStringLiteral("<qt>%1<qt>").arg(variable.name);
+    if (variable.type && !variable.type->isEmpty()) {
+        text += QStringLiteral("<em>%1</em>: %2").arg(i18n("type")).arg(variable.type.value());
+    }
+    return text;
 }
 
-void LocalsView::createWrappedItem(QTreeWidget *parent, const QString &name, const QString &value)
+static QString valueTip(const dap::Variable &variable)
 {
-    QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList(name));
-    QLabel *label = new QLabel(value);
-    label->setWordWrap(true);
-    setItemWidget(item, 1, label);
-    item->setToolTip(0, QStringLiteral("<qt>%1<qt>").arg(name));
-    item->setToolTip(1, QStringLiteral("<qt>%1<qt>").arg(value));
+    QString text;
+    if (variable.indexedVariables.value_or(0) > 0) {
+        text + QStringLiteral("<em>%1</em>: %2").arg(i18n("indexed items")).arg(variable.indexedVariables.value());
+    }
+    if (variable.namedVariables.value_or(0) > 0) {
+        text + QStringLiteral("<em>%1</em>: %2").arg(i18n("named items")).arg(variable.namedVariables.value());
+    }
+    text += QStringLiteral("<qt>%1<qt>").arg(variable.value);
+    return text;
 }
 
-void LocalsView::addLocal(const QString &vString)
+static void formatName(QTreeWidgetItem &item, const dap::Variable &variable)
 {
-    static const QRegularExpression isValue(QStringLiteral("\\A(\\S*)\\s=\\s(.*)\\z"));
-    static const QRegularExpression isStruct(QStringLiteral("\\A\\{\\S*\\s=\\s.*\\z"));
-    static const QRegularExpression isStartPartial(QStringLiteral("\\A\\S*\\s=\\s\\S*\\s=\\s\\{\\z"));
-    static const QRegularExpression isPrettyQList(QStringLiteral("\\A\\s*\\[\\S*\\]\\s=\\s\\S*\\z"));
-    static const QRegularExpression isPrettyValue(QStringLiteral("\\A(\\S*)\\s=\\s(\\S*)\\s=\\s(.*)\\z"));
-    static const QRegularExpression isThisValue(QStringLiteral("\\A\\$\\d+\\z"));
+    QFont font = item.font(LocalsView::Column_Symbol);
+    font.setBold(variable.valueChanged.value_or(false));
+    item.setFont(LocalsView::Column_Symbol, font);
+}
 
-    if (m_allAdded) {
-        clear();
-        m_allAdded = false;
+static QTreeWidgetItem *pendingDataChild(QTreeWidgetItem *parent)
+{
+    auto item = new QTreeWidgetItem(parent, LocalsView::PendingDataItem);
+    item->setText(LocalsView::Column_Symbol, i18n("Loading..."));
+    item->setText(LocalsView::Column_Value, i18n("Loading..."));
+    return item;
+}
+
+QTreeWidgetItem *LocalsView::createWrappedItem(QTreeWidgetItem *parent, const dap::Variable &variable)
+{
+    auto *item = new QTreeWidgetItem(parent, QStringList(variable.name));
+    formatName(*item, variable);
+    if (!variable.value.isEmpty()) {
+        auto *label = new QLabel(variable.value);
+        label->setWordWrap(true);
+        setItemWidget(item, Column_Value, label);
+    }
+    item->setData(Column_Value, Qt::UserRole, variable.value);
+    if (variable.variablesReference > 0) { // if the is > 0, we can expand this item
+        item->setData(Column_Value, VariableReference, variable.variablesReference);
+        item->addChild(pendingDataChild(item));
+    }
+    item->setText(Column_Type, variable.type.value_or(QString()));
+
+    item->setToolTip(Column_Symbol, nameTip(variable));
+    item->setToolTip(Column_Value, valueTip(variable));
+
+    return item;
+}
+
+QTreeWidgetItem *LocalsView::createWrappedItem(QTreeWidget *parent, const dap::Variable &variable)
+{
+    auto *item = new QTreeWidgetItem(parent, QStringList(variable.name));
+    formatName(*item, variable);
+    if (!variable.value.isEmpty()) {
+        auto *label = new QLabel(variable.value);
+        label->setWordWrap(true);
+        setItemWidget(item, Column_Value, label);
+    }
+    item->setText(Column_Type, variable.type.value_or(QString()));
+
+    item->setToolTip(Column_Symbol, nameTip(variable));
+    item->setToolTip(Column_Value, valueTip(variable));
+
+    if (variable.variablesReference > 0) { // if the is > 0, we can expand this item
+        item->setData(Column_Value, VariableReference, variable.variablesReference);
+        item->addChild(pendingDataChild(item));
     }
 
-    if (vString.isEmpty()) {
-        m_allAdded = true;
-        return;
-    }
+    return item;
+}
 
-    QRegularExpressionMatch match = isStartPartial.match(vString);
-    if (match.hasMatch()) {
-        m_local = vString;
-        return;
-    }
-    match = isPrettyQList.match(vString);
-    if (match.hasMatch()) {
-        m_local += vString.trimmed();
-        if (m_local.endsWith(QLatin1Char(','))) {
-            m_local += QLatin1Char(' ');
-        }
-        return;
-    }
-    if (vString == QLatin1String("}")) {
-        m_local += vString;
-    }
+void LocalsView::openVariableScope()
+{
+    clear();
+    m_variables.clear();
+}
 
-    QStringList symbolAndValue;
-    QString value;
+void LocalsView::closeVariableScope()
+{
+    if (m_variables.count() == 1) {
+        // Auto-expand if there is a single item
+        QTreeWidgetItem *item = m_variables.begin().value();
+        item->setExpanded(true);
+    }
+}
 
-    if (m_local.isEmpty()) {
-        if (vString == QLatin1String("No symbol table info available.")) {
-            return; /* this is not an error */
-        }
-        match = isValue.match(vString);
-        if (!match.hasMatch()) {
-            qDebug() << "Could not parse:" << vString;
+void LocalsView::addVariableLevel(int parentId, const dap::Variable &variable)
+{
+    QTreeWidgetItem *item = nullptr;
+
+    if (parentId == 0) {
+        item = createWrappedItem(this, variable);
+    } else {
+        if (!m_variables.contains(parentId)) {
+            qDebug() << "unknown variable reference:" << parentId;
             return;
         }
-        symbolAndValue << match.captured(1);
-        value = match.captured(2);
-        // check out for "print *this"
-        match = isThisValue.match(symbolAndValue[0]);
-        if (match.hasMatch()) {
-            symbolAndValue[0] = QStringLiteral("*this");
-        }
-    } else {
-        match = isPrettyValue.match(m_local);
-        if (!match.hasMatch()) {
-            qDebug() << "Could not parse:" << m_local;
-            m_local.clear();
-            return;
-        }
-        symbolAndValue << match.captured(1) << match.captured(2);
-        value = match.captured(3);
+        item = createWrappedItem(m_variables[parentId], variable);
     }
 
-    QTreeWidgetItem *item;
-    if (value[0] == QLatin1Char('{')) {
-        if (value[1] == QLatin1Char('{')) {
-            item = new QTreeWidgetItem(this, symbolAndValue);
-            addArray(item, value.mid(1, value.size() - 2));
-        } else {
-            match = isStruct.match(value);
-            if (match.hasMatch()) {
-                item = new QTreeWidgetItem(this, symbolAndValue);
-                addStruct(item, value.mid(1, value.size() - 2));
-            } else {
-                createWrappedItem(this, symbolAndValue[0], value);
-            }
-        }
-    } else {
-        createWrappedItem(this, symbolAndValue[0], value);
+    if (variable.variablesReference > 0) {
+        m_variables[variable.variablesReference] = item;
     }
-
-    m_local.clear();
 }
 
-void LocalsView::addStruct(QTreeWidgetItem *parent, const QString &vString)
+void LocalsView::onContextMenu(QPoint pos)
 {
-    static const QRegularExpression isArray(QStringLiteral("\\A\\{\\.*\\s=\\s.*\\z"));
-    static const QRegularExpression isStruct(QStringLiteral("\\A\\.*\\s=\\s.*\\z"));
-    QTreeWidgetItem *item;
-    QStringList symbolAndValue;
-    QString subValue;
-    int start = 0;
-    int end;
-    while (start < vString.size()) {
-        // Symbol
-        symbolAndValue.clear();
-        end = vString.indexOf(QLatin1String(" = "), start);
-        if (end < 0) {
-            // error situation -> bail out
-            createWrappedItem(parent, QString(), vString.right(start));
+    QMenu menu(this);
+
+    if (auto item = currentItem()) {
+        auto a = menu.addAction(i18n("Copy Symbol"));
+        connect(a, &QAction::triggered, this, [item] {
+            qApp->clipboard()->setText(item->text(0).trimmed());
+        });
+
+        QString value = item->data(Column_Value, Qt::UserRole).toString();
+        if (value.isEmpty()) {
+            if (itemWidget(item, Column_Value)) {
+                auto label = qobject_cast<QLabel *>(itemWidget(item, 1));
+                value = label ? label->text() : QString();
+            }
+        }
+
+        if (!value.isEmpty()) {
+            auto a = menu.addAction(i18n("Copy Value"));
+            connect(a, &QAction::triggered, this, [value] {
+                qApp->clipboard()->setText(value);
+            });
+        }
+    }
+
+    menu.exec(viewport()->mapToGlobal(pos));
+}
+
+void LocalsView::onItemExpanded(QTreeWidgetItem *item)
+{
+    const int childCount = item->childCount();
+    for (int i = 0; i < childCount; ++i) {
+        if (item->child(i)->type() == PendingDataItem) {
+            item->removeChild(item->child(i));
+            Q_EMIT requestVariable(item->data(Column_Value, VariableReference).toInt());
             break;
         }
-        symbolAndValue << vString.mid(start, end - start);
-        // qDebug() << symbolAndValue;
-        // Value
-        start = end + 3;
-        end = start;
-        if (start < 0 || start >= vString.size()) {
-            qDebug() << vString << start;
-            break;
-        }
-        if (vString[start] == QLatin1Char('{')) {
-            start++;
-            end++;
-            int count = 1;
-            bool inComment = false;
-            // search for the matching }
-            while (end < vString.size()) {
-                if (!inComment) {
-                    if (vString[end] == QLatin1Char('"')) {
-                        inComment = true;
-                    } else if (vString[end] == QLatin1Char('}')) {
-                        count--;
-                    } else if (vString[end] == QLatin1Char('{')) {
-                        count++;
-                    }
-                    if (count == 0) {
-                        break;
-                    }
-                } else {
-                    if ((vString[end] == QLatin1Char('"')) && (vString[end - 1] != QLatin1Char('\\'))) {
-                        inComment = false;
-                    }
-                }
-                end++;
-            }
-            subValue = vString.mid(start, end - start);
-            if (isArray.match(subValue).hasMatch()) {
-                item = new QTreeWidgetItem(parent, symbolAndValue);
-                addArray(item, subValue);
-            } else if (isStruct.match(subValue).hasMatch()) {
-                item = new QTreeWidgetItem(parent, symbolAndValue);
-                addStruct(item, subValue);
-            } else {
-                createWrappedItem(parent, symbolAndValue[0], vString.mid(start, end - start));
-            }
-            start = end + 3; // },_
-        } else {
-            // look for the end of the value in the vString
-            bool inComment = false;
-            while (end < vString.size()) {
-                if (!inComment) {
-                    if (vString[end] == QLatin1Char('"')) {
-                        inComment = true;
-                    } else if (vString[end] == QLatin1Char(',')) {
-                        break;
-                    }
-                } else {
-                    if ((vString[end] == QLatin1Char('"')) && (vString[end - 1] != QLatin1Char('\\'))) {
-                        inComment = false;
-                    }
-                }
-                end++;
-            }
-            createWrappedItem(parent, symbolAndValue[0], vString.mid(start, end - start));
-            start = end + 2; // ,_
-        }
     }
 }
 
-void LocalsView::addArray(QTreeWidgetItem *parent, const QString &vString)
-{
-    // getting here we have this kind of string:
-    // "{...}" or "{...}, {...}" or ...
-    QTreeWidgetItem *item;
-    int count = 1;
-    bool inComment = false;
-    int index = 0;
-    int start = 1;
-    int end = 1;
-
-    while (end < vString.size()) {
-        if (!inComment) {
-            if (vString[end] == QLatin1Char('"')) {
-                inComment = true;
-            } else if (vString[end] == QLatin1Char('}')) {
-                count--;
-            } else if (vString[end] == QLatin1Char('{')) {
-                count++;
-            }
-            if (count == 0) {
-                QStringList name;
-                name << QStringLiteral("[%1]").arg(index);
-                index++;
-                item = new QTreeWidgetItem(parent, name);
-                addStruct(item, vString.mid(start, end - start));
-                end += 4; // "}, {"
-                start = end;
-                count = 1;
-            }
-        } else {
-            if ((vString[end] == QLatin1Char('"')) && (vString[end - 1] != QLatin1Char('\\'))) {
-                inComment = false;
-            }
-        }
-        end++;
-    }
-}
+#include "moc_localsview.cpp"

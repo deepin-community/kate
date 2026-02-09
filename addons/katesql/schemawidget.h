@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef SCHEMAWIDGET_H
-#define SCHEMAWIDGET_H
+#pragma once
 
 class SQLManager;
 class QMouseEvent;
@@ -17,8 +16,6 @@ class QMouseEvent;
 
 class SchemaWidget : public QTreeWidget
 {
-    Q_OBJECT
-
 public:
     static const int TableType = QTreeWidgetItem::UserType + 1;
     static const int SystemTableType = QTreeWidgetItem::UserType + 2;
@@ -36,26 +33,29 @@ public:
     void buildViews(QTreeWidgetItem *viewsItem);
     void buildFields(QTreeWidgetItem *tableItem);
 
-public Q_SLOTS:
+public:
     void buildTree(const QString &connection);
     void refresh();
 
-    void generateSelect();
-    void generateUpdate();
-    void generateInsert();
-    void generateDelete();
-    void generateStatement(QSqlDriver::StatementType type);
+    void generateSelectIntoView();
+    void generateUpdateIntoView();
+    void generateInsertIntoView();
+    void generateDeleteIntoView();
+    void executeSelect();
+    QString generateStatement(QSqlDriver::StatementType statementType);
+    static void pasteStatementIntoActiveView(const QString &statement);
+    void generateAndPasteStatement(QSqlDriver::StatementType statementType);
+    void executeStatement(QSqlDriver::StatementType statement);
 
-private Q_SLOTS:
+private:
     void slotCustomContextMenuRequested(const QPoint &pos);
     void slotItemExpanded(QTreeWidgetItem *item);
 
 private:
-    void deleteChildren(QTreeWidgetItem *item);
+    static void deleteChildren(QTreeWidgetItem *item);
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     bool isConnectionValidAndOpen();
-
     QString m_connectionName;
     QPoint m_dragStartPosition;
 
@@ -64,5 +64,3 @@ private:
 
     SQLManager *m_manager;
 };
-
-#endif // SCHEMAWIDGET_H

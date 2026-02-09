@@ -1,14 +1,14 @@
 #!/usr/bin/make -f
 
-export DEB_LDFLAGS_MAINT_APPEND := -Wl,--as-needed
-export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+
+testsuite_failing_archs := armel armhf hurd-amd64 hurd-i386 i386
+ifneq (,$(filter $(DEB_HOST_ARCH),$(testsuite_failing_archs)))
+  fail_param := || true
+endif
 
 %:
-	dh $@ --with kf5
-
-override_dh_auto_configure:
-	dh_auto_configure -Skf5 -- -DBUILD_TESTING=OFF
+	dh $@
 
 override_dh_auto_test:
-	# Disable dh_auto_test at build time
-	:
+	-xvfb-run -a dh_auto_test --buildsystem=kf6 $(fail_param)

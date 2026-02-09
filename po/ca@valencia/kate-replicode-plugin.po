@@ -1,16 +1,17 @@
 # Translation of kate-replicode-plugin.po to Catalan (Valencian)
-# Copyright (C) 2015 This_file_is_part_of_KDE
+# Copyright (C) 2015-2022 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2015.
+# Josep M. Ferrer <txemaq@gmail.com>, 2015.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2015-10-04 18:31+0200\n"
-"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
+"POT-Creation-Date: 2022-09-27 00:48+0000\n"
+"PO-Revision-Date: 2022-09-04 12:05+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
@@ -18,17 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 1.5\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Josep Ma. Ferrer"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "txemaq@gmail.com"
+"X-Generator: Lokalize 22.08.0\n"
 
 #. i18n: ectx: attribute (title), widget (QWidget, run)
 #: config.ui:18
@@ -251,7 +242,7 @@ msgstr "Descompila objectes:"
 #: config.ui:506
 #, kde-format
 msgid "Decompile to file:"
-msgstr "Descompila a fitxer:"
+msgstr "Descompila en un fitxer:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: config.ui:516
@@ -263,7 +254,7 @@ msgstr "Ignora els objectes amb nom:"
 #: config.ui:533
 #, kde-format
 msgid "Dump objects to file:"
-msgstr "Bolca els objectes a fitxer:"
+msgstr "Bolca els objectes en un fitxer:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: config.ui:543
@@ -287,7 +278,7 @@ msgstr "Ignora els models amb nom:"
 #: config.ui:594
 #, kde-format
 msgid "Dump models to file:"
-msgstr "Bolca els models a fitxer:"
+msgstr "Bolca els models en un fitxer:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: config.ui:604
@@ -295,134 +286,117 @@ msgstr "Bolca els models a fitxer:"
 msgid "Test models:"
 msgstr "Prova models:"
 
-#: replicodeconfigpage.cpp:26
+#: replicodeconfigpage.cpp:24
 #, kde-format
 msgid "Path to replicode executor:"
-msgstr "Camí a l'executor del «replicode»:"
+msgstr "Camí cap a l'executor de «replicode»:"
 
-#: replicodeconfigpage.cpp:41
+#: replicodeconfigpage.cpp:39 replicodeview.cpp:51
 #, kde-format
 msgid "Replicode"
 msgstr "Replicode"
 
-#: replicodeconfigpage.cpp:46
+#: replicodeconfigpage.cpp:44
 #, kde-format
 msgid "Replicode configuration"
-msgstr "Configuració del Replicode"
+msgstr "Configureu Replicode"
 
-#: replicodeview.cpp:40
+#: replicodeview.cpp:38
 #, kde-format
 msgid "Run replicode"
-msgstr "Executa el «replicode»"
+msgstr "Executa «replicode»"
 
-#: replicodeview.cpp:44
+#: replicodeview.cpp:42
 #, kde-format
 msgid "Stop replicode"
-msgstr "Atura el «replicode»"
+msgstr "Para «replicode»"
 
-#: replicodeview.cpp:53
-#, kde-format
-msgid "Replicode Output"
-msgstr "Eixida del Replicode"
-
-#: replicodeview.cpp:63
+#: replicodeview.cpp:61
 #, kde-format
 msgid "Replicode Config"
-msgstr "Configuració del Replicode"
+msgstr "Configureu Replicode"
 
-#: replicodeview.cpp:66
+#: replicodeview.cpp:64
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Run (%1)"
 msgstr "Executa (%1)"
 
-#: replicodeview.cpp:67
+#: replicodeview.cpp:65
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Stop (%1)"
-msgstr "Atura (%1)"
+msgstr "Para (%1)"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgctxt "@title:window"
 msgid "Active Document Not Found"
 msgstr "No s'ha trobat cap document actiu"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgid "Could not find an active document to run."
-msgstr "No s'ha pogut trobar cap document actiu a executar."
+msgstr "No s'ha trobat cap document actiu que s'haja d'executar."
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgctxt "@title:window"
 msgid "Empty Document"
 msgstr "Document buit"
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgid "Cannot execute an empty document."
 msgstr "No es pot executar un document buit."
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgctxt "@title:window"
 msgid "File Not Found"
 msgstr "No s'ha trobat el fitxer"
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgid "Unable to open source file for reading."
 msgstr "No s'ha pogut obrir el fitxer de codi font per a lectura."
 
-#: replicodeview.cpp:122
+#: replicodeview.cpp:127
 #, kde-format
 msgctxt "@title:window"
 msgid "Replicode Executable Not Found"
-msgstr "No s'ha trobat l'executable del Replicode"
+msgstr "No s'ha trobat l'executable de Replicode"
 
-#: replicodeview.cpp:123
+#: replicodeview.cpp:128
 #, kde-format
 msgid ""
 "Unable to find replicode executor.\n"
 "Please go to settings and set the path to the Replicode executable."
 msgstr ""
-"No s'ha pogut trobar l'executor del «replicode».\n"
-"Cal anar a l'arranjament i definir el camí a l'executor del Replicode."
+"No s'ha pogut trobar l'executor de «replicode».\n"
+"Cal anar a la configuració i establir el camí cap a l'executor de Replicode."
 
-#: replicodeview.cpp:130
+#: replicodeview.cpp:135
 #, kde-format
 msgctxt "@title:window"
 msgid "User Operator Library Not Found"
 msgstr "No s'ha trobat la biblioteca d'operació de l'usuari"
 
-#: replicodeview.cpp:131
+#: replicodeview.cpp:136
 #, kde-format
 msgid ""
 "Unable to find user operator library.\n"
 "Please go to settings and set the path to the library."
 msgstr ""
-"No s'ha pogut trobar biblioteca d'operació de l'usuari.\n"
-"Cal anar a l'arranjament i definir el camí a la biblioteca."
+"No s'ha pogut trobar la biblioteca d'operació de l'usuari.\n"
+"Cal anar a la configuració i establir el camí cap a la biblioteca."
 
-#: replicodeview.cpp:196
+#: replicodeview.cpp:201
 #, kde-format
 msgid "Replicode execution failed: %1"
-msgstr "L'execució del Replicode ha fallat: %1"
+msgstr "L'execució de Replicode ha fallat: %1"
 
-#: replicodeview.cpp:206
+#: replicodeview.cpp:211
 #, kde-format
 msgid "Replicode execution finished."
-msgstr "L'execució del Replicode ha finalitzat."
-
-#~ msgid "Unable to find active file"
-#~ msgstr "No s'ha pogut trobar cap fitxer actiu"
-
-#~ msgid "No file"
-#~ msgstr "No hi ha cap fitxer"
-
-#~ msgid "Can't find replicode executor"
-#~ msgstr "No s'ha pogut trobar l'executor del «replicode»"
-
-#~ msgid "Can't find user operator library"
-#~ msgstr "No s'ha pogut trobar la biblioteca d'operació de l'usuari"
+msgstr "L'execució de Replicode ha finalitzat."

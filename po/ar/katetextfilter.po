@@ -4,24 +4,25 @@
 # Isam Bayazidi <bayazidi@arabeyes.org>, 2002.
 # محمد سعد  Mohamed SAAD <metehyi@free.fr>, 2006.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
-# Safa Alfulaij <safa1996alfulaij@gmail.com>, ٢٠١٦.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2016.
+# SPDX-FileCopyrightText: 2021, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: katetextfilter\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
-"PO-Revision-Date: ٢٠١٦-٠٩-٠٣ ٠٠:٠٤+0300\n"
-"Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
-"Language-Team: Arabic <doc@arabeyes.org>\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
+"PO-Revision-Date: 2025-02-20 11:01+0400\n"
+"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
+"Language-Team: ar\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 23.08.5\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -31,7 +32,12 @@ msgstr ""
 "<title>نتيجة:</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr "فشل في بدء العملية"
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
@@ -40,22 +46,22 @@ msgstr ""
 "ليس مسموحًا لك تنفيذ تطبيقات خارجيّة اعتباطيّة. إن أردت فعل ذلك فراسل مدير "
 "النّظام."
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
 msgstr "تقييد على النّفاذ"
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
 #, kde-format
 msgid "Text Filter"
 msgstr "رشّح النّصّ"
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
 msgstr "الاستخدام: textfilter الأمر"
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
@@ -64,10 +70,10 @@ msgstr ""
 "<qt><p>الاستخدام: <code>textfilter COMMAND</code></p><p>استبدل التّحديد بخرج "
 "أمر الصّدفة المحدّد.</p></qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
-msgstr ""
+msgstr "رشح &عبر أمر..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, TextFilterWidget)
 #: textfilterwidget.ui:14
@@ -85,7 +91,7 @@ msgstr "أدخل الأمر لت&مرير النّصّ المحدّد عبره:"
 #: textfilterwidget.ui:39
 #, kde-format
 msgid "Open results in a new document"
-msgstr ""
+msgstr "افتح النتائج في مستند جديد"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, copyResult)
 #: textfilterwidget.ui:46

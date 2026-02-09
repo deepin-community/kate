@@ -13,262 +13,279 @@
  ***************************************************************************/
 
 #include "plugin_katesymbolviewer.h"
+#include <QRegularExpression>
 
 void KatePluginSymbolViewerView::parsePhpSymbols(void)
 {
-    if (m_mainWindow->activeView()) {
-        QString line, lineWithliterals;
-        QPixmap namespacePix(class_int_xpm);
-        QPixmap definePix(macro_xpm);
-        QPixmap varPix(struct_xpm);
-        QPixmap classPix(class_xpm);
-        QPixmap constPix(macro_xpm);
-        QPixmap functionPix(method_xpm);
-        QTreeWidgetItem *node = nullptr;
-        QTreeWidgetItem *namespaceNode = nullptr, *defineNode = nullptr, *classNode = nullptr, *functionNode = nullptr;
-        QTreeWidgetItem *lastNamespaceNode = nullptr, *lastDefineNode = nullptr, *lastClassNode = nullptr, *lastFunctionNode = nullptr;
+    if (!m_mainWindow->activeView()) {
+        return;
+    }
 
-        KTextEditor::Document *kv = m_mainWindow->activeView()->document();
+    QTreeWidgetItem *node = nullptr;
+    QTreeWidgetItem *namespaceNode = nullptr, *defineNode = nullptr, *classNode = nullptr, *functionNode = nullptr;
+    QTreeWidgetItem *lastNamespaceNode = nullptr, *lastDefineNode = nullptr, *lastClassNode = nullptr, *lastFunctionNode = nullptr;
 
-        if (m_treeOn->isChecked()) {
-            namespaceNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Namespaces")));
-            defineNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Defines")));
-            classNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Classes")));
-            functionNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Functions")));
+    KTextEditor::Document *kv = m_mainWindow->activeView()->document();
 
-            namespaceNode->setIcon(0, QIcon(namespacePix));
-            defineNode->setIcon(0, QIcon(definePix));
-            classNode->setIcon(0, QIcon(classPix));
-            functionNode->setIcon(0, QIcon(functionPix));
+    if (m_treeOn->isChecked()) {
+        namespaceNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Namespaces")));
+        defineNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Defines")));
+        classNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Classes")));
+        functionNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Functions")));
 
-            if (m_expandOn->isChecked()) {
-                m_symbols->expandItem(namespaceNode);
-                m_symbols->expandItem(defineNode);
-                m_symbols->expandItem(classNode);
-                m_symbols->expandItem(functionNode);
-            }
+        namespaceNode->setIcon(0, m_icon_context);
+        defineNode->setIcon(0, m_icon_typedef);
+        classNode->setIcon(0, m_icon_class);
+        functionNode->setIcon(0, m_icon_function);
 
-            lastNamespaceNode = namespaceNode;
-            lastDefineNode = defineNode;
-            lastClassNode = classNode;
-            lastFunctionNode = functionNode;
-
-            m_symbols->setRootIsDecorated(1);
-        } else {
-            m_symbols->setRootIsDecorated(0);
+        if (m_expandOn->isChecked()) {
+            m_symbols->expandItem(namespaceNode);
+            m_symbols->expandItem(defineNode);
+            m_symbols->expandItem(classNode);
+            m_symbols->expandItem(functionNode);
         }
 
-        // Namespaces: https://www.php.net/manual/en/language.namespaces.php
-        QRegExp namespaceRegExp(QLatin1String("^namespace\\s+([^;\\s]+)"), Qt::CaseInsensitive);
-        // defines: https://www.php.net/manual/en/function.define.php
-        QRegExp defineRegExp(QLatin1String("(^|\\W)define\\s*\\(\\s*['\"]([^'\"]+)['\"]"), Qt::CaseInsensitive);
-        // classes: https://www.php.net/manual/en/language.oop5.php
-        QRegExp classRegExp(QLatin1String("^((abstract\\s+|final\\s+)?)class\\s+([\\w_][\\w\\d_]*)\\s*(implements\\s+[\\w\\d_]*)?"), Qt::CaseInsensitive);
-        // interfaces: https://www.php.net/manual/en/language.oop5.php
-        QRegExp interfaceRegExp(QLatin1String("^interface\\s+([\\w_][\\w\\d_]*)"), Qt::CaseInsensitive);
-        // classes constants: https://www.php.net/manual/en/language.oop5.constants.php
-        QRegExp constantRegExp(QLatin1String("^const\\s+([\\w_][\\w\\d_]*)"), Qt::CaseInsensitive);
-        // functions: https://www.php.net/manual/en/language.oop5.constants.php
-        QRegExp functionRegExp(QLatin1String("^((public|protected|private)?(\\s*static)?\\s+)?function\\s+&?\\s*([\\w_][\\w\\d_]*)\\s*(.*)$"),
-                               Qt::CaseInsensitive);
-        // variables: https://www.php.net/manual/en/language.oop5.properties.php
-        QRegExp varRegExp(QLatin1String("^((var|public|protected|private)?(\\s*static)?\\s+)?\\$([\\w_][\\w\\d_]*)"), Qt::CaseInsensitive);
+        lastNamespaceNode = namespaceNode;
+        lastDefineNode = defineNode;
+        lastClassNode = classNode;
+        lastFunctionNode = functionNode;
 
-        // function args detection: “function a($b, $c=null)” => “$b, $v”
-        QRegExp functionArgsRegExp(QLatin1String("(\\$[\\w_]+)"), Qt::CaseInsensitive);
-        QStringList functionArgsList;
-        QString nameWithTypes;
+        m_symbols->setRootIsDecorated(1);
+    } else {
+        m_symbols->setRootIsDecorated(0);
+    }
 
-        // replace literals by empty strings: “function a($b='nothing', $c="pretty \"cool\" string")” => “function ($b='', $c="")”
-        QRegExp literalRegExp(QLatin1String("([\"'])(?:\\\\.|[^\\\\])*\\1"));
-        literalRegExp.setMinimal(true);
-        // remove useless comments: “public/* static */ function a($b, $c=null) /* test */” => “public function a($b, $c=null)”
-        QRegExp blockCommentInline(QLatin1String("/\\*.*\\*/"));
-        blockCommentInline.setMinimal(true);
+    // Namespaces: https://www.php.net/manual/en/language.namespaces.php
+    static const QRegularExpression namespaceRegExp(QLatin1String("^namespace\\s+([^;\\s]+)"), QRegularExpression::CaseInsensitiveOption);
+    // defines: https://www.php.net/manual/en/function.define.php
+    static const QRegularExpression defineRegExp(QLatin1String("(^|\\W)define\\s*\\(\\s*['\"]([^'\"]+)['\"]"), QRegularExpression::CaseInsensitiveOption);
+    // classes: https://www.php.net/manual/en/language.oop5.php
+    static const QRegularExpression classRegExp(
+        QLatin1String("^((abstract\\s+|final\\s+)?)class\\s+([\\w_][\\w\\d_]*)\\s*(implements\\s+[\\w\\d_]*|extends\\s+[\\w\\d_]*)?"),
+        QRegularExpression::CaseInsensitiveOption);
+    // interfaces: https://www.php.net/manual/en/language.oop5.interfaces.php
+    static const QRegularExpression interfaceRegExp(QLatin1String("^interface\\s+([\\w_][\\w\\d_]*)"), QRegularExpression::CaseInsensitiveOption);
+    // traits: https://www.php.net/manual/en/language.oop5.traits.php
+    static const QRegularExpression traitRegExp(QLatin1String("^trait\\s+([\\w_][\\w\\d_]*)"), QRegularExpression::CaseInsensitiveOption);
+    // classes constants: https://www.php.net/manual/en/language.oop5.constants.php
+    static const QRegularExpression constantRegExp(QLatin1String("^const\\s+([\\w_][\\w\\d_]*)"), QRegularExpression::CaseInsensitiveOption);
+    // functions: https://www.php.net/manual/en/language.oop5.constants.php
+    static const QRegularExpression functionRegExp(
+        QLatin1String("^(\\s*)((public|protected|private)?(\\s*static)?\\s+)?function\\s+&?\\s*([\\w_][\\w\\d_]*)\\s*(.*)$"),
+        QRegularExpression::CaseInsensitiveOption);
+    // variables: https://www.php.net/manual/en/language.oop5.properties.php
+    static const QRegularExpression varRegExp(QLatin1String("^((var|public|protected|private)?(\\s*static)?\\s+)?\\$([\\w_][\\w\\d_]*)"),
+                                              QRegularExpression::CaseInsensitiveOption);
 
-        int i, pos;
-        bool isClass, isInterface;
-        bool inBlockComment = false;
-        bool inClass = false, inFunction = false;
+    // function args detection: “function a($b, $c=null)” => “$b, $v”
+    static const QRegularExpression functionArgsRegExp(QLatin1String("(\\$[\\w_]+)"), QRegularExpression::CaseInsensitiveOption);
+    QStringList functionArgsList;
+    QString nameWithTypes;
 
-        // QString debugBuffer("SymbolViewer(PHP), line %1 %2 → [%3]");
+    // replace literals by empty strings: “function a($b='nothing', $c="pretty \"cool\" string")” => “function ($b='', $c="")”
+    static const QRegularExpression literalRegExp(QLatin1String("([\"'])(?:\\\\.|[^\\\\])*\\1"), QRegularExpression::InvertedGreedinessOption);
+    // remove useless comments: “public/* static */ function a($b, $c=null) /* test */” => “public function a($b, $c=null)”
+    static const QRegularExpression blockCommentInline(QLatin1String("/\\*.*\\*/"), QRegularExpression::InvertedGreedinessOption);
 
-        for (i = 0; i < kv->lines(); i++) {
-            // kdDebug(13000) << debugBuffer.arg(i, 4).arg("=origin", 10).arg(kv->line(i));
+    QRegularExpressionMatch match, matchClass, matchInterface, matchTrait, matchFunctionArg;
+    QRegularExpressionMatchIterator matchFunctionArgs;
 
-            line = kv->line(i).simplified();
-            // kdDebug(13000) << debugBuffer.arg(i, 4).arg("+simplified", 10).arg(line);
+    bool inBlockComment = false;
+    bool inClass = false, inFunction = false;
 
-            // keeping a copy with literals for catching “defines()”
-            lineWithliterals = line;
+    // QString debugBuffer("SymbolViewer(PHP), line %1 %2 → [%3]");
 
-            // reduce literals to empty strings to not match comments separators in literals
-            line.replace(literalRegExp, QLatin1String("\\1\\1"));
-            // kdDebug(13000) << debugBuffer.arg(i, 4).arg("-literals", 10).arg(line);
+    for (int i = 0; i < kv->lines(); i++) {
+        // kdDebug(13000) << debugBuffer.arg(i, 4).arg("=origin", 10).arg(kv->line(i));
 
-            line.remove(blockCommentInline);
-            // kdDebug(13000) << debugBuffer.arg(i, 4).arg("-comments", 10).arg(line);
+        // keeping a copy of the line without any processing
+        QString realLine = kv->line(i);
 
-            // trying to find comments and to remove commented parts
-            pos = line.indexOf(QLatin1Char('#'));
-            if (pos >= 0) {
-                line.truncate(pos);
-            }
-            pos = line.indexOf(QLatin1String("//"));
-            if (pos >= 0) {
-                line.truncate(pos);
-            }
-            pos = line.indexOf(QLatin1String("/*"));
-            if (pos >= 0) {
-                line.truncate(pos);
-                inBlockComment = true;
-            }
-            pos = line.indexOf(QLatin1String("*/"));
-            if (pos >= 0) {
-                line = line.right(line.length() - pos - 2);
-                inBlockComment = false;
-            }
+        QString line = realLine.simplified();
 
-            if (inBlockComment) {
-                continue;
-            }
+        // kdDebug(13000) << debugBuffer.arg(i, 4).arg("+simplified", 10).arg(line);
 
-            // trimming again after having removed the comments
-            line = line.simplified();
-            // kdDebug(13000) << debugBuffer.arg(i, 4).arg("+simplified", 10).arg(line);
+        // keeping a copy with literals for catching “defines()”
+        QString lineWithliterals = line;
 
-            // detect NameSpaces
-            if (namespaceRegExp.indexIn(line) != -1) {
-                if (m_treeOn->isChecked()) {
-                    node = new QTreeWidgetItem(namespaceNode, lastNamespaceNode);
-                    if (m_expandOn->isChecked()) {
-                        m_symbols->expandItem(node);
-                    }
-                    lastNamespaceNode = node;
-                } else {
-                    node = new QTreeWidgetItem(m_symbols);
+        // reduce literals to empty strings to not match comments separators in literals
+        line.replace(literalRegExp, QLatin1String("\\1\\1"));
+
+        // kdDebug(13000) << debugBuffer.arg(i, 4).arg("-literals", 10).arg(line);
+        line.remove(blockCommentInline);
+
+        // kdDebug(13000) << debugBuffer.arg(i, 4).arg("-comments", 10).arg(line);
+
+        // trying to find comments and to remove commented parts
+        if (const int pos = line.indexOf(QLatin1Char('#')); pos >= 0) {
+            line.truncate(pos);
+        }
+        if (const int pos = line.indexOf(QLatin1String("//")); pos >= 0) {
+            line.truncate(pos);
+        }
+        if (const int pos = line.indexOf(QLatin1String("/*")); pos >= 0) {
+            line.truncate(pos);
+            inBlockComment = true;
+        }
+        if (const int pos = line.indexOf(QLatin1String("*/")); pos >= 0) {
+            line = line.right(line.length() - pos - 2);
+            inBlockComment = false;
+        }
+
+        if (inBlockComment) {
+            continue;
+        }
+
+        // trimming again after having removed the comments
+        line = line.simplified();
+        // kdDebug(13000) << debugBuffer.arg(i, 4).arg("+simplified", 10).arg(line);
+
+        // detect NameSpaces
+        match = namespaceRegExp.match(line);
+        if (match.hasMatch()) {
+            if (m_treeOn->isChecked()) {
+                node = new QTreeWidgetItem(namespaceNode, lastNamespaceNode);
+                if (m_expandOn->isChecked()) {
+                    m_symbols->expandItem(node);
                 }
-                node->setText(0, namespaceRegExp.cap(1));
-                node->setIcon(0, QIcon(namespacePix));
-                node->setText(1, QString::number(i, 10));
+                lastNamespaceNode = node;
+            } else {
+                node = new QTreeWidgetItem(m_symbols);
             }
+            node->setText(0, match.captured(1));
+            node->setIcon(0, m_icon_context);
+            node->setText(1, QString::number(i, 10));
+        }
 
-            // detect defines
-            if (defineRegExp.indexIn(lineWithliterals) != -1) {
-                if (m_treeOn->isChecked()) {
-                    node = new QTreeWidgetItem(defineNode, lastDefineNode);
-                    lastDefineNode = node;
-                } else {
-                    node = new QTreeWidgetItem(m_symbols);
-                }
-                node->setText(0, defineRegExp.cap(2));
-                node->setIcon(0, QIcon(definePix));
-                node->setText(1, QString::number(i, 10));
+        // detect defines
+        match = defineRegExp.match(lineWithliterals);
+        if (match.hasMatch()) {
+            if (m_treeOn->isChecked()) {
+                node = new QTreeWidgetItem(defineNode, lastDefineNode);
+                lastDefineNode = node;
+            } else {
+                node = new QTreeWidgetItem(m_symbols);
             }
+            node->setText(0, match.captured(2));
+            node->setIcon(0, m_icon_typedef);
+            node->setText(1, QString::number(i, 10));
+        }
 
-            // detect classes, interfaces
-            isClass = classRegExp.indexIn(line) != -1;
-            isInterface = interfaceRegExp.indexIn(line) != -1;
-            if (isClass || isInterface) {
-                if (m_treeOn->isChecked()) {
-                    node = new QTreeWidgetItem(classNode, lastClassNode);
-                    if (m_expandOn->isChecked()) {
-                        m_symbols->expandItem(node);
-                    }
-                    lastClassNode = node;
-                } else {
-                    node = new QTreeWidgetItem(m_symbols);
+        // detect classes, interfaces and trait
+        matchClass = classRegExp.match(line);
+        matchInterface = interfaceRegExp.match(line);
+        matchTrait = traitRegExp.match(line);
+        if (matchClass.hasMatch() || matchInterface.hasMatch() || matchTrait.hasMatch()) {
+            if (m_treeOn->isChecked()) {
+                node = new QTreeWidgetItem(classNode, lastClassNode);
+                if (m_expandOn->isChecked()) {
+                    m_symbols->expandItem(node);
                 }
-                if (isClass) {
-                    if (m_typesOn->isChecked()) {
-                        if (!classRegExp.cap(1).trimmed().isEmpty() && !classRegExp.cap(4).trimmed().isEmpty()) {
-                            nameWithTypes = classRegExp.cap(3) + QLatin1String(" [") + classRegExp.cap(1).trimmed() + QLatin1Char(',')
-                                + classRegExp.cap(4).trimmed() + QLatin1Char(']');
-                        } else if (!classRegExp.cap(1).trimmed().isEmpty()) {
-                            nameWithTypes = classRegExp.cap(3) + QLatin1String(" [") + classRegExp.cap(1).trimmed() + QLatin1Char(']');
-                        } else if (!classRegExp.cap(4).trimmed().isEmpty()) {
-                            nameWithTypes = classRegExp.cap(3) + QLatin1String(" [") + classRegExp.cap(4).trimmed() + QLatin1Char(']');
-                        }
-                        node->setText(0, nameWithTypes);
-                    } else {
-                        node->setText(0, classRegExp.cap(3));
-                    }
-                } else {
-                    if (m_typesOn->isChecked()) {
-                        nameWithTypes = interfaceRegExp.cap(1) + QLatin1String(" [interface]");
-                        node->setText(0, nameWithTypes);
-                    } else {
-                        node->setText(0, interfaceRegExp.cap(1));
-                    }
-                }
-                node->setIcon(0, QIcon(classPix));
-                node->setText(1, QString::number(i, 10));
-                node->setToolTip(0, nameWithTypes);
-                inClass = true;
-                inFunction = false;
+                lastClassNode = node;
+            } else {
+                node = new QTreeWidgetItem(m_symbols);
             }
-
-            // detect class constants
-            if (constantRegExp.indexIn(line) != -1) {
-                if (m_treeOn->isChecked()) {
-                    node = new QTreeWidgetItem(lastClassNode);
-                } else {
-                    node = new QTreeWidgetItem(m_symbols);
-                }
-                node->setText(0, constantRegExp.cap(1));
-                node->setIcon(0, QIcon(constPix));
-                node->setText(1, QString::number(i, 10));
-            }
-
-            // detect class variables
-            if (inClass && !inFunction) {
-                if (varRegExp.indexIn(line) != -1) {
-                    if (m_treeOn->isChecked() && inClass) {
-                        node = new QTreeWidgetItem(lastClassNode);
-                    } else {
-                        node = new QTreeWidgetItem(m_symbols);
-                    }
-                    node->setText(0, varRegExp.cap(4));
-                    node->setIcon(0, QIcon(varPix));
-                    node->setText(1, QString::number(i, 10));
-                }
-            }
-
-            // detect functions
-            if (functionRegExp.indexIn(line) != -1) {
-                if (m_treeOn->isChecked() && inClass) {
-                    node = new QTreeWidgetItem(lastClassNode);
-                } else if (m_treeOn->isChecked()) {
-                    node = new QTreeWidgetItem(lastFunctionNode);
-                } else {
-                    node = new QTreeWidgetItem(m_symbols);
-                }
-
-                QString functionArgs(functionRegExp.cap(5));
-                pos = 0;
-                while (pos >= 0) {
-                    pos = functionArgsRegExp.indexIn(functionArgs, pos);
-                    if (pos >= 0) {
-                        pos += functionArgsRegExp.matchedLength();
-                        functionArgsList += functionArgsRegExp.cap(1);
-                    }
-                }
-
-                nameWithTypes = functionRegExp.cap(4) + QLatin1Char('(') + functionArgsList.join(QLatin1String(", ")) + QLatin1Char(')');
+            if (matchClass.hasMatch()) {
                 if (m_typesOn->isChecked()) {
+                    nameWithTypes = matchClass.captured(3);
+                    if (!matchClass.captured(1).trimmed().isEmpty() && !matchClass.captured(4).trimmed().isEmpty()) {
+                        nameWithTypes +=
+                            QLatin1String(" [") + matchClass.captured(1).trimmed() + QLatin1Char(',') + matchClass.captured(4).trimmed() + QLatin1Char(']');
+                    } else if (!matchClass.captured(1).trimmed().isEmpty()) {
+                        nameWithTypes += QLatin1String(" [") + matchClass.captured(1).trimmed() + QLatin1Char(']');
+                    } else if (!matchClass.captured(4).trimmed().isEmpty()) {
+                        nameWithTypes += QLatin1String(" [") + matchClass.captured(4).trimmed() + QLatin1Char(']');
+                    }
                     node->setText(0, nameWithTypes);
                 } else {
-                    node->setText(0, functionRegExp.cap(4));
+                    node->setText(0, matchClass.captured(3));
                 }
-
-                node->setIcon(0, QIcon(functionPix));
-                node->setText(1, QString::number(i, 10));
-                node->setToolTip(0, nameWithTypes);
-
-                functionArgsList.clear();
-
-                inFunction = true;
+            } else if (matchInterface.hasMatch()) {
+                if (m_typesOn->isChecked()) {
+                    nameWithTypes = matchInterface.captured(1) + QLatin1String(" [interface]");
+                    node->setText(0, nameWithTypes);
+                } else {
+                    node->setText(0, matchInterface.captured(1));
+                }
+            } else {
+                if (m_typesOn->isChecked()) {
+                    nameWithTypes = matchTrait.captured(1) + QLatin1String(" [trait]");
+                    node->setText(0, nameWithTypes);
+                } else {
+                    node->setText(0, matchTrait.captured(1));
+                }
             }
+            node->setIcon(0, m_icon_class);
+            node->setText(1, QString::number(i, 10));
+            node->setToolTip(0, nameWithTypes);
+            inClass = true;
+            inFunction = false;
+        }
+
+        // detect class constants
+        match = constantRegExp.match(line);
+        if (match.hasMatch()) {
+            if (m_treeOn->isChecked()) {
+                node = new QTreeWidgetItem(lastClassNode);
+            } else {
+                node = new QTreeWidgetItem(m_symbols);
+            }
+            node->setText(0, match.captured(1));
+            node->setIcon(0, m_icon_typedef);
+            node->setText(1, QString::number(i, 10));
+        }
+
+        // detect class variables
+        if (inClass && !inFunction) {
+            match = varRegExp.match(line);
+            if (match.hasMatch()) {
+                if (m_treeOn->isChecked()) {
+                    node = new QTreeWidgetItem(lastClassNode);
+                } else {
+                    node = new QTreeWidgetItem(m_symbols);
+                }
+                node->setText(0, match.captured(4));
+                node->setIcon(0, m_icon_variable);
+                node->setText(1, QString::number(i, 10));
+            }
+        }
+
+        // detect functions
+        match = functionRegExp.match(realLine);
+        if (match.hasMatch()) {
+            if (m_treeOn->isChecked()) {
+                if (match.captured(1).isEmpty() && match.captured(2).isEmpty()) {
+                    inClass = false;
+                    node = new QTreeWidgetItem(lastFunctionNode);
+                } else {
+                    node = new QTreeWidgetItem(lastClassNode);
+                }
+            } else {
+                node = new QTreeWidgetItem(m_symbols);
+            }
+
+            QString functionArgs(match.captured(6));
+            functionArgsList.clear();
+            matchFunctionArgs = functionArgsRegExp.globalMatch(functionArgs);
+            while (matchFunctionArgs.hasNext()) {
+                matchFunctionArg = matchFunctionArgs.next();
+                functionArgsList.append(matchFunctionArg.captured(0));
+            }
+
+            nameWithTypes = match.captured(5) + QLatin1Char('(') + functionArgsList.join(QLatin1String(", ")) + QLatin1Char(')');
+            if (m_typesOn->isChecked()) {
+                node->setText(0, nameWithTypes);
+            } else {
+                node->setText(0, match.captured(5));
+            }
+
+            node->setIcon(0, m_icon_function);
+            node->setText(1, QString::number(i, 10));
+            node->setToolTip(0, nameWithTypes);
+
+            functionArgsList.clear();
+
+            inFunction = true;
         }
     }
 }

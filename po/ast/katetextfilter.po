@@ -1,81 +1,80 @@
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2023 This file is copyright:
+# This file is distributed under the same license as the kate package.
 #
-# enolp <enolp@softastur.org>, 2016, 2018, 2019, 2020.
+# SPDX-FileCopyrightText: 2023 Enol P. <enolp@softastur.org>
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
-"PO-Revision-Date: 2020-01-17 13:44+0100\n"
-"Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian <alministradores@softastur.org>\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
+"PO-Revision-Date: 2023-11-07 21:26+0100\n"
+"Last-Translator: Enol P. <enolp@softastur.org>\n"
+"Language-Team: \n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.12.1\n"
+"X-Generator: Lokalize 23.08.2\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Result of:</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 msgstr ""
-"<title>Resultáu de:</title><nl /><pre><code>$ %1\n"
-"<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr ""
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
 "to be able to do this, contact your system administrator."
 msgstr ""
-"Nun tienes permisu pa executar aplicaciones arbitraries esternes. Si quies "
-"ser a facelo, contauta col alministrador de sistemes."
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
-msgstr "Torgues d'accesu"
+msgstr ""
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
 #, kde-format
 msgid "Text Filter"
-msgstr "Peñera de testu"
+msgstr ""
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
-msgstr "Usu: textfilter COMANDU"
+msgstr ""
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
 "with the output of the specified shell command.</p></qt>"
 msgstr ""
-"<qt><p>Usu: <code>textfilter COMANDU</code></p><p>Troca la esbilla pola "
-"salida del comandu especificáu de la shell.</p></qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
-msgstr "&Peñerar pente comandu…"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, TextFilterWidget)
 #: textfilterwidget.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr "Diálogu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, lblFilter)
 #: textfilterwidget.ui:26
 #, kde-format
 msgid "Enter command to &pipe selected text through:"
-msgstr "Introduz el comandu pa &concatenar el testu esbilláu pente:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, newDoc)
 #: textfilterwidget.ui:39
@@ -87,13 +86,13 @@ msgstr ""
 #: textfilterwidget.ui:46
 #, kde-format
 msgid "Copy the result to clipboard leaving a document unchanged."
-msgstr "Copia'l resultáu al cartafueyu dexando'l documentu ensin camudar."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, copyResult)
 #: textfilterwidget.ui:49
 #, kde-format
 msgid "Copy the result instead of pasting it"
-msgstr "Copiar el resultáu en cuentes d'apegalu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mergeOutput)
 #: textfilterwidget.ui:57
@@ -103,15 +102,12 @@ msgid ""
 "will be reported.\n"
 "Otherwise, STDERR will be displayed as a passive message."
 msgstr ""
-"Si se conseña, va mecese la salida de STDOUT y STDERR, y nun va informase de "
-"nengún fallu.\n"
-"D'otramiente, STDERR va amosase como un mensaxe pasivu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, mergeOutput)
 #: textfilterwidget.ui:60
 #, kde-format
 msgid "Merge STDOUT and STDERR"
-msgstr "Mecer STDOUT y STDERR"
+msgstr ""
 
 #. i18n: ectx: Menu (tools)
 #: ui.rc:6

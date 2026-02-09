@@ -4,15 +4,14 @@
     SPDX-License-Identifier: MIT
 */
 
-#ifndef LSPCLIENTSERVERMANAGER_H
-#define LSPCLIENTSERVERMANAGER_H
+#pragma once
 
 #include "lspclientplugin.h"
 #include "lspclientserver.h"
 
 #include <KTextEditor/Message>
 
-#include <QSharedPointer>
+#include <memory>
 
 namespace KTextEditor
 {
@@ -39,15 +38,19 @@ class LSPClientServerManager : public QObject
 
 public:
     // factory method; private implementation by interface
-    static QSharedPointer<LSPClientServerManager> new_(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin);
+    static std::shared_ptr<LSPClientServerManager> new_(LSPClientPlugin *plugin);
 
-    virtual QSharedPointer<LSPClientServer> findServer(KTextEditor::View *view, bool updatedoc = true) = 0;
+    virtual std::shared_ptr<LSPClientServer> findServer(KTextEditor::View *view, bool updatedoc = true) = 0;
+
+    virtual QJsonValue findServerConfig(KTextEditor::Document *document) = 0;
 
     virtual void update(KTextEditor::Document *doc, bool force) = 0;
 
     virtual void restart(LSPClientServer *server) = 0;
 
     virtual void setIncrementalSync(bool inc) = 0;
+
+    virtual LSPClientCapabilities &clientCapabilities() = 0;
 
     // latest sync'ed revision of doc (-1 if N/A)
     virtual qint64 revision(KTextEditor::Document *doc) = 0;
@@ -70,10 +73,14 @@ public:
 public:
 Q_SIGNALS:
     void serverChanged();
-    void showMessage(KTextEditor::Message::MessageType level, const QString &msg);
     // proxy server signals in case those are emitted very early
     void serverShowMessage(LSPClientServer *server, const LSPShowMessageParams &);
     void serverLogMessage(LSPClientServer *server, const LSPShowMessageParams &);
+    void serverWorkDoneProgress(LSPClientServer *server, const LSPWorkDoneProgressParams &);
+    void showMessageRequest(const LSPShowMessageParams &message,
+                            const QList<LSPMessageRequestAction> &actions,
+                            const std::function<void()> chooseNothing,
+                            bool &handled);
 };
 
 class LSPClientRevisionSnapshot : public QObject
@@ -82,7 +89,5 @@ class LSPClientRevisionSnapshot : public QObject
 
 public:
     // find a locked revision for url in snapshot
-    virtual void find(const QUrl &url, KTextEditor::MovingInterface *&miface, qint64 &revision) const = 0;
+    virtual void find(const QUrl &url, KTextEditor::Document *&doc, qint64 &revision) const = 0;
 };
-
-#endif

@@ -22,7 +22,6 @@ view needs to pull default settings from the main plugin config
 */
 
 #include "katefiletreeconfigpage.h"
-#include "katefiletreedebug.h"
 #include "katefiletreemodel.h"
 #include "katefiletreeplugin.h"
 #include "katefiletreeproxymodel.h"
@@ -39,14 +38,13 @@ KateFileTreeConfigPage::KateFileTreeConfigPage(QWidget *parent, KateFileTreePlug
     : KTextEditor::ConfigPage(parent)
     , m_plug(fl)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setContentsMargins(0, 0, 0, 0);
+    auto *layout = new QVBoxLayout(this);
 
     gbEnableShading = new QGroupBox(i18n("Background Shading"), this);
     gbEnableShading->setCheckable(true);
     layout->addWidget(gbEnableShading);
 
-    QGridLayout *lo = new QGridLayout(gbEnableShading);
+    auto *lo = new QGridLayout(gbEnableShading);
 
     kcbViewShade = new KColorButton(gbEnableShading);
     lViewShade = new QLabel(i18n("&Viewed documents' shade:"), gbEnableShading);
@@ -61,7 +59,7 @@ KateFileTreeConfigPage::KateFileTreeConfigPage(QWidget *parent, KateFileTreePlug
     lo->addWidget(kcbEditShade, 3, 1);
 
     // sorting
-    QHBoxLayout *lo2 = new QHBoxLayout;
+    auto *lo2 = new QHBoxLayout;
     layout->addLayout(lo2);
     lSort = new QLabel(i18n("&Sort by:"), this);
     lo2->addWidget(lSort);
@@ -71,9 +69,10 @@ KateFileTreeConfigPage::KateFileTreeConfigPage(QWidget *parent, KateFileTreePlug
     cmbSort->addItem(i18n("Opening Order"), static_cast<int>(KateFileTreeModel::OpeningOrderRole));
     cmbSort->addItem(i18n("Document Name"), static_cast<int>(Qt::DisplayRole));
     cmbSort->addItem(i18n("Url"), static_cast<int>(KateFileTreeModel::PathRole));
+    cmbSort->addItem(i18n("Custom Sorting"), static_cast<int>(CustomSorting));
 
     // view mode
-    QHBoxLayout *lo3 = new QHBoxLayout;
+    auto *lo3 = new QHBoxLayout;
     layout->addLayout(lo3);
     lMode = new QLabel(i18n("&View Mode:"), this);
     lo3->addWidget(lMode);
@@ -84,19 +83,21 @@ KateFileTreeConfigPage::KateFileTreeConfigPage(QWidget *parent, KateFileTreePlug
     cmbMode->addItem(i18n("List View"), QVariant(true));
 
     // Show Full Path on Roots?
-    QHBoxLayout *lo4 = new QHBoxLayout;
+    auto *lo4 = new QHBoxLayout;
     layout->addLayout(lo4);
     cbShowFullPath = new QCheckBox(i18n("&Show Full Path"), this);
     lo4->addWidget(cbShowFullPath);
 
-    QHBoxLayout *lo5 = new QHBoxLayout;
+    auto *lo5 = new QHBoxLayout;
     layout->addLayout(lo5);
     cbShowToolbar = new QCheckBox(i18n("Show &Toolbar"), this);
     lo5->addWidget(cbShowToolbar);
 
-    cbShowClose = new QCheckBox(i18n("Show Close Button"), this);
+    cbShowClose = new QCheckBox(i18n("Show Close Button On Hovering"), this);
     layout->addWidget(cbShowClose);
-    layout->addWidget(new QLabel(i18n("When enabled, this will show a close button for opened documents on hover.")));
+
+    cbMiddleClick = new QCheckBox(i18n("Middle Click To Close Documents"), this);
+    layout->addWidget(cbMiddleClick);
 
     layout->insertStretch(-1, 10);
 
@@ -126,9 +127,26 @@ KateFileTreeConfigPage::KateFileTreeConfigPage(QWidget *parent, KateFileTreePlug
     connect(kcbEditShade, &KColorButton::changed, this, &KateFileTreeConfigPage::slotMyChanged);
     connect(cmbSort, QOverload<int>::of(&QComboBox::activated), this, &KateFileTreeConfigPage::slotMyChanged);
     connect(cmbMode, QOverload<int>::of(&QComboBox::activated), this, &KateFileTreeConfigPage::slotMyChanged);
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     connect(cbShowFullPath, &QCheckBox::stateChanged, this, &KateFileTreeConfigPage::slotMyChanged);
+#else
+    connect(cbShowFullPath, &QCheckBox::checkStateChanged, this, &KateFileTreeConfigPage::slotMyChanged);
+#endif
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     connect(cbShowToolbar, &QCheckBox::stateChanged, this, &KateFileTreeConfigPage::slotMyChanged);
+#else
+    connect(cbShowToolbar, &QCheckBox::checkStateChanged, this, &KateFileTreeConfigPage::slotMyChanged);
+#endif
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     connect(cbShowClose, &QCheckBox::stateChanged, this, &KateFileTreeConfigPage::slotMyChanged);
+#else
+    connect(cbShowClose, &QCheckBox::checkStateChanged, this, &KateFileTreeConfigPage::slotMyChanged);
+#endif
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
+    connect(cbMiddleClick, &QCheckBox::stateChanged, this, &KateFileTreeConfigPage::slotMyChanged);
+#else
+    connect(cbMiddleClick, &QCheckBox::checkStateChanged, this, &KateFileTreeConfigPage::slotMyChanged);
+#endif
 }
 
 QString KateFileTreeConfigPage::name() const
@@ -143,7 +161,7 @@ QString KateFileTreeConfigPage::fullName() const
 
 QIcon KateFileTreeConfigPage::icon() const
 {
-    return QIcon::fromTheme(QLatin1String("view-list-tree"));
+    return QIcon::fromTheme(QLatin1String("folder-documents-symbolic"));
 }
 
 void KateFileTreeConfigPage::apply()
@@ -162,7 +180,8 @@ void KateFileTreeConfigPage::apply()
                         cmbSort->itemData(cmbSort->currentIndex()).toInt(),
                         cbShowFullPath->checkState() == Qt::Checked,
                         cbShowToolbar->checkState() == Qt::Checked,
-                        cbShowClose->isChecked());
+                        cbShowClose->isChecked(),
+                        cbMiddleClick->isChecked());
 }
 
 void KateFileTreeConfigPage::reset()
@@ -177,6 +196,7 @@ void KateFileTreeConfigPage::reset()
     cbShowFullPath->setCheckState(settings.showFullPathOnRoots() ? Qt::Checked : Qt::Unchecked);
     cbShowToolbar->setCheckState(settings.showToolbar() ? Qt::Checked : Qt::Unchecked);
     cbShowClose->setChecked(settings.showCloseButton());
+    cbMiddleClick->setChecked(settings.middleClickToClose);
 
     m_changed = false;
 }
@@ -193,3 +213,5 @@ void KateFileTreeConfigPage::slotMyChanged()
     m_changed = true;
     Q_EMIT changed();
 }
+
+#include "moc_katefiletreeconfigpage.cpp"

@@ -45,9 +45,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2018-05-19</date>
+>2021-09-02</date>
 <releaseinfo
->Aplicaciones 18.08</releaseinfo>
+>KDE Gear 21.12</releaseinfo>
 
 <abstract>
 <para
@@ -77,7 +77,7 @@
 >) que permite editar un archivo cada vez por ventana. </para>
 
 <para
->&kwrite; es una interfaz sencilla para el componente &katepart; que también utiliza &kate;, KDevelop y otras aplicaciones de &kde; que necesiten edición avanzada de texto. Por lo tanto, la documentación completa de todas las funcionalidades de &kwrite; se puede encontrar en el <ulink url="help:/katepart"
+>&kwrite; es una interfaz sencilla para el componente &katepart; que también utiliza &kate;, &kdevelop; y otras aplicaciones de &kde; que necesiten edición avanzada de texto. Por lo tanto, la documentación completa de todas las funcionalidades de &kwrite; se puede encontrar en el <ulink url="help:/katepart"
 >Manual de &katepart;</ulink
 >. </para>
 </sect1>
@@ -200,7 +200,7 @@
 <term
 ><userinput
 ><command
->&kwrite;</command
+>kwrite</command
 > <option
 >--license</option
 ></userinput

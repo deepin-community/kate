@@ -120,12 +120,30 @@
 >kate</command
 > <option
 ><replaceable
->ftp://ftp.kde.org/pub/kde/README</replaceable
+>&kde-ftp;README</replaceable
 ></option
 ></userinput
 >
 </screen>
 </informalexample>
+
+<para
+>Para cambiar el directorio de los archivos temporales, que por omisión es <filename class="directory"
+>/tmp</filename
+>, ajuste la variable de entorno <envar
+>TMPDIR</envar
+> antes de iniciar &kate;. Por ejemplo: <informalexample
+> <screen
+><prompt
+>%</prompt
+><userinput
+><command
+>mkdir</command
+> /tmp/kate -p &amp;&amp; export TMPDIR=/tmp/kate &amp;&amp; kate</userinput
+>
+</screen>
+</informalexample>
+</para>
 
 <sect3 id="command-line-options">
 <title
@@ -164,7 +182,7 @@
 ></term>
 <listitem>
 <para
->Inicie kate con el <parameter
+>Inicia &kate; con el <parameter
 >nombre</parameter
 > de sesión. Si la sesión no existe, se creará. Si ya existía una instancia de &kate; ejecutándose, se cargarán los archivos correspondientes en esa instancia. </para>
 </listitem>
@@ -322,13 +340,11 @@
 ><para
 >Si se está usando una instancia de &kate; que ya está en ejecución y se indica una URL a la que dirigirse, se bloquea hasta que finalice dicha instancia.</para>
 <para
->Puede utilizar &kate; con esta opción como editor para teclear mensajes de aplicación de cambios en sistemas de control de versiones como <application
->Git </application
-> o <application
+>Puede utilizar &kate; con esta opción como editor para teclear mensajes de aplicación de cambios en sistemas de control de versiones como &git; o <application
 >Subversion</application
->. Dichos sistemas esperan bloquear el editor hasta que se haya introducido el mensaje porque es entonces cuando abren el archivo temporal, el cual estaría vacío si Kate volviese inmediatamente al llamante. </para>
+>. Dichos sistemas esperan bloquear el editor hasta que se haya introducido el mensaje porque es entonces cuando abren el archivo temporal, el cual estaría vacío si &kate; volviese inmediatamente al llamante. </para>
 <para
->Esta opción también es necesaria con KIO (&kde; entrada/salida) si usted abre un archivo remoto (que se haya descargado a un archivo temporal) y tiene que recargarse después de que lo guarde. </para
+>Esta opción también es necesaria con KIO (&kde; entrada/salida) si abre un archivo remoto (que se haya descargado a un archivo temporal) y tiene que recargarse después de que lo guarde. </para
 ></listitem>
 </varlistentry>
 
@@ -346,7 +362,7 @@
 >Cuando se utiliza, los archivos especificados se tratan como archivos temporales y se borran (si son archivos locales y se tiene los permisos suficientes) cuando se cierran, a menos que se modifiquen después de abrirse.</para
 ></listitem>
 </varlistentry>
-<!--FIXME usecase? -->
+
 <varlistentry>
 <term
 ><userinput
@@ -360,7 +376,11 @@
 ></term>
 <listitem
 ><para
->Nombre de archivo base para la entrada del escritorio para esta aplicación.</para
+>Nombre de archivo base para la entrada del escritorio para esta aplicación.</para>
+<para
+>Esto resulta particularmente útil para aplicaciones de envoltorio y para aplicaciones que tienen varios archivos de escritorio en general. De este modo, cada archivo de escritorio puede tener su propia línea de órdenes para la entrada <option
+>Exec</option
+>. </para
 ></listitem>
 </varlistentry>
 
@@ -411,6 +431,7 @@
 </listitem>
 </varlistentry>
 </variablelist>
+
 </sect3>
 </sect2>
 
@@ -418,7 +439,7 @@
 <title
 >Arrastrar y soltar</title>
 <para
->&kate; utiliza el protocolo de &kde; para arrastrar y soltar. Los archivos pueden arrastrarse y soltarse en &kate; desde el escritorio, desde &dolphin; o desde algún sitio ftp remoto abierto en una ventana de &dolphin;. </para>
+>&kate; utiliza el protocolo de &kde; para arrastrar y soltar. Los archivos pueden arrastrarse y soltarse en &kate; desde el escritorio, desde &dolphin; o desde algún sitio &FTP; remoto abierto en una ventana de &dolphin;. </para>
 </sect2>
 </sect1>
 
@@ -429,8 +450,8 @@
 >El <link linkend="quick-start"
 >Inicio rápido</link
 > le mostrará como conmutar cuatro opciones sencillas que le permiten configurar de manera inmediata algunas de las características más potentes de &kate;. <link linkend="keystroke-commands"
->Accesos rápidos</link
-> muestra algunos de los accesos rápidos del teclado predeterminados para aquellos que no pueden o no quieren utilizar el ratón. </para>
+>Atajos de teclado</link
+> muestra algunos de los atajos de teclado predeterminados para aquellos que no pueden o no quieren utilizar el ratón. </para>
 
 <sect2 id="quick-start">
 <title
@@ -439,7 +460,7 @@
 <para
 >Esta sección describirá algunos elementos del menú <guimenu
 >Ver</guimenu
-> para que usted pueda configurar rápidamente &kate; como desee. </para>
+> para que pueda configurar rápidamente &kate; como desee. </para>
 
 <para
 >Cuando inicie &kate; por primera vez, verá dos ventanas con fondo blanco. Por encima de las ventanas, hay una barra de herramientas con los iconos etiquetados de la forma habitual y por encima de ella, una barra de menú. </para>
@@ -459,13 +480,13 @@
 > para abrir archivos. </para>
 
 <para
->Puede conmutar todas las ventanas de los paneles laterales desde el menú <menuchoice
+>Puede conmutar todas las ventanas de los paneles laterales con la opción del menú <menuchoice
 ><guimenu
 >Ver</guimenu
 ><guisubmenu
 >Vistas de herramientas</guisubmenu
 ></menuchoice
-> o el acceso rápido <keycombo action="simul"
+> o con el atajo de teclado <keycombo action="simul"
 >&Ctrl;&Alt;&Shift;<keycap
 >F</keycap
 ></keycombo
@@ -480,215 +501,17 @@
 
 <sect2 id="keystroke-commands">
 <title
->Accesos rápidos</title>
+>Atajos de teclado</title>
 
 <para
->Muchas de las órdenes de combinaciones de teclas (accesos rápidos) de &kate; son configurables a través del menú <link linkend="settings"
+>Muchas de las órdenes de combinaciones de teclas (atajos de teclado) de &kate; son configurables a través del menú <link linkend="settings"
 > Preferencias</link
 >. De forma predeterminada, &kate; admite las siguientes asociaciones de teclas. </para>
-
-<!-- Ctrl+T Transpose Characters
-Meta+Ctrl+V ii input mode
--->
 
 <informaltable>
 <tgroup cols="2">
 <tbody>
 
-<row
-><entry
-><para
-><keycap
->Insertar</keycap
-></para
-></entry>
-<entry
-><para
->Conmuta entre el modo inserción y el modo sobrescritura. Cuando está en modo inserción el editor añadirá cualquier carácter introducido al texto y empujará los caracteres previamente introducidos a la derecha del cursor de texto. El modo de sobrescritura hace que la entrada de cada carácter elimine el carácter inmediatamente a la derecha del cursor de texto.</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo
-><keycap
->Flecha izquierda</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Mueve el cursor un carácter a la izquierda </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo
-><keycap
->Flecha derecha</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Mueve el cursor un carácter a la derecha </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
-><keycap
->Flecha arriba</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Mueve el cursor una línea arriba </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
-><keycap
->Flecha abajo</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Mueve el cursor una línea abajo </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
-><keycap
->Página arriba</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Mueve el cursor una página hacia arriba </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
-><keycap
->Página abajo</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Mueve el cursor una página hacia abajo </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Backspace;</keycombo
-></para
-></entry>
-<entry
-><para
->Borra el carácter a la izquierda del cursor </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
-><keycap
->Inicio</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Mueve el cursor al comienzo de la línea </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
-><keycap
->Fin</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Mueve el cursor al final de la línea </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
-><keycap
->Borrar</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Borra el carácter a la derecha del cursor (o cualquier texto seleccionado)</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Shift;&Enter;</keycombo
-></para
-></entry>
-<entry
-><para
->Inserta un fin de línea con los caracteres de la línea que no son letras y números delante. Esto es útil, por ejemplo, para escribir comentarios en el código: al final de la línea <quote
->// un texto</quote
-> pulse este acceso rápido y la siguiente ya empezará con <quote
->//</quote
->. Así, no necesitará introducir los caracteres de comentario al inicio de cada nueva línea para comentarios.</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Shift; <keycap
->flecha izquierda</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Marca el texto un carácter a la izquierda </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Shift; <keycap
->flecha derecha</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Marca el texto un carácter a la derecha </para
-></entry>
-</row>
 <row>
 <entry
 ><para
@@ -723,67 +546,6 @@ Meta+Ctrl+V ii input mode
 <entry
 ><para
 ><keycombo action="simul"
->&Ctrl; <keycap
->F</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
-><link linkend="edit-find"
->Buscar</link
-></para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
-><keycap
->F3</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
-><link linkend="edit-find-next"
->Siguiente</link
-></para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;<keycap
->B</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Insertar un marcador</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;<keycap
->C</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Copiar el texto marcado al portapapeles </para
-></entry>
-</row>
-
-<row>
-<entry
-><para
-><keycombo action="simul"
 >&Ctrl;<keycap
 >N</keycap
 ></keycombo
@@ -801,26 +563,100 @@ Meta+Ctrl+V ii input mode
 ><para
 ><keycombo action="simul"
 >&Ctrl;<keycap
->P</keycap
+>L</keycap
 ></keycombo
 ></para
 ></entry>
 <entry
 ><para
-><link linkend="file-print"
->Imprimir</link
+>Guardar todo</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+><link linkend="file-open"
+>Abrir un documento</link
 > </para
 ></entry>
 </row>
 <row>
-
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>O</keycap
+></keycombo
+> </para
+></entry>
+<entry
+><para
+>Apertura rápida</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+> </para
+></entry>
+<entry
+><para
+>Modo de pantalla completa</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>,</keycap
+></keycombo
+> </para
+></entry>
+<entry
+><para
+>Configurar &kate;</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> / <keycombo action="simul"
+>&Ctrl;&Esc;</keycombo
+></para
+></entry>
+<entry
+><para
+><link linkend="file-close"
+>Cerrar</link
+> </para
+></entry>
+</row>
+<row>
 <entry
 ><para
 ><keycombo action="simul"
 >&Ctrl;<keycap
 >Q</keycap
 ></keycombo
-></para
+> </para
 ></entry>
 <entry
 ><para
@@ -831,75 +667,14 @@ Meta+Ctrl+V ii input mode
 <entry
 ><para
 ><keycombo action="simul"
->&Ctrl;<keycap
->R</keycap
+>&Ctrl;&Alt;&Shift;<keycap
+>F</keycap
 ></keycombo
-></para
+> </para
 ></entry>
 <entry
 ><para
-><link linkend="edit-replace"
->Remplazar</link
-></para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;<keycap
->S</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Guardar su archivo</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;<keycap
->V</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Pegar</para
-></entry>
-</row>
-
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;<keycap
->X</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Borrar el texto marcado y copiarlo al portapapeles </para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;<keycap
->Z</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
-><link linkend="edit-undo"
->Deshacer</link
-></para
+>Mostrar barras laterales</para
 ></entry>
 </row>
 <row>
@@ -907,20 +682,121 @@ Meta+Ctrl+V ii input mode
 ><para
 ><keycombo action="simul"
 >&Ctrl;&Shift;<keycap
->Z</keycap
+>T</keycap
+></keycombo
+> </para
+></entry>
+<entry
+><para
+>Dividir horizontalmente</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>L</keycap
+></keycombo
+> </para
+></entry>
+<entry
+><para
+>Dividir verticalmente</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycap
+>F8</keycap
+></para
+></entry>
+<entry
+><para
+>Siguiente vista dividida</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Shift;<keycap
+>F8</keycap
+></keycombo
+> / <keycombo action="simul"
+>&Ctrl;&Esc;</keycombo
+></para
+></entry>
+<entry
+><para
+>Anterior vista dividida</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>R</keycap
+></keycombo
+> </para
+></entry>
+<entry
+><para
+>Cerrar la vista actual</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Alt;&Right;</keycombo
+></para
+></entry>
+<entry
+><para
+>Siguiente pestaña</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Alt;&Left;</keycombo
+></para
+></entry>
+<entry
+><para
+>Anterior pestaña</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
 ></keycombo
 ></para
 ></entry>
 <entry
 ><para
-><link linkend="edit-redo"
->Rehacer</link
-></para
+>Volver a abrir los últimos documentos cerrados</para
 ></entry>
 </row>
+
 </tbody>
 </tgroup>
 </informaltable>
+
+<para
+>De forma adicional, puede usar los atajos de teclado proporcionados por el componente <ulink url="help:/katepart/keybindings.html"
+>&katepart;</ulink
+> y por todos los <link linkend="plungins"
+>complementos de &kate;</link
+> activados.</para>
+
 </sect2>
 
 </sect1>
@@ -1013,7 +889,7 @@ Meta+Ctrl+V ii input mode
 ><emphasis
 >Opciones de línea de órdenes</emphasis
 ></link
-> que le permitirá seleccionar e iniciar sesiones cuando inicia kate desde la línea de órdenes.</para>
+> que le permitirá seleccionar e iniciar sesiones cuando inicia &kate; desde la línea de órdenes.</para>
 </listitem>
 <listitem
 ><para
@@ -1052,18 +928,88 @@ Meta+Ctrl+V ii input mode
 >--start <replaceable
 >nombre</replaceable
 ></option
-> o si se ha seleccionado una sesión con el selector de sesiones, se cargará la sesión antes que los archivos especificados en la línea de órdenes. Para abrir archivos desde la línea de órdenes en una nueva sesión sin nombre, configure kate para iniciar una nueva sesión predeterminada en la página de sesión del diálogo de configuración o utilice <option
+> o si se ha seleccionado una sesión con el selector de sesiones, se cargará la sesión antes que los archivos especificados en la línea de órdenes. Para abrir archivos desde la línea de órdenes en una nueva sesión sin nombre, configure &kate; para iniciar una nueva sesión predeterminada en la página de sesión del diálogo de configuración o use <option
 >--start</option
 > con una cadena vacía <replaceable
 >''</replaceable
 >.</para>
-<!--FIXME still valid for kf5 -->
+
 <para
 >Desde &kate; 2.5.1 el <acronym
 >PID</acronym
 > de la instancia actual se exporta a la variable de entorno <envar
 >KATE_PID</envar
 >. Cuando se abren archivos desde un terminal integrado, Kate seleccionará automáticamente la instancia actual si no se indica otra cosa en la línea de órdenes.</para>
+
+</sect1>
+
+<sect1 id="fundamentals-quick-open">
+<title
+>Apertura rápida</title>
+
+<para
+>Kate contiene un diálogo de apertura rápida que permite abrir de forma inmediata archivos o cambiar rápidamente entre ellos. Puede acceder a este diálogo con <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>O</keycap
+></keycombo
+>. </para>
+
+<para
+>La apertura rápida puede mostrar todos los documentos abiertos en Kate además de todos los archivos de los proyectos abiertos. Para poder ver archivos de proyectos, debe activar el <link linkend="kate-application-plugin-projects"
+>Complemento de proyectos</link
+>. </para>
+
+<sect2>
+<title
+>Uso de la apertura rápida</title>
+
+<para
+>El uso de la apertura rápida es muy sencillo. Tras abrirla, escriba el nombre o partes de nombre del archivo que quiera abrir para que la apertura rápida filtre la lista según lo que haya escrito. Si pulsa &Enter; se abrirá el archivo seleccionado. Si pulsa &Esc; se ocultará la apertura rápida. </para>
+<para
+>De forma predeterminada, solo se buscan coincidencias del nombre del archivo durante el filtrado. Si quiere tener en cuenta la ruta tendrá que añadir «/» al texto que escriba. Por ejemplo: «doc/index» coincidirá con todos los archivos que contengan «index» dentro de la carpeta «doc». </para>
+<para
+>Los documentos que ya están abiertos se resaltan en negrita y se muestran en la parte superior de la lista cuando se abre el diálogo. Además, cuando aparece la apertura rápida, el documento abierto anterior ya estará seleccionado, por lo que puede pulsar &Enter; para ir a dicho documento. </para>
+
+</sect2>
+
+<sect2>
+<title
+>Configuración de la apertura rápida</title>
+<screenshot id="screenshot-project-quickopen">
+<screeninfo
+>Apertura rápida</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="project-quickopen.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+<para
+>La apertura rápida proporciona varias opciones de configuración. Para acceder a ellas, haga clic derecho en la línea de edición. </para>
+<variablelist>
+<varlistentry>
+<term
+>Las opciones disponibles en la actualidad son:</term>
+<listitem>
+<para
+><userinput
+>Proyecto actual</userinput
+>: Muestra solo los archivos del proyecto actual.</para>
+<para
+><userinput
+>Todos los proyectos</userinput
+>: Muestra los archivos de todos los proyectos abiertos.</para>
+<para
+><userinput
+>Filtrado difuso</userinput
+>: Usar el algoritmo de coincidencia difusa para filtrar los archivos.</para>
+<para
+><userinput
+>Filtrado mediante comodines</userinput
+>: Usar la coincidencia de comodines para filtrar los archivos.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
 
 </sect1>
 
@@ -1155,7 +1101,7 @@ Meta+Ctrl+V ii input mode
 >Artículos de &kate;</title>
 
 <para
->La página principal de &kate; proporciona algunos <ulink url="http://kate- editor.org/featured-articles"
+>La página principal de &kate; proporciona algunos <ulink url="https://kate- editor.org/featured-articles"
 >Artículos y guías</ulink
 > con informaciones que quedan fuera del ámbito de aplicación de este manual.</para>
 

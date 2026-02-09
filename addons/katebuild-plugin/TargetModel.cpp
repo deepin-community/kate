@@ -1,340 +1,644 @@
 /***************************************************************************
  *   This file is part of Kate build plugin                                *
- *   SPDX-FileCopyrightText: 2014 Kåre Särs <kare.sars@iki.fi>                           *
+ *   SPDX-FileCopyrightText: 2014 Kåre Särs <kare.sars@iki.fi>             *
  *                                                                         *
- *   SPDX-License-Identifier: LGPL-2.0-or-later
+ *   SPDX-License-Identifier: LGPL-2.0-or-later                            *
  ***************************************************************************/
 
 #include "TargetModel.h"
 #include <KLocalizedString>
 #include <QDebug>
+#include <QDir>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
 #include <QTimer>
 
-TargetModel::TargetSet::TargetSet(const QString &_name, const QString &_dir)
+using namespace Qt::Literals::StringLiterals;
+
+namespace
+{
+struct NodeInfo {
+    int rootRow = -1;
+    int targetSetRow = -1;
+    int commandRow = -1;
+
+    bool isCommand() const
+    {
+        return rootRow != -1 && targetSetRow != -1 && commandRow != -1;
+    }
+
+    bool isTargetSet() const
+    {
+        return rootRow != -1 && targetSetRow != -1 && commandRow == -1;
+    }
+
+    bool isRoot() const
+    {
+        return rootRow != -1 && targetSetRow == -1 && commandRow == -1;
+    }
+
+    bool isValid() const
+    {
+        return rootRow != -1;
+    }
+};
+}
+
+static QDebug operator<<(QDebug debug, const NodeInfo &node)
+{
+    QDebugStateSaver saver(debug);
+    debug << "Node:" << node.rootRow << node.targetSetRow << node.commandRow;
+    return debug;
+}
+
+TargetModel::TargetSet::TargetSet(const QString &_name, const QString &_dir, bool _loadedViaCMake, const QString &_cmakeConfigName)
     : name(_name)
     , workDir(_dir)
+    , loadedViaCMake(_loadedViaCMake)
+    , cmakeConfigName(_cmakeConfigName)
 {
 }
 
-// Model data
-// parent is the m_targets list index or InvalidIndex if it is a root element
-// row is the m_targets.commands list index or m_targets index if it is a root element
-// column 0 is command name or target-set name if it is a root element
-// column 1 is the command or working directory if it is a root element
+/**
+ * This is the logical structure of the nodes in the model.
+ * 1) In the root we have Session and/or Project
+ * 2) Under these we have the TargetSets (working directory)
+ * 3) Under the TargetSets we have the Targets (commands to execute and/or run commands)
+ *
+ * --- Session Targets
+ *   - TargetSet
+ *      - Command, Run
+ *      - ...
+ *   - TargetSet
+ *      - Command, Run
+ *      - ...
+ *
+ * --- Project Targets
+ *   - TargetSet
+ *      - Command, Run
+ *      - ...
+ *   - TargetSet
+ *      - Command, Run
+ *      - ...
+ *
+ *
+ * How to interpret QModelIndex::internalId:
+ * if internalId == InvalidIndex -> This is a Root element
+ * else if internalId & TargetSetRowMask == TargetSetRowMask -> This is a TargetSet Node
+ * else this is a command node
+ *  (internalId == "parent rows")
+ *
+ * column 0 is command name, target-set name or Session/Project
+ * column 1 is the command or working directory
+ * column 2 is the run command
+ */
+
+// Topmost bit is used for RootRow 0 or 1
+static constexpr int RootRowShift = (sizeof(quintptr) * 8) - 1;
+
+// One empty bit is reserved between RootRow and TargetSetRow
+static constexpr quintptr TargetSetRowMask = ~((quintptr)3 << (RootRowShift - 1));
+
+/** This function converts the internalId to root-row, which can be either 0 or 1 as we only can have two of them. '
+ * @return 0 or 1 if successful or -1 if not a valid internalId
+ */
+static int idToRootRow(quintptr internalId)
+{
+    if (internalId == TargetModel::InvalidIndex) {
+        return -1;
+    }
+    return internalId >> RootRowShift;
+}
+
+static int idToTargetSetRow(quintptr internalId)
+{
+    if (internalId == TargetModel::InvalidIndex) {
+        return -1;
+    }
+
+    if ((internalId & TargetSetRowMask) == TargetSetRowMask) {
+        return -1;
+    }
+    return internalId &= TargetSetRowMask;
+}
+
+static quintptr toInternalId(int rootRow, int targetSetRow)
+{
+    if (rootRow < 0) {
+        return TargetModel::InvalidIndex;
+    }
+
+    if (targetSetRow < 0) {
+        return TargetSetRowMask + ((quintptr)rootRow << RootRowShift);
+    }
+
+    return ((quintptr)targetSetRow & TargetSetRowMask) + ((quintptr)rootRow << RootRowShift);
+}
+
+static NodeInfo modelToNodeInfo(const QModelIndex &itemIndex)
+{
+    NodeInfo idx;
+    if (!itemIndex.isValid()) {
+        return idx;
+    }
+
+    if (itemIndex.internalId() == TargetModel::InvalidIndex) {
+        // This is a root node
+        idx.rootRow = itemIndex.row();
+        return idx;
+    }
+
+    int rootRow = idToRootRow(itemIndex.internalId());
+    int targetSetRow = idToTargetSetRow(itemIndex.internalId());
+    if (rootRow != -1 && targetSetRow == -1) {
+        // This is a TargetSet node
+        idx.rootRow = rootRow;
+        idx.targetSetRow = itemIndex.row();
+    } //
+    else if (rootRow != -1 && targetSetRow != -1) {
+        // This is a Command node
+        idx.rootRow = rootRow;
+        idx.targetSetRow = targetSetRow;
+        idx.commandRow = itemIndex.row();
+    }
+    return idx;
+}
+
+static bool nodeExists(const QList<TargetModel::RootNode> &rootNodes, const NodeInfo &node)
+{
+    if (!node.isValid()) {
+        return false;
+    }
+
+    if (node.rootRow < 0 || node.rootRow >= rootNodes.size()) {
+        return false;
+    }
+
+    if (node.isRoot()) {
+        return true;
+    }
+
+    const QList<TargetModel::TargetSet> &targets = rootNodes[node.rootRow].targetSets;
+    if (node.targetSetRow >= targets.size()) {
+        return false;
+    }
+
+    if (node.isTargetSet()) {
+        return true;
+    }
+
+    const QList<TargetModel::Command> &commands = targets[node.targetSetRow].commands;
+    if (node.commandRow >= commands.size()) {
+        qWarning() << "Command row out of bounds" << node;
+        return false;
+    }
+    // The node is valid, not root and not a target-set and command-row is valid
+    return true;
+}
 
 TargetModel::TargetModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
+    m_rootNodes.append(RootNode());
+    m_rootNodes.append(RootNode());
+    // By default the project branch is second
+    m_rootNodes[1].isProject = true;
 }
 TargetModel::~TargetModel()
 {
 }
 
-void TargetModel::clear()
+void TargetModel::clear(bool setSessionFirst)
 {
-    m_targets.clear();
+    beginResetModel();
+    m_rootNodes.clear();
+    m_rootNodes.append(RootNode());
+    m_rootNodes.append(RootNode());
+    m_rootNodes[setSessionFirst ? 1 : 0].isProject = true;
+    endResetModel();
 }
 
-void TargetModel::setDefaultCmd(int rootRow, const QString &defCmd)
+QModelIndex TargetModel::sessionRootIndex() const
 {
-    if (rootRow < 0 || rootRow >= m_targets.size()) {
-        qDebug() << "rootRow not valid";
-        return;
-    }
-
-    for (int i = 0; i < m_targets[rootRow].commands.size(); i++) {
-        if (defCmd == m_targets[rootRow].commands[i].first) {
-            m_targets[rootRow].defaultCmd = defCmd;
-            return;
+    for (int i = 0; i < m_rootNodes.size(); ++i) {
+        if (!m_rootNodes[i].isProject) {
+            return index(i, 0);
         }
     }
+    return QModelIndex();
 }
 
-int TargetModel::getDefaultCmdIndex(int rootRow) const
+QModelIndex TargetModel::projectRootIndex() const
 {
-    if (rootRow < 0 || rootRow >= m_targets.size()) {
-        qDebug() << "rootRow not valid";
-        return 0;
-    }
-
-    auto defCmd = m_targets[rootRow].defaultCmd;
-    for (int i = 0; i < m_targets[rootRow].commands.size(); i++) {
-        if (defCmd == m_targets[rootRow].commands[i].first) {
-            return i;
+    for (int i = 0; i < m_rootNodes.size(); ++i) {
+        if (m_rootNodes[i].isProject) {
+            return index(i, 0);
         }
     }
-
-    return 0;
+    return QModelIndex();
 }
 
-int TargetModel::addTargetSet(const QString &setName, const QString &workDir)
+QModelIndex TargetModel::insertTargetSetAfter(const QModelIndex &beforeIndex,
+                                              const QString &setName,
+                                              const QString &workDir,
+                                              bool loadedViaCMake,
+                                              const QString &cmakeConfig,
+                                              const QString &projectBaseDir)
 {
-    // make the name unique
-    QString newName = setName;
-    for (int i = 0; i < m_targets.count(); i++) {
-        if (m_targets[i].name == newName) {
-            newName += QStringLiteral(" 2");
-            i = -1;
+    // qDebug() << "Inserting TargetSet after:" << beforeIndex << setName << workDir
+    // << cmakeConfig << projectBaseDir;
+    NodeInfo bNode = modelToNodeInfo(beforeIndex);
+    if (!nodeExists(m_rootNodes, bNode)) {
+        // Add the new target-set to the end of the first root node (creating the root if needed)
+        if (m_rootNodes.isEmpty()) {
+            beginInsertRows(QModelIndex(), 0, 0);
+            m_rootNodes.append(RootNode());
+            endInsertRows();
         }
+        bNode.rootRow = 0;
+        bNode.targetSetRow = m_rootNodes[0].targetSets.size() - 1;
     }
 
-    beginInsertRows(QModelIndex(), m_targets.count(), m_targets.count());
-    TargetModel::TargetSet targetSet(newName, workDir);
-    m_targets << targetSet;
-    endInsertRows();
-    return m_targets.count() - 1;
-}
-
-QModelIndex TargetModel::addCommand(int rootRow, const QString &cmdName, const QString &command)
-{
-    if (rootRow < 0 || rootRow >= m_targets.size()) {
-        qDebug() << "rootRow not valid";
-        return QModelIndex();
+    if (bNode.isRoot()) {
+        bNode.targetSetRow = m_rootNodes[bNode.rootRow].targetSets.size() - 1;
     }
 
-    // make the name unique
-    QString newName = cmdName;
-    for (int i = 0; i < m_targets[rootRow].commands.count(); i++) {
-        if (m_targets[rootRow].commands[i].first == newName) {
-            newName += QStringLiteral(" 2");
-            i = -1;
-        }
-    }
+    QList<TargetSet> &targetSets = m_rootNodes[bNode.rootRow].targetSets;
 
-    QModelIndex rootIndex = createIndex(rootRow, 0, InvalidIndex);
-    beginInsertRows(rootIndex, m_targets[rootRow].commands.count(), m_targets[rootRow].commands.count());
-    m_targets[rootRow].commands << QPair<QString, QString>(newName, command);
-    endInsertRows();
-    return createIndex(m_targets[rootRow].commands.size() - 1, 0, rootRow);
-}
-
-QModelIndex TargetModel::copyTargetOrSet(const QModelIndex &index)
-{
-    if (!index.isValid()) {
-        return QModelIndex();
-    }
-
-    quint32 rootRow = index.internalId();
-    if (rootRow == InvalidIndex) {
-        rootRow = index.row();
-        if (m_targets.count() <= static_cast<int>(rootRow)) {
-            return QModelIndex();
-        }
-
-        beginInsertRows(QModelIndex(), m_targets.count(), m_targets.count());
-
-        QString newName = m_targets[rootRow].name + QStringLiteral(" 2");
-        for (int i = 0; i < m_targets.count(); i++) {
-            if (m_targets[i].name == newName) {
-                newName += QStringLiteral(" 2");
-                i = -1;
+    if (loadedViaCMake) {
+        // loadedViaCMake target-sets replace the previous with the same name
+        for (int i = 0; i < targetSets.count(); i++) {
+            if (targetSets[i].name == setName) {
+                beginRemoveRows(index(bNode.rootRow, 0), i, i);
+                m_rootNodes[bNode.rootRow].targetSets.removeAt(i);
+                endRemoveRows();
+                bNode.targetSetRow = i - 1;
             }
         }
-        m_targets << m_targets[rootRow];
-        m_targets.last().name = newName;
-        endInsertRows();
-
-        return createIndex(m_targets.count() - 1, 0, InvalidIndex);
-        ;
     }
 
-    if (m_targets.count() <= static_cast<int>(rootRow)) {
-        return QModelIndex();
-    }
-    if (index.row() < 0) {
-        return QModelIndex();
-    }
-    if (index.row() >= m_targets[rootRow].commands.count()) {
-        return QModelIndex();
-    }
-
-    QModelIndex rootIndex = createIndex(rootRow, 0, InvalidIndex);
-    beginInsertRows(rootIndex, m_targets[rootRow].commands.count(), m_targets[rootRow].commands.count());
-
-    QString newName = m_targets[rootRow].commands[index.row()].first + QStringLiteral(" 2");
-    for (int i = 0; i < m_targets[rootRow].commands.count(); i++) {
-        if (m_targets[rootRow].commands[i].first == newName) {
-            newName += QStringLiteral(" 2");
+    // Make the name unique
+    QString newName = setName;
+    for (int i = 0; i < targetSets.count(); i++) {
+        if (targetSets[i].name == newName) {
+            newName += QStringLiteral("+");
             i = -1;
         }
     }
-    m_targets[rootRow].commands << QPair<QString, QString>(newName, m_targets[rootRow].commands[index.row()].second);
+    bNode.targetSetRow++;
 
+    beginInsertRows(index(bNode.rootRow, 0), bNode.targetSetRow, bNode.targetSetRow);
+    TargetModel::TargetSet targetSet(newName, workDir, loadedViaCMake, cmakeConfig);
+    targetSet.projectBaseDir = projectBaseDir;
+    targetSets.insert(bNode.targetSetRow, targetSet);
     endInsertRows();
-    return createIndex(m_targets[rootRow].commands.count() - 1, 0, rootRow);
+    if (m_rootNodes[bNode.rootRow].isProject) {
+        Q_EMIT projectTargetChanged(targetSet.projectBaseDir);
+    }
+    return index(bNode.targetSetRow, 0, index(bNode.rootRow, 0));
 }
 
-QModelIndex TargetModel::defaultTarget(int targetSet)
+QModelIndex TargetModel::addCommandAfter(const QModelIndex &beforeIndex, const QString &cmdName, const QString &buildCmd, const QString &runCmd)
 {
-    return createIndex(getDefaultCmdIndex(targetSet), 0, targetSet);
+    // qDebug() << "addCommandAfter" << beforeIndex << cmdName;
+    NodeInfo bNode = modelToNodeInfo(beforeIndex);
+    if (!nodeExists(m_rootNodes, bNode)) {
+        // Add the new command to the end of the first target-set of the first root node (creating the root and target-set if needed)
+        if (m_rootNodes.isEmpty()) {
+            beginInsertRows(QModelIndex(), 0, 0);
+            m_rootNodes.append(RootNode());
+            endInsertRows();
+        }
+        if (m_rootNodes[0].targetSets.isEmpty()) {
+            beginInsertRows(index(0, 0), 0, 0);
+            m_rootNodes[0].targetSets.append(TargetSet(i18n("Target Set"), QDir::homePath(), false));
+            endInsertRows();
+        }
+        bNode.rootRow = 0;
+        bNode.targetSetRow = 0;
+        bNode.commandRow = m_rootNodes[0].targetSets[0].commands.size() - 1;
+    }
+
+    if (bNode.isRoot()) {
+        // Add the new command to the first target-set of this root node (creating the targetset if needed)
+        if (m_rootNodes[bNode.rootRow].targetSets.isEmpty()) {
+            beginInsertRows(index(bNode.rootRow, 0), 0, 0);
+            m_rootNodes[bNode.rootRow].targetSets.append(TargetSet(i18n("Target Set"), QDir::homePath(), false));
+            endInsertRows();
+        }
+        bNode.targetSetRow = 0;
+        bNode.commandRow = m_rootNodes[bNode.rootRow].targetSets[0].commands.size() - 1;
+    }
+
+    if (bNode.isTargetSet()) {
+        bNode.commandRow = m_rootNodes[bNode.rootRow].targetSets[bNode.targetSetRow].commands.size() - 1;
+    }
+
+    // Now we have the place to insert the new command
+    QList<Command> &commands = m_rootNodes[bNode.rootRow].targetSets[bNode.targetSetRow].commands;
+    // make the name unique
+    QString newName = cmdName;
+    for (int i = 0; i < commands.count(); ++i) {
+        if (commands[i].name == newName) {
+            newName += QStringLiteral("+");
+            i = -1;
+        }
+    }
+
+    // it is the row after beforeIndex, where we want to insert the command
+    bNode.commandRow++;
+
+    QModelIndex targetSetIndex = index(bNode.targetSetRow, 0, index(bNode.rootRow, 0));
+    beginInsertRows(targetSetIndex, bNode.commandRow, bNode.commandRow);
+    commands.insert(bNode.commandRow, {.name = newName, .buildCmd = buildCmd, .runCmd = runCmd});
+    endInsertRows();
+    if (m_rootNodes[bNode.rootRow].isProject) {
+        Q_EMIT projectTargetChanged(m_rootNodes[bNode.rootRow].targetSets[bNode.targetSetRow].projectBaseDir);
+    }
+    return index(bNode.commandRow, 0, targetSetIndex);
 }
 
-void TargetModel::deleteItem(const QModelIndex &index)
+void TargetModel::deleteItem(const QModelIndex &itemIndex)
 {
-    if (!index.isValid()) {
+    if (!itemIndex.isValid()) {
         return;
     }
 
-    if (index.internalId() == InvalidIndex) {
-        beginRemoveRows(index.parent(), index.row(), index.row());
-        m_targets.removeAt(index.row());
+    NodeInfo node = modelToNodeInfo(itemIndex);
+    if (!nodeExists(m_rootNodes, node)) {
+        qDebug() << "Node does not exist:" << node;
+        return;
+    }
+
+    bool wasProjectNode = m_rootNodes[node.rootRow].isProject;
+    QString projectBaseDir;
+
+    if (node.isRoot()) {
+        beginRemoveRows(itemIndex, 0, m_rootNodes[node.rootRow].targetSets.size() - 1);
+        m_rootNodes[node.rootRow].targetSets.clear();
         endRemoveRows();
-    } else if (index.internalId() < static_cast<quint64>(m_targets.size()) && m_targets[static_cast<int>(index.internalId())].commands.count() > index.row()) {
-        beginRemoveRows(index.parent(), index.row(), index.row());
-        m_targets[static_cast<int>(index.internalId())].commands.removeAt(index.row());
+    } else if (node.isTargetSet()) {
+        beginRemoveRows(itemIndex.parent(), itemIndex.row(), itemIndex.row());
+        projectBaseDir = m_rootNodes[node.rootRow].targetSets[node.targetSetRow].projectBaseDir;
+        m_rootNodes[node.rootRow].targetSets.removeAt(node.targetSetRow);
         endRemoveRows();
+    } else {
+        beginRemoveRows(itemIndex.parent(), itemIndex.row(), itemIndex.row());
+        projectBaseDir = m_rootNodes[node.rootRow].targetSets[node.targetSetRow].projectBaseDir;
+        m_rootNodes[node.rootRow].targetSets[node.targetSetRow].commands.removeAt(node.commandRow);
+        endRemoveRows();
+    }
+    if (wasProjectNode) {
+        Q_EMIT projectTargetChanged(projectBaseDir);
     }
 }
 
-void TargetModel::deleteTargetSet(const QString &targetSet)
+void TargetModel::deleteProjectTargetsExcept(const QList<QString> &keep)
 {
-    for (int i = 0; i < m_targets.count(); i++) {
-        if (m_targets[i].name == targetSet) {
-            beginRemoveRows(QModelIndex(), i, i);
-            m_targets.removeAt(i);
-            endRemoveRows();
+    for (int i = 0; i < m_rootNodes.count(); ++i) {
+        if (m_rootNodes[i].isProject) {
+            auto projs = m_rootNodes[i];
+            for (int j = m_rootNodes[i].targetSets.count() - 1; j >= 0; --j) {
+                if (keep.contains(m_rootNodes[i].targetSets[j].projectBaseDir)) {
+                    continue;
+                }
+                beginRemoveRows(index(i, 0), j, j);
+                m_rootNodes[i].targetSets.removeAt(j);
+                endRemoveRows();
+            }
             return;
         }
     }
 }
 
-const QString TargetModel::command(const QModelIndex &itemIndex) const
+void TargetModel::deleteProjectTargets(const QString &baseDir)
 {
-    if (!itemIndex.isValid()) {
-        return QString();
+    for (int i = 0; i < m_rootNodes.count(); ++i) {
+        if (m_rootNodes[i].isProject) {
+            auto projs = m_rootNodes[i];
+            for (int j = m_rootNodes[i].targetSets.count() - 1; j >= 0; --j) {
+                if (baseDir == m_rootNodes[i].targetSets[j].projectBaseDir) {
+                    beginRemoveRows(index(i, 0), j, j);
+                    m_rootNodes[i].targetSets.removeAt(j);
+                    endRemoveRows();
+                    return;
+                }
+            }
+        }
     }
-    quint32 rRow = itemIndex.internalId();
-    int cRow = itemIndex.row();
-    if (rRow == TargetModel::InvalidIndex) {
-        rRow = cRow;
-        cRow = 0;
-    }
-
-    if (static_cast<int>(rRow) >= m_targets.count()) {
-        return QString();
-    }
-
-    if (cRow < 0 || cRow >= m_targets[static_cast<int>(rRow)].commands.count()) {
-        return QString();
-    }
-
-    return m_targets[rRow].commands[cRow].second;
 }
 
-const QString TargetModel::cmdName(const QModelIndex &itemIndex) const
+void TargetModel::moveRowUp(const QModelIndex &itemIndex)
 {
     if (!itemIndex.isValid()) {
-        return QString();
+        return;
     }
-    quint32 rRow = itemIndex.internalId();
-    int cRow = itemIndex.row();
-    if (rRow == TargetModel::InvalidIndex) {
-        rRow = cRow;
-        cRow = 0;
+    NodeInfo node = modelToNodeInfo(itemIndex);
+    if (!nodeExists(m_rootNodes, node)) {
+        qDebug() << "Node does not exist:" << node;
+        return;
     }
-
-    if (static_cast<int>(rRow) >= m_targets.count()) {
-        return QString();
-    }
-
-    if (cRow < 0 || cRow >= m_targets[static_cast<int>(rRow)].commands.count()) {
-        return QString();
+    int row = itemIndex.row();
+    if (row == 0) {
+        return; // This is valid for all the three cases
     }
 
-    return m_targets[static_cast<int>(rRow)].commands[cRow].first;
+    QModelIndex parent = itemIndex.parent(); // This parent is valid for all the cases
+
+    if (node.isRoot()) {
+        beginMoveRows(parent, row, row, parent, row - 1);
+        m_rootNodes.move(row, row - 1);
+        endMoveRows();
+        return;
+    }
+
+    QList<TargetSet> &targetSets = m_rootNodes[node.rootRow].targetSets;
+    if (node.isTargetSet()) {
+        auto dir = m_rootNodes[node.rootRow].targetSets[row].projectBaseDir;
+        beginMoveRows(parent, row, row, parent, row - 1);
+        targetSets.move(row, row - 1);
+        endMoveRows();
+        if (m_rootNodes[node.rootRow].isProject) {
+            Q_EMIT projectTargetChanged(dir);
+        }
+        return;
+    }
+
+    // It is a command-row
+    QList<Command> &commands = targetSets[node.targetSetRow].commands;
+    beginMoveRows(parent, row, row, parent, row - 1);
+    commands.move(row, row - 1);
+    endMoveRows();
+    if (m_rootNodes[node.rootRow].isProject) {
+        Q_EMIT projectTargetChanged(targetSets[node.targetSetRow].projectBaseDir);
+    }
 }
 
-const QString TargetModel::workDir(const QModelIndex &itemIndex) const
+void TargetModel::moveRowDown(const QModelIndex &itemIndex)
 {
     if (!itemIndex.isValid()) {
-        return QString();
+        return;
     }
-    quint32 rRow = itemIndex.internalId();
-    int cRow = itemIndex.row();
-    if (rRow == TargetModel::InvalidIndex) {
-        rRow = cRow;
-        cRow = 0;
-    }
-
-    if (static_cast<int>(rRow) >= m_targets.count()) {
-        return QString();
+    NodeInfo node = modelToNodeInfo(itemIndex);
+    if (!nodeExists(m_rootNodes, node)) {
+        qDebug() << "Node does not exist:" << node;
+        return;
     }
 
-    return m_targets[static_cast<int>(rRow)].workDir;
+    // These are valid for all the row types
+    int row = itemIndex.row();
+    QModelIndex parent = itemIndex.parent();
+
+    if (node.isRoot()) {
+        if (row >= m_rootNodes.size() - 1) {
+            return;
+        }
+        beginMoveRows(parent, row, row, parent, row + 2);
+        m_rootNodes.move(row, row + 1);
+        endMoveRows();
+        return;
+    }
+
+    QList<TargetSet> &targetSets = m_rootNodes[node.rootRow].targetSets;
+    if (node.isTargetSet()) {
+        QString dir = targetSets[row].projectBaseDir;
+        beginMoveRows(parent, row, row, parent, row + 2);
+        targetSets.move(row, row + 1);
+        endMoveRows();
+        if (m_rootNodes[node.rootRow].isProject) {
+            Q_EMIT projectTargetChanged(dir);
+        }
+        return;
+    }
+
+    // It is a command-row
+    QList<Command> &commands = targetSets[node.targetSetRow].commands;
+    beginMoveRows(parent, row, row, parent, row + 2);
+    commands.move(row, row + 1);
+    endMoveRows();
+    if (m_rootNodes[node.rootRow].isProject) {
+        Q_EMIT projectTargetChanged(targetSets[node.targetSetRow].projectBaseDir);
+    }
 }
 
-const QString TargetModel::targetName(const QModelIndex &itemIndex) const
+static QString toRitchText(const QString &str)
 {
-    if (!itemIndex.isValid()) {
+    if (str.isEmpty()) {
         return QString();
     }
-    quint32 rRow = itemIndex.internalId();
-    int cRow = itemIndex.row();
-    if (rRow == TargetModel::InvalidIndex) {
-        rRow = cRow;
-        cRow = 0;
-    }
-
-    if (static_cast<int>(rRow) >= m_targets.count()) {
-        return QString();
-    }
-
-    return m_targets[static_cast<int>(rRow)].name;
+    return u"<p>%1</p>"_s.arg(str.toHtmlEscaped());
 }
 
 QVariant TargetModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
+        qWarning() << "Invalid index" << index;
         return QVariant();
     }
 
-    if (index.column() < 0 || index.column() > 1) {
-        return QVariant();
-    }
-    // Tooltip
-    if (role == Qt::ToolTipRole) {
-        if (index.column() == 0 && index.parent().isValid()) {
-            return i18n("Check the check-box to make the command the default for the target-set.");
-        }
-    }
-
-    if (role != Qt::DisplayRole && role != Qt::EditRole && role != Qt::CheckStateRole) {
+    NodeInfo node = modelToNodeInfo(index);
+    if (!nodeExists(m_rootNodes, node)) {
+        qDebug() << "Node does not exist:" << node;
         return QVariant();
     }
 
-    int row = index.row();
+    if (node.isRoot()) {
+        if ((role == Qt::DisplayRole || role == Qt::ToolTipRole) && index.column() == 0) {
+            return m_rootNodes[node.rootRow].isProject ? i18n("Projects") : i18n("Session");
+        } else if (role == RowTypeRole) {
+            return RowType::RootRow;
+        } else if (role == IsProjectTargetRole) {
+            return m_rootNodes[node.rootRow].isProject;
+        }
+        return QVariant();
+    }
 
-    if (index.internalId() == InvalidIndex) {
-        if (row < 0 || row >= m_targets.size() || role == Qt::CheckStateRole) {
-            return QVariant();
-        }
-        switch (index.column()) {
-        case 0:
-            return m_targets[row].name;
-        case 1:
-            return m_targets[row].workDir;
-        }
-    } else {
-        int rootIndex = index.internalId();
-        if (rootIndex < 0 || rootIndex >= m_targets.size()) {
-            return QVariant();
-        }
-        if (row < 0 || row >= m_targets[rootIndex].commands.size()) {
-            return QVariant();
-        }
+    // This is either a TargetSet or a Command
+    const TargetSet &targetSet = m_rootNodes[node.rootRow].targetSets[node.targetSetRow];
 
-        if (role == Qt::CheckStateRole) {
-            if (index.column() != 0) {
-                return QVariant();
-            }
-            return m_targets[rootIndex].commands[row].first == m_targets[rootIndex].defaultCmd ? Qt::Checked : Qt::Unchecked;
-        } else {
+    if (node.isTargetSet()) {
+        // This is a TargetSet node
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
             switch (index.column()) {
             case 0:
-                return m_targets[rootIndex].commands[row].first;
+                return targetSet.name;
             case 1:
-                return m_targets[rootIndex].commands[row].second;
+                return targetSet.workDir;
             }
+            break;
+        case Qt::ToolTipRole:
+            switch (index.column()) {
+            case 0:
+                return toRitchText(targetSet.name);
+            case 1:
+                return toRitchText(targetSet.workDir);
+            }
+            break;
+        case CommandRole:
+            if (targetSet.commands.isEmpty()) {
+                return QVariant();
+            }
+            return targetSet.commands[0].buildCmd;
+        case CommandNameRole:
+            if (targetSet.commands.isEmpty()) {
+                return QVariant();
+            }
+            return targetSet.commands[0].name;
+        case WorkDirRole:
+            return targetSet.workDir.isEmpty() ? QString() : targetSet.workDir.split(QLatin1Char(';')).first();
+        case SearchPathsRole:
+            return targetSet.workDir.split(QLatin1Char(';'));
+        case TargetSetNameRole:
+            return targetSet.name;
+        case RowTypeRole:
+            return TargetSetRow;
+        case IsProjectTargetRole:
+            return m_rootNodes[node.rootRow].isProject;
+        }
+    }
+
+    if (node.isCommand()) {
+        const Command &command = targetSet.commands[node.commandRow];
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            switch (index.column()) {
+            case 0:
+                return command.name;
+            case 1:
+                return command.buildCmd;
+            case 2:
+                return command.runCmd;
+            }
+            break;
+        case Qt::ToolTipRole:
+            switch (index.column()) {
+            case 0:
+                return toRitchText(command.name);
+            case 1:
+                return toRitchText(command.buildCmd);
+            case 2:
+                return toRitchText(command.runCmd);
+            }
+            break;
+        case CommandRole:
+            return command.buildCmd;
+        case CommandNameRole:
+            return command.name;
+        case WorkDirRole:
+            return targetSet.workDir.isEmpty() ? QString() : targetSet.workDir.split(QLatin1Char(';')).first();
+        case SearchPathsRole:
+            return targetSet.workDir.split(QLatin1Char(';'));
+        case TargetSetNameRole:
+            return targetSet.name;
+        case RowTypeRole:
+            return CommandRow;
+        case IsProjectTargetRole:
+            return m_rootNodes[node.rootRow].isProject;
         }
     }
 
@@ -355,73 +659,93 @@ QVariant TargetModel::headerData(int section, Qt::Orientation orientation, int r
         return i18n("Command/Target-set Name");
     }
     if (section == 1) {
-        return i18n("Working Directory / Command");
+        return i18n("Build Command / Working Directory");
+    }
+    if (section == 2) {
+        return i18n("Run Command");
     }
     return QVariant();
 }
 
-bool TargetModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TargetModel::setData(const QModelIndex &itemIndex, const QVariant &value, int role)
 {
-    // FIXME
-    if (role != Qt::EditRole && role != Qt::CheckStateRole) {
+    if (role != Qt::EditRole) {
         return false;
     }
-    if (!index.isValid()) {
+    if (!itemIndex.isValid()) {
+        qWarning() << "Invalid index";
         return false;
     }
-    if (index.column() < 0 || index.column() > 1) {
-        return false;
-    }
-    int row = index.row();
 
-    if (index.internalId() == InvalidIndex) {
-        if (row < 0 || row >= m_targets.size()) {
-            return false;
-        }
-        switch (index.column()) {
+    NodeInfo node = modelToNodeInfo(itemIndex);
+    if (!nodeExists(m_rootNodes, node)) {
+        qDebug() << "Node does not exist:" << node;
+        return false;
+    }
+
+    if (node.isRoot()) {
+        return false;
+    }
+
+    // This is either a TargetSet or a Command
+    TargetSet &targetSet = m_rootNodes[node.rootRow].targetSets[node.targetSetRow];
+    QString dir = targetSet.projectBaseDir;
+
+    bool editDone = false;
+    if (node.isTargetSet()) {
+        switch (itemIndex.column()) {
         case 0:
-            m_targets[row].name = value.toString();
-            return true;
+            targetSet.name = value.toString();
+            editDone = true;
+            break;
         case 1:
-            m_targets[row].workDir = value.toString();
-            return true;
+            targetSet.workDir = value.toString();
+            editDone = true;
+            break;
         }
     } else {
-        int rootIndex = index.internalId();
-        if (rootIndex < 0 || rootIndex >= m_targets.size()) {
-            return false;
+        switch (itemIndex.column()) {
+        case 0:
+            targetSet.commands[node.commandRow].name = value.toString();
+            editDone = true;
+            break;
+        case 1:
+            targetSet.commands[node.commandRow].buildCmd = value.toString();
+            editDone = true;
+            break;
+        case 2:
+            targetSet.commands[node.commandRow].runCmd = value.toString();
+            editDone = true;
+            break;
         }
-        if (row < 0 || row >= m_targets[rootIndex].commands.size()) {
-            return false;
+    }
+    if (editDone) {
+        Q_EMIT dataChanged(itemIndex, itemIndex);
+        if (m_rootNodes[node.rootRow].isProject) {
+            Q_EMIT projectTargetChanged(dir);
         }
-
-        if (role == Qt::CheckStateRole) {
-            if (index.column() == 0) {
-                m_targets[rootIndex].defaultCmd = m_targets[rootIndex].commands[row].first;
-                Q_EMIT dataChanged(createIndex(0, 0, rootIndex), createIndex(m_targets[rootIndex].commands.size() - 1, 0, rootIndex));
-            }
-        } else {
-            switch (index.column()) {
-            case 0:
-                m_targets[rootIndex].commands[row].first = value.toString();
-                return true;
-            case 1:
-                m_targets[rootIndex].commands[row].second = value.toString();
-                return true;
-            }
-        }
+        return true;
     }
     return false;
 }
 
-Qt::ItemFlags TargetModel::flags(const QModelIndex &index) const
+Qt::ItemFlags TargetModel::flags(const QModelIndex &itemIndex) const
 {
-    if (!index.isValid()) {
+    if (!itemIndex.isValid()) {
         return Qt::NoItemFlags;
     }
 
-    if (index.internalId() != InvalidIndex && index.column() == 0) {
-        return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+    NodeInfo node = modelToNodeInfo(itemIndex);
+    if (!nodeExists(m_rootNodes, node)) {
+        return Qt::NoItemFlags;
+    }
+    if (node.isRoot()) {
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    }
+
+    // run command column for target set row
+    if (itemIndex.column() == 2 && node.isTargetSet()) {
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     }
 
     return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
@@ -430,41 +754,243 @@ Qt::ItemFlags TargetModel::flags(const QModelIndex &index) const
 int TargetModel::rowCount(const QModelIndex &parent) const
 {
     if (!parent.isValid()) {
-        return m_targets.size();
+        // Invalid index -> root
+        return m_rootNodes.size();
     }
 
-    if (parent.internalId() != InvalidIndex) {
+    NodeInfo node = modelToNodeInfo(parent);
+    if (!nodeExists(m_rootNodes, node)) {
+        // uncomment for debugging
+        // qDebug() << "Node does not exist:" << node << parent;
         return 0;
     }
 
-    int row = parent.row();
-    if (row < 0 || row >= m_targets.size()) {
+    if (parent.column() != 0) {
+        // Only first column has children
         return 0;
     }
 
-    return m_targets[row].commands.size();
+    if (node.isRoot()) {
+        return m_rootNodes[node.rootRow].targetSets.size();
+    }
+
+    if (node.isTargetSet()) {
+        return m_rootNodes[node.rootRow].targetSets[node.targetSetRow].commands.size();
+    }
+
+    // This is a command node -> no children
+    return 0;
 }
 
 int TargetModel::columnCount(const QModelIndex &) const
 {
-    return 2;
+    return 3;
 }
 
 QModelIndex TargetModel::index(int row, int column, const QModelIndex &parent) const
 {
-    quint32 rootIndex = InvalidIndex;
-    if (parent.isValid()) {
-        if (parent.internalId() == InvalidIndex) {
-            rootIndex = parent.row();
-        }
+    if (row < 0) {
+        return QModelIndex();
     }
-    return createIndex(row, column, rootIndex);
+
+    if (!parent.isValid()) {
+        // RootRow Item (Session/Project)
+        if (row >= m_rootNodes.size()) {
+            return QModelIndex();
+        }
+        return createIndex(row, column, InvalidIndex);
+    }
+
+    if (parent.column() != 0) {
+        // Only column 0 can have children.
+        return QModelIndex();
+    }
+
+    if (parent.internalId() == InvalidIndex) {
+        // TargetSet node
+        int rootRow = parent.row();
+        if (rootRow >= m_rootNodes.size() || row >= m_rootNodes.at(rootRow).targetSets.size()) {
+            return QModelIndex();
+        }
+        return createIndex(row, column, toInternalId(rootRow, -1));
+    }
+
+    // This is a command node
+    int rootRow = idToRootRow(parent.internalId());
+    int targetSetRow = parent.row();
+    if (rootRow >= m_rootNodes.size() || targetSetRow >= m_rootNodes.at(rootRow).targetSets.size()) {
+        return QModelIndex();
+    }
+    const TargetSet &tgSet = m_rootNodes.at(rootRow).targetSets.at(targetSetRow);
+    if (row >= tgSet.commands.size()) {
+        return QModelIndex();
+    }
+    return createIndex(row, column, toInternalId(rootRow, targetSetRow));
 }
 
 QModelIndex TargetModel::parent(const QModelIndex &child) const
 {
-    if (child.internalId() == InvalidIndex) {
+    if (!child.isValid()) {
         return QModelIndex();
     }
-    return createIndex(child.internalId(), 0, InvalidIndex);
+
+    if (child.internalId() == InvalidIndex) {
+        // child is a RootRow node -> invalid parent
+        return QModelIndex();
+    }
+
+    int rootRow = idToRootRow(child.internalId());
+    int targetSetRow = idToTargetSetRow(child.internalId());
+
+    if (targetSetRow == -1) {
+        // child is a TargetSetNode
+        return createIndex(rootRow, 0, InvalidIndex);
+    }
+
+    // child is a command node
+    return createIndex(targetSetRow, 0, toInternalId(rootRow, -1));
 }
+
+static QJsonObject toJson(const TargetModel::Command &target)
+{
+    QJsonObject obj;
+    obj[QStringLiteral("name")] = target.name;
+    obj[QStringLiteral("build_cmd")] = target.buildCmd;
+    obj[QStringLiteral("run_cmd")] = target.runCmd;
+    return obj;
+}
+
+static QJsonObject toJson(const TargetModel::TargetSet &set)
+{
+    QJsonObject obj;
+    obj[QStringLiteral("name")] = set.name;
+    obj[QStringLiteral("directory")] = set.workDir;
+    obj[QStringLiteral("loaded_via_cmake")] = set.loadedViaCMake;
+    obj[QStringLiteral("cmake_config")] = set.cmakeConfigName;
+
+    QJsonArray targets;
+    for (const auto &target : set.commands) {
+        targets << toJson(target);
+    }
+    obj[QStringLiteral("targets")] = targets;
+    return obj;
+}
+
+static QJsonObject toJson(const TargetModel::RootNode &root)
+{
+    QJsonObject obj;
+    QJsonArray sets;
+    for (const auto &set : root.targetSets) {
+        sets << toJson(set);
+    }
+    obj[QStringLiteral("target_sets")] = sets;
+    return obj;
+}
+
+bool TargetModel::validTargetsJson(const QString &jsonStr) const
+{
+    QJsonParseError error;
+    const QJsonDocument doc = QJsonDocument::fromJson(jsonStr.toUtf8(), &error);
+    if (error.error != QJsonParseError::NoError) {
+        return false;
+    }
+    const QJsonObject obj = doc.object();
+    return obj.contains(QStringLiteral("target_sets")) || obj.contains(QStringLiteral("targets")) || obj.contains(QStringLiteral("name"));
+}
+
+QJsonObject TargetModel::indexToJsonObj(const QModelIndex &modelIndex) const
+{
+    NodeInfo node = modelToNodeInfo(modelIndex);
+    if (!nodeExists(m_rootNodes, node)) {
+        return QJsonObject();
+    }
+
+    QJsonObject obj;
+    if (node.isRoot()) {
+        obj = toJson(m_rootNodes[node.rootRow]);
+    } else if (node.isTargetSet()) {
+        obj = toJson(m_rootNodes[node.rootRow].targetSets[node.targetSetRow]);
+    } else if (node.isCommand()) {
+        obj = toJson(m_rootNodes[node.rootRow].targetSets[node.targetSetRow].commands[node.commandRow]);
+    }
+
+    return obj;
+}
+
+QJsonObject TargetModel::projectTargetsToJsonObj(const QString &projectBaseDir) const
+{
+    const auto idx = projectRootIndex();
+    if (!idx.isValid()) {
+        qWarning() << "Unexpected invalid project root node";
+        return {};
+    }
+    const auto node = modelToNodeInfo(idx);
+    Q_ASSERT(node.isRoot());
+
+    QJsonObject obj;
+    QJsonArray sets;
+    for (const TargetSet &set : std::as_const(m_rootNodes[node.rootRow].targetSets)) {
+        if (set.projectBaseDir == projectBaseDir) {
+            sets << toJson(set);
+        }
+    }
+    if (!sets.isEmpty()) {
+        obj[QStringLiteral("target_sets")] = sets;
+    }
+    return obj;
+}
+
+QString TargetModel::indexToJson(const QModelIndex &modelIndex) const
+{
+    QJsonDocument doc(indexToJsonObj(modelIndex));
+    return QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+}
+
+QModelIndex TargetModel::insertAfter(const QModelIndex &modelIndex, const QString &jsonStr, const QString &projectBaseDir)
+{
+    QJsonParseError error;
+    const QJsonDocument doc = QJsonDocument::fromJson(jsonStr.toUtf8(), &error);
+    if (error.error != QJsonParseError::NoError) {
+        qWarning() << "Could not parse the provided Json";
+        return QModelIndex();
+    }
+    return insertAfter(modelIndex, doc.object(), projectBaseDir);
+}
+
+QModelIndex TargetModel::insertAfter(const QModelIndex &modelIndex, const QJsonObject &obj, const QString &projectBaseDir)
+{
+    QModelIndex currentIndex = modelIndex;
+    if (obj.contains(QStringLiteral("target_sets"))) {
+        const QJsonArray sets = obj[QStringLiteral("target_sets")].toArray();
+        for (const auto &set : sets) {
+            currentIndex = insertAfter(currentIndex, set.toObject(), projectBaseDir);
+            if (!currentIndex.isValid()) {
+                qWarning() << "Failed to insert targetset";
+                return QModelIndex();
+            }
+        }
+    } else if (obj.contains(QStringLiteral("targets"))) {
+        QString dir = obj[QStringLiteral("directory")].toString();
+        QString name = obj[QStringLiteral("name")].toString();
+        currentIndex = insertTargetSetAfter(currentIndex, name, dir, false, QString(), projectBaseDir);
+        QModelIndex setIndex = currentIndex;
+        const QJsonArray targets = obj[QStringLiteral("targets")].toArray();
+        for (const auto target : targets) {
+            currentIndex = insertAfter(currentIndex, target.toObject(), projectBaseDir);
+            if (!currentIndex.isValid()) {
+                qWarning() << "Failed to insert target";
+                break;
+            }
+        }
+        currentIndex = setIndex;
+    } else if (obj.contains(QStringLiteral("name"))) {
+        QString name = obj[QStringLiteral("name")].toString();
+        QString cmd = obj[QStringLiteral("build_cmd")].toString();
+        QString run = obj[QStringLiteral("run_cmd")].toString();
+        currentIndex = addCommandAfter(currentIndex, name, cmd, run);
+    }
+
+    return currentIndex;
+}
+
+#include "moc_TargetModel.cpp"

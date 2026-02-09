@@ -1,14 +1,14 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kate package.
 #
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2020, 2021.
+# Stefan Asserhäll <stefan.asserhall@gmail.com>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-14 17:32+0000\n"
+"POT-Creation-Date: 2025-03-03 00:43+0000\n"
 "PO-Revision-Date: 2021-01-20 08:25+0100\n"
-"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 19.04.3\n"
 
-#: colorpickerconfigpage.cpp:38
+#: colorpickerconfigpage.cpp:34
 #, kde-format
 msgid "Show preview for known color names"
 msgstr "Visa förhandsgranskning av kända färgnamn"
 
-#: colorpickerconfigpage.cpp:40
+#: colorpickerconfigpage.cpp:36
 #, kde-format
 msgid ""
 "Also show the color picker for known color names (e.g. skyblue).\n"
@@ -33,57 +33,57 @@ msgstr ""
 "Se https://www.w3.org/TR/SVG11/types.html#ColorKeywords för listan med "
 "färger."
 
-#: colorpickerconfigpage.cpp:43
+#: colorpickerconfigpage.cpp:39
 #, kde-format
 msgid "Place preview after text color"
 msgstr "Placera förhandsgranskning efter textfärg"
 
-#: colorpickerconfigpage.cpp:49
+#: colorpickerconfigpage.cpp:53
 #, kde-format
 msgid "Hex color matching"
 msgstr "Matchning av hexadecimal färg"
 
-#: colorpickerconfigpage.cpp:52
+#: colorpickerconfigpage.cpp:56
 #, kde-format
 msgid "12 digits (#RRRRGGGGBBBB)"
 msgstr "12 siffror (#RRRRGGGGBBBB)"
 
-#: colorpickerconfigpage.cpp:53
+#: colorpickerconfigpage.cpp:57
 #, kde-format
 msgid "9 digits (#RRRGGGBBB)"
 msgstr "9 siffror (#RRRGGGBBB)"
 
-#: colorpickerconfigpage.cpp:54
+#: colorpickerconfigpage.cpp:58
 #, kde-format
 msgid "8 digits (#AARRGGBB)"
 msgstr "8 siffror (#AARRGGBB)"
 
-#: colorpickerconfigpage.cpp:55
+#: colorpickerconfigpage.cpp:59
 #, kde-format
 msgid "6 digits (#RRGGBB)"
 msgstr "6 siffror (#RRGGBB)"
 
-#: colorpickerconfigpage.cpp:56
+#: colorpickerconfigpage.cpp:60
 #, kde-format
 msgid "3 digits (#RGB)"
 msgstr "3 siffror (#RGB)"
 
-#: colorpickerconfigpage.cpp:76
+#: colorpickerconfigpage.cpp:84
 #, kde-format
 msgid "Color Picker"
 msgstr "Färghämtare"
 
-#: colorpickerconfigpage.cpp:81
+#: colorpickerconfigpage.cpp:89
 #, kde-format
 msgid "Color Picker Settings"
 msgstr "Inställningar av färghämtare"
 
-#: katecolorpickerplugin.cpp:238
+#: katecolorpickerplugin.cpp:256
 #, kde-format
 msgid "Select Color (Hex output)"
 msgstr "Välj färg (hexadecimal utdata)"
 
-#: katecolorpickerplugin.cpp:241
+#: katecolorpickerplugin.cpp:259
 #, kde-format
 msgid "View Color [Read only]"
 msgstr "Visa färg [skrivskyddad]"

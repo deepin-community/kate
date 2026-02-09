@@ -21,11 +21,10 @@
 
 #include <QAction>
 #include <QScrollBar>
-#include <QStandardItemModel>
 
 K_PLUGIN_FACTORY_WITH_JSON(TabSwitcherPluginFactory, "tabswitcherplugin.json", registerPlugin<TabSwitcherPlugin>();)
 
-TabSwitcherPlugin::TabSwitcherPlugin(QObject *parent, const QList<QVariant> &)
+TabSwitcherPlugin::TabSwitcherPlugin(QObject *parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
 {
 }
@@ -42,6 +41,14 @@ TabSwitcherPluginView::TabSwitcherPluginView(TabSwitcherPlugin *plugin, KTextEdi
 {
     // register this view
     m_plugin->m_views.append(this);
+
+    m_documentsCreatedTimer.setInterval(100);
+    m_documentsCreatedTimer.setSingleShot(true);
+    m_documentsCreatedTimer.callOnTimeout([this] {
+        auto docs = std::move(m_documentsPendingAdd);
+        m_documentsPendingAdd = {};
+        registerDocuments(docs);
+    });
 
     m_model = new detail::TabswitcherFilesModel(this);
     m_treeView = new TabSwitcherTreeView();
@@ -64,8 +71,14 @@ TabSwitcherPluginView::TabSwitcherPluginView(TabSwitcherPlugin *plugin, KTextEdi
     connect(m_treeView, &TabSwitcherTreeView::itemActivated, this, &TabSwitcherPluginView::activateView);
 
     // track existing documents
-    connect(KTextEditor::Editor::instance()->application(), &KTextEditor::Application::documentCreated, this, &TabSwitcherPluginView::registerDocument);
+    connect(KTextEditor::Editor::instance()->application(), &KTextEditor::Application::documentCreated, this, [this](KTextEditor::Document *doc) {
+        m_documentsCreatedTimer.start();
+        m_documentsPendingAdd.push_back(doc);
+    });
     connect(KTextEditor::Editor::instance()->application(), &KTextEditor::Application::documentWillBeDeleted, this, &TabSwitcherPluginView::unregisterDocument);
+
+    connect(mainWindow, &KTextEditor::MainWindow::widgetAdded, this, &TabSwitcherPluginView::onWidgetCreated);
+    connect(mainWindow, &KTextEditor::MainWindow::widgetRemoved, this, &TabSwitcherPluginView::onWidgetRemoved);
 
     // track lru activation of views to raise the respective documents in the model
     connect(m_mainWindow, &KTextEditor::MainWindow::viewChanged, this, &TabSwitcherPluginView::raiseView);
@@ -88,7 +101,7 @@ void TabSwitcherPluginView::setupActions()
     auto aNext = actionCollection()->addAction(QStringLiteral("view_lru_document_next"));
     aNext->setText(i18n("Last Used Views"));
     aNext->setIcon(QIcon::fromTheme(QStringLiteral("go-next-view-page")));
-    actionCollection()->setDefaultShortcut(aNext, Qt::CTRL | Qt::Key_Tab);
+    KActionCollection::setDefaultShortcut(aNext, Qt::CTRL | Qt::Key_Tab);
     aNext->setWhatsThis(i18n("Opens a list to walk through the list of last used views."));
     aNext->setStatusTip(i18n("Walk through the list of last used views"));
     connect(aNext, &QAction::triggered, this, &TabSwitcherPluginView::walkForward);
@@ -96,7 +109,7 @@ void TabSwitcherPluginView::setupActions()
     auto aPrev = actionCollection()->addAction(QStringLiteral("view_lru_document_prev"));
     aPrev->setText(i18n("Last Used Views (Reverse)"));
     aPrev->setIcon(QIcon::fromTheme(QStringLiteral("go-previous-view-page")));
-    actionCollection()->setDefaultShortcut(aPrev, Qt::CTRL | Qt::SHIFT | Qt::Key_Tab);
+    KActionCollection::setDefaultShortcut(aPrev, Qt::CTRL | Qt::SHIFT | Qt::Key_Tab);
     aPrev->setWhatsThis(i18n("Opens a list to walk through the list of last used views in reverse."));
     aPrev->setStatusTip(i18n("Walk through the list of last used views"));
     connect(aPrev, &QAction::triggered, this, &TabSwitcherPluginView::walkBackward);
@@ -104,7 +117,7 @@ void TabSwitcherPluginView::setupActions()
     auto aClose = actionCollection()->addAction(QStringLiteral("view_lru_document_close"));
     aClose->setText(i18n("Close View"));
     aClose->setShortcutContext(Qt::WidgetShortcut);
-    actionCollection()->setDefaultShortcut(aClose, Qt::CTRL | Qt::Key_W);
+    KActionCollection::setDefaultShortcut(aClose, Qt::CTRL | Qt::Key_W);
     aClose->setWhatsThis(i18n("Closes the selected view in the list of last used views."));
     aClose->setStatusTip(i18n("Closes the selected view in the list of last used views."));
     connect(aClose, &QAction::triggered, this, &TabSwitcherPluginView::closeView);
@@ -119,34 +132,67 @@ void TabSwitcherPluginView::setupModel()
 {
     const auto documents = KTextEditor::Editor::instance()->application()->documents();
     // initial fill of model
-    for (auto doc : documents) {
-        registerDocument(doc);
-    }
+    registerDocuments(documents);
 }
 
-void TabSwitcherPluginView::registerDocument(KTextEditor::Document *document)
+void TabSwitcherPluginView::registerItem(DocOrWidget docOrWidget)
 {
     // insert into hash
-    m_documents.insert(document);
+    m_documents.insert(docOrWidget);
 
     // add to model
-    m_model->insertDocument(0, document);
+    m_model->insertDocuments(0, {docOrWidget});
+}
 
-    // track document name changes
-    connect(document, &KTextEditor::Document::documentNameChanged, this, &TabSwitcherPluginView::updateDocumentName);
+void TabSwitcherPluginView::unregisterItem(DocOrWidget docOrWidget)
+{
+    // remove from hash
+    auto it = m_documents.find(docOrWidget);
+    if (it == m_documents.end()) {
+        // remove from pending
+        if (auto doc = docOrWidget.doc()) {
+            auto it = std::find(m_documentsPendingAdd.begin(), m_documentsPendingAdd.end(), doc);
+            if (it != m_documentsPendingAdd.end()) {
+                m_documentsPendingAdd.erase(it);
+            }
+        }
+        return;
+    }
+    m_documents.erase(it);
+
+    // remove from model
+    m_model->removeDocument(docOrWidget);
+}
+
+void TabSwitcherPluginView::onWidgetCreated(QWidget *widget)
+{
+    registerItem(widget);
+}
+
+void TabSwitcherPluginView::onWidgetRemoved(QWidget *widget)
+{
+    unregisterItem(widget);
+}
+
+void TabSwitcherPluginView::registerDocuments(const QList<KTextEditor::Document *> &documents)
+{
+    if (documents.isEmpty()) {
+        return;
+    }
+    m_documents.insert(documents.begin(), documents.end());
+    QList<DocOrWidget> docs;
+    docs.reserve(documents.size());
+    for (auto d : documents) {
+        connect(d, &KTextEditor::Document::documentNameChanged, this, &TabSwitcherPluginView::updateDocumentName);
+        docs.push_back(DocOrWidget(d));
+    }
+
+    m_model->insertDocuments(0, docs);
 }
 
 void TabSwitcherPluginView::unregisterDocument(KTextEditor::Document *document)
 {
-    // remove from hash
-    if (!m_documents.contains(document)) {
-        return;
-    }
-    m_documents.remove(document);
-
-    // remove from model
-    m_model->removeDocument(document);
-
+    unregisterItem(document);
     // disconnect documentNameChanged() signal
     disconnect(document, nullptr, this, nullptr);
 }
@@ -164,15 +210,26 @@ void TabSwitcherPluginView::updateDocumentName(KTextEditor::Document *document)
 
 void TabSwitcherPluginView::raiseView(KTextEditor::View *view)
 {
-    if (!view || !m_documents.contains(view->document())) {
+    auto activeWidget = [this, view]() -> DocOrWidget {
+        if (view && view->document()) {
+            return view->document();
+        }
+        return m_mainWindow->activeWidget();
+    }();
+
+    if (activeWidget.isNull() || m_documents.find(activeWidget) == m_documents.end()) {
         return;
     }
 
-    m_model->raiseDocument(view->document());
+    m_model->raiseDocument(activeWidget);
 }
 
 void TabSwitcherPluginView::walk(const int from, const int to)
 {
+    if (m_model->rowCount() <= 1) {
+        return;
+    }
+
     QModelIndex index;
     const int step = from < to ? 1 : -1;
     if (!m_treeView->isVisible()) {
@@ -222,14 +279,14 @@ void TabSwitcherPluginView::updateViewGeometry()
     const int frameWidth = m_treeView->frameWidth();
     // const QSize viewSize(std::min(m_treeView->sizeHintForColumn(0) + 2 * frameWidth + m_treeView->verticalScrollBar()->width(), viewMaxSize.width()), // ORIG
     // line, sizeHintForColumn was QListView but is protected for QTreeView so we introduced sizeHintWidth()
-    const QSize viewSize(std::min(m_treeView->sizeHintWidth() + 2 * frameWidth + m_treeView->verticalScrollBar()->width(), viewMaxSize.width()),
-                         std::min(std::max(rowHeight * m_model->rowCount() + 2 * frameWidth, rowHeight * 6), viewMaxSize.height()));
+    const QSize viewSize(std::min(m_treeView->sizeHintWidth() + (2 * frameWidth) + m_treeView->verticalScrollBar()->width(), viewMaxSize.width()),
+                         std::min(std::max((rowHeight * m_model->rowCount()) + (2 * frameWidth), rowHeight * 6), viewMaxSize.height()));
 
     // Position should be central over the editor area, so map to global from
     // parent of central widget since the view is positioned in global coords
-    const QPoint centralWidgetPos = window->parentWidget() ? window->mapToGlobal(window->pos()) : window->pos();
-    const int xPos = std::max(0, centralWidgetPos.x() + (centralSize.width() - viewSize.width()) / 2);
-    const int yPos = std::max(0, centralWidgetPos.y() + (centralSize.height() - viewSize.height()) / 2);
+    const QPoint centralWidgetPos = window->parent() ? window->mapToGlobal(window->pos()) : window->pos();
+    const int xPos = std::max(0, centralWidgetPos.x() + ((centralSize.width() - viewSize.width()) / 2));
+    const int yPos = std::max(0, centralWidgetPos.y() + ((centralSize.height() - viewSize.height()) / 2));
 
     m_treeView->setFixedSize(viewSize);
     m_treeView->move(xPos, yPos);
@@ -237,7 +294,7 @@ void TabSwitcherPluginView::updateViewGeometry()
 
 void TabSwitcherPluginView::switchToClicked(const QModelIndex &index)
 {
-    m_treeView->selectionModel()->select(index, QItemSelectionModel::ClearAndSelect);
+    m_treeView->selectionModel()->select(index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
     activateView(index);
 }
 
@@ -253,7 +310,11 @@ void TabSwitcherPluginView::activateView(const QModelIndex &index)
     const int row = m_treeView->selectionModel()->selectedRows().first().row();
 
     auto doc = m_model->item(row);
-    m_mainWindow->activateView(doc);
+    if (doc.doc()) {
+        m_mainWindow->activateView(doc.doc());
+    } else if (doc.widget()) {
+        m_mainWindow->activateWidget(doc.widget());
+    }
 
     m_treeView->hide();
 }
@@ -265,9 +326,11 @@ void TabSwitcherPluginView::closeView()
     }
 
     const int row = m_treeView->selectionModel()->selectedRows().first().row();
-    KTextEditor::Document *doc = m_model->item(row);
-    if (doc) {
-        KTextEditor::Editor::instance()->application()->closeDocument(doc);
+    auto doc = m_model->item(row);
+    if (doc.doc()) {
+        KTextEditor::Editor::instance()->application()->closeDocument(doc.doc());
+    } else if (doc.widget()) {
+        m_mainWindow->removeWidget(doc.widget());
     }
 }
 

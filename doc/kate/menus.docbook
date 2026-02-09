@@ -634,7 +634,7 @@ switch to the incremental search bar.
 </shortcut>
 <guimenu>Edit</guimenu>
 <guisubmenu>Go To</guisubmenu>
-<guimenuitem>Move to Matching Bracket</guimenuitem>
+<guimenuitem>Go to Matching Bracket</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>Move the cursor to the associated opening or closing bracket.</para>
@@ -659,7 +659,7 @@ switch to the incremental search bar.
 <term><menuchoice>
 <guimenu>Edit</guimenu>
 <guisubmenu>Go To</guisubmenu>
-<guimenuitem>Move to Previous Modified Line</guimenuitem>
+<guimenuitem>Go to Previous Modified Line</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>Lines that were changed since opening the file are called modified lines. This action jumps the previous modified line.
@@ -671,7 +671,7 @@ switch to the incremental search bar.
 <term><menuchoice>
 <guimenu>Edit</guimenu>
 <guisubmenu>Go To</guisubmenu>
-<guimenuitem>Move to Next Modified Line</guimenuitem>
+<guimenuitem>Go to Next Modified Line</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>Lines that were changed since opening the file are called modified lines. This action jumps the next modified line.
@@ -748,6 +748,19 @@ The new instance will be identical to your previous instance.
 </listitem>
 </varlistentry>
 
+<varlistentry id="reopen-latest-closed-document">
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>T</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Reopen Latest Closed Document</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Reopens the latest closed document or documents.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry id="view-quick-open">
 <term><menuchoice>
 <shortcut>
@@ -766,7 +779,7 @@ list view. Pressing the &Enter; key or double clicking on an item in the list sw
 the view to the document selected in the list view. This makes switching between
 documents easier, if there are a lot of them open.</para>
 <para>This action is available also using the
-<inlinemediaobject><imageobject><imagedata fileref="tab-duplicate-22.png" format="PNG"/></imageobject></inlinemediaobject>
+<inlinemediaobject><imageobject><imagedata fileref="quickopen-22.png" format="PNG"/></imageobject></inlinemediaobject>
 icon at the top right of the editor window.</para>
 </listitem>
 </varlistentry>
@@ -801,6 +814,50 @@ area in more views.</para>
 </listitem>
 </varlistentry>
 
+<varlistentry id="view-split-left">
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>Split View</guisubmenu>
+<guimenuitem>Left Split View</guimenuitem>
+</menuchoice>
+</term><listitem>
+<para>Focus the split view intuitively on the left, using the cursor position to disambiguate if necessary.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-right">
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>Split View</guisubmenu>
+<guimenuitem>Right Split View</guimenuitem>
+</menuchoice>
+</term><listitem>
+<para>Focus the split view intuitively on the right, using the cursor position to disambiguate if necessary.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-upward">
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>Split View</guisubmenu>
+<guimenuitem>Upward Split View</guimenuitem>
+</menuchoice>
+</term><listitem>
+<para>Focus the split view intuitively upward, using the cursor position to disambiguate if necessary.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-downward">
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>Split View</guisubmenu>
+<guimenuitem>Downward Split View</guimenuitem>
+</menuchoice>
+</term><listitem>
+<para>Focus the split view intuitively downward, using the cursor position to disambiguate if necessary.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry id="view-split-vertical">
 <term>
 <menuchoice>
@@ -829,6 +886,34 @@ same document as the old one.</para>
 <para>Splits the current frame (which may be the main editing area) in two equally sized frames,
 the new one below the current one. The new frame gets the focus, and displays the same document as
 the old one.</para>
+<para>See also <link linkend="kate-mdi">Working with the &kate; MDI</link></para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="move-document-to-new-vertical-split">
+<term>
+<menuchoice>
+<guimenu>View</guimenu><guisubmenu>Split View</guisubmenu>
+<guimenuitem>Move Document to New Vertical Split</guimenuitem>
+</menuchoice>
+</term>
+<listitem>
+<para>This will split the currently active view vertically into two views and move the 
+currently active document to right view.</para>
+<para>See also <link linkend="kate-mdi">Working with the &kate; MDI</link>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="move-document-to-new-horizontal-split">
+<term>
+<menuchoice>
+<guimenu>View</guimenu><guisubmenu>Split View</guisubmenu>
+<guimenuitem>Move Document to New Horizontal Split</guimenuitem>
+</menuchoice>
+</term>
+<listitem>
+<para>This will split the currently active view horizontally into two views and move the 
+currently active document to view below.</para>
 <para>See also <link linkend="kate-mdi">Working with the &kate; MDI</link></para>
 </listitem>
 </varlistentry>
@@ -1583,6 +1668,9 @@ depends on the <link linkend="pref-edit-indent"> indentation settings</link>.</p
 </listitem>
 </varlistentry>
 -->
+
+<!-- <Pablo> These are in the selection menu now, and are documented in doc/katepart/menus.docbook -->
+<!--
 <varlistentry id="tools-cleanindent">
 <term><menuchoice>
 <guimenu>Tools</guimenu>
@@ -1595,14 +1683,29 @@ all your selected text follows the indentation mode you choose.</para>
 </listitem>
 </varlistentry>
 
-<varlistentry id="tools-align">
+<varlistentry id="tools-formatindent">
 <term><menuchoice>
 <guimenu>Tools</guimenu>
-<guimenuitem>Align</guimenuitem>
+<guimenuitem>Format Indent</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>Causes a realign of the current line or selected lines using the
 indentation mode and indentation settings in the document.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="tools-alignon">
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Align On...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>This command aligns lines in the selected block or whole document on the column given by a regular expression that you will be prompted for.</para>
+<para>If you give an empty pattern it will align on the first non-blank character by default.</para>
+<para>If the pattern has a capture it will indent on the captured match.</para>
+<para><emphasis>Examples:</emphasis></para>
+<para>With '<userinput>-</userinput>' it will insert spaces before the first '-' of each lines to align them all on the same column.</para>
+<para>With '<userinput>alignon :\\s+(.)</userinput>' it will insert spaces before the first non-blank character that occurs after a colon to align them all on the same column.</para>
 </listitem>
 </varlistentry>
 
@@ -1694,6 +1797,7 @@ in the Editing tab in <menuchoice>
 <guimenu>Settings</guimenu><guimenuitem>Configure
 Editor...</guimenuitem></menuchoice>.</para></listitem>
 </varlistentry>
+-->
 
 </variablelist>
 </sect1>
@@ -1727,7 +1831,7 @@ described in the &systemsettings; module <ulink url="help:/kcontrol/colors/index
 </menuchoice></term>
 <listitem><para>Tabs are moveable using the &LMB; and have actions in the context menu
 to close documents, copy the path to the clipboard or open the folder of the document in the filemanager.
-Using the <inlinemediaobject><imageobject><imagedata fileref="tab-duplicate-22.png" format="PNG"/></imageobject></inlinemediaobject>
+Using the <inlinemediaobject><imageobject><imagedata fileref="quickopen-22.png" format="PNG"/></imageobject></inlinemediaobject>
 <link linkend="view-quick-open"><guibutton>Quick Open</guibutton> </link> button makes switching between documents easy.
 Click the <inlinemediaobject><imageobject><imagedata fileref="view-split-left-right-22.png" format="PNG"/></imageobject></inlinemediaobject>
 button with the &LMB; to open a menu with actions from the <guimenu>View</guimenu><guisubmenu>Split View</guisubmenu> menu.

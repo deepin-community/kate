@@ -6,20 +6,20 @@
 # Andriy Rysin <rysin@kde.org>, 2002, 2003, 2004, 2006.
 # Eugene Onischenko <oneugene@ukr.net>, 2002, 2004, 2005.
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-07-18 01:45+0000\n"
-"PO-Revision-Date: 2021-05-05 08:28+0300\n"
+"POT-Creation-Date: 2025-06-20 02:34+0000\n"
+"PO-Revision-Date: 2025-03-02 09:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.04.3\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -34,132 +34,1018 @@ msgid "Your emails"
 msgstr ""
 "rysin@kde.org,oneugene@ukr.net,fr.ivan@ukrainian-orthodox.org,yurchor@ukr.net"
 
+#: kate/main.cpp:102
+#, kde-format
+msgid "Kate"
+msgstr "Kate"
+
+#: kate/main.cpp:104
+#, kde-format
+msgid "Kate - Advanced Text Editor"
+msgstr "Kate — Потужний текстовий редактор"
+
+#: kate/main.cpp:106 kwrite/main.cpp:50
+#, kde-format
+msgid "(c) 2000-2024 The Kate Authors"
+msgstr "© Автори Kate, 2000–2024"
+
+#: kate/main.cpp:152
+#, kde-format
+msgid "Start Kate with a given session."
+msgstr "Запустити Kate із вказаним сеансом."
+
+#: kate/main.cpp:153
+#, kde-format
+msgid "session"
+msgstr "сеанс"
+
+#: kate/main.cpp:158
+#, kde-format
+msgid "Start Kate with a new anonymous session, implies '-n'."
+msgstr "Запустити Kate у новому анонімному сеансі з параметром «-n»."
+
+#: kate/main.cpp:163
+#, kde-format
+msgid ""
+"Force start of a new kate instance (is ignored if start is used and another "
+"kate instance already has the given session opened), forced if no parameters "
+"and no URLs are given at all."
+msgstr ""
+"Примусово запустити новий екземпляр kate (буде проігноровано, якщо було "
+"використано запуск, а вказаний сеанс kate уже було відкрито). Буде "
+"використано, якщо ви не вкажете ніяких параметрів і ніяких адрес URL."
+
+#: kate/main.cpp:169
+#, kde-format
+msgid ""
+"If using an already running kate instance, block until it exits, if URLs "
+"given to open."
+msgstr ""
+"За використання вже запущеного екземпляра kate, заблокувати дії у ньому до "
+"завершення його роботи, якщо надійшов наказ відкрити певні адреси URL."
+
+#: kate/main.cpp:175
+#, kde-format
+msgid ""
+"Only try to reuse kate instance with this pid (is ignored if start is used "
+"and another kate instance already has the given session opened)."
+msgstr ""
+"Повторно використовувати лише екземпляр kate з вказаним pid буде "
+"проігноровано, якщо було використано запуск, а вказаний сеанс kate уже було "
+"відкрито)."
+
+#: kate/main.cpp:176
+#, kde-format
+msgid "pid"
+msgstr "pid"
+
+#: kate/main.cpp:181 kwrite/main.cpp:101
+#, kde-format
+msgid "Set encoding for the file to open."
+msgstr "Встановити кодування даних у файлі, який буде відкрито."
+
+#: kate/main.cpp:182 kwrite/main.cpp:102
+#, kde-format
+msgid "encoding"
+msgstr "кодування"
+
+#: kate/main.cpp:186 kwrite/main.cpp:106
+#, kde-format
+msgid "Navigate to this line."
+msgstr "Перейти до вказаного рядка."
+
+#: kate/main.cpp:186 kwrite/main.cpp:106
+#, kde-format
+msgid "line"
+msgstr "рядок"
+
+#: kate/main.cpp:191 kwrite/main.cpp:110
+#, kde-format
+msgid "Navigate to this column."
+msgstr "Перейти до вказаної позиції у рядку."
+
+#: kate/main.cpp:192 kwrite/main.cpp:110
+#, kde-format
+msgid "column"
+msgstr "позиція"
+
+#: kate/main.cpp:196 kwrite/main.cpp:114
+#, kde-format
+msgid "Read the contents of stdin."
+msgstr "Прочитати вміст потоку stdin."
+
+#: kate/main.cpp:201 kwrite/main.cpp:118
+#, kde-format
+msgid "The files/URLs opened by the application will be deleted after use"
+msgstr "Файли/адреси відкриті програмою буде вилучено після використання"
+
+#: kate/main.cpp:205 kwrite/main.cpp:122
+#, kde-format
+msgid "Documents to open."
+msgstr "Документи, які слід відкрити."
+
+#: kate/main.cpp:205 kwrite/main.cpp:122
+#, kde-format
+msgid "[urls...]"
+msgstr "[адреси...]"
+
+#: kwrite/main.cpp:46
+#, kde-format
+msgid "KWrite"
+msgstr "KWrite"
+
+#: kwrite/main.cpp:48
+#, kde-format
+msgid "KWrite - Text Editor"
+msgstr "KWrite — Текстовий редактор"
+
+#. i18n: ectx: property (text), widget (QPushButton, m_closeButton)
+#: lib/commitfilesview.cpp:354 lib/filehistorywidget.cpp:270
+#: lib/session/katesessionmanagedialog.ui:183
+#, kde-format
+msgid "Close"
+msgstr "Закрити"
+
+#: lib/commitfilesview.cpp:394 lib/kateviewmanager.cpp:365
+#: lib/kateviewmanager.cpp:367
+#, kde-format
+msgid "Open File"
+msgstr "Відкрити файл"
+
+#: lib/commitfilesview.cpp:400 lib/katemainwindow.cpp:417
+#, kde-format
+msgid "Copy Location"
+msgstr "Копіювати адресу"
+
+#: lib/commitfilesview.cpp:422 lib/commitfilesview.cpp:518
+#: lib/commitfilesview.cpp:524 lib/filehistorywidget.cpp:394
+#, kde-format
+msgid "Git"
+msgstr "Git"
+
+#: lib/commitfilesview.cpp:518
+#, kde-format
+msgid "Invalid hash"
+msgstr "Некоректний хеш"
+
+#: lib/commitfilesview.cpp:524 lib/filehistorywidget.cpp:394
+#, kde-format
+msgid "%1 doesn't exist in a git repo."
+msgstr "%1 немає у сховищі git."
+
+#: lib/commitfilesview.cpp:539
+#, kde-format
+msgctxt "@title:tab"
+msgid "Commit %1"
+msgstr "Внесок %1"
+
 #. i18n: ectx: Menu (file)
-#: data/kateui.rc:6
+#: lib/data/kateui.rc:6
 #, kde-format
 msgid "&File"
 msgstr "&Файл"
 
+#. i18n: ectx: Menu (file_file_actions)
+#: lib/data/kateui.rc:31
+#, kde-format
+msgid "File Act&ions"
+msgstr "Д&ії з файлами"
+
 #. i18n: ectx: Menu (edit)
-#: data/kateui.rc:40
+#: lib/data/kateui.rc:44
 #, kde-format
 msgid "&Edit"
 msgstr "З&міни"
 
+#. i18n: ectx: Menu (selection)
+#: lib/data/kateui.rc:55
+#, kde-format
+msgid "Sele&ction"
+msgstr "П&означення"
+
+#. i18n: ectx: Menu (go)
+#: lib/data/kateui.rc:58
+#, kde-format
+msgid "&Go"
+msgstr "Пере&хід"
+
 #. i18n: ectx: Menu (view)
-#: data/kateui.rc:51
+#: lib/data/kateui.rc:74
 #, kde-format
 msgid "&View"
 msgstr "П&ерегляд"
 
 #. i18n: ectx: Menu (view-split)
-#: data/kateui.rc:64
+#: lib/data/kateui.rc:76 lib/kateviewspace.cpp:138
 #, kde-format
 msgid "Split View"
-msgstr "Розділити перегляд"
+msgstr "Розділений перегляд"
 
 #. i18n: ectx: Menu (tools)
-#: data/kateui.rc:91
+#: lib/data/kateui.rc:111 lib/diagnostics/ui.rc:6
 #, kde-format
 msgid "&Tools"
 msgstr "&Інструменти"
 
-#. i18n: ectx: Menu (sessions)
-#: data/kateui.rc:99
+#. i18n: ectx: Menu (tools_diagnosticsview)
+#. i18n: ectx: Menu (tools)
+#: lib/data/kateui.rc:126 lib/diagnostics/diagnosticview.cpp:291
+#: lib/diagnostics/ui.rc:8
 #, kde-format
-msgid "Sess&ions"
-msgstr "&Сеанси"
+msgid "Diagnostics View"
+msgstr "Панель діагностики"
 
 #. i18n: ectx: Menu (settings)
-#: data/kateui.rc:108
+#: lib/data/kateui.rc:131
 #, kde-format
 msgid "&Settings"
 msgstr "П&араметри"
 
+#. i18n: ectx: Menu (help)
+#: lib/data/kateui.rc:140
+#, kde-format
+msgid "&Help"
+msgstr "&Довідка"
+
 #. i18n: ectx: ToolBar (mainToolBar)
-#: data/kateui.rc:115
+#: lib/data/kateui.rc:145
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Головний пенал"
 
+#. i18n: ectx: ToolBar (hamburgerBar)
+#: lib/data/kateui.rc:161
+#, kde-format
+msgid "Hamburger Menu Toolbar"
+msgstr "Панель інструментів кнопки меню"
+
 #. i18n: ectx: Menu (viewspace_popup_statusbar)
-#: data/kateui.rc:148
+#: lib/data/kateui.rc:175
 #, kde-format
 msgid "&Status Bar Items"
 msgstr "&Пункти смужки стану"
 
-#: kateapp.cpp:215
+#: lib/diagnostics/diagnostic_suppression.h:37
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Error in regular expression: %1\n"
+"offset %2: %3"
+msgstr ""
+"Помилка у формальному виразі: %1\n"
+"відступ %2: %3"
+
+#: lib/diagnostics/diagnosticview.cpp:62
+#, kde-format
+msgid "All"
+msgstr "Усе"
+
+#: lib/diagnostics/diagnosticview.cpp:298
+#, kde-format
+msgid ""
+"Diagnostics limit reached, ignoring further diagnostics. The limit can be "
+"configured in settings."
+msgstr ""
+"Досягнуто верхньої межі обмеження діагностики. Подальші діагностичні дані "
+"буде проігноровано. Обмеження можна налаштувати у параметрах програми."
+
+#: lib/diagnostics/diagnosticview.cpp:341
+#, kde-format
+msgctxt "@action:inmenu Diagnostics View actions menu"
+msgid "Diagnostics View"
+msgstr "Панель діагностики"
+
+#: lib/diagnostics/diagnosticview.cpp:346
+#, kde-format
+msgid "Quick Fix"
+msgstr "Швидке виправлення"
+
+#: lib/diagnostics/diagnosticview.cpp:352
+#, kde-format
+msgid "Next Item"
+msgstr "Наступний запис"
+
+#: lib/diagnostics/diagnosticview.cpp:358
+#, kde-format
+msgid "Previous Item"
+msgstr "Попередній запис"
+
+#: lib/diagnostics/diagnosticview.cpp:366
+#, kde-format
+msgid "Clear Diagnostics Filter"
+msgstr "Вилучити фільтр діагностики"
+
+#: lib/diagnostics/diagnosticview.cpp:376
+#, kde-format
+msgid "Show Hover Info"
+msgstr "Показувати дані при наведенні"
+
+#: lib/diagnostics/diagnosticview.cpp:435 lib/kateconfigdialog.cpp:370
+#, kde-format
+msgid "Diagnostics"
+msgstr "Діагностика"
+
+#: lib/diagnostics/diagnosticview.cpp:481
+#, kde-format
+msgid "Errors"
+msgstr "Помилки"
+
+#: lib/diagnostics/diagnosticview.cpp:497
+#, kde-format
+msgid "Warnings"
+msgstr "Попередження"
+
+#: lib/diagnostics/diagnosticview.cpp:511
+#: lib/kateconfigplugindialogpage.cpp:109
+#, kde-format
+msgid "Filter…"
+msgstr "Фільтрувати…"
+
+#: lib/diagnostics/diagnosticview.cpp:517
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Clear diagnostics"
+msgstr "Вилучити дані діагностики"
+
+#: lib/diagnostics/diagnosticview.cpp:1149 lib/kateconfigdialog.cpp:165
+#, kde-format
+msgid "Error"
+msgstr "Помилка"
+
+#: lib/diagnostics/diagnosticview.cpp:1153 lib/kateconfigdialog.cpp:165
+#: lib/kateconfigdialog.cpp:786
+#, kde-format
+msgid "Warning"
+msgstr "Попередження"
+
+#: lib/diagnostics/diagnosticview.cpp:1157
+#, kde-format
+msgid "Information"
+msgstr "Відомості"
+
+#: lib/diagnostics/diagnosticview.cpp:1285
+#, kde-format
+msgctxt "@info"
+msgid "%1 [suppressed: %2]"
+msgstr "%1 [придушено: %2]"
+
+#: lib/diagnostics/diagnosticview.cpp:1435
+#, kde-format
+msgid "Expand All"
+msgstr "Розгорнути все"
+
+#: lib/diagnostics/diagnosticview.cpp:1436
+#, kde-format
+msgid "Collapse All"
+msgstr "Згорнути все"
+
+#: lib/diagnostics/diagnosticview.cpp:1442
+#, kde-format
+msgid "Copy to Clipboard"
+msgstr "Скопіювати до буфера"
+
+#: lib/diagnostics/diagnosticview.cpp:1484
+#, kde-format
+msgid "Remove Global Suppression"
+msgstr "Вилучити загальне придушення"
+
+#: lib/diagnostics/diagnosticview.cpp:1486
+#, kde-format
+msgid "Add Global Suppression"
+msgstr "Додати загальне придушення"
+
+#: lib/diagnostics/diagnosticview.cpp:1490
+#, kde-format
+msgid "Remove Local Suppression"
+msgstr "Вилучити локальне придушення"
+
+#: lib/diagnostics/diagnosticview.cpp:1492
+#, kde-format
+msgid "Add Local Suppression"
+msgstr "Додати локальне придушення"
+
+#: lib/diagnostics/diagnosticview.cpp:1507
+#, kde-format
+msgid "Disable Suppression"
+msgstr "Вимкнути придушення"
+
+#: lib/diagnostics/diagnosticview.cpp:1509
+#, kde-format
+msgid "Enable Suppression"
+msgstr "Увімкнути придушення"
+
+#: lib/diff/diffeditor.cpp:182
+#, kde-format
+msgid "Change Style"
+msgstr "Змінити стиль"
+
+#: lib/diff/diffeditor.cpp:184 lib/kateconfigdialog.cpp:350
+#, kde-format
+msgid "Side By Side"
+msgstr "Обабіч"
+
+#: lib/diff/diffeditor.cpp:187 lib/kateconfigdialog.cpp:351
+#, kde-format
+msgid "Unified"
+msgstr "Уніфікований"
+
+#: lib/diff/diffeditor.cpp:190 lib/kateconfigdialog.cpp:352
+#, kde-format
+msgid "Raw"
+msgstr "Без обробки"
+
+#: lib/diff/diffeditor.cpp:219
+#, kde-format
+msgid "Stage Line"
+msgid_plural "Stage Lines"
+msgstr[0] "Позначити рядки"
+msgstr[1] "Позначити рядки"
+msgstr[2] "Позначити рядки"
+msgstr[3] "Позначити рядок"
+
+#: lib/diff/diffeditor.cpp:224
+#, kde-format
+msgid "Stage Hunk"
+msgstr "Позначити блок"
+
+#: lib/diff/diffeditor.cpp:231
+#, kde-format
+msgid "Discard Line"
+msgid_plural "Discard Lines"
+msgstr[0] "Відкинути рядки"
+msgstr[1] "Відкинути рядки"
+msgstr[2] "Відкинути рядки"
+msgstr[3] "Відкинути рядок"
+
+#: lib/diff/diffeditor.cpp:236
+#, kde-format
+msgid "Discard Hunk"
+msgstr "Відкинути фрагмент"
+
+#: lib/diff/diffeditor.cpp:243
+#, kde-format
+msgid "Unstage Line"
+msgid_plural "Unstage Lines"
+msgstr[0] "Скасувати позначення рядків"
+msgstr[1] "Скасувати позначення рядків"
+msgstr[2] "Скасувати позначення рядків"
+msgstr[3] "Скасувати позначення рядка"
+
+#: lib/diff/diffeditor.cpp:248
+#, kde-format
+msgid "Unstage Hunk"
+msgstr "Скасувати позначення блоку"
+
+#: lib/diff/diffwidget.cpp:64
+#, kde-format
+msgid "Diff %1"
+msgstr "Різниця %1"
+
+#: lib/diff/diffwidget.cpp:66
+#, kde-format
+msgid "Diff %1..%2"
+msgstr "Різниця %1..%2"
+
+#: lib/diff/diffwidget.cpp:87
+#, kde-format
+msgid "Diff %1 .. %2"
+msgstr "Різниця %1 .. %2"
+
+#: lib/diff/diffwidget.cpp:117
+#, kde-format
+msgid "Show/Hide Commit Info"
+msgstr "Показати/Приховати відомості щодо внеску"
+
+#: lib/diff/diffwidget.cpp:122
+#, kde-format
+msgid "Jump to Next File"
+msgstr "Перейти до наступного файла"
+
+#: lib/diff/diffwidget.cpp:126
+#, kde-format
+msgid "Jump to Previous File"
+msgstr "Перейти до попереднього файла"
+
+#: lib/diff/diffwidget.cpp:130
+#, kde-format
+msgid "Jump to Next Hunk"
+msgstr "Перейти до наступного фрагмента"
+
+#: lib/diff/diffwidget.cpp:134
+#, kde-format
+msgid "Jump to Previous Hunk"
+msgstr "Перейти до попереднього фрагмента"
+
+#: lib/diff/diffwidget.cpp:138
+#, kde-format
+msgctxt "Tooltip for a button, clicking the button reloads the diff"
+msgid "Reload Diff"
+msgstr "Перезавантажити різницю"
+
+#: lib/diff/diffwidget.cpp:142
+#, kde-format
+msgctxt "Tooltip for a button"
+msgid "Show diff with full context, not just the changed lines"
+msgstr "Показувати різницю із повним контекстом, не лише змінені рядки"
+
+#: lib/diff/diffwidget.cpp:571
+#, kde-format
+msgid ""
+"<b>git</b> not found. Git is needed to diff the documents. If git is already "
+"installed, make sure it is your PATH variable. See https://git-scm.com/"
+"downloads"
+msgstr ""
+"Не знайдено <b>git</b>. Для визначення різниці між документами потрібна "
+"система git. Якщо git вже встановлено, переконайтеся, що відповідний каталог "
+"вказано у змінній PATH. Див. https://git-scm.com/downloads"
+
+#: lib/diff/diffwidget.cpp:574 lib/diff/diffwidget.cpp:1177
+#: lib/kateconfigdialog.cpp:344
+#, kde-format
+msgid "Diff"
+msgstr "Різниця"
+
+#: lib/diff/diffwidget.cpp:786 lib/diff/diffwidget.cpp:990
+#, kde-format
+msgid "New file %1"
+msgstr "Новий файл %1"
+
+#: lib/diff/diffwidget.cpp:788 lib/diff/diffwidget.cpp:992
+#, kde-format
+msgid "Deleted file %1"
+msgstr "Вилучений файл %1"
+
+#: lib/diff/diffwidget.cpp:1160 lib/diff/diffwidget.cpp:1161
+#, kde-format
+msgid "No differences found"
+msgstr "Відмінностей не знайдено"
+
+#: lib/filehistorywidget.cpp:311
+#, kde-format
+msgid "Failed to get file history: git executable not found in PATH"
+msgstr ""
+"Не вдалося отримати дані журналу файла: виконуваний файл git не знайдено у "
+"жодному з каталогів змінної PATH"
+
+#: lib/filehistorywidget.cpp:324
+#, kde-format
+msgid "Failed to get file history: %1"
+msgstr "Не вдалося отримати дані журналу файла: %1"
+
+#: lib/filehistorywidget.cpp:335
+#, kde-format
+msgctxt "@menu:action"
+msgid "Copy Commit Hash"
+msgstr "Копіювати хеш-суму внеску"
+
+#: lib/filehistorywidget.cpp:343
+#, kde-format
+msgctxt "@menu:action"
+msgid "Show Full Commit"
+msgstr "Показати внесок повністю"
+
+#: lib/filehistorywidget.cpp:403
+#, kde-format
+msgctxt "@title:tab"
+msgid "File History - %1"
+msgstr "Журнал файла – %1"
+
+#: lib/kateapp.cpp:142
+msgid ""
+"Running this editor with sudo can cause bugs and expose you to security "
+"vulnerabilities. Instead use this editor normally and you will be prompted "
+"for elevated privileges when saving documents if needed."
+msgstr ""
+"Запуск цього редактора з використанням sudo може призвести до проблем і "
+"зашкодити захисту системи. Замість цього, запустіть цей редактор у "
+"звичайному режимі, а коли знадобляться розширені права доступу для "
+"збереження документів, програма сама попросить вас їх надати."
+
+#: lib/kateapp.cpp:149
+msgid ""
+"Running this editor with kdesu can cause bugs and expose you to security "
+"vulnerabilities. Instead use this editor normally and you will be prompted "
+"for elevated privileges when saving documents if needed."
+msgstr ""
+"Запуск цього редактора з використанням kdesu може призвести до проблем і "
+"зашкодити захисту системи. Замість цього, запустіть цей редактор у "
+"звичайному режимі, а коли знадобляться розширені права доступу для "
+"збереження документів, програма сама попросить вас їх надати."
+
+#: lib/kateapp.cpp:333
+#, kde-format
+msgid "Christoph Cullmann"
+msgstr "Christoph Cullmann"
+
+#: lib/kateapp.cpp:333
+#, kde-format
+msgid "Maintainer"
+msgstr "Супровід"
+
+#: lib/kateapp.cpp:334
+#, kde-format
+msgid "Dominik Haumann"
+msgstr "Dominik Haumann"
+
+#: lib/kateapp.cpp:334 lib/kateapp.cpp:337 lib/kateapp.cpp:338
+#: lib/kateapp.cpp:340 lib/kateapp.cpp:343 lib/kateapp.cpp:349
+#, kde-format
+msgid "Core Developer"
+msgstr "Головний розробник"
+
+#: lib/kateapp.cpp:335
+#, kde-format
+msgid "Sven Brauch"
+msgstr "Sven Brauch"
+
+#: lib/kateapp.cpp:335 lib/kateapp.cpp:336 lib/kateapp.cpp:344
+#, kde-format
+msgid "Developer"
+msgstr "Розробник"
+
+#: lib/kateapp.cpp:336
+#, kde-format
+msgid "Kåre Särs"
+msgstr "Kåre Särs"
+
+#: lib/kateapp.cpp:337
+#, kde-format
+msgid "Waqar Ahmed"
+msgstr "Waqar Ahmed"
+
+#: lib/kateapp.cpp:338
+#, kde-format
+msgid "Anders Lund"
+msgstr "Anders Lund"
+
+#: lib/kateapp.cpp:339
+#, kde-format
+msgid "Joseph Wenninger"
+msgstr "Joseph Wenninger"
+
+#: lib/kateapp.cpp:343
+#, kde-format
+msgid "Hamish Rodda"
+msgstr "Hamish Rodda"
+
+#: lib/kateapp.cpp:344
+#, kde-format
+msgid "Alexander Neundorf"
+msgstr "Alexander Neundorf"
+
+#: lib/kateapp.cpp:345
+#, kde-format
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: lib/kateapp.cpp:345
+#, kde-format
+msgid "The cool buffersystem"
+msgstr "Передова система буферизації"
+
+#: lib/kateapp.cpp:346
+#, kde-format
+msgid "Charles Samuels"
+msgstr "Charles Samuels"
+
+#: lib/kateapp.cpp:346
+#, kde-format
+msgid "The Editing Commands"
+msgstr "Команди редагування"
+
+#: lib/kateapp.cpp:347
+#, kde-format
+msgid "Matt Newell"
+msgstr "Matt Newell"
+
+#: lib/kateapp.cpp:347
+#, kde-format
+msgid "Testing, ..."
+msgstr "Тестування, …"
+
+#: lib/kateapp.cpp:348
+#, kde-format
+msgid "Michael Bartl"
+msgstr "Michael Bartl"
+
+#: lib/kateapp.cpp:348
+#, kde-format
+msgid "Former Core Developer"
+msgstr "Попередній розробник ядра"
+
+#: lib/kateapp.cpp:349
+#, kde-format
+msgid "Michael McCallum"
+msgstr "Michael McCallum"
+
+#: lib/kateapp.cpp:350
+#, kde-format
+msgid "Jochen Wilhemly"
+msgstr "Jochen Wilhemly"
+
+#: lib/kateapp.cpp:350
+#, kde-format
+msgid "KWrite Author"
+msgstr "Автор KWrite"
+
+#: lib/kateapp.cpp:351
+#, kde-format
+msgid "Michael Koch"
+msgstr "Michael Koch"
+
+#: lib/kateapp.cpp:351
+#, kde-format
+msgid "KWrite port to KParts"
+msgstr "Порт KWrite до KParts"
+
+#: lib/kateapp.cpp:352
+#, kde-format
+msgid "Christian Gebauer"
+msgstr "Christian Gebauer"
+
+#: lib/kateapp.cpp:353
+#, kde-format
+msgid "Simon Hausmann"
+msgstr "Simon Hausmann"
+
+#: lib/kateapp.cpp:354
+#, kde-format
+msgid "Glen Parker"
+msgstr "Glen Parker"
+
+#: lib/kateapp.cpp:354
+#, kde-format
+msgid "KWrite Undo History, Kspell integration"
+msgstr "Історія повернень KWrite, інтеграція з Kspell"
+
+#: lib/kateapp.cpp:355
+#, kde-format
+msgid "Scott Manson"
+msgstr "Scott Manson"
+
+#: lib/kateapp.cpp:355
+#, kde-format
+msgid "KWrite XML Syntax highlighting support"
+msgstr "Підсвічування синтаксису XML для KWrite"
+
+#: lib/kateapp.cpp:356
+#, kde-format
+msgid "John Firebaugh"
+msgstr "John Firebaugh"
+
+#: lib/kateapp.cpp:356
+#, kde-format
+msgid "Patches and more"
+msgstr "Латки та інше"
+
+#: lib/kateapp.cpp:357
+#, kde-format
+msgid "Pablo Martín"
+msgstr "Pablo Martín"
+
+#: lib/kateapp.cpp:358
+#, kde-format
+msgid "Python Plugin Developer"
+msgstr "Розробника додатка Python"
+
+#: lib/kateapp.cpp:361
+#, kde-format
+msgid "Gerald Senarclens de Grancy"
+msgstr "Gerald Senarclens de Grancy"
+
+#: lib/kateapp.cpp:362
+#, kde-format
+msgid "QA and Scripting"
+msgstr "Забезпечення якості та робота зі скриптами"
+
+#: lib/kateapp.cpp:366
+#, kde-format
+msgid "Tyson Tan"
+msgstr "Тайсон Тан"
+
+#: lib/kateapp.cpp:367
+#, kde-format
+msgid "Designer of Kate's mascot 'Kate the Cyber Woodpecker'"
+msgstr "Дизайнер маскота Kate «Kate — кібердятел»"
+
+#: lib/kateapp.cpp:370
+#, kde-format
+msgid "Matteo Merli"
+msgstr "Matteo Merli"
+
+#: lib/kateapp.cpp:370
+#, kde-format
+msgid "Highlighting for RPM Spec-Files, Perl, Diff and more"
+msgstr "Підсвічування для файлів RPM Spec, Perl, Diff та інших"
+
+#: lib/kateapp.cpp:371
+#, kde-format
+msgid "Rocky Scaletta"
+msgstr "Rocky Scaletta"
+
+#: lib/kateapp.cpp:371
+#, kde-format
+msgid "Highlighting for VHDL"
+msgstr "Підсвічування для VHDL"
+
+#: lib/kateapp.cpp:372
+#, kde-format
+msgid "Yury Lebedev"
+msgstr "Yury Lebedev"
+
+#: lib/kateapp.cpp:372
+#, kde-format
+msgid "Highlighting for SQL"
+msgstr "Підсвічування для SQL"
+
+#: lib/kateapp.cpp:373
+#, kde-format
+msgid "Chris Ross"
+msgstr "Chris Ross"
+
+#: lib/kateapp.cpp:373
+#, kde-format
+msgid "Highlighting for Ferite"
+msgstr "Підсвічування для Ferite"
+
+#: lib/kateapp.cpp:374
+#, kde-format
+msgid "Nick Roux"
+msgstr "Nick Roux"
+
+#: lib/kateapp.cpp:374
+#, kde-format
+msgid "Highlighting for ILERPG"
+msgstr "Підсвічування для ILERPG"
+
+#: lib/kateapp.cpp:375
+#, kde-format
+msgid "Carsten Niehaus"
+msgstr "Carsten Niehaus"
+
+#: lib/kateapp.cpp:375
+#, kde-format
+msgid "Highlighting for LaTeX"
+msgstr "Підсвічування для LaTeX"
+
+#: lib/kateapp.cpp:376
+#, kde-format
+msgid "Per Wigren"
+msgstr "Per Wigren"
+
+#: lib/kateapp.cpp:376
+#, kde-format
+msgid "Highlighting for Makefiles, Python"
+msgstr "Підсвічування для Makefiles, Python"
+
+#: lib/kateapp.cpp:377
+#, kde-format
+msgid "Jan Fritz"
+msgstr "Jan Fritz"
+
+#: lib/kateapp.cpp:377
+#, kde-format
+msgid "Highlighting for Python"
+msgstr "Підсвічування для Python"
+
+#: lib/kateapp.cpp:378
+#, kde-format
+msgid "Daniel Naber"
+msgstr "Daniel Naber"
+
+#: lib/kateapp.cpp:379
+#, kde-format
+msgid "Roland Pabel"
+msgstr "Roland Pabel"
+
+#: lib/kateapp.cpp:379
+#, kde-format
+msgid "Highlighting for Scheme"
+msgstr "Підсвічування для Scheme"
+
+#: lib/kateapp.cpp:380
+#, kde-format
+msgid "Cristi Dumitrescu"
+msgstr "Cristi Dumitrescu"
+
+#: lib/kateapp.cpp:380
+#, kde-format
+msgid "PHP Keyword/Datatype list"
+msgstr "Список типів даних та ключових слів PHP"
+
+#: lib/kateapp.cpp:381
+#, kde-format
+msgid "Carsten Pfeiffer"
+msgstr "Carsten Pfeiffer"
+
+#: lib/kateapp.cpp:381
+#, kde-format
+msgid "Very nice help"
+msgstr "Дуже гарна довідка"
+
+#: lib/kateapp.cpp:382
+#, kde-format
+msgid "All people who have contributed and I have forgotten to mention"
+msgstr "Всі люди, що зробили свій внесок та я забув їх навести"
+
+#: lib/kateapp.cpp:532
 #, kde-format
 msgid "Folders can only be opened when the projects plugin is enabled"
 msgstr "Теки можна відкривати, лише якщо увімкнено додаток проєктів"
 
-#: kateapp.cpp:324
+#: lib/kateapp.cpp:621
 #, kde-format
 msgid ""
 "The file '%1' could not be opened: it is not a normal file, it is a folder."
 msgstr "Неможливо відкрити файл «%1», оскільки це тека."
 
-#: katecolorschemechooser.cpp:44
-#, kde-format
-msgid "&Color Scheme"
-msgstr "Схема &кольорів"
-
-#: kateconfigdialog.cpp:41
+#: lib/kateconfigdialog.cpp:57
 #, kde-format
 msgid "Configure"
 msgstr "Налаштувати"
 
-#: kateconfigdialog.cpp:72 katemdi.cpp:510
+#: lib/kateconfigdialog.cpp:111
 #, kde-format
 msgid "Behavior"
 msgstr "Поведінка"
 
-#: kateconfigdialog.cpp:73
+#: lib/kateconfigdialog.cpp:113
 #, kde-format
 msgid "Behavior Options"
 msgstr "Параметри поведінки"
 
-#: kateconfigdialog.cpp:80
+#: lib/kateconfigdialog.cpp:120 lib/katemainwindow.cpp:200
+#, kde-format
+msgid "PATH"
+msgstr "ШЛЯХ"
+
+#: lib/kateconfigdialog.cpp:126
+#, kde-format
+msgid ""
+"List of %1 seperated directories where Kate will look for programs to run. "
+"This list will be prepended to your PATH environment variable. E.g '/home/"
+"USER/myapps/bin/:/home/USER/.local/bin'"
+msgstr ""
+"Список відокремлених %1 каталогів, у яких Kate шукатиме програми для "
+"запуску. Цей список буде дописано на початку до змінної середовища PATH. "
+"Приклад: «/home/USER/myapps/bin/:/home/USER/.local/bin»"
+
+#: lib/kateconfigdialog.cpp:142
 #, kde-format
 msgid "&Behavior"
 msgstr "&Поведінка"
 
-#: kateconfigdialog.cpp:85
+#: lib/kateconfigdialog.cpp:147
+#, kde-format
+msgid "Open each document in its own window"
+msgstr "Відкривати кожен документ у власному вікні"
+
+#: lib/kateconfigdialog.cpp:150
+#, kde-format
+msgid ""
+"If enabled, each document will be opened in its own window. If not enabled, "
+"each document will be opened in a new tab in the current window."
+msgstr ""
+"Якщо позначено, кожне документ буде відкрито у власному вікні. Якщо не "
+"позначено, кожен документ буде відкрито у новій вкладці поточного вікна."
+
+#: lib/kateconfigdialog.cpp:160
 #, kde-format
 msgid "&Switch to output view upon message type:"
 msgstr "П&еремикання на панель виведення, якщо маємо повідомлення типу:"
 
-#: kateconfigdialog.cpp:90
+#: lib/kateconfigdialog.cpp:165
 #, kde-format
 msgid "Never"
 msgstr "Ніколи"
 
-#: kateconfigdialog.cpp:90
-#, kde-format
-msgid "Error"
-msgstr "Помилка"
-
-#: kateconfigdialog.cpp:90 kateconfigdialog.cpp:434
-#, kde-format
-msgid "Warning"
-msgstr "Попередження"
-
-#: kateconfigdialog.cpp:90
+#: lib/kateconfigdialog.cpp:165
 #, kde-format
 msgid "Info"
 msgstr "Інформація"
 
-#: kateconfigdialog.cpp:90
+#: lib/kateconfigdialog.cpp:165
 #, kde-format
 msgid "Log"
 msgstr "Журнал"
 
-#: kateconfigdialog.cpp:96
+#: lib/kateconfigdialog.cpp:171
+#, kde-format
+msgid "&Limit output view history:"
+msgstr "&Обмеження журналу виведення:"
+
+#: lib/kateconfigdialog.cpp:177 lib/kateconfigdialog.cpp:248
+#: lib/kateconfigdialog.cpp:378
+#, kde-format
+msgid "Unlimited"
+msgstr "Без обмежень"
+
+#: lib/kateconfigdialog.cpp:184
 #, kde-format
 msgid "Use a separate &dialog for handling externally modified files"
 msgstr "Окреме ві&кно для обробки файлів, які змінено сторонніми програмами"
 
-#: kateconfigdialog.cpp:99
+#: lib/kateconfigdialog.cpp:187
 #, kde-format
 msgid ""
 "If enabled, a modal dialog will be used to show all of the modified files. "
@@ -171,120 +1057,320 @@ msgstr ""
 "вас про подальші дії щодо кожного зміненого файла окремо і лише тоді, коли "
 "панель перегляду файла отримуватиме фокусування."
 
-#: kateconfigdialog.cpp:109
+#: lib/kateconfigdialog.cpp:192
+#, kde-format
+msgid "Output timestamps with date"
+msgstr "Виводити часові позначки з датою"
+
+#: lib/kateconfigdialog.cpp:194
+#, kde-format
+msgid ""
+"When enabled, the output line timestamp headers will be prefixed with date."
+msgstr ""
+"Якщо увімкнено, заголовки часових позначок рядка виведення матимуть префікс "
+"— дату."
+
+#: lib/kateconfigdialog.cpp:202
+#, kde-format
+msgid "&Sidebars"
+msgstr "&Бічні панелі"
+
+#: lib/kateconfigdialog.cpp:205
+#, kde-format
+msgid "Sync section size with tab positions"
+msgstr "Синхронізувати розмір розділу із позиціями табуляції"
+
+#: lib/kateconfigdialog.cpp:208
+#, kde-format
+msgid ""
+"When enabled the section size will be determined by the position of the "
+"tabs.\n"
+"This option does not affect the bottom sidebar."
+msgstr ""
+"Якщо позначено, розмір розділу буде визначено за позицією табуляцій.\n"
+"Цей параметр не впливає на розміри нижньої бічної панелі."
+
+#: lib/kateconfigdialog.cpp:213
+#, kde-format
+msgid "Show text for left and right sidebar buttons"
+msgstr "Показувати текст для кнопок на лівій і правій бічних панелях"
+
+#: lib/kateconfigdialog.cpp:218
+#, kde-format
+msgid "Icon size for left and right sidebar buttons:"
+msgstr "Розмір піктограми для кнопок на лівій і правій бічних панелях:"
+
+#: lib/kateconfigdialog.cpp:238
 #, kde-format
 msgid "&Tabs"
 msgstr "В&кладки"
 
-#: kateconfigdialog.cpp:113
+#: lib/kateconfigdialog.cpp:242
 #, kde-format
 msgid "&Limit number of tabs:"
 msgstr "&Обмеження кількості вкладок:"
 
-#: kateconfigdialog.cpp:119
+#: lib/kateconfigdialog.cpp:253
 #, kde-format
-msgid "Unlimited"
-msgstr "Без обмежень"
+msgid ""
+"A high limit can increase the window size, please enable 'Allow tab "
+"scrolling' to prevent it. Unlimited tabs are always scrollable."
+msgstr ""
+"Велике обмежувальне значення може збільшити розмір вікна. Будь ласка, "
+"позначте пункт «Дозволити гортання вкладок», щоб уникнути цього. Якщо "
+"кількість вкладок не обмежено, гортання буде увімкнено автоматично."
 
-#: kateconfigdialog.cpp:124
+#: lib/kateconfigdialog.cpp:257
+#, kde-format
+msgid "&Auto hide tabs"
+msgstr "&Автоприховування вкладок"
+
+#: lib/kateconfigdialog.cpp:259
+#, kde-format
+msgid "When checked tabs will be hidden if only one document is open."
+msgstr ""
+"Якщо позначено, панель вкладок буде автоматично приховано, якщо відкрито "
+"лише один документ."
+
+#: lib/kateconfigdialog.cpp:263
 #, kde-format
 msgid "&Show close button"
 msgstr "&Показувати кнопку закривання"
 
-#: kateconfigdialog.cpp:126
+#: lib/kateconfigdialog.cpp:265
 #, kde-format
 msgid "When checked each tab will display a close button."
 msgstr "Якщо позначено, на кожній вкладці буде показано кнопку закриття."
 
-#: kateconfigdialog.cpp:130
+#: lib/kateconfigdialog.cpp:269
 #, kde-format
 msgid "&Expand tabs"
 msgstr "&Розширювати вкладки"
 
-#: kateconfigdialog.cpp:132
+#: lib/kateconfigdialog.cpp:271
 #, kde-format
 msgid "When checked tabs take as much size as possible."
 msgstr "Якщо позначено, вкладки займатимуть максимум доступного місця."
 
-#: kateconfigdialog.cpp:136
+#: lib/kateconfigdialog.cpp:275
 #, kde-format
 msgid "&Double click opens a new document"
 msgstr "П&одвійне клацання відкриває новий документ"
 
-#: kateconfigdialog.cpp:138
+#: lib/kateconfigdialog.cpp:277
 #, kde-format
 msgid "When checked double click opens a new document."
 msgstr "Якщо позначено, подвійне клацання відкриває документ."
 
-#: kateconfigdialog.cpp:142
+#: lib/kateconfigdialog.cpp:281
 #, kde-format
 msgid "&Middle click closes a document"
 msgstr "Клацання с&ередньою закриває документ"
 
-#: kateconfigdialog.cpp:144
+#: lib/kateconfigdialog.cpp:283
 #, kde-format
 msgid "When checked middle click closes a document."
 msgstr "Якщо позначено, клацання середньою закриває документ."
 
-#: kateconfigdialog.cpp:159
+#: lib/kateconfigdialog.cpp:287
+#, kde-format
+msgid "Allow tab scrolling"
+msgstr "Дозволити гортання вкладок"
+
+#: lib/kateconfigdialog.cpp:289
+#, kde-format
+msgid ""
+"When checked this will allow scrolling in tab bar when number of tabs is "
+"large."
+msgstr ""
+"Якщо позначено, уможливлює гортання на смужці вкладок, якщо кількість "
+"вкладок стає великою."
+
+#: lib/kateconfigdialog.cpp:293
+#, kde-format
+msgid "Elide tab text"
+msgstr "Обривати текст вкладок трьома крапками"
+
+#: lib/kateconfigdialog.cpp:295
+#, kde-format
+msgid "When checked tab text might be elided if its too long."
+msgstr ""
+"Якщо позначено, текст заголовка вкладки може бути обірвано трьома крапками, "
+"якщо він є надто довгим."
+
+#: lib/kateconfigdialog.cpp:299
+#, kde-format
+msgid "Open new tabs to the right of the current tab"
+msgstr "Відкривати нові вкладки праворуч від поточної вкладки"
+
+#: lib/kateconfigdialog.cpp:301
+#, kde-format
+msgid "If unchecked the new tab will open at the end."
+msgstr ""
+"Якщо не позначено, нову вкладку буде відкрито наприкінці списку вкладок."
+
+#: lib/kateconfigdialog.cpp:307
+#, kde-format
+msgctxt ""
+"'Next Tab'/'Previous Tab' is an existing action name. Please use the same "
+"text here as it is used in that action's translation"
+msgid ""
+"Allow cycling through tabs. If unchecked, the action 'Next Tab'/'Previous "
+"Tab' will not go to first/last tab after reaching the end"
+msgstr ""
+"Дозволити циклічний перехід вкладками. Якщо не позначено, дія «Наступна "
+"вкладка»/«Попередня вкладка» не призводитиме до переходу до першої або "
+"останньої вкладки після досягнення кінця списку"
+
+#: lib/kateconfigdialog.cpp:315
+#, kde-format
+msgid "&Mouse"
+msgstr "&Миша"
+
+#: lib/kateconfigdialog.cpp:320
+#, kde-format
+msgid "&Backward button pressed:"
+msgstr "Натиснуто кнопку &назад:"
+
+#: lib/kateconfigdialog.cpp:325
+#, kde-format
+msgid "Previous tab"
+msgstr "Попередня вкладка"
+
+#: lib/kateconfigdialog.cpp:325
+#, kde-format
+msgid "History back"
+msgstr "Назад у журналі"
+
+#: lib/kateconfigdialog.cpp:331
+#, kde-format
+msgid "&Forward button pressed:"
+msgstr "Натиснуто кнопку &вперед:"
+
+#: lib/kateconfigdialog.cpp:336
+#, kde-format
+msgid "Next tab"
+msgstr "Наступна вкладка"
+
+#: lib/kateconfigdialog.cpp:336
+#, kde-format
+msgid "History forward"
+msgstr "Вперед у журналі"
+
+#: lib/kateconfigdialog.cpp:353
+#, kde-format
+msgid "Diff Style:"
+msgstr "Стиль різниці:"
+
+#: lib/kateconfigdialog.cpp:360
+#, kde-format
+msgid "Navigation Bar"
+msgstr "Панель навігації"
+
+#: lib/kateconfigdialog.cpp:365
+#, kde-format
+msgid "Show current symbol in navigation bar"
+msgstr "Показувати поточний символ на панелі навігації"
+
+#: lib/kateconfigdialog.cpp:375
+#, kde-format
+msgid "Diagnostics limit:"
+msgstr "Обмеження діагностики:"
+
+#: lib/kateconfigdialog.cpp:380
+#, kde-format
+msgid "Max number of diagnostics allowed in the Diagnostics toolview."
+msgstr ""
+"Максимальний обсяг діагностичних повідомлень, який дозволено для панелі "
+"«Діагностика»."
+
+#: lib/kateconfigdialog.cpp:386 lib/texthint/hintview.cpp:25
+#, kde-format
+msgid "Context"
+msgstr "Контекст"
+
+#: lib/kateconfigdialog.cpp:391
+#, kde-format
+msgid "Enable tool view"
+msgstr "Увімкнути панель інструментів"
+
+#: lib/kateconfigdialog.cpp:393
+#, kde-format
+msgid ""
+"A tool view to display context associated with the current cursor position "
+"(LSP hints, diagnostics)"
+msgstr ""
+"Панель інструментів для показу контексту, який пов'язано із поточною "
+"позицією курсора (підказки LSP, діагностика)"
+
+#: lib/kateconfigdialog.cpp:408
 #, kde-format
 msgid "Session"
 msgstr "Сеанс"
 
-#: kateconfigdialog.cpp:160
+#: lib/kateconfigdialog.cpp:410
 #, kde-format
 msgid "Session Management"
 msgstr "Керування сеансами"
 
-#: kateconfigdialog.cpp:171
+#: lib/kateconfigdialog.cpp:421
 #, kde-format
 msgctxt "The special case of 'Delete unused meta-information after'"
 msgid "(never)"
 msgstr "(ніколи)"
 
-#: kateconfigdialog.cpp:172
+#: lib/kateconfigdialog.cpp:423
 #, kde-format
 msgctxt "The suffix of 'Delete unused meta-information after'"
-msgid " day"
-msgid_plural " days"
-msgstr[0] " день"
-msgstr[1] " дні"
-msgstr[2] " днів"
-msgstr[3] " день"
+msgid "%v day"
+msgid_plural "%v days"
+msgstr[0] "%v день"
+msgstr[1] "%v дні"
+msgstr[2] "%v днів"
+msgstr[3] "%v день"
 
-#: kateconfigdialog.cpp:221
+#: lib/kateconfigdialog.cpp:453
+#, kde-format
+msgid ""
+"When a window is closed the documents opened only in this window are closed "
+"as well."
+msgstr ""
+"Якщо закрити вікно, документи, які відкрито лише у цьому вікні, буде також "
+"закрито."
+
+#: lib/kateconfigdialog.cpp:488
 #, kde-format
 msgid "Plugins"
 msgstr "Додатки"
 
-#: kateconfigdialog.cpp:222
+#: lib/kateconfigdialog.cpp:490
 #, kde-format
 msgid "Plugin Manager"
 msgstr "Керування додатками"
 
-#: kateconfigdialog.cpp:240 kateconfigdialog.cpp:241
+#: lib/kateconfigdialog.cpp:508 lib/kateconfigdialog.cpp:510
 #, kde-format
 msgid "User Feedback"
 msgstr "Відгуки користувача"
 
-#: kateconfigdialog.cpp:433
+#: lib/kateconfigdialog.cpp:701
+#, kde-format
+msgid "Bad PATH value"
+msgstr "Помилкове значення ШЛЯХ"
+
+#: lib/kateconfigdialog.cpp:701
+#, kde-format
+msgid "The path '%1' doesn't exist"
+msgstr "Шляху «%1» не існує"
+
+#: lib/kateconfigdialog.cpp:785
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr ""
 "Деякі із внесених змін не збережено. Хочете зберегти зміни чи відкинути їх?"
 
-#: kateconfigplugindialogpage.cpp:66
-#, kde-format
-msgid "Name"
-msgstr "Назва"
-
-#: kateconfigplugindialogpage.cpp:66
-#, kde-format
-msgid "Description"
-msgstr "Опис"
-
-#: kateconfigplugindialogpage.cpp:69
+#: lib/kateconfigplugindialogpage.cpp:78
 #, kde-format
 msgid ""
 "Here you can see all available Kate plugins. Those with a check mark are "
@@ -293,21 +1379,17 @@ msgstr ""
 "Тут ви можете побачити всі наявні додатки до Kate. Ті, що позначені, є "
 "завантаженими, і їх буде завантажено знову при наступному запуску Kate."
 
-#: katedocmanager.cpp:223
+#: lib/kateconfigplugindialogpage.cpp:82
 #, kde-format
-msgid ""
-"The supposedly temporary file %1 has been modified. Do you want to delete it "
-"anyway?"
-msgstr ""
-"Файл %1, який, як припускається, був тимчасовим, було змінено. Ви все-таки "
-"бажаєте його вилучити?"
+msgid "Name"
+msgstr "Назва"
 
-#: katedocmanager.cpp:226
+#: lib/kateconfigplugindialogpage.cpp:82
 #, kde-format
-msgid "Delete File?"
-msgstr "Вилучити файл?"
+msgid "Description"
+msgstr "Опис"
 
-#: katedocmanager.cpp:334
+#: lib/katedocmanager.cpp:268
 #, kde-format
 msgid ""
 "<p>The document '%1' has been modified, but not saved.</p><p>Do you want to "
@@ -316,144 +1398,160 @@ msgstr ""
 "<p>Документ «%1» було змінено, але не було збережено.</p><p>Чи бажаєте "
 "зберегти зміни чи відкинути їх?</p>"
 
-#: katedocmanager.cpp:337
+#: lib/katedocmanager.cpp:271 lib/katesavemodifieddialog.cpp:134
 #, kde-format
 msgid "Close Document"
 msgstr "Закрити документ"
 
-#: katedocmanager.cpp:346
+#: lib/katedocmanager.cpp:280
 #, kde-format
 msgid "Save As"
 msgstr "Зберегти як"
 
-#: katedocmanager.cpp:364 katemainwindow.cpp:564
+#: lib/katedocmanager.cpp:298 lib/katemainwindow.cpp:748
 #, kde-format
 msgid "New file opened while trying to close Kate, closing aborted."
 msgstr "При спробі закриття Kate, був відкритий новий файл. Вихід перервано."
 
-#: katedocmanager.cpp:364 katemainwindow.cpp:564
+#: lib/katedocmanager.cpp:298 lib/katemainwindow.cpp:748
 #, kde-format
 msgid "Closing Aborted"
 msgstr "Вихід перервано"
 
-#: katedocmanager.cpp:442
+#: lib/katedocmanager.cpp:372
 #, kde-format
 msgid "Starting Up"
 msgstr "Запуск"
 
-#: katedocmanager.cpp:443
+#: lib/katedocmanager.cpp:373
 #, kde-format
 msgid "Reopening files from the last session..."
 msgstr "Відкриття файлів останнього сеансу…"
 
-#: katefileactions.cpp:64
+#: lib/katefileactions.cpp:73
 #, kde-format
 msgid "Rename file"
 msgstr "Перейменування файла"
 
-#: katefileactions.cpp:65
+#: lib/katefileactions.cpp:73
 #, kde-format
 msgid "New file name"
 msgstr "Нова назва файла"
 
-#: katefileactions.cpp:96
+#: lib/katefileactions.cpp:107
 #, kde-format
 msgid "File \"%1\" could not be moved to \"%2\""
 msgstr "Не вдалося пересунути файл «%1» до «%2»"
 
-#: katefileactions.cpp:117
+#: lib/katefileactions.cpp:128
 #, kde-format
 msgid "Do you really want to delete file \"%1\"?"
 msgstr "Ви справді хочете вилучити файл «%1»?"
 
-#: katefileactions.cpp:118
+#: lib/katefileactions.cpp:129
 #, kde-format
 msgid "Delete file"
 msgstr "Вилучення файла"
 
-#: katefileactions.cpp:135
+#: lib/katefileactions.cpp:150
 #, kde-format
 msgid "File \"%1\" could not be deleted."
 msgstr "Не вдалося вилучити файл «%1»."
 
-#: katemainwindow.cpp:216
+#: lib/katefileactions.cpp:201
+#, kde-format
+msgid "&Other Application..."
+msgstr "&Інша програма…"
+
+#: lib/katemainwindow.cpp:261
 #, kde-format
 msgid "Use this command to show or hide the view's statusbar"
 msgstr "Скористайтесь цією командою, щоб показати або сховати смужку стану"
 
-#: katemainwindow.cpp:219
+#: lib/katemainwindow.cpp:267
 #, kde-format
 msgid "Show &Tabs"
 msgstr "Показувати в&кладки"
 
-#: katemainwindow.cpp:222
+#: lib/katemainwindow.cpp:270
 #, kde-format
 msgid "Use this command to show or hide the tabs for the views"
 msgstr ""
 "Скористайтесь цією командою, щоб наказати програмі показати або сховати "
 "панель вкладок"
 
-#: katemainwindow.cpp:224
+#: lib/katemainwindow.cpp:272
 #, kde-format
 msgid "Sho&w Path in Titlebar"
 msgstr "Пока&зувати шлях на смужці заголовка"
 
-#: katemainwindow.cpp:227
+#: lib/katemainwindow.cpp:277
 #, kde-format
 msgid "Show the complete document path in the window caption"
 msgstr "Показувати повний шлях до документа у заголовку вікна"
 
-#: katemainwindow.cpp:233
+#: lib/katemainwindow.cpp:279
+#, kde-format
+msgid "Show Navigation Bar"
+msgstr "Показувати панель навігації"
+
+#: lib/katemainwindow.cpp:297
+#, kde-format
+msgid "&Window Color Scheme"
+msgstr "Схема кольорів в&ікна"
+
+#: lib/katemainwindow.cpp:301
 #, kde-format
 msgid "&Previous Tab"
 msgstr "&Попередня вкладка"
 
-#: katemainwindow.cpp:234
+#: lib/katemainwindow.cpp:302
 #, kde-format
 msgid "Focus the previous tab."
 msgstr "Фокусувати попередню вкладку."
 
-#: katemainwindow.cpp:239
+#: lib/katemainwindow.cpp:309
 #, kde-format
 msgid "&Next Tab"
 msgstr "&Наступна вкладка"
 
-#: katemainwindow.cpp:240
+#: lib/katemainwindow.cpp:310
 #, kde-format
 msgid "Focus the next tab."
 msgstr "Фокусувати наступну вкладку."
 
-#: katemainwindow.cpp:247
+#: lib/katemainwindow.cpp:319
+#, kde-format
+msgctxt "@action Shortcut entry"
+msgid "Switch to Tab %1"
+msgstr "Перемкнутися на вкладку %1"
+
+#: lib/katemainwindow.cpp:339
 #, kde-format
 msgid "&Quick Open"
 msgstr "&Швидко відкрити"
 
-#: katemainwindow.cpp:250
+#: lib/katemainwindow.cpp:342
 #, kde-format
 msgid "Open a form to quick open documents."
 msgstr "Відкрити форму пришвидшеного відкриття документів."
 
-#: katemainwindow.cpp:257
-#, kde-format
-msgid "&Command Bar"
-msgstr "&Командна панель"
-
-#: katemainwindow.cpp:292
+#: lib/katemainwindow.cpp:379
 #, kde-format
 msgid "Output"
 msgstr "Виведення"
 
-#: katemainwindow.cpp:302
+#: lib/katemainwindow.cpp:389
 #, kde-format
 msgid "Create a new document"
 msgstr "Створити новий документ"
 
-#: katemainwindow.cpp:305
+#: lib/katemainwindow.cpp:391
 #, kde-format
 msgid "Open an existing document for editing"
 msgstr "Відкрити існуючий документ для редагування"
 
-#: katemainwindow.cpp:310
+#: lib/katemainwindow.cpp:401
 #, kde-format
 msgid ""
 "This lists files which you have opened recently, and allows you to easily "
@@ -462,90 +1560,85 @@ msgstr ""
 "Містить файли, які було недавно відкрито, та дозволяє швидко відкрити їх "
 "знову."
 
-#: katemainwindow.cpp:314
+#: lib/katemainwindow.cpp:405
 #, kde-format
-msgid "Save A&ll"
+msgid "Sa&ve All"
 msgstr "Зберегти &все"
 
-#: katemainwindow.cpp:317
+#: lib/katemainwindow.cpp:408
 #, kde-format
 msgid "Save all open, modified documents to disk."
 msgstr "Зберегти всі відкриті та змінені документи на диск."
 
-#: katemainwindow.cpp:320
+#: lib/katemainwindow.cpp:411
 #, kde-format
-msgid "&Reload All"
+msgid "Reload A&ll"
 msgstr "&Перезавантажити всі"
 
-#: katemainwindow.cpp:322
+#: lib/katemainwindow.cpp:413
 #, kde-format
 msgid "Reload all open documents."
 msgstr "Перезавантажити всі відкриті документи."
 
-#: katemainwindow.cpp:326
-#, kde-format
-msgid "Copy File &Path"
-msgstr "Копіювати &шлях до файла"
-
-#: katemainwindow.cpp:331 katemainwindow.cpp:340
+#: lib/katemainwindow.cpp:422 lib/katemainwindow.cpp:431
 #, kde-format
 msgid "Copies the file path of the current file to clipboard."
 msgstr "Копіювати шлях до поточного файла до буфера обміну даними."
 
-#: katemainwindow.cpp:335
+#: lib/katemainwindow.cpp:426 lib/welcomeview/welcomeview.cpp:268
 #, kde-format
 msgid "&Open Containing Folder"
 msgstr "Ві&дкрити теку, яка містить дані"
 
-#: katemainwindow.cpp:344
+#: lib/katemainwindow.cpp:435
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename..."
 msgstr "Перейменувати…"
 
-#: katemainwindow.cpp:349
+#: lib/katemainwindow.cpp:440
 #, kde-format
 msgid "Renames the file belonging to the current document."
 msgstr "Перейменувати файл, що належить до поточного документа."
 
-#: katemainwindow.cpp:353
+#: lib/katemainwindow.cpp:444
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Delete"
 msgstr "Вилучити"
 
-#: katemainwindow.cpp:358 katemainwindow.cpp:367
+#: lib/katemainwindow.cpp:449 lib/katemainwindow.cpp:458
 #, kde-format
 msgid "Deletes the file belonging to the current document."
 msgstr "Вилучити файл, що належить до поточного документа."
 
-#: katemainwindow.cpp:362
+#: lib/katemainwindow.cpp:453
 #, kde-format
 msgid "Properties"
 msgstr "Властивості"
 
-#: katemainwindow.cpp:370 katemainwindow.cpp:372
+#: lib/katemainwindow.cpp:461 lib/katemainwindow.cpp:463
 #, kde-format
 msgid "Compare"
 msgstr "Порівняти"
 
-#: katemainwindow.cpp:372
+#: lib/katemainwindow.cpp:463
 #, kde-format
 msgid "Use the Tabbar context menu to compare two documents"
 msgstr ""
 "Використання контекстного меню панелі вкладок для порівняння документів"
 
-#: katemainwindow.cpp:374
+#: lib/katemainwindow.cpp:465
 #, kde-format
 msgid "Shows a hint how to compare documents."
 msgstr "Показує підказку щодо того, як порівнювати документи."
 
-#: katemainwindow.cpp:377
+#: lib/katemainwindow.cpp:468
 #, kde-format
-msgid "Close Orphaned"
-msgstr "Закрити осиротілі"
+msgid "Close Orp&haned"
+msgstr "Закрити &осиротілі"
 
-#: katemainwindow.cpp:379
+#: lib/katemainwindow.cpp:470
 #, kde-format
 msgid ""
 "Close all documents in the file list that could not be reopened, because "
@@ -554,52 +1647,72 @@ msgstr ""
 "Закрити всі документи у списку файлів, якщо ці документи неможливо повторно "
 "відкрити, оскільки до них вже немає доступу."
 
-#: katemainwindow.cpp:383
+#: lib/katemainwindow.cpp:474
 #, kde-format
 msgid "Close the current document."
 msgstr "Закрити поточний документ."
 
-#: katemainwindow.cpp:386
+#: lib/katemainwindow.cpp:477
 #, kde-format
-msgid "Close Other"
-msgstr "Закрити інші"
+msgid "Close O&ther"
+msgstr "За&крити інші"
 
-#: katemainwindow.cpp:388
+#: lib/katemainwindow.cpp:481
 #, kde-format
 msgid "Close other open documents."
 msgstr "Закрити інші відкриті документи."
 
-#: katemainwindow.cpp:391
+#: lib/katemainwindow.cpp:484
 #, kde-format
 msgid "Clos&e All"
 msgstr "&Закрити все"
 
-#: katemainwindow.cpp:393
+#: lib/katemainwindow.cpp:486
 #, kde-format
 msgid "Close all open documents."
 msgstr "Закрити всі відкриті документи."
 
-#: katemainwindow.cpp:398
+#: lib/katemainwindow.cpp:489
+#, kde-format
+msgid "&Reopen Latest Closed Document(s)"
+msgstr "&Повторно відкрити останні закриті документи"
+
+#: lib/katemainwindow.cpp:491
+#, kde-format
+msgid "Reopen the document or documents that were most recently closed"
+msgstr "Повторно відкрити документ або документи, які було закрито останніми"
+
+#: lib/katemainwindow.cpp:494
+#, kde-format
+msgid "Close &Window"
+msgstr "Закрити в&ікно"
+
+#: lib/katemainwindow.cpp:498
 #, kde-format
 msgid "Close this window"
 msgstr "Закрити це вікно"
 
-#: katemainwindow.cpp:402
+#: lib/katemainwindow.cpp:503
 #, kde-format
-msgid "&New Window"
+msgid "Quit the application"
+msgstr "Вийти з програми"
+
+#: lib/katemainwindow.cpp:507
+#, kde-format
+msgid "New &Window"
 msgstr "&Нове вікно"
 
-#: katemainwindow.cpp:404
+#: lib/katemainwindow.cpp:510
 #, kde-format
-msgid "Create a new Kate view (a new window with the same document list)."
-msgstr "Створює новий вигляд (нове вікно з таким самим списком документів)."
+msgid "Create a new window."
+msgstr "Створити нове вікно."
 
-#: katemainwindow.cpp:411
+#: lib/katemainwindow.cpp:517
 #, kde-format
 msgid "Open W&ith"
 msgstr "В&ідкрити за допомогою"
 
-#: katemainwindow.cpp:413
+#: lib/katemainwindow.cpp:519
 #, kde-format
 msgid ""
 "Open the current document using another application registered for its file "
@@ -608,81 +1721,101 @@ msgstr ""
 "Відкрити поточний документ іншою програмою, яка вміє обробляти ці файли, або "
 "програмою, яку ви виберете."
 
-#: katemainwindow.cpp:418
+#: lib/katemainwindow.cpp:527
 #, kde-format
 msgid "Configure the application's keyboard shortcut assignments."
 msgstr "Налаштувати клавіатурні скорочення програми."
 
-#: katemainwindow.cpp:421
+#: lib/katemainwindow.cpp:530
 #, kde-format
 msgid "Configure which items should appear in the toolbar(s)."
 msgstr "Налаштувати елементи, які буде відображено у пеналі."
 
-#: katemainwindow.cpp:424
+#: lib/katemainwindow.cpp:533
 #, kde-format
 msgid ""
 "Configure various aspects of this application and the editing component."
 msgstr "Налаштувати поведінку цієї програми та редактора."
 
-#: katemainwindow.cpp:428
+#: lib/katemainwindow.cpp:537
 #, kde-format
 msgid "&Plugins Handbook"
 msgstr "Підручник з &додатків"
 
-#: katemainwindow.cpp:430
+#: lib/katemainwindow.cpp:539
 #, kde-format
 msgid "This shows help files for various available plugins."
 msgstr "Показати довідку для наявних додатків."
 
-#: katemainwindow.cpp:448
+#: lib/katemainwindow.cpp:556
+#, kde-format
+msgid "Sess&ions"
+msgstr "&Сеанси"
+
+#: lib/katemainwindow.cpp:562
 #, kde-format
 msgctxt "Menu entry Session->New Session"
 msgid "&New Session"
 msgstr "С&творити сеанс"
 
-#: katemainwindow.cpp:453
+#: lib/katemainwindow.cpp:567
 #, kde-format
-msgid "&Save Session"
-msgstr "&Зберегти сеанс"
+msgid "&Recent Sessions"
+msgstr "&Останні сеанси"
 
-#: katemainwindow.cpp:457
+#: lib/katemainwindow.cpp:572
 #, kde-format
-msgid "Save Session &As..."
-msgstr "Зберегти сеанс &як…"
+msgid "&All Sessions"
+msgstr "&Усі сеанси"
 
-#: katemainwindow.cpp:461
+#: lib/katemainwindow.cpp:579
 #, kde-format
 msgid "&Manage Sessions..."
 msgstr "&Керування сеансами…"
 
-#: katemainwindow.cpp:466
+#: lib/katemainwindow.cpp:588
 #, kde-format
-msgid "&Quick Open Session"
-msgstr "&Швидке відкриття сеансу"
+msgid "&Save Session"
+msgstr "&Зберегти сеанс"
 
-#: katemainwindow.cpp:472
+#: lib/katemainwindow.cpp:594
 #, kde-format
-msgid "Go back"
-msgstr "Перейти назад"
+msgid "Save Session &As..."
+msgstr "Зберегти сеанс &як…"
 
-#: katemainwindow.cpp:480
+#: lib/katemainwindow.cpp:601 lib/kateviewspace.cpp:56
 #, kde-format
-msgid "Go forward"
-msgstr "Перейти вперед"
+msgid "Go to Previous Location"
+msgstr "Повернутися до попереднього місця"
 
-#: katemainwindow.cpp:491
+#: lib/katemainwindow.cpp:610 lib/kateviewspace.cpp:68
+#, kde-format
+msgid "Go to Next Location"
+msgstr "Перейти до наступного місця"
+
+#: lib/katemainwindow.cpp:618
+#, kde-format
+msgid "Show File Git History"
+msgstr "Показати журнал файла git"
+
+#: lib/katemainwindow.cpp:645
 #, kde-format
 msgid "This will close all open documents. Are you sure you want to continue?"
 msgstr ""
 "У разі виконання цієї дії буде закрито всі відкриті документи. Ви справді "
 "бажаєте виконання цієї дії?"
 
-#: katemainwindow.cpp:492
+#: lib/katemainwindow.cpp:646
 #, kde-format
-msgid "Close all documents"
-msgstr "Закрити всі документи"
+msgid "Close all documents?"
+msgstr "Закрити всі документи?"
 
-#: katemainwindow.cpp:507
+#: lib/katemainwindow.cpp:647
+#, kde-format
+msgid "Close All"
+msgstr "Закрити все"
+
+#: lib/katemainwindow.cpp:661
 #, kde-format
 msgid ""
 "This will close all open documents beside the current one. Are you sure you "
@@ -691,12 +1824,17 @@ msgstr ""
 "У разі виконання цієї дії буде закрито всі відкриті документи, окрім "
 "поточного. Ви справді бажаєте виконання цієї дії?"
 
-#: katemainwindow.cpp:508
+#: lib/katemainwindow.cpp:662
 #, kde-format
-msgid "Close all documents beside current one"
-msgstr "Закрити всі документи, окрім поточного"
+msgid "Close all documents beside current one?"
+msgstr "Закрити всі документи, окрім поточного?"
 
-#: katemainwindow.cpp:700
+#: lib/katemainwindow.cpp:663
+#, kde-format
+msgid "Close Others"
+msgstr "Закрити інші"
+
+#: lib/katemainwindow.cpp:899
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
@@ -704,46 +1842,68 @@ msgstr ""
 "Смужку меню буде повністю приховано. Відновити показ смужки меню можна "
 "натисканням комбінації клавіш %1."
 
-#: katemainwindow.cpp:703
+#: lib/katemainwindow.cpp:902
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Приховати смужку меню"
 
-#: katemainwindow.cpp:815
+#: lib/katemainwindow.cpp:1076
 #, kde-format
 msgid ""
-"You dropped the directory %1 into Kate. Do you want to load all files "
-"contained in it ?"
+"You dropped the directory %1 into Kate. Do you want to open all files "
+"contained in it?"
 msgstr ""
-"Вами скинуто до вікна Kate позначку каталогу %1. Хочете завантажити усі "
-"файли, що містяться у каталозі?"
+"Вами скинуто до вікна Kate позначку каталогу %1. Хочете відкрити усі файли, "
+"що містяться у каталозі?"
 
-#: katemainwindow.cpp:818
+#: lib/katemainwindow.cpp:1079
 #, kde-format
-msgid "Load files recursively?"
-msgstr "Завантажити файли рекурсивно?"
+msgctxt "@title:window"
+msgid "Open Files Recursively"
+msgstr "Рекурсивне відкриття файлів"
 
-#: katemainwindow.cpp:946
+#: lib/katemainwindow.cpp:1080
 #, kde-format
-msgid "&Other..."
-msgstr "&Інша…"
+msgctxt "@action:button"
+msgid "Open All Files"
+msgstr "Відкрити усі файли"
 
-#: katemainwindow.cpp:1058
+#: lib/katemainwindow.cpp:1287
 #, kde-format
 msgid " [read only]"
 msgstr " [лише читання]"
 
-#: katemdi.cpp:92
+#: lib/katemdi.cpp:78
+#, kde-format
+msgid "Toolview Manager"
+msgstr "Керування панеллю інструментів"
+
+#: lib/katemdi.cpp:96
+#, kde-format
+msgid "Sidebar Buttons"
+msgstr "Кнопки на бічній панелі"
+
+#: lib/katemdi.cpp:99
+#, kde-format
+msgid "Focus Toolview"
+msgstr "Фокусувати панель інструментів"
+
+#: lib/katemdi.cpp:102
 #, kde-format
 msgid "Tool &Views"
 msgstr "Вікна інс&трументів"
 
-#: katemdi.cpp:94
+#: lib/katemdi.cpp:104
 #, kde-format
 msgid "Show Side&bars"
 msgstr "Показати &бічні панелі"
 
-#: katemdi.cpp:137
+#: lib/katemdi.cpp:112
+#, kde-format
+msgid "Hide All Tool Views"
+msgstr "Приховати усі вікна інструментів"
+
+#: lib/katemdi.cpp:160
 #, kde-format
 msgid "Show %1"
 msgstr ""
@@ -753,47 +1913,77 @@ msgstr ""
 "'панель поточного проєкту' 'Вивід перевірки XML' 'панель результатів "
 "перевірки XML' 'Пошук з заміною' 'панель пошуку із заміною']"
 
-#: katemdi.cpp:506
+#: lib/katemdi.cpp:182
 #, kde-format
-msgid "Configure ..."
+msgid "Show %1 Button"
+msgstr "Показати кнопку %1"
+
+#: lib/katemdi.cpp:201
+#, kde-format
+msgid "Focus %1"
+msgstr "Фокусувати %1"
+
+#: lib/katemdi.cpp:1119
+#, kde-format
+msgid "Configure..."
 msgstr "Налаштувати…"
 
-#: katemdi.cpp:513
+#: lib/katemdi.cpp:1123
 #, kde-format
-msgid "Make Non-Persistent"
-msgstr "Зробити не стійкою"
+msgid "Hide Button"
+msgstr "Приховати кнопку"
 
-#: katemdi.cpp:513
-#, kde-format
-msgid "Make Persistent"
-msgstr "Зробити стійкою"
-
-#: katemdi.cpp:516
+#: lib/katemdi.cpp:1125
 #, kde-format
 msgid "Move To"
 msgstr "Пересунути до"
 
-#: katemdi.cpp:519
+#: lib/katemdi.cpp:1130
+#, kde-format
+msgid "Own Section"
+msgstr "Власний розділ"
+
+#: lib/katemdi.cpp:1136 lib/katemdi.cpp:1144
+#, kde-format
+msgid "One Down"
+msgstr "На один вниз"
+
+#: lib/katemdi.cpp:1138 lib/katemdi.cpp:1149
+#, kde-format
+msgid "One Right"
+msgstr "На один праворуч"
+
+#: lib/katemdi.cpp:1142
+#, kde-format
+msgid "One Up"
+msgstr "На один вгору"
+
+#: lib/katemdi.cpp:1147
+#, kde-format
+msgid "One Left"
+msgstr "На один ліворуч"
+
+#: lib/katemdi.cpp:1156
 #, kde-format
 msgid "Left Sidebar"
 msgstr "Ліва бічна панель"
 
-#: katemdi.cpp:523
+#: lib/katemdi.cpp:1160
 #, kde-format
 msgid "Right Sidebar"
 msgstr "Права бічна панель"
 
-#: katemdi.cpp:527
+#: lib/katemdi.cpp:1164
 #, kde-format
 msgid "Top Sidebar"
 msgstr "Верхня бічна панель"
 
-#: katemdi.cpp:531
+#: lib/katemdi.cpp:1168
 #, kde-format
 msgid "Bottom Sidebar"
 msgstr "Нижня бічна панель"
 
-#: katemdi.cpp:862
+#: lib/katemdi.cpp:1772
 #, kde-format
 msgid ""
 "<qt>You are about to hide the sidebars. With hidden sidebars it is not "
@@ -808,12 +1998,12 @@ msgstr ""
 "Показати бічні панелі</b>. Зокрема, можна команду показати/сховати вікна "
 "інструментів викликати за допомогою призначеного для неї скорочення.</qt>"
 
-#: katemwmodonhddialog.cpp:59
+#: lib/katemwmodonhddialog.cpp:53
 #, kde-format
 msgid "Documents Modified on Disk"
 msgstr "Документи змінено на диску"
 
-#: katemwmodonhddialog.cpp:75
+#: lib/katemwmodonhddialog.cpp:68
 #, kde-format
 msgid ""
 "<qt>The documents listed below have changed on disk.<p>Select one or more at "
@@ -822,73 +2012,71 @@ msgstr ""
 "<qt>Перелічені нижче документи було змінено на диску.<p>Виберіть один або "
 "декілька на раз й натискайте кнопку дії, поки не очиститься список.</p></qt>"
 
-#: katemwmodonhddialog.cpp:85
+#: lib/katemwmodonhddialog.cpp:78
 #, kde-format
 msgid "Filename"
 msgstr "Назва файла"
 
-#: katemwmodonhddialog.cpp:85
+#: lib/katemwmodonhddialog.cpp:78
 #, kde-format
 msgid "Status on Disk"
 msgstr "Стан на диску"
 
-#: katemwmodonhddialog.cpp:90
+#: lib/katemwmodonhddialog.cpp:83
 #, kde-format
 msgid "Modified"
 msgstr "Змінено"
 
-#: katemwmodonhddialog.cpp:90
+#: lib/katemwmodonhddialog.cpp:83
 #, kde-format
 msgid "Created"
 msgstr "Створено"
 
-#: katemwmodonhddialog.cpp:90
+#: lib/katemwmodonhddialog.cpp:83
 #, kde-format
 msgid "Deleted"
 msgstr "Вилучено"
 
-#: katemwmodonhddialog.cpp:105
+#: lib/katemwmodonhddialog.cpp:106
 #, kde-format
 msgid "&View Difference"
 msgstr "&Переглянути відмінності"
 
-#: katemwmodonhddialog.cpp:107
+#: lib/katemwmodonhddialog.cpp:107
 #, kde-format
 msgid ""
 "Calculates the difference between the editor contents and the disk file for "
-"the selected document, and shows the difference with the default "
-"application. Requires diff(1)."
+"the selected document."
 msgstr ""
 "Підраховує для вибраного документа різницю між вмістом редактора та вмістом "
-"файла на диску для вибраного документа і показує відмінності у типовій "
-"програмі. Потрібна програма diff(1)."
+"файла на диску для вибраного документа."
 
-#: katemwmodonhddialog.cpp:117
+#: lib/katemwmodonhddialog.cpp:115
 #, kde-format
 msgid "&Ignore Changes"
 msgstr "&Ігнорувати зміни"
 
-#: katemwmodonhddialog.cpp:118
+#: lib/katemwmodonhddialog.cpp:116
 #, kde-format
 msgid "Remove modified flag from selected documents"
 msgstr "Скинути прапорець внесення змін для позначених документів"
 
-#: katemwmodonhddialog.cpp:124
+#: lib/katemwmodonhddialog.cpp:122
 #, kde-format
 msgid "Overwrite selected documents, discarding disk changes"
 msgstr "Перезаписати позначені документи, відкинувши зміни на диску"
 
-#: katemwmodonhddialog.cpp:128
+#: lib/katemwmodonhddialog.cpp:126
 #, kde-format
 msgid "&Reload"
 msgstr "&Перезавантажити"
 
-#: katemwmodonhddialog.cpp:130
+#: lib/katemwmodonhddialog.cpp:128
 #, kde-format
 msgid "Reload selected documents from disk"
 msgstr "Перезавантажити позначені документи з диска"
 
-#: katemwmodonhddialog.cpp:196
+#: lib/katemwmodonhddialog.cpp:192
 #, kde-format
 msgid ""
 "Could not save the document \n"
@@ -897,81 +2085,89 @@ msgstr ""
 "Не вдалось зберегти документ \n"
 "«%1»"
 
-#: katemwmodonhddialog.cpp:328
+#: lib/katemwmodonhddialog.cpp:310
 #, kde-format
 msgid ""
-"The diff command failed. Please make sure that diff(1) is installed and in "
-"your PATH."
+"The diff command failed. Please make sure that git is installed and in your "
+"PATH."
 msgstr ""
-"Команда diff зазнала невдачі. Перевірте чи встановлено diff(1) і чи вона "
-"знаходиться у вашій PATH."
+"Не вдалося виконати команду diff. Перевірте, чи встановлено git і чи "
+"зберігається програма в одному з каталогів зі змінної PATH."
 
-#: katemwmodonhddialog.cpp:330
+#: lib/katemwmodonhddialog.cpp:312
 #, kde-format
 msgid "Error Creating Diff"
 msgstr "Помилка створення списку відмінностей"
 
-#: katemwmodonhddialog.cpp:337
+#: lib/katemwmodonhddialog.cpp:319
 #, kde-format
-msgid "Ignoring amount of white space changed, the files are identical."
-msgstr "Окрім змін у форматуванні пробілами, файли тотожні."
+msgid "[OLD]"
+msgstr "[СТАРИЙ]"
 
-#: katemwmodonhddialog.cpp:337
+#: lib/katemwmodonhddialog.cpp:320
 #, kde-format
-msgid "Diff Output"
-msgstr "Вивід Diff"
+msgid "[NEW]"
+msgstr "[НОВИЙ]"
 
-#: kateoutputview.cpp:39
+#: lib/kateoutputview.cpp:176
 #, kde-format
-msgctxt "@action:inmenu"
-msgid "Copy to Clipboard"
-msgstr "Копіювати до буфера"
+msgid "Search..."
+msgstr "Шукати…"
 
-#: kateoutputview.cpp:189
+#: lib/kateoutputview.cpp:192
 #, kde-format
-msgid "Type to filter..."
-msgstr "Введіть щось для фільтрування…"
+msgid "Copy all text to clipboard"
+msgstr "Копіювати увесь текст до буфера"
 
-#: kateoutputview.cpp:202
+#: lib/kateoutputview.cpp:197
 #, kde-format
 msgid "Clear all messages"
 msgstr "Спорожнити журнал повідомлень"
 
-#: kateoutputview.cpp:293
+#: lib/kateoutputview.cpp:409
 #, kde-format
 msgctxt "@info"
 msgid "Error"
 msgstr "Помилка"
 
-#: kateoutputview.cpp:297
+#: lib/kateoutputview.cpp:413
 #, kde-format
 msgctxt "@info"
 msgid "Warning"
 msgstr "Попередження"
 
-#: kateoutputview.cpp:301
+#: lib/kateoutputview.cpp:417
 #, kde-format
 msgctxt "@info"
 msgid "Info"
 msgstr "Інформація"
 
-#: kateoutputview.cpp:305
+#: lib/kateoutputview.cpp:422
 #, kde-format
 msgctxt "@info"
 msgid "Log"
 msgstr "Журнал"
 
-#: katesavemodifieddialog.cpp:77
+#: lib/katesavemodifieddialog.cpp:82
 #, kde-format
 msgid "Save As (%1)"
 msgstr "Зберегти як (%1)"
 
-#: katesavemodifieddialog.cpp:127
+#: lib/katesavemodifieddialog.cpp:134
 #, kde-format
 msgid "Save Documents"
 msgstr "Зберегти документи"
 
-#: katesavemodifieddialog.cpp:135
+#: lib/katesavemodifieddialog.cpp:158
+#, kde-format
+msgid ""
+"The document \"%1\" has been modified. Do you want to save your changes or "
+"discard them?"
+msgstr ""
+"До документа «%1» було внесено зміни. Хочете зберегти внесені зміни чи "
+"відкинути їх?"
+
+#: lib/katesavemodifieddialog.cpp:162
 #, kde-format
 msgid ""
 "<qt>The following documents have been modified. Do you want to save them "
@@ -979,22 +2175,22 @@ msgid ""
 msgstr ""
 "<qt>Наступні документи було змінено. Хочете зберегти їх перед виходом?</qt>"
 
-#: katesavemodifieddialog.cpp:142
+#: lib/katesavemodifieddialog.cpp:171
 #, kde-format
 msgid "Documents"
 msgstr "Документи"
 
-#: katesavemodifieddialog.cpp:142
+#: lib/katesavemodifieddialog.cpp:171
 #, kde-format
 msgid "Location"
 msgstr "Адреса"
 
-#: katesavemodifieddialog.cpp:152
+#: lib/katesavemodifieddialog.cpp:181
 #, kde-format
 msgid "Se&lect All"
 msgstr "Ви&брати все"
 
-#: katesavemodifieddialog.cpp:225
+#: lib/katesavemodifieddialog.cpp:259
 #, kde-format
 msgid ""
 "Data you requested to be saved could not be written. Please choose how you "
@@ -1003,132 +2199,251 @@ msgstr ""
 "Дані, збереження яких ви запросили, не можуть бути записані. Оберіть, будь "
 "ласка, подальші дії."
 
-#: kateviewmanager.cpp:113
+#: lib/kateurlbar.cpp:913
+#, kde-format
+msgctxt "@menu:action"
+msgid "Copy Location"
+msgstr "Копіювати адресу"
+
+#: lib/kateurlbar.cpp:918
+#, kde-format
+msgctxt "@menu:action"
+msgid "Copy Filename"
+msgstr "Копіювати назву файла"
+
+#: lib/kateviewmanager.cpp:146
 #, kde-format
 msgid "Split Ve&rtical"
-msgstr "Розбити &вертикально"
+msgstr "Розділити &вертикально"
 
-#: kateviewmanager.cpp:117
+#: lib/kateviewmanager.cpp:150
 #, kde-format
 msgid "Split the currently active view vertically into two views."
 msgstr "Вертикально розбиває поточний перегляд на два."
 
-#: kateviewmanager.cpp:121
+#: lib/kateviewmanager.cpp:154
 #, kde-format
 msgid "Split &Horizontal"
-msgstr "Розбити &горизонтально"
+msgstr "Розділити &горизонтально"
 
-#: kateviewmanager.cpp:125
+#: lib/kateviewmanager.cpp:158
 #, kde-format
 msgid "Split the currently active view horizontally into two views."
 msgstr "Розбиває поточний перегляд на два перегляди горизонтально."
 
-#: kateviewmanager.cpp:129
+#: lib/kateviewmanager.cpp:162
+#, kde-format
+msgid "Move Document to New Vertical Split"
+msgstr "Пересунути документ до нового вертикального поділу"
+
+#: lib/kateviewmanager.cpp:166
+#, kde-format
+msgid ""
+"Split the currently active view vertically into two views and move the "
+"currently active document to right view."
+msgstr ""
+"Вертикально розбиває поточний перегляд на два і пересунути поточний активний "
+"документ на праву панель."
+
+#: lib/kateviewmanager.cpp:171
+#, kde-format
+msgid "Move Document to New Horizontal Split"
+msgstr "Пересунути документ до нового горизонтального поділу"
+
+#: lib/kateviewmanager.cpp:175
+#, kde-format
+msgid ""
+"Split the currently active view horizontally into two views and move the "
+"currently active document to view below."
+msgstr ""
+"Розбиває поточний перегляд на два перегляди вертикально і пересунути "
+"поточний активний документ на нижню панель."
+
+#: lib/kateviewmanager.cpp:180
 #, kde-format
 msgid "Cl&ose Current View"
 msgstr "Закрити &поточний перегляд"
 
-#: kateviewmanager.cpp:133
+#: lib/kateviewmanager.cpp:184
 #, kde-format
 msgid "Close the currently active split view"
 msgstr "Закрити поточну активну панель розділеного перегляду"
 
-#: kateviewmanager.cpp:137
+#: lib/kateviewmanager.cpp:188
 #, kde-format
 msgid "Close Inactive Views"
 msgstr "Закрити неактивні панелі перегляду"
 
-#: kateviewmanager.cpp:140
+#: lib/kateviewmanager.cpp:191
 #, kde-format
 msgid "Close every view but the active one"
 msgstr "Закрити всі панелі перегляду, окрім поточної активної"
 
-#: kateviewmanager.cpp:144
+#: lib/kateviewmanager.cpp:195
 #, kde-format
 msgid "Hide Inactive Views"
 msgstr "Приховати неактивні панелі перегляду"
 
-#: kateviewmanager.cpp:148
+#: lib/kateviewmanager.cpp:199
 #, kde-format
 msgid "Hide every view but the active one"
 msgstr "Приховати усі панелі перегляду, окрім поточної активної"
 
-#: kateviewmanager.cpp:151
+#: lib/kateviewmanager.cpp:202
 #, kde-format
 msgid "Toggle Orientation"
 msgstr "Перемкнути орієнтацію"
 
-#: kateviewmanager.cpp:154
+#: lib/kateviewmanager.cpp:205
 #, kde-format
 msgid "Toggles the orientation of the current split view"
 msgstr "Перемкнути орієнтацію поточного режиму розділеного перегляду"
 
-#: kateviewmanager.cpp:157
+#: lib/kateviewmanager.cpp:208
 #, kde-format
 msgid "Next Split View"
 msgstr "Наступний розділ перегляду"
 
-#: kateviewmanager.cpp:161
+#: lib/kateviewmanager.cpp:213
 #, kde-format
 msgid "Make the next split view the active one."
-msgstr "Зробити активним наступну область розділеного перегляду."
+msgstr "Зробити активною наступну область розділеного перегляду."
 
-#: kateviewmanager.cpp:164
+#: lib/kateviewmanager.cpp:216
 #, kde-format
 msgid "Previous Split View"
 msgstr "Попередній розділ перегляду"
 
-#: kateviewmanager.cpp:168
+#: lib/kateviewmanager.cpp:221
 #, kde-format
 msgid "Make the previous split view the active one."
 msgstr "Зробити активною попередню область розділеного перегляду."
 
-#: kateviewmanager.cpp:171
+#: lib/kateviewmanager.cpp:224
+#, kde-format
+msgid "Left Split View"
+msgstr "Лівий розділ перегляду"
+
+#: lib/kateviewmanager.cpp:229
+#, kde-format
+msgid "Make the split view intuitively on the left the active one."
+msgstr ""
+"Зробити активною область розділеного перегляду, яку розташовано ліворуч."
+
+#: lib/kateviewmanager.cpp:232
+#, kde-format
+msgid "Right Split View"
+msgstr "Правий розділ перегляду"
+
+#: lib/kateviewmanager.cpp:237
+#, kde-format
+msgid "Make the split view intuitively on the right the active one."
+msgstr ""
+"Зробити активною область розділеного перегляду, яку розташовано праворуч."
+
+#: lib/kateviewmanager.cpp:240
+#, kde-format
+msgid "Upward Split View"
+msgstr "Верхній розділ перегляду"
+
+#: lib/kateviewmanager.cpp:245
+#, kde-format
+msgid "Make the split view intuitively upward the active one."
+msgstr "Зробити активною область розділеного перегляду, яку розташовано згори."
+
+#: lib/kateviewmanager.cpp:248
+#, kde-format
+msgid "Downward Split View"
+msgstr "Нижній розділ перегляду"
+
+#: lib/kateviewmanager.cpp:253
+#, kde-format
+msgid "Make the split view intuitively downward the active one."
+msgstr "Зробити активною область розділеного перегляду, яку розташовано внизу."
+
+#: lib/kateviewmanager.cpp:256
 #, kde-format
 msgid "Move Splitter Right"
 msgstr "Пересунути розділювач праворуч"
 
-#: kateviewmanager.cpp:174
+#: lib/kateviewmanager.cpp:259
 #, kde-format
 msgid "Move the splitter of the current view to the right"
 msgstr "Пересунути розділювач поточної панелі перегляду праворуч"
 
-#: kateviewmanager.cpp:177
+#: lib/kateviewmanager.cpp:262
 #, kde-format
 msgid "Move Splitter Left"
 msgstr "Пересунути розділювач ліворуч"
 
-#: kateviewmanager.cpp:180
+#: lib/kateviewmanager.cpp:265
 #, kde-format
 msgid "Move the splitter of the current view to the left"
 msgstr "Пересунути розділювач поточної панелі перегляду ліворуч"
 
-#: kateviewmanager.cpp:183
+#: lib/kateviewmanager.cpp:268
 #, kde-format
 msgid "Move Splitter Up"
 msgstr "Пересунути розділювач вгору"
 
-#: kateviewmanager.cpp:186
+#: lib/kateviewmanager.cpp:271
 #, kde-format
 msgid "Move the splitter of the current view up"
 msgstr "Пересунути розділювач поточної панелі перегляду вгору"
 
-#: kateviewmanager.cpp:189
+#: lib/kateviewmanager.cpp:274
 #, kde-format
 msgid "Move Splitter Down"
 msgstr "Пересунути розділювач вниз"
 
-#: kateviewmanager.cpp:192
+#: lib/kateviewmanager.cpp:277
 #, kde-format
 msgid "Move the splitter of the current view down"
 msgstr "Пересунути розділювач поточної панелі перегляду вниз"
 
-#: kateviewmanager.cpp:222 kateviewmanager.cpp:224
+#: lib/kateviewmanager.cpp:280
 #, kde-format
-msgid "Open File"
-msgstr "Відкрити файл"
+msgid "Focus Navigation Bar"
+msgstr "Фокусувати панель навігації"
 
-#: kateviewmanager.cpp:243
+#: lib/kateviewmanager.cpp:281
+#, kde-format
+msgid "Focus the navigation bar"
+msgstr "Фокусувати панель навігації"
+
+#: lib/kateviewmanager.cpp:288
+#, kde-format
+msgid "Welcome Page"
+msgstr "Сторінка вітання"
+
+#: lib/kateviewmanager.cpp:293
+#, kde-format
+msgid "Show the welcome page"
+msgstr "Показувати сторінку вітання"
+
+#: lib/kateviewmanager.cpp:299
+#, kde-format
+msgid "Toggle Scroll Synchronization"
+msgstr "Увімкнути або вимкнути синхронізацію гортання"
+
+#: lib/kateviewmanager.cpp:300
+#, kde-format
+msgid "Toggle scroll synchronization for the current view"
+msgstr "Перемкнути синхронізацію гортання для поточної панелі перегляду"
+
+#: lib/kateviewmanager.cpp:310
+#, kde-format
+msgid "Detach Active Document"
+msgstr "Від'єднати активний документ"
+
+#: lib/kateviewmanager.cpp:311
+#, kde-format
+msgid ""
+"Opens the active document in a new window and closes it in the current window"
+msgstr ""
+"Відкриває активний документ у новому вікні і закриває його у поточному вікні"
+
+#: lib/kateviewmanager.cpp:386
 #, kde-format
 msgid ""
 "<p>You are attempting to open one or more large files:</p><ul>%1</ul><p>Do "
@@ -1140,38 +2455,80 @@ msgstr ""
 "p><p><strong>Зауважте, що протягом відкриття великого файла kate може "
 "припинити відповідати на ваші запити.</strong></p>"
 
-#: kateviewmanager.cpp:246
+#: lib/kateviewmanager.cpp:389
 #, kde-format
 msgid "Opening Large File"
 msgstr "Відкриття великого файла"
 
-#: kateviewspace.cpp:54
+#: lib/kateviewmanager.cpp:567
 #, kde-format
-msgid "Go Back"
-msgstr "Перейти назад"
+msgid "%1 cannot open folders"
+msgstr "%1 не може відкривати теки"
 
-#: kateviewspace.cpp:67
+#: lib/kateviewmanager.cpp:584
 #, kde-format
-msgid "Go Forward"
-msgstr "Перейти вперед"
+msgid "The plugin required to open folders was not found"
+msgstr "Не знайдено додатка, який потрібен для відкриття тек"
 
-#: kateviewspace.cpp:94
+#: lib/kateviewmanager.cpp:590
+#, kde-format
+msgid ""
+"In order to open folders, the <b>%1</b> plugin must be enabled. Enable it?"
+msgstr ""
+"Для відкриття тек має бути увімкнено додаток <b>%1</b>. Увімкнути додаток?"
+
+#: lib/kateviewmanager.cpp:593
+#, kde-format
+msgctxt "@title:window"
+msgid "Open Folder"
+msgstr "Відкрити теку"
+
+#: lib/kateviewmanager.cpp:594
+#, kde-format
+msgctxt "@action:button"
+msgid "Enable"
+msgstr "Увімкнути"
+
+#: lib/kateviewmanager.cpp:601
+#, kde-format
+msgid "Failed to enable <b>%1</b> plugin"
+msgstr "Не вдалося увімкнути додаток <b>%1</b>"
+
+#: lib/kateviewmanager.cpp:622
+#, kde-format
+msgid "The file '%1' does not exist"
+msgstr "Файла «%1» не існує"
+
+#: lib/kateviewspace.cpp:93
+#, kde-format
+msgid "Synchronize Scrolling"
+msgstr "Синхронізувати гортання"
+
+#: lib/kateviewspace.cpp:95
+#, kde-format
+msgid ""
+"Synchronize scrolling of this split-view with other synchronized split-views"
+msgstr ""
+"Синхронізувати гортання у цьому розділеному перегляді із іншими "
+"синхронізованими розділеними переглядами"
+
+#: lib/kateviewspace.cpp:117
 #, kde-format
 msgctxt "indicator for more documents"
 msgid "+%1"
 msgstr "+%1"
 
-#: kateviewspace.cpp:99 kateviewspace.cpp:153
+#: lib/kateviewspace.cpp:122 lib/kateviewspace.cpp:248
 #, kde-format
 msgid "Click here to switch to the Quick Open view."
 msgstr "Клацніть тут, щоб перемкнутися на панель швидкого відкриття."
 
-#: kateviewspace.cpp:112
+#: lib/kateviewspace.cpp:139
 #, kde-format
 msgid "Control view space splitting"
 msgstr "Керування поділом простору перегляду"
 
-#: kateviewspace.cpp:154
+#: lib/kateviewspace.cpp:249
 #, kde-format
 msgid ""
 "Currently, there is one more document open. To see all open documents, "
@@ -1196,598 +2553,260 @@ msgstr[3] ""
 "перемкніться на панель швидкого перегляду наведенням вказівника миші сюди з "
 "наступним клацанням лівою кнопкою миші."
 
-#: kateviewspace.cpp:571
+#: lib/kateviewspace.cpp:1129
+#, kde-format
+msgid "Close Tab"
+msgstr "Закрити вкладку"
+
+#: lib/kateviewspace.cpp:1147
 #, kde-format
 msgid "&Close Document"
 msgstr "&Закрити документ"
 
-#: kateviewspace.cpp:572
+#: lib/kateviewspace.cpp:1148
 #, kde-format
 msgid "Close Other &Documents"
 msgstr "Закрити &інші документи"
 
-#: kateviewspace.cpp:581
+#: lib/kateviewspace.cpp:1149
 #, kde-format
-msgid "Compare with active document"
+msgid "Close &All Documents"
+msgstr "Закрити &всі документи"
+
+#: lib/kateviewspace.cpp:1153
+#, kde-format
+msgid "D&etach Document"
+msgstr "В&ід'єднати документ"
+
+#: lib/kateviewspace.cpp:1155
+#, kde-format
+msgid "Opens the document in a new window and closes it in the current window"
+msgstr "Відкриває документ у новому вікні і закриває його у поточному вікні"
+
+#: lib/kateviewspace.cpp:1164
+#, kde-format
+msgid "Compare with Active Document"
 msgstr "Порівняти із активним документом"
 
-#: kateviewspace.cpp:637
+#: lib/kateviewspace.cpp:1170
+#, kde-format
+msgid "Compare with Active Document Using"
+msgstr "Порівняти із активним документом за допомогою"
+
+#: lib/kateviewspace.cpp:1240
 #, kde-format
 msgid "Could not start program"
 msgstr "Не вдалося запустити програму"
 
-#: kateviewspace.cpp:638
+#: lib/kateviewspace.cpp:1241
 #, kde-format
 msgid "The selected program could not be started. Maybe it is not installed."
 msgstr "Не вдалося запустити вибрану програму. Можливо, її не встановлено."
 
-#: main.cpp:128
-#, kde-format
-msgid "Kate"
-msgstr "Kate"
-
-#: main.cpp:130
-#, kde-format
-msgid "Kate - Advanced Text Editor"
-msgstr "Kate — Потужний текстовий редактор"
-
-#: main.cpp:132
-#, kde-format
-msgid "(c) 2000-2021 The Kate Authors"
-msgstr "© Автори Kate, 2000–2021"
-
-#: main.cpp:150
-#, kde-format
-msgid "Christoph Cullmann"
-msgstr "Christoph Cullmann"
-
-#: main.cpp:150
-#, kde-format
-msgid "Maintainer"
-msgstr "Супровід"
-
-#: main.cpp:151
-#, kde-format
-msgid "Dominik Haumann"
-msgstr "Dominik Haumann"
-
-#: main.cpp:151 main.cpp:154 main.cpp:156 main.cpp:159 main.cpp:165
-#, kde-format
-msgid "Core Developer"
-msgstr "Головний розробник"
-
-#: main.cpp:152
-#, kde-format
-msgid "Sven Brauch"
-msgstr "Sven Brauch"
-
-#: main.cpp:152 main.cpp:153 main.cpp:160
-#, kde-format
-msgid "Developer"
-msgstr "Розробник"
-
-#: main.cpp:153
-#, kde-format
-msgid "Kåre Särs"
-msgstr "Kåre Särs"
-
-#: main.cpp:154
-#, kde-format
-msgid "Anders Lund"
-msgstr "Anders Lund"
-
-#: main.cpp:155
-#, kde-format
-msgid "Joseph Wenninger"
-msgstr "Joseph Wenninger"
-
-#: main.cpp:159
-#, kde-format
-msgid "Hamish Rodda"
-msgstr "Hamish Rodda"
-
-#: main.cpp:160
-#, kde-format
-msgid "Alexander Neundorf"
-msgstr "Alexander Neundorf"
-
-#: main.cpp:161
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:161
-#, kde-format
-msgid "The cool buffersystem"
-msgstr "Передова система буферизації"
-
-#: main.cpp:162
-#, kde-format
-msgid "Charles Samuels"
-msgstr "Charles Samuels"
-
-#: main.cpp:162
-#, kde-format
-msgid "The Editing Commands"
-msgstr "Команди редагування"
-
-#: main.cpp:163
-#, kde-format
-msgid "Matt Newell"
-msgstr "Matt Newell"
-
-#: main.cpp:163
-#, kde-format
-msgid "Testing, ..."
-msgstr "Тестування, …"
-
-#: main.cpp:164
-#, kde-format
-msgid "Michael Bartl"
-msgstr "Michael Bartl"
-
-#: main.cpp:164
-#, kde-format
-msgid "Former Core Developer"
-msgstr "Попередній розробник ядра"
-
-#: main.cpp:165
-#, kde-format
-msgid "Michael McCallum"
-msgstr "Michael McCallum"
-
-#: main.cpp:166
-#, kde-format
-msgid "Jochen Wilhemly"
-msgstr "Jochen Wilhemly"
-
-#: main.cpp:166
-#, kde-format
-msgid "KWrite Author"
-msgstr "Автор KWrite"
-
-#: main.cpp:167
-#, kde-format
-msgid "Michael Koch"
-msgstr "Michael Koch"
-
-#: main.cpp:167
-#, kde-format
-msgid "KWrite port to KParts"
-msgstr "Порт KWrite до KParts"
-
-#: main.cpp:168
-#, kde-format
-msgid "Christian Gebauer"
-msgstr "Christian Gebauer"
-
-#: main.cpp:169
-#, kde-format
-msgid "Simon Hausmann"
-msgstr "Simon Hausmann"
-
-#: main.cpp:170
-#, kde-format
-msgid "Glen Parker"
-msgstr "Glen Parker"
-
-#: main.cpp:170
-#, kde-format
-msgid "KWrite Undo History, Kspell integration"
-msgstr "Історія повернень KWrite, інтеграція з Kspell"
-
-#: main.cpp:171
-#, kde-format
-msgid "Scott Manson"
-msgstr "Scott Manson"
-
-#: main.cpp:171
-#, kde-format
-msgid "KWrite XML Syntax highlighting support"
-msgstr "Підсвічування синтаксису XML для KWrite"
-
-#: main.cpp:172
-#, kde-format
-msgid "John Firebaugh"
-msgstr "John Firebaugh"
-
-#: main.cpp:172
-#, kde-format
-msgid "Patches and more"
-msgstr "Латки та інше"
-
-#: main.cpp:173
-#, kde-format
-msgid "Pablo Martín"
-msgstr "Pablo Martín"
-
-#: main.cpp:174
-#, kde-format
-msgid "Python Plugin Developer"
-msgstr "Розробника додатка Python"
-
-#: main.cpp:177
-#, kde-format
-msgid "Gerald Senarclens de Grancy"
-msgstr "Gerald Senarclens de Grancy"
-
-#: main.cpp:178
-#, kde-format
-msgid "QA and Scripting"
-msgstr "Забезпечення якості та робота зі скриптами"
-
-#: main.cpp:182
-#, kde-format
-msgid "Tyson Tan"
-msgstr "Тайсон Тан"
-
-#: main.cpp:183
-#, kde-format
-msgid "Designer of Kate's mascot 'Kate the Cyber Woodpecker'"
-msgstr "Дизайнер маскота Kate «Kate — кібердятел»"
-
-#: main.cpp:186
-#, kde-format
-msgid "Matteo Merli"
-msgstr "Matteo Merli"
-
-#: main.cpp:186
-#, kde-format
-msgid "Highlighting for RPM Spec-Files, Perl, Diff and more"
-msgstr "Підсвічування для файлів RPM Spec, Perl, Diff та інших"
-
-#: main.cpp:187
-#, kde-format
-msgid "Rocky Scaletta"
-msgstr "Rocky Scaletta"
-
-#: main.cpp:187
-#, kde-format
-msgid "Highlighting for VHDL"
-msgstr "Підсвічування для VHDL"
-
-#: main.cpp:188
-#, kde-format
-msgid "Yury Lebedev"
-msgstr "Yury Lebedev"
-
-#: main.cpp:188
-#, kde-format
-msgid "Highlighting for SQL"
-msgstr "Підсвічування для SQL"
-
-#: main.cpp:189
-#, kde-format
-msgid "Chris Ross"
-msgstr "Chris Ross"
-
-#: main.cpp:189
-#, kde-format
-msgid "Highlighting for Ferite"
-msgstr "Підсвічування для Ferite"
-
-#: main.cpp:190
-#, kde-format
-msgid "Nick Roux"
-msgstr "Nick Roux"
-
-#: main.cpp:190
-#, kde-format
-msgid "Highlighting for ILERPG"
-msgstr "Підсвічування для ILERPG"
-
-#: main.cpp:191
-#, kde-format
-msgid "Carsten Niehaus"
-msgstr "Carsten Niehaus"
-
-#: main.cpp:191
-#, kde-format
-msgid "Highlighting for LaTeX"
-msgstr "Підсвічування для LaTeX"
-
-#: main.cpp:192
-#, kde-format
-msgid "Per Wigren"
-msgstr "Per Wigren"
-
-#: main.cpp:192
-#, kde-format
-msgid "Highlighting for Makefiles, Python"
-msgstr "Підсвічування для Makefiles, Python"
-
-#: main.cpp:193
-#, kde-format
-msgid "Jan Fritz"
-msgstr "Jan Fritz"
-
-#: main.cpp:193
-#, kde-format
-msgid "Highlighting for Python"
-msgstr "Підсвічування для Python"
-
-#: main.cpp:194
-#, kde-format
-msgid "Daniel Naber"
-msgstr "Daniel Naber"
-
-#: main.cpp:195
-#, kde-format
-msgid "Roland Pabel"
-msgstr "Roland Pabel"
-
-#: main.cpp:195
-#, kde-format
-msgid "Highlighting for Scheme"
-msgstr "Підсвічування для Scheme"
-
-#: main.cpp:196
-#, kde-format
-msgid "Cristi Dumitrescu"
-msgstr "Cristi Dumitrescu"
-
-#: main.cpp:196
-#, kde-format
-msgid "PHP Keyword/Datatype list"
-msgstr "Список типів даних та ключових слів PHP"
-
-#: main.cpp:197
-#, kde-format
-msgid "Carsten Pfeiffer"
-msgstr "Carsten Pfeiffer"
-
-#: main.cpp:197
-#, kde-format
-msgid "Very nice help"
-msgstr "Дуже гарна довідка"
-
-#: main.cpp:198
-#, kde-format
-msgid "All people who have contributed and I have forgotten to mention"
-msgstr "Всі люди, що зробили свій внесок та я забув їх навести"
-
-#: main.cpp:223
-#, kde-format
-msgid "Start Kate with a given session."
-msgstr "Запустити Kate із вказаним сеансом."
-
-#: main.cpp:224
-#, kde-format
-msgid "session"
-msgstr "сеанс"
-
-#: main.cpp:229
-#, kde-format
-msgid "Start Kate with a new anonymous session, implies '-n'."
-msgstr "Запустити Kate у новому анонімному сеансі з параметром «-n»."
-
-#: main.cpp:234
+#: lib/mainwindow_commands.cpp:44
 #, kde-format
 msgid ""
-"Force start of a new kate instance (is ignored if start is used and another "
-"kate instance already has the given session opened), forced if no parameters "
-"and no URLs are given at all."
+"No toolview found for name: '%1'. Is the plugin for it disabled or the name "
+"is misspelled?"
 msgstr ""
-"Примусово запустити новий екземпляр kate (буде проігноровано, якщо було "
-"використано запуск, а вказаний сеанс kate уже було відкрито). Буде "
-"використано, якщо ви не вкажете ніяких параметрів і ніяких адрес URL."
+"Не знайдено панелі інструментів для назви «%1». Додаток для неї вимкнено чи "
+"ви неправильно вписали назву?"
 
-#: main.cpp:240
+#: lib/mainwindow_commands.cpp:47
+#, kde-format
+msgid "Script error. Expected a toolview name. Available: %1"
+msgstr ""
+"Помилка скрипту. Мало бути вказано назву панелі інструментів. Доступні: %1"
+
+#: lib/mainwindow_commands.cpp:55
+#, kde-format
+msgid "Scripting"
+msgstr "Скрипти"
+
+#: lib/mainwindow_commands.cpp:76
 #, kde-format
 msgid ""
-"If using an already running kate instance, block until it exits, if URLs "
-"given to open."
+"'showtoolview $toolview_name'. Show a toolview panel. Available panels: %1"
 msgstr ""
-"За використання вже запущеного екземпляра kate, заблокувати дії у ньому до "
-"завершення його роботи, якщо надійшов наказ відкрити певні адреси URL."
+"'showtoolview $toolview_name'. Показати панель інструментів. Доступні "
+"панелі: %1"
 
-#: main.cpp:246
+#: lib/mainwindow_commands.cpp:78
 #, kde-format
 msgid ""
-"Only try to reuse kate instance with this pid (is ignored if start is used "
-"and another kate instance already has the given session opened)."
+"'showtoolview $toolview_name'. Hide a toolview panel. Available panels: %1"
 msgstr ""
-"Повторно використовувати лише екземпляр kate з вказаним pid буде "
-"проігноровано, якщо було використано запуск, а вказаний сеанс kate уже було "
-"відкрито)."
+"'showtoolview $toolview_name'. Приховати панель інструментів. Доступні "
+"панелі: %1"
 
-#: main.cpp:247
+#: lib/quickopen/katequickopenlineedit.cpp:47
 #, kde-format
-msgid "pid"
-msgstr "pid"
-
-#: main.cpp:252
-#, kde-format
-msgid "Set encoding for the file to open."
-msgstr "Встановити кодування даних у файлі, який буде відкрито."
-
-#: main.cpp:253
-#, kde-format
-msgid "encoding"
-msgstr "кодування"
-
-#: main.cpp:257
-#, kde-format
-msgid "Navigate to this line."
-msgstr "Перейти до вказаного рядка."
-
-#: main.cpp:257
-#, kde-format
-msgid "line"
-msgstr "рядок"
-
-#: main.cpp:262
-#, kde-format
-msgid "Navigate to this column."
-msgstr "Перейти до вказаної позиції у рядку."
-
-#: main.cpp:263
-#, kde-format
-msgid "column"
-msgstr "позиція"
-
-#: main.cpp:267
-#, kde-format
-msgid "Read the contents of stdin."
-msgstr "Прочитати вміст потоку stdin."
-
-#: main.cpp:272
-#, kde-format
-msgid "The files/URLs opened by the application will be deleted after use"
-msgstr "Файли/адреси відкриті програмою буде вилучено після використання"
-
-#: main.cpp:276
-#, kde-format
-msgid "Documents to open."
-msgstr "Документи, які слід відкрити."
-
-#: main.cpp:276
-#, kde-format
-msgid "[urls...]"
-msgstr "[адреси...]"
-
-#: quickopen/katequickopenlineedit.cpp:21
-#, kde-format
-msgid "Quick Open Search (configure via context menu)"
+msgctxt ""
+"The text is shown as a placeholder in an input line edit, keep it short"
+msgid "Search files in all projects (right click to configure)"
 msgstr ""
-"Пошук пришвидшеного відкриття (налаштуйте за допомогою контекстного меню)"
+"Шукати файли в усіх проєктах (клацніть правою кнопкою миші, щоб налаштувати)"
 
-#: quickopen/katequickopenlineedit.cpp:57
+#: lib/quickopen/katequickopenlineedit.cpp:50
+#, kde-format
+msgctxt ""
+"The text is shown as a placeholder in an input line edit, keep it short"
+msgid "Search files in current project (right click to configure)"
+msgstr ""
+"Шукати файли у поточному проєкті (клацніть правою кнопкою миші, щоб "
+"налаштувати)"
+
+#: lib/quickopen/katequickopenlineedit.cpp:72
 #, kde-format
 msgid "All Projects"
 msgstr "Всі проєкти"
 
-#: quickopen/katequickopenlineedit.cpp:69
+#: lib/quickopen/katequickopenlineedit.cpp:85
 #, kde-format
 msgid "Current Project"
 msgstr "Поточний проєкт"
 
-#: session/katesessionmanagedialog.cpp:29
+#: lib/quickopen/katequickopenlineedit.cpp:101
+#, kde-format
+msgid "Fuzzy Filtering"
+msgstr "Нечітке фільтрування"
+
+#: lib/quickopen/katequickopenlineedit.cpp:112
+#, kde-format
+msgid "Wildcard Filtering"
+msgstr "Фільтрування за шаблоном"
+
+#: lib/quickopen/katequickopenmodel.cpp:161
+#, kde-format
+msgid "Project: %1"
+msgstr "Проєкт: %1"
+
+#: lib/session/katesessionmanagedialog.cpp:28
 #, kde-format
 msgid "Manage Sessions"
 msgstr "Керування сеансами"
 
-#: session/katesessionmanagedialog.cpp:65
+#: lib/session/katesessionmanagedialog.cpp:67
 #, kde-format
 msgid "Session Chooser"
 msgstr "Вибір сеансу"
 
-#: session/katesessionmanagedialog.cpp:149
+#: lib/session/katesessionmanagedialog.cpp:151
 #, kde-format
 msgid "Restore"
 msgstr "Відновити"
 
-#: session/katesessionmanagedialog.cpp:305
+#: lib/session/katesessionmanagedialog.cpp:308
 #, kde-format
 msgid "Session will be deleted on dialog close"
 msgstr "Сеанс буде вилучено після закриття вікна"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, m_filterBox)
-#: session/katesessionmanagedialog.ui:30
+#: lib/session/katesessionmanagedialog.ui:30
 #, kde-format
 msgid "Filter Sessions"
 msgstr "Фільтрування сеансів"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, m_sessionList)
-#: session/katesessionmanagedialog.ui:55
+#: lib/session/katesessionmanagedialog.ui:55
 #, kde-format
 msgid "Session Name"
 msgstr "Назва сеансу"
 
 #. i18n: The number of open documents
 #. i18n: ectx: property (text), widget (QTreeWidget, m_sessionList)
-#: session/katesessionmanagedialog.ui:60
+#: lib/session/katesessionmanagedialog.ui:60
 #, kde-format
 msgid "Files"
 msgstr "Файли"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, m_sessionList)
-#: session/katesessionmanagedialog.ui:68
+#: lib/session/katesessionmanagedialog.ui:68
 #, kde-format
 msgid "Last opened"
 msgstr "Останні відкриті"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_openButton)
-#: session/katesessionmanagedialog.ui:87
+#: lib/session/katesessionmanagedialog.ui:87
 #, kde-format
 msgid "&Open"
 msgstr "&Відкрити"
 
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewSession)
 #. i18n: ectx: property (text), widget (QPushButton, m_newButton)
-#: session/katesessionmanagedialog.ui:98
+#: lib/session/katesessionmanagedialog.ui:97 lib/welcomeview/welcomeview.ui:363
 #, kde-format
 msgid "New Session"
 msgstr "Новий сеанс"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_templateButton)
-#: session/katesessionmanagedialog.ui:108
+#: lib/session/katesessionmanagedialog.ui:107
 #, kde-format
 msgid "Open as Template"
 msgstr "Відкрити як шаблон"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_dontAskCheckBox)
-#: session/katesessionmanagedialog.ui:115
+#: lib/session/katesessionmanagedialog.ui:114
 #, kde-format
 msgid "Don't ask again"
 msgstr "Більше не питати"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_copyButton)
-#: session/katesessionmanagedialog.ui:135
+#: lib/session/katesessionmanagedialog.ui:134
 #, kde-format
 msgid "Duplicate..."
 msgstr "Здублювати…"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_renameButton)
-#: session/katesessionmanagedialog.ui:142
+#: lib/session/katesessionmanagedialog.ui:141
 #, kde-format
 msgid "&Rename..."
 msgstr "&Перейменувати…"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_deleteButton)
-#: session/katesessionmanagedialog.ui:162
+#: lib/session/katesessionmanagedialog.ui:161
 #, kde-format
 msgid "Delete"
 msgstr "Вилучити"
 
-#. i18n: ectx: property (text), widget (QPushButton, m_closeButton)
-#: session/katesessionmanagedialog.ui:184
-#, kde-format
-msgid "Close"
-msgstr "Закрити"
-
-#: session/katesessionmanager.cpp:107
+#: lib/session/katesessionmanager.cpp:143
 #, kde-format
 msgid ""
-"Internal error: there is more than one instance open for a given session."
+"Session '%1' is already opened in another Kate instance. Switch to that or "
+"reopen in this instance?"
 msgstr ""
-"Внутрішня помилка: з вказаним сеансом відкрито декілька екземплярів програми"
+"Сеанс «%1» вже відкрито у іншому екземплярі Kate. Перемкнутися на той "
+"екземпляр чи повторно відкрити файл у цьому екземплярі?"
 
-#: session/katesessionmanager.cpp:113
+#: lib/session/katesessionmanager.cpp:145
 #, kde-format
-msgid ""
-"Session '%1' is already opened in another kate instance, change there "
-"instead of reopening?"
-msgstr ""
-"Сеанс «%1» вже відкрито у іншому екземплярі kate, перемкнутися на цей сеанс "
-"і не відкривати ще одного вікна?"
+msgctxt "@action:button"
+msgid "Switch to Instance"
+msgstr "Перемкнутися на екземпляр"
 
-#: session/katesessionmanager.cpp:306
+#: lib/session/katesessionmanager.cpp:146
+#, kde-format
+msgctxt "@action:button"
+msgid "Reopen"
+msgstr "Повторно відкрити"
+
+#: lib/session/katesessionmanager.cpp:352
 #, kde-format
 msgid "The session could not be renamed to \"%1\". Failed to write to \"%2\""
 msgstr ""
 "Сеанс не можна перейменовувати на «%1». Не вдалося виконати запис до «%2»."
 
-#: session/katesessionmanager.cpp:307
+#: lib/session/katesessionmanager.cpp:353
 #, kde-format
 msgid "Session Renaming"
 msgstr "Перейменування сеансу"
 
-#: session/katesessionmanager.cpp:450
+#: lib/session/katesessionmanager.cpp:513
 #, kde-format
 msgid "Session name:"
 msgstr "Назва сеансу:"
 
-#: session/katesessionmanager.cpp:452
+#: lib/session/katesessionmanager.cpp:515
 #, kde-format
 msgid ""
 "There is already an existing session with your chosen name: %1\n"
@@ -1796,94 +2815,112 @@ msgstr ""
 "Вже існує сеанс з такою назвою: %1.\n"
 "Будь ласка, виберіть іншу назву."
 
-#: session/katesessionmanager.cpp:454
+#: lib/session/katesessionmanager.cpp:517
 #, kde-format
 msgid "To save a session, you must specify a name."
 msgstr "Щоб зберегти сеанс, потрібно вказати назву."
 
-#: session/katesessionmanager.cpp:481
+#: lib/session/katesessionmanager.cpp:544
 #, kde-format
 msgid "Specify a name for this session"
 msgstr "Вкажіть назву цього сеансу"
 
-#: session/katesessionmanager.cpp:483
+#: lib/session/katesessionmanager.cpp:546
 #, kde-format
 msgid "Specify a new name for session: %1"
 msgstr "Вкажіть нову назву сеансу: %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, gbAppStartup)
-#: ui/sessionconfigwidget.ui:17
+#: lib/ui/sessionconfigwidget.ui:17
 #, kde-format
 msgid "Application Startup Behavior"
 msgstr "Параметри запуску програми"
 
 #. i18n: ectx: property (text), widget (QRadioButton, startNewSessionRadioButton)
-#: ui/sessionconfigwidget.ui:23
+#: lib/ui/sessionconfigwidget.ui:23
 #, kde-format
 msgid "&Start new session"
 msgstr "&Почати новий сеанс"
 
 #. i18n: ectx: property (text), widget (QRadioButton, loadLastUserSessionRadioButton)
-#: ui/sessionconfigwidget.ui:30
+#: lib/ui/sessionconfigwidget.ui:30
 #, kde-format
 msgid "&Load last used session"
 msgstr "&Завантажити останній сеанс"
 
 #. i18n: ectx: property (text), widget (QRadioButton, manuallyChooseSessionRadioButton)
-#: ui/sessionconfigwidget.ui:37
+#: lib/ui/sessionconfigwidget.ui:37
 #, kde-format
 msgid "&Manually choose a session"
 msgstr "&Вручну вибрати сеанс"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/sessionconfigwidget.ui:47
+#: lib/ui/sessionconfigwidget.ui:47
 #, kde-format
-msgid "Application Shutdown Behavior"
-msgstr "Параметри завершення програми"
+msgid "Application Startup/Shutdown Behavior"
+msgstr "Параметри запуску/завершення програми"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/sessionconfigwidget.ui:55
+#: lib/ui/sessionconfigwidget.ui:55
 #, kde-format
 msgid "Automatically save and restore:"
 msgstr "Автоматично зберігати і відновлювати:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stashNewUnsavedFiles)
-#: ui/sessionconfigwidget.ui:67
+#: lib/ui/sessionconfigwidget.ui:67
 #, kde-format
 msgid "Newly-created unsaved files"
 msgstr "Новостворені незбережені файли"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stashUnsavedFilesChanges)
-#: ui/sessionconfigwidget.ui:77
+#: lib/ui/sessionconfigwidget.ui:77
 #, kde-format
 msgid "Files with unsaved changes"
 msgstr "Файли із незбереженими змінами"
 
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showWelcomeViewForNewWindow)
+#: lib/ui/sessionconfigwidget.ui:88
+#, kde-format
+msgid "If disabled, an untitled document will be shown for new windows."
+msgstr "Якщо не позначено, у нових вікнах буде показано документ без назви."
+
+#. i18n: ectx: property (text), widget (QCheckBox, showWelcomeViewForNewWindow)
+#: lib/ui/sessionconfigwidget.ui:91
+#, kde-format
+msgid "Show welcome view for new windows"
+msgstr "Показувати вітальну панель у нових вікнах"
+
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, modCloseAfterLast)
-#: ui/sessionconfigwidget.ui:88
+#: lib/ui/sessionconfigwidget.ui:98
 #, kde-format
 msgid ""
-"If enabled, Kate will shutdown when the last file being edited is closed, "
-"otherwise a blank page will open so that you can start a new file."
+"If enabled, the application will shutdown when the last file being edited is "
+"closed, otherwise a blank page will open so that you can start a new file."
 msgstr ""
-"Якщо позначено, Kate завершуватиме роботу, якщо закрито останній редагований "
-"файл. Якщо не позначено, програма продовжуватиме роботу із порожньою "
-"сторінкою, з якої ви можете розпочати створення нового файла."
+"Якщо позначено, програма завершуватиме роботу, якщо закрито останній "
+"редагований файл. Якщо не позначено, програма продовжуватиме роботу із "
+"порожньою сторінкою, з якої ви можете розпочати створення нового файла."
 
 #. i18n: ectx: property (text), widget (QCheckBox, modCloseAfterLast)
-#: ui/sessionconfigwidget.ui:91
+#: lib/ui/sessionconfigwidget.ui:101
 #, kde-format
-msgid "Close Kate entirely when the last file is closed"
-msgstr "Завершувати роботу Kate, якщо закрито вікно останнього файла"
+msgid "Close the application entirely when the last file is closed"
+msgstr "Завершувати роботу програми, якщо закрито вікно останнього файла"
+
+#. i18n: ectx: property (text), widget (QCheckBox, winClosesDocuments)
+#: lib/ui/sessionconfigwidget.ui:108
+#, kde-format
+msgid "Close documents with the window they belong to"
+msgstr "Закривати документи разом із вікном, якому вони належать"
 
 #. i18n: ectx: property (title), widget (QGroupBox, gbElements)
-#: ui/sessionconfigwidget.ui:101
+#: lib/ui/sessionconfigwidget.ui:118
 #, kde-format
 msgid "Session Elements"
 msgstr "Елементи сеансу"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/sessionconfigwidget.ui:107
+#: lib/ui/sessionconfigwidget.ui:124
 #, kde-format
 msgid ""
 "The session contains the list of open documents, recently opened files list, "
@@ -1895,29 +2932,29 @@ msgstr ""
 "сеансу буде відновлено усі його елементи."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/sessionconfigwidget.ui:119
+#: lib/ui/sessionconfigwidget.ui:136
 #, kde-format
 msgid "Maximum number of entries in recent file list:"
 msgstr "Максимальна кількість записів у списку нещодавно відкритих файлів:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, restoreVC)
-#: ui/sessionconfigwidget.ui:147
+#: lib/ui/sessionconfigwidget.ui:164
 #, kde-format
 msgid ""
 "Check this if you want all your views and frames restored each time you open "
-"Kate."
+"the application."
 msgstr ""
 "Позначте, якщо ви хочете відновлювати стан усіх панелей перегляду під час "
-"запуску Kate."
+"запуску програми."
 
 #. i18n: ectx: property (text), widget (QCheckBox, restoreVC)
-#: ui/sessionconfigwidget.ui:150
+#: lib/ui/sessionconfigwidget.ui:167
 #, kde-format
 msgid "Include &window configuration"
 msgstr "Включити конфігурацію &вікон"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, saveMetaInfos)
-#: ui/sessionconfigwidget.ui:160
+#: lib/ui/sessionconfigwidget.ui:177
 #, kde-format
 msgid ""
 "Check this if you want document configuration like for example bookmarks to "
@@ -1929,25 +2966,279 @@ msgstr ""
 "якщо документ не було змінено до повторного його відкриття."
 
 #. i18n: ectx: property (title), widget (QGroupBox, saveMetaInfos)
-#: ui/sessionconfigwidget.ui:163
+#: lib/ui/sessionconfigwidget.ui:180
 #, kde-format
 msgid "Keep &meta-information past sessions"
 msgstr "Зберігати &метаінформацію проміж сеансами"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/sessionconfigwidget.ui:174
+#: lib/ui/sessionconfigwidget.ui:191
 #, kde-format
 msgid "Delete unused meta-information after:"
 msgstr "Вилучати метадані, що не використовуються, через:"
 
-#~ msgid "Jump to previous location"
-#~ msgstr "Повернутися до попереднього місця"
+#: lib/welcomeview/welcomeview.cpp:57
+#, kde-format
+msgid "Welcome to %1"
+msgstr "Вітаємо у %1"
 
-#~ msgid "Jump to next location"
-#~ msgstr "Перейти до наступного місця"
+#: lib/welcomeview/welcomeview.cpp:61
+#, kde-format
+msgid "Recent Documents and Projects"
+msgstr "Недавні документи і проєкти"
 
-#~ msgid "Git"
-#~ msgstr "Git"
+#: lib/welcomeview/welcomeview.cpp:61
+#, kde-format
+msgid "Recent Documents"
+msgstr "Недавні документи"
+
+#: lib/welcomeview/welcomeview.cpp:64
+#, kde-format
+msgid "No recent documents or projects"
+msgstr "Немає недавніх документів або проєктів"
+
+#: lib/welcomeview/welcomeview.cpp:64
+#, kde-format
+msgid "No recent documents"
+msgstr "Немає недавніх документів"
+
+#: lib/welcomeview/welcomeview.cpp:118
+#, kde-format
+msgid "No saved sessions"
+msgstr "Немає збережених сеансів"
+
+#: lib/welcomeview/welcomeview.cpp:248
+#, kde-format
+msgid "Open Selected Files..."
+msgstr "Відкрити позначені файли…"
+
+#: lib/welcomeview/welcomeview.cpp:261
+#, kde-format
+msgid "Copy &Location"
+msgstr "Копіювати &адресу"
+
+#: lib/welcomeview/welcomeview.cpp:276
+#, kde-format
+msgid "&Remove"
+msgstr "Ви&лучити"
+
+#. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
+#: lib/welcomeview/welcomeview.ui:17
+#, kde-format
+msgid "Welcome"
+msgstr "Вітаємо"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
+#: lib/welcomeview/welcomeview.ui:179
+#, kde-format
+msgid "New File"
+msgstr "Створити файл"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonOpenFolder)
+#: lib/welcomeview/welcomeview.ui:186
+#, kde-format
+msgid "Open Folder..."
+msgstr "Відкрити теку…"
+
+#. i18n: ectx: property (text), widget (QLabel, labelRecentItems)
+#: lib/welcomeview/welcomeview.ui:193
+#, kde-format
+msgid "Recent Files"
+msgstr "Нещодавні файли"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonOpenFile)
+#: lib/welcomeview/welcomeview.ui:203
+#, kde-format
+msgid "Open File..."
+msgstr "Відкрити файл…"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentItems)
+#: lib/welcomeview/welcomeview.ui:242
+#, kde-format
+msgid "Clear Recent Files"
+msgstr "Очистити недавні файли"
+
+#. i18n: ectx: property (text), widget (QLabel, labelHelp)
+#: lib/welcomeview/welcomeview.ui:270
+#, kde-format
+msgid "Help"
+msgstr "Довідка"
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
+#: lib/welcomeview/welcomeview.ui:280
+#, kde-format
+msgid "Visit homepage"
+msgstr "Відвідати сайт"
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelContribute)
+#: lib/welcomeview/welcomeview.ui:293
+#, kde-format
+msgid "Get involved"
+msgstr "Приєднатися"
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
+#: lib/welcomeview/welcomeview.ui:306
+#, kde-format
+msgid "Read handbook"
+msgstr "Прочитати підручник"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSavedSessions)
+#: lib/welcomeview/welcomeview.ui:353
+#, kde-format
+msgid "Saved Sessions"
+msgstr "Збережені сеанси"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonManageSessions)
+#: lib/welcomeview/welcomeview.ui:389
+#, kde-format
+msgid "Manage Sessions..."
+msgstr "Керування сеансами…"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowForNewWindow)
+#: lib/welcomeview/welcomeview.ui:442
+#, kde-format
+msgid "Show welcome page for new window"
+msgstr "Показувати вітальну сторінку для нових вікон"
+
+#~ msgid "Quick Open Search (configure via context menu)"
+#~ msgstr ""
+#~ "Пошук пришвидшеного відкриття (налаштуйте за допомогою контекстного меню)"
+
+#~ msgid "Show for new window"
+#~ msgstr "Показувати для нового вікна"
+
+#~ msgid ""
+#~ "Internal error: there is more than one instance open for a given session."
+#~ msgstr ""
+#~ "Внутрішня помилка: з вказаним сеансом відкрито декілька екземплярів "
+#~ "програми"
+
+#~ msgid "This view may have unsaved work. Do you really want to close it?"
+#~ msgstr ""
+#~ "На цій панелі перегляду можуть бути незбережені дані. Ви справді хочете "
+#~ "її закрити?"
+
+#~ msgid "Ignoring amount of white space changed, the files are identical."
+#~ msgstr "Окрім змін у форматуванні пробілами, файли тотожні."
+
+#~ msgid "Diff Output"
+#~ msgstr "Вивід Diff"
+
+#~ msgid ""
+#~ "Running KWrite with sudo can cause bugs and expose you to security "
+#~ "vulnerabilities. Instead use KWrite normally and you will be prompted for "
+#~ "elevated privileges when saving documents if needed."
+#~ msgstr ""
+#~ "Запуск KWrite з використанням sudo може призвести до проблем і зашкодити "
+#~ "захисту системи. Замість цього, запустіть KWrite у звичайному режимі, а "
+#~ "коли знадобляться розширені права доступу для збереження документів, "
+#~ "програма сама попросить вас їх надати."
+
+#~ msgid ""
+#~ "Running KWrite with kdesu can cause bugs and expose you to security "
+#~ "vulnerabilities. Instead use KWrite normally and you will be prompted for "
+#~ "elevated privileges when saving documents if needed."
+#~ msgstr ""
+#~ "Запуск KWrite з використанням kdesu може призвести до проблем і зашкодити "
+#~ "захисту системи. Замість цього, запустіть KWrite у звичайному режимі, а "
+#~ "коли знадобляться розширені права доступу для збереження документів, "
+#~ "програма сама попросить вас їх надати."
+
+#~ msgid "Save"
+#~ msgstr "Зберегти"
+
+#~ msgid "&Other..."
+#~ msgstr "&Інша…"
+
+#~ msgid "Open new window with fresh untitled document"
+#~ msgstr "Відкрити нове вікно із новим документом без назви"
+
+#~ msgid "Untitled"
+#~ msgstr "Без назви"
+
+#~ msgid "Please enable the project plugin to load directories"
+#~ msgstr "Будь ласка, увімкніть додаток проєктів, щоб завантажити каталоги"
+
+#~ msgid "No recent files"
+#~ msgstr "Немає нещодавніх файлів"
+
+#~ msgid "&Copy Location"
+#~ msgstr "&Копіювати адресу"
+
+#~ msgctxt "recent items context menu"
+#~ msgid "&Forget This Item"
+#~ msgstr "З&абути про цей запис"
+
+#~ msgid "Welcome to KWrite"
+#~ msgstr "Вітаємо у KWrite"
+
+#~ msgid "Form"
+#~ msgstr "Форма"
+
+#~ msgctxt "on welcome screen"
+#~ msgid "New Document"
+#~ msgstr "Створити документ"
+
+#~ msgctxt "on welcome screen"
+#~ msgid "Open Document..."
+#~ msgstr "Відкрити документ…"
+
+#~ msgctxt "on welcome screen (recent document list)"
+#~ msgid "Forget All"
+#~ msgstr "Забути всі"
+
+#~ msgid "Make Non-Persistent"
+#~ msgstr "Зробити не стійкою"
+
+#~ msgid "Make Persistent"
+#~ msgstr "Зробити стійкою"
+
+#~ msgid "Copy File &Path"
+#~ msgstr "Копіювати &шлях до файла"
+
+#~ msgid "Go To"
+#~ msgstr "Перейти"
+
+#~ msgid "Type to filter..."
+#~ msgstr "Введіть щось для фільтрування…"
+
+#~ msgid "Go to previous edit location"
+#~ msgstr "Повернутися до попереднього місця редагування"
+
+#~ msgid "Go to next edit location"
+#~ msgstr "Перейти до наступного місця редагування"
+
+#~ msgid ""
+#~ "The supposedly temporary file %1 has been modified. Do you want to delete "
+#~ "it anyway?"
+#~ msgstr ""
+#~ "Файл %1, який, як припускається, був тимчасовим, було змінено. Ви все-"
+#~ "таки бажаєте його вилучити?"
+
+#~ msgid "Delete File?"
+#~ msgstr "Вилучити файл?"
+
+#~ msgid "&Command Bar"
+#~ msgstr "&Командна панель"
+
+#~ msgid "&Quick Open Session"
+#~ msgstr "&Швидке відкриття сеансу"
+
+#~ msgid "Go Back"
+#~ msgstr "Перейти назад"
+
+#~ msgid "Go Forward"
+#~ msgstr "Перейти вперед"
+
+#~ msgid "&Save as defaults"
+#~ msgstr "З&берегти як типові"
+
+#~ msgid "Start Kate with a new session, implies '-n' (deprecated)."
+#~ msgstr ""
+#~ "Запустити Kate у новому сеансі з параметром «-n» (застарілий варіант)."
+
+#~ msgid "Do you want to save current anonymous session?"
+#~ msgstr "Хочете зберегти поточний анонімний сеанс?"
 
 #~ msgid "Failed to jump to: %1 %2 %3"
 #~ msgstr "Не вдалося перейти до %1 %2 %3"
@@ -1979,17 +3270,11 @@ msgstr "Вилучати метадані, що не використовуют�
 #~ msgid "&List Mode:"
 #~ msgstr "Режим сп&иску:"
 
-#~ msgid "Application"
-#~ msgstr "Програма"
-
 #~ msgid "General"
 #~ msgstr "Загальне"
 
 #~ msgid "General Options"
 #~ msgstr "Загальні параметри"
-
-#~ msgid "Meta-Information"
-#~ msgstr "Метаінформація"
 
 #~ msgid "Editor Component"
 #~ msgstr "Компонент редактора"
@@ -1999,9 +3284,6 @@ msgstr "Вилучати метадані, що не використовуют�
 
 #~ msgid "Behaviour on Application Startup"
 #~ msgstr "Поведінка під час запуску програми"
-
-#~ msgid "&Help"
-#~ msgstr "&Довідка"
 
 #~ msgid "&About Editor Component"
 #~ msgstr "&Про компонент редактора"
@@ -2026,10 +3308,6 @@ msgstr "Вилучати метадані, що не використовуют�
 #~ msgctxt "@action:inmenu"
 #~ msgid "Rename File..."
 #~ msgstr "Перейменувати файл…"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Delete File"
-#~ msgstr "Вилучити файл"
 
 #~| msgid "Meta-Information"
 #~ msgctxt "@title:window"
@@ -2058,16 +3336,6 @@ msgstr "Вилучати метадані, що не використовуют�
 #~ msgid "Errors/Warnings while opening documents"
 #~ msgstr "Помилки/Попередження під час відкриття документів"
 
-#~ msgid "Form"
-#~ msgstr "Форма"
-
-#~ msgid "&Open Session"
-#~ msgstr "&Відкрити сеанс"
-
-#~ msgctxt "The number of open documents"
-#~ msgid "Open Documents"
-#~ msgstr "Відкритих документів"
-
 #~ msgid "Clone session settings"
 #~ msgstr "Клонувати параметри сеансу"
 
@@ -2076,9 +3344,6 @@ msgstr "Вилучати метадані, що не використовуют�
 
 #~ msgid "&Always use this choice"
 #~ msgstr "&Завжди використовувати цей вибір"
-
-#~ msgid "Open Session"
-#~ msgstr "Відкрити сеанс"
 
 #~ msgid "Missing Session Name"
 #~ msgstr "Немає назви сеансу"
@@ -2094,9 +3359,6 @@ msgstr "Вилучати метадані, що не використовуют�
 
 #~ msgid "Developer & Highlight wizard"
 #~ msgstr "Розробник та робота над майстром підсвічування синтаксису"
-
-#~ msgid "Comment"
-#~ msgstr "Коментар"
 
 #~ msgid "&Highlight Tab"
 #~ msgstr "&Підсвітити вкладку"
@@ -2296,9 +3558,6 @@ msgstr "Вилучати метадані, що не використовуют�
 #~ msgid " BLOCK "
 #~ msgstr " БЛОК "
 
-#~ msgid "Copy Filename"
-#~ msgstr "Копіювати назву файла"
-
 #~ msgid "Copy the filename of the file."
 #~ msgstr "Копіювати назву файла."
 
@@ -2356,9 +3615,6 @@ msgstr "Вилучати метадані, що не використовуют�
 #~ msgid "List View"
 #~ msgstr "Перегляд списком"
 
-#~ msgid "&Show Full Path"
-#~ msgstr "Пока&зати шлях повністю"
-
 #~ msgid ""
 #~ "When background shading is enabled, documents that have been viewed or "
 #~ "edited within the current session will have a shaded background. The most "
@@ -2404,9 +3660,6 @@ msgstr "Вилучати метадані, що не використовуют�
 
 #~ msgid "&Show Active"
 #~ msgstr "П&оказати активні"
-
-#~ msgid "Next Document"
-#~ msgstr "Наступний документ"
 
 #~ msgid ""
 #~ "<p><b>b,buffer &mdash; Edit document N from the document list</b></"

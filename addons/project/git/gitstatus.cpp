@@ -5,20 +5,52 @@
 */
 #include "gitstatus.h"
 
+#include "hostprocess.h"
+#include <bytearraysplitter.h>
+#include <gitprocess.h>
+
 #include <KLocalizedString>
 #include <QByteArray>
-#include <QList>
+#include <QProcess>
+#include <QSet>
 
-GitUtils::GitParsedStatus GitUtils::parseStatus(const QByteArray &raw)
+#include <charconv>
+#include <optional>
+
+static void numStatForStatus(QList<GitUtils::StatusItem> &list, const QString &workDir, bool modified)
 {
-    QVector<GitUtils::StatusItem> untracked;
-    QVector<GitUtils::StatusItem> unmerge;
-    QVector<GitUtils::StatusItem> staged;
-    QVector<GitUtils::StatusItem> changed;
+    const auto args = modified ? QStringList{QStringLiteral("diff"), QStringLiteral("--numstat"), QStringLiteral("-z")}
+                               : QStringList{QStringLiteral("diff"), QStringLiteral("--numstat"), QStringLiteral("--staged"), QStringLiteral("-z")};
 
-    const QList<QByteArray> rawList = raw.split(0x00);
-    for (const auto &r : rawList) {
-        if (r.isEmpty() || r.length() < 3) {
+    QProcess git;
+    if (!setupGitProcess(git, workDir, args)) {
+        return;
+    }
+    startHostProcess(git, QProcess::ReadOnly);
+    if (git.waitForStarted() && git.waitForFinished(-1)) {
+        if (git.exitStatus() != QProcess::NormalExit || git.exitCode() != 0) {
+            return;
+        }
+    }
+
+    GitUtils::parseDiffNumStat(list, git.readAllStandardOutput());
+}
+
+static QByteArray fileNameFromPath(const QByteArray &path)
+{
+    int lastSlash = path.lastIndexOf('/');
+    return lastSlash == -1 ? path : path.mid(lastSlash + 1);
+}
+
+GitUtils::GitParsedStatus GitUtils::parseStatus(const QByteArray &raw, const QString &workingDir)
+{
+    QList<GitUtils::StatusItem> untracked;
+    QList<GitUtils::StatusItem> unmerge;
+    QList<GitUtils::StatusItem> staged;
+    QList<GitUtils::StatusItem> changed;
+
+    for (auto r : ByteArraySplitter(raw, '\0')) {
+        if (r.length() < 3) {
             continue;
         }
 
@@ -27,69 +59,92 @@ GitUtils::GitParsedStatus GitUtils::parseStatus(const QByteArray &raw)
         uint16_t xy = (((uint16_t)x) << 8) | y;
         using namespace GitUtils;
 
+        r.remove_prefix(3);
+        QByteArray file = r.toByteArray();
+
         switch (xy) {
         case StatusXY::QQ:
-            untracked.append({r.mid(3), GitStatus::Untracked, 'U', 0, 0});
+            untracked.append({.file = file, .status = GitStatus::Untracked, .statusChar = 'U', .linesAdded = 0, .linesRemoved = 0});
             break;
         case StatusXY::II:
-            untracked.append({r.mid(3), GitStatus::Ignored, 'I', 0, 0});
+            untracked.append({.file = file, .status = GitStatus::Ignored, .statusChar = 'I', .linesAdded = 0, .linesRemoved = 0});
             break;
 
         case StatusXY::DD:
-            unmerge.append({r.mid(3), GitStatus::Unmerge_BothDeleted, x, 0, 0});
+            unmerge.append({.file = file, .status = GitStatus::Unmerge_BothDeleted, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case StatusXY::AU:
-            unmerge.append({r.mid(3), GitStatus::Unmerge_AddedByUs, x, 0, 0});
+            unmerge.append({.file = file, .status = GitStatus::Unmerge_AddedByUs, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case StatusXY::UD:
-            unmerge.append({r.mid(3), GitStatus::Unmerge_DeletedByThem, x, 0, 0});
+            unmerge.append({.file = file, .status = GitStatus::Unmerge_DeletedByThem, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case StatusXY::UA:
-            unmerge.append({r.mid(3), GitStatus::Unmerge_AddedByThem, x, 0, 0});
+            unmerge.append({.file = file, .status = GitStatus::Unmerge_AddedByThem, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case StatusXY::DU:
-            unmerge.append({r.mid(3), GitStatus::Unmerge_DeletedByUs, x, 0, 0});
+            unmerge.append({.file = file, .status = GitStatus::Unmerge_DeletedByUs, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case StatusXY::AA:
-            unmerge.append({r.mid(3), GitStatus::Unmerge_BothAdded, x, 0, 0});
+            unmerge.append({.file = file, .status = GitStatus::Unmerge_BothAdded, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case StatusXY::UU:
-            unmerge.append({r.mid(3), GitStatus::Unmerge_BothModified, x, 0, 0});
+            unmerge.append({.file = file, .status = GitStatus::Unmerge_BothModified, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         }
 
         switch (x) {
         case 'M':
-            staged.append({r.mid(3), GitStatus::Index_Modified, x, 0, 0});
+            staged.append({.file = file, .status = GitStatus::Index_Modified, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case 'A':
-            staged.append({r.mid(3), GitStatus::Index_Added, x, 0, 0});
+            staged.append({.file = file, .status = GitStatus::Index_Added, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case 'D':
-            staged.append({r.mid(3), GitStatus::Index_Deleted, x, 0, 0});
+            staged.append({.file = file, .status = GitStatus::Index_Deleted, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case 'R':
-            staged.append({r.mid(3), GitStatus::Index_Renamed, x, 0, 0});
+            staged.append({.file = file, .status = GitStatus::Index_Renamed, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         case 'C':
-            staged.append({r.mid(3), GitStatus::Index_Copied, x, 0, 0});
+            staged.append({.file = file, .status = GitStatus::Index_Copied, .statusChar = x, .linesAdded = 0, .linesRemoved = 0});
             break;
         }
 
         switch (y) {
         case 'M':
-            changed.append({r.mid(3), GitStatus::WorkingTree_Modified, y, 0, 0});
+            changed.append({.file = file, .status = GitStatus::WorkingTree_Modified, .statusChar = y, .linesAdded = 0, .linesRemoved = 0});
             break;
         case 'D':
-            changed.append({r.mid(3), GitStatus::WorkingTree_Deleted, y, 0, 0});
+            changed.append({.file = file, .status = GitStatus::WorkingTree_Deleted, .statusChar = y, .linesAdded = 0, .linesRemoved = 0});
             break;
         case 'A':
-            changed.append({r.mid(3), GitStatus::WorkingTree_IntentToAdd, y, 0, 0});
+            changed.append({.file = file, .status = GitStatus::WorkingTree_IntentToAdd, .statusChar = y, .linesAdded = 0, .linesRemoved = 0});
             break;
         }
     }
 
-    return {untracked, unmerge, staged, changed};
+    QSet<QString> nonUniqueFileNames;
+    QSet<QByteArray> seen;
+    auto getNonUniqueFileNamesFor = [&nonUniqueFileNames, &seen](const QList<GitUtils::StatusItem> &items) {
+        for (const auto &c : items) {
+            const auto file = fileNameFromPath(c.file);
+            if (seen.contains(file)) {
+                nonUniqueFileNames.insert(QString::fromUtf8(file));
+            } else {
+                seen.insert(file);
+            }
+        }
+    };
+    getNonUniqueFileNamesFor(changed);
+    getNonUniqueFileNamesFor(staged);
+    getNonUniqueFileNamesFor(unmerge);
+    // Nothing for untracked as untracked items can be in thousands
+
+    numStatForStatus(changed, workingDir, true);
+    numStatForStatus(staged, workingDir, false);
+
+    return {.untracked = untracked, .unmerge = unmerge, .staged = staged, .changed = changed, .nonUniqueFileNames = nonUniqueFileNames, .gitRepo = workingDir};
 }
 
 QString GitUtils::statusString(GitUtils::GitStatus s)
@@ -124,18 +179,11 @@ QString GitUtils::statusString(GitUtils::GitStatus s)
     return QString();
 }
 
-static bool getNum(const QByteArray &numBytes, int *num)
-{
-    bool res = false;
-    *num = numBytes.toInt(&res);
-    return res;
-}
-
-static void addNumStat(QVector<GitUtils::StatusItem> &items, int add, int sub, const QByteArray &file)
+static void addNumStat(QList<GitUtils::StatusItem> &items, int add, int sub, std::string_view file)
 {
     // look in modified first, then staged
-    auto item = std::find_if(items.begin(), items.end(), [&file](const GitUtils::StatusItem &si) {
-        return si.file == file;
+    auto item = std::find_if(items.begin(), items.end(), [file](const GitUtils::StatusItem &si) {
+        return file.compare(0, si.file.size(), si.file.data()) == 0;
     });
     if (item != items.end()) {
         item->linesAdded = add;
@@ -144,45 +192,72 @@ static void addNumStat(QVector<GitUtils::StatusItem> &items, int add, int sub, c
     }
 }
 
-void GitUtils::parseDiffNumStat(QVector<GitUtils::StatusItem> &items, const QByteArray &raw)
+static std::optional<int> toInt(std::string_view s)
 {
-    const auto lines = raw.split(0x00);
-    for (const auto &line : lines) {
-        // format: 12(adds)\t10(subs)\tFileName
-        const auto cols = line.split('\t');
-        if (cols.length() < 3) {
+    int value{};
+    auto res = std::from_chars(s.data(), s.data() + s.size(), value);
+    if (res.ptr == (s.data() + s.size())) {
+        return value;
+    }
+    return std::nullopt;
+}
+
+void GitUtils::parseDiffNumStat(QList<GitUtils::StatusItem> &items, const QByteArray &raw)
+{
+    // format:
+    // 12\t10\tFileName
+    // 12 = add, 10 = sub, fileName at the end
+    for (auto line : ByteArraySplitter(raw, '\0')) {
+        size_t addEnd = line.find_first_of('\t');
+        if (addEnd == std::string_view::npos) {
             continue;
         }
 
-        int add = 0;
-        if (!getNum(cols.at(0), &add)) {
-            continue;
-        }
-        int sub = 0;
-        if (!getNum(cols.at(1), &sub)) {
+        size_t subStart = line.find_first_not_of('\t', addEnd);
+        if (subStart == std::string_view::npos) {
             continue;
         }
 
-        const auto file = cols.at(2);
-        addNumStat(items, add, sub, file);
+        size_t subEnd = line.find_first_of('\t', subStart);
+        if (subEnd == std::string_view::npos) {
+            continue;
+        }
+
+        std::string_view addStr = line.substr(0, addEnd);
+        std::string_view subStr = line.substr(subStart, subEnd - subStart);
+        std::string_view fileStr = line.substr(subEnd + 1, line.size() - (subEnd + 1));
+
+        auto add = toInt(addStr);
+        auto sub = toInt(subStr);
+
+        if (!add.has_value()) {
+            continue;
+        }
+        if (!sub.has_value()) {
+            continue;
+        }
+
+        addNumStat(items, add.value(), sub.value(), fileStr);
     }
 }
 
-QVector<GitUtils::StatusItem> GitUtils::parseDiffNameStatus(const QByteArray &raw)
+QList<GitUtils::StatusItem> GitUtils::parseDiffNameStatus(const QByteArray &raw)
 {
-    const auto lines = raw.split('\n');
-    QVector<GitUtils::StatusItem> out;
-    out.reserve(lines.size());
-    for (const auto &l : lines) {
-        const auto cols = l.split('\t');
-        if (cols.size() < 2) {
+    QList<GitUtils::StatusItem> out;
+    for (auto l : ByteArraySplitter(raw, '\n')) {
+        ByteArraySplitter splitter(l, '\t');
+        if (splitter.empty()) {
             continue;
         }
-
+        auto it = splitter.begin();
         GitUtils::StatusItem i;
-        i.statusChar = cols[0][0];
+        i.statusChar = (*it).at(0);
 
-        i.file = cols[1];
+        ++it;
+        if (it == splitter.end()) {
+            continue;
+        }
+        i.file = (*it).toByteArray();
         out.append(i);
     }
     return out;

@@ -12,10 +12,11 @@
 #include <QTextStream>
 #include <QUrl>
 
-SearchDiskFiles::SearchDiskFiles(SearchDiskFilesWorkList &worklist, const QRegularExpression &regexp, const bool includeBinaryFiles)
+SearchDiskFiles::SearchDiskFiles(SearchDiskFilesWorkList &worklist, const QRegularExpression &regexp, const bool includeBinaryFiles, const int sizeLimit)
     : m_worklist(worklist)
     , m_regExp(regexp.pattern(), regexp.patternOptions()) // we WANT to kill the sharing, ELSE WE LOCK US DEAD!
     , m_includeBinaryFiles(includeBinaryFiles)
+    , m_sizeLimit(sizeLimit)
 {
     // ensure we have a proper thread name during e.g. perf profiling
     setObjectName(QStringLiteral("SearchDiskFiles"));
@@ -24,7 +25,7 @@ SearchDiskFiles::SearchDiskFiles(SearchDiskFilesWorkList &worklist, const QRegul
 void SearchDiskFiles::run()
 {
     // do we need to search multiple lines?
-    const bool multiLineSearch = m_regExp.pattern().contains(QLatin1String("\\n"));
+    const bool multiLineSearch = m_regExp.patternOptions().testFlag(QRegularExpression::MultilineOption) && m_regExp.pattern().contains(QLatin1String("\\n"));
 
     // timer to emit matchesFound once in a time even for files without matches
     // this triggers process in the UI
@@ -45,8 +46,13 @@ void SearchDiskFiles::run()
             continue;
         }
 
+        // skip files that hit the limit or files we can't get the size, that might lead to oom
+        if (const auto s = file.size(); (s <= 0) || ((s / (1024 * 1024)) > m_sizeLimit)) {
+            continue;
+        }
+
         // let the right search algorithm compute the matches for this file
-        QVector<KateSearchMatch> matches;
+        QList<KateSearchMatch> matches;
         if (multiLineSearch) {
             matches = searchMultiLineRegExp(file);
         } else {
@@ -62,10 +68,10 @@ void SearchDiskFiles::run()
     }
 }
 
-QVector<KateSearchMatch> SearchDiskFiles::searchSingleLineRegExp(QFile &file)
+QList<KateSearchMatch> SearchDiskFiles::searchSingleLineRegExp(QFile &file)
 {
     QTextStream stream(&file);
-    QVector<KateSearchMatch> matches;
+    QList<KateSearchMatch> matches;
     QString line;
     int currentLineNumber = 0;
     while (stream.readLineInto(&line)) {
@@ -95,15 +101,16 @@ QVector<KateSearchMatch> SearchDiskFiles::searchSingleLineRegExp(QFile &file)
 
             // remember match
             const int endColumn = column + match.capturedLength();
-            const int preContextStart = qMax(0, column - MatchModel::PreContextLen);
+            const auto [preContextStart, postContextLen] = MatchModel::contextLengths(line.size(), column, endColumn);
             const QString preContext = line.mid(preContextStart, column - preContextStart);
-            const QString postContext = line.mid(endColumn, MatchModel::PostContextLen);
-            matches.push_back(KateSearchMatch{preContext,
-                                              match.captured(),
-                                              postContext,
-                                              QString(),
-                                              KTextEditor::Range{currentLineNumber, column, currentLineNumber, column + match.capturedLength()},
-                                              true});
+            const QString postContext = line.mid(endColumn, postContextLen);
+            matches.push_back(KateSearchMatch{.preMatchStr = preContext,
+                                              .matchStr = match.captured(),
+                                              .postMatchStr = postContext,
+                                              .replaceText = QString(),
+                                              .range = KTextEditor::Range{currentLineNumber, column, currentLineNumber, int(column + match.capturedLength())},
+                                              .checked = true,
+                                              .matchesFilter = true});
 
             // advance match column
             columnToStartMatch = column + match.capturedLength();
@@ -120,15 +127,15 @@ QVector<KateSearchMatch> SearchDiskFiles::searchSingleLineRegExp(QFile &file)
     return matches;
 }
 
-QVector<KateSearchMatch> SearchDiskFiles::searchMultiLineRegExp(QFile &file)
+QList<KateSearchMatch> SearchDiskFiles::searchMultiLineRegExp(QFile &file)
 {
     int column = 0;
     int line = 0;
     QString fullDoc;
-    QVector<int> lineStart;
+    QList<int> lineStart;
     QRegularExpression tmpRegExp = m_regExp;
 
-    QVector<KateSearchMatch> matches;
+    QList<KateSearchMatch> matches;
     QTextStream stream(&file);
     fullDoc = stream.readAll();
 
@@ -184,11 +191,18 @@ QVector<KateSearchMatch> SearchDiskFiles::searchMultiLineRegExp(QFile &file)
         QString preContext = fullDoc.mid(preContextStart, column - preContextStart);
         QString postContext = fullDoc.mid(column + match.captured().length(), MatchModel::PostContextLen);
 
-        matches.push_back(
-            KateSearchMatch{preContext, match.captured(), postContext, QString(), KTextEditor::Range{line, startColumn, endLine, endColumn}, true});
+        matches.push_back(KateSearchMatch{.preMatchStr = preContext,
+                                          .matchStr = match.captured(),
+                                          .postMatchStr = postContext,
+                                          .replaceText = QString(),
+                                          .range = KTextEditor::Range{line, startColumn, endLine, endColumn},
+                                          .checked = true,
+                                          .matchesFilter = true});
 
         match = tmpRegExp.match(fullDoc, column + match.capturedLength());
         column = match.capturedStart();
     }
     return matches;
 }
+
+#include "moc_SearchDiskFiles.cpp"

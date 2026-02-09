@@ -51,10 +51,6 @@
 ></group
 > <group choice="opt"
 ><option
->--new-session</option
-></group
-> <group choice="opt"
-><option
 >-n, --new</option
 ></group
 > <group choice="opt"
@@ -143,18 +139,6 @@
 <term
 ><option
 >--startanon</option
-></term>
-<listitem
-><para
->Starta &kate; med en ny anonym session, medför <option
->-n</option
-> (avråds från).</para
-></listitem>
-</varlistentry>
-<varlistentry>
-<term
-><option
->--new-session</option
 ></term>
 <listitem
 ><para

@@ -1,28 +1,28 @@
 # Translation of katetextfilter.po to Catalan (Valencian)
-# Copyright (C) 2002-2021 This_file_is_part_of_KDE
+# Copyright (C) 2002-2024 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2002, 2003, 2014, 2015, 2021.
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2010, 2013, 2014, 2018.
+# SPDX-FileCopyrightText: 2005, 2006, 2007, 2008, 2010, 2013, 2014, 2018, 2021, 2024 Josep M. Ferrer <txemaq@gmail.com>
 # Manuel Tortosa <manutortosa@gmail.com>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
-"PO-Revision-Date: 2021-03-11 18:51+0100\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
+"PO-Revision-Date: 2024-10-20 10:55+0200\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 24.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -32,43 +32,48 @@ msgstr ""
 "<title>Resultat de:</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr "No s'ha pogut iniciar el procés"
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
 "to be able to do this, contact your system administrator."
 msgstr ""
-"No se vos permet executar aplicacions externes arbitràries. Si voleu poder "
+"No se us permet executar aplicacions externes arbitràries. Si voleu poder "
 "fer-ho, contacteu amb el vostre administrador del sistema."
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
 msgstr "Restriccions d'accés"
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
 #, kde-format
 msgid "Text Filter"
 msgstr "Filtre de text"
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
 msgstr "Sintaxi: textfilter ORDRE"
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
 "with the output of the specified shell command.</p></qt>"
 msgstr ""
-"<qt><p>Sintaxi: <code>textfilter ORDRE</code></p><p>Substitueix la selecció "
+"<qt><p>Sintaxi: <code>textfilter ORDRE</code></p><p>Substituïx la selecció "
 "amb l'eixida de l'ordre executada per l'intèrpret d'ordres.</p></qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
-msgstr "&Filtre a través d'odres..."
+msgstr "&Filtre a través d'ordres…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, TextFilterWidget)
 #: textfilterwidget.ui:14
@@ -92,13 +97,14 @@ msgstr "Obri els resultats en un document nou"
 #: textfilterwidget.ui:46
 #, kde-format
 msgid "Copy the result to clipboard leaving a document unchanged."
-msgstr "Copia el resultat al porta-retalls, deixant el document sense canvis."
+msgstr ""
+"Copia el resultat a dins del porta-retalls, deixant el document sense canvis."
 
 #. i18n: ectx: property (text), widget (QCheckBox, copyResult)
 #: textfilterwidget.ui:49
 #, kde-format
 msgid "Copy the result instead of pasting it"
-msgstr "Copia el resultat en lloc d'enganxar-lo"
+msgstr "Copia el resultat en lloc d'apegar-lo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mergeOutput)
 #: textfilterwidget.ui:57
@@ -108,7 +114,7 @@ msgid ""
 "will be reported.\n"
 "Otherwise, STDERR will be displayed as a passive message."
 msgstr ""
-"Si està activada, es fusionarà l'eixida de STDOUT i STDERR i no s'informarà "
+"Si està marcada, es fusionarà l'eixida de STDOUT i STDERR, i no s'informarà "
 "de cap error.\n"
 "En cas contrari, STDERR es mostrarà com un missatge passiu."
 
@@ -123,6 +129,3 @@ msgstr "Fusiona STDOUT i STDERR"
 #, kde-format
 msgid "&Tools"
 msgstr "&Eines"
-
-#~ msgid "Filter Te&xt..."
-#~ msgstr "Filtre de te&xt..."

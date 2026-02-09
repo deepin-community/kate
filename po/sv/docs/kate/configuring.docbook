@@ -134,6 +134,18 @@
 
 <varlistentry>
 <term
+><anchor id="config-dialog-general-open-each-document"/>
+<guilabel
+>Öppna varje dokumentet i sitt eget fönster</guilabel
+></term>
+<listitem
+><para
+>Om aktiverad, öppnas varje dokument i sitt eget fönster. Om ej aktiverad, öppnas varje dokument under en ny flik i det aktuella fönstret.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><anchor id="config-dialog-general-switch-to-output"/>
 <guilabel
 >Byt till utmatningsvy vid meddelandetyp</guilabel
@@ -247,6 +259,18 @@
 
 <varlistentry>
 <term
+><anchor id="config-general-auto-hide-tabs"/>
+<guilabel
+>Dölj flikar automatiskt</guilabel
+></term>
+<listitem
+><para
+>När markerat döljs flikar om bara ett dokument är öppet.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><anchor id="config-general-show-close-button"/>
 <guilabel
 >Visa stängningsknapp</guilabel
@@ -292,11 +316,81 @@
 >När markerad stänger mittenklick ett dokument.</para
 ></listitem>
 </varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-tab-scrolling"/>
+<guilabel
+>Tillåt flikrullning</guilabel
+></term>
+<listitem
+><para
+>När markerat tillåter det att flikraden rullas när antal flikar är stort.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-elide-tab-text"/>
+<guilabel
+>Avkorta fliktext</guilabel
+></term>
+<listitem
+><para
+>När markerat kan fliktexten avkortas om den är för lång.</para
+></listitem>
+</varlistentry>
 </variablelist>
 
 </listitem>
 </varlistentry
 ><!-- /tabs group -->
+
+<varlistentry>
+<term
+><anchor id="config-general-mouse"/>
+<guilabel
+>Flikar</guilabel
+></term>
+ <listitem>
+
+<variablelist>
+<varlistentry>
+<term
+><anchor id="config-general-backward-button-pressed"/>
+<guilabel
+>Bakåtknappen använd</guilabel
+></term>
+<listitem
+><para
+>Tillåt att välja åtgärd för musens bakåtknapp mellan alternativen <guimenuitem
+>Föregående flik</guimenuitem
+> och <guimenuitem
+>Bakåt i historik</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-forward-button-pressed"/>
+<guilabel
+>Framåtknappen använd</guilabel
+></term>
+<listitem
+><para
+>Tillåt att välja åtgärd för musens framåtknapp mellan alternativen <guimenuitem
+>Nästa flik</guimenuitem
+> och <guimenuitem
+>Framåt i historik</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</listitem>
+</varlistentry
+><!-- /mouse group -->
 </variablelist>
 </sect2>
 
@@ -362,7 +456,7 @@
 <term
 ><anchor id="config-dialog-sessions-shutdown-behavior"/>
 <guilabel
->Beteende vid programavstängning</guilabel
+>Beteende vid programstart och avstängning</guilabel
 ></term>
 <listitem>
 <para

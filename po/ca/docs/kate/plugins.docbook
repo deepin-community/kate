@@ -71,6 +71,12 @@
 </listitem>
 <listitem>
 <para
+><link linkend="kate-application-plugin-colorpicker"
+>Claus amb color</link
+> - Claus amb color per a llegir millor</para>
+</listitem>
+<listitem>
+<para
 ><link linkend="kate-application-plugin-ctags"
 >CTags</link
 >: Cerca definicions/declaracions amb CTags</para>
@@ -107,12 +113,6 @@
 >&gdb;</link
 >: Proporciona un frontal senzill del &gdb;</para>
 </listitem>
-<!--from workspace/plasma-sdk, why picked up here?
-<listitem>
-<para
->Icon picker - Invokes Cuttlefish icon picker</para>
-</listitem>
--->
 <listitem>
 <para
 ><link linkend="kate-application-plugin-projects"
@@ -143,6 +143,12 @@
 </listitem>
 <listitem>
 <para
+><link linkend="kate-application-plugin-keyboardmacros"
+>Macros de teclat</link
+> - Enregistra i reprodueix macros de teclat (és a dir, una seqüència d'acció de teclat)</para>
+</listitem>
+<listitem>
+<para
 ><link linkend="kate-application-plugin-sql"
 >Connector SQL</link
 >: Executa consultes a bases de dades SQL</para>
@@ -150,7 +156,7 @@
 <listitem>
 <para
 ><link linkend="kate-application-plugin-symbolviewer"
->Visor de símbols</link
+>Visualitzador de símbols</link
 >: Extreu i visualitza símbols de referència des del codi font</para>
 </listitem>
 <listitem>
@@ -169,13 +175,25 @@
 <para
 ><link linkend="kate-application-plugin-xmltools"
 >Compleció &XML;</link
->: Llista els elements, atributs, valors dels atributs i entitats permeses per la DTD</para>
+>: Llista els elements, atributs, valors dels atributs i entitats &XML; permeses per la DTD</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-xmlcheck"
 >Validació &XML;</link
 >: Valida els fitxers en &XML; utilitzant el «xmllint»</para>
+</listitem>
+<listitem>
+<para
+><link linkend="kate-application-plugin-compilerexplorer"
+>Explorador del compilador</link
+>: Interfície a l'eina d'exploració del compilador</para>
+</listitem>
+<listitem>
+<para
+><link linkend="kate-application-plugin-formatting"
+>Doina format</link
+>: Connector de donar format al codi</para>
 </listitem>
 </itemizedlist>
 </sect1>
@@ -262,6 +280,30 @@
 >, quan s'invoca, no es desarà res, el document actual o tots els documents.</para>
 <para
 ><userinput
+>Activador</userinput
+>, un activador per a executar aquesta eina. Un activador només afectarà el document actiu actualment i només s'executarà si el tipus MIME del document actiu actual coincideix amb el tipus MIME de l'eina externa.</para>
+    <variablelist
+><varlistentry>
+    <term
+>Hi ha disponibles els activadors següents:</term>
+    <listitem>
+    <para
+><userinput
+>Cap</userinput
+>, aquest és el predeterminat, i vol dir que l'eina no té cap activador.</para>
+    <para
+><userinput
+>Abans de desar</userinput
+>, aquest activador s'executarà just abans de desar el document.</para>
+    <para
+><userinput
+>Després de desar</userinput
+>, aquest activador executarà l'eina després de desar el document.</para>
+    </listitem>
+    </varlistentry
+></variablelist>
+<para
+><userinput
 >Recarrega el document actual després de l'execució</userinput
 >, útil quan es modifica en el disc el fitxer actual.</para>
 <para
@@ -289,7 +331,7 @@
 >Ordre de l'editor</userinput
 > opcional que es pot utilitzar per a invocar l'eina externa a través de la <ulink url="help:/katepart/advanced.html#advanced-editing-tools-commandline"
 >línia d'ordres</ulink
-> incorporada.</para>
+> integrada.</para>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -357,7 +399,7 @@
 > senzillament substituirà la variable amb el seu contingut. Per exemple, la variable <userinput
 >%{Document:FileName}</userinput
 > se substituirà pel nom de fitxer del document actual sense el seu camí. La segona forma, <userinput
->%{nom_variable:&lg;value&gt;}</userinput
+>%{nom_variable:&lt;value&gt;}</userinput
 > obté el <userinput
 >&lt;valor&gt;</userinput
 > com a contingut. Per exemple, això es pot utilitzar per a expandir una variable d'entorn amb <userinput
@@ -508,7 +550,7 @@
 <para
 >De manera predeterminada es distribueixen diverses eines. No obstant això, si teniu més eines útils, col·laboreu amb elles a <email
 >kwrite-devel@kde.org</email
-> perquè puguem afegir-les a aquesta llista. De manera predeterminada totes les eines predeterminades estan visibles a la vista de llista. No obstant això, totes les eines es podran canviar al vostre gust, inclosa la categoria o fins i tot eliminar-les. Les eines eliminades es podran tornar a afegir fent clic al botó <guibutton
+> perquè puguem afegir-les a aquesta llista. De manera predeterminada totes les eines predeterminades estan visibles a la vista de llista. No obstant això, totes les eines es podran canviar al vostre gust, inclosa la categoria o fins i tot suprimir-les. Les eines suprimides es podran tornar a afegir fent clic al botó <guibutton
 >Afegeix</guibutton
 > que hi ha a la pàgina de configuració com s'ha descrit anteriorment. </para>
 
@@ -518,7 +560,7 @@
 
 <varlistentry>
 <term
->El git-cola és un client gràfic de Git que permet organitzar i confirmar amb facilitat els canvis. Si està instal·lat, també estarà disponible a través de la línia d'ordres escrivint <userinput
+>El git-cola és un client gràfic de Git que permet organitzar i cometre amb facilitat els canvis. Si està instal·lat, també estarà disponible a través de la línia d'ordres escrivint <userinput
 >git-cola</userinput
 ></term>
 <listitem>
@@ -1053,7 +1095,7 @@
 >Introducció</title>
 
 <para
->El connector de construcció permet executar accions com la construcció, neteja i compilació d'un projecte.</para>
+>El connector Construeix permet executar accions com construir, netejar i compilar un projecte. També podeu executar automàticament les aplicacions generades. Bàsicament, el connector us dona una manera de configurar conjunts d'ordres a executar i pot analitzar la sortida per a enllaços a fitxers i línies i columnes específiques en aquests fitxers. Per tant, fins i tot si el connector es crea originalment per compilar C/C++ i es prova principalment amb ell, el connector també pot ser útil per a altres propòsits i llenguatges.</para>
 
 </sect2>
 
@@ -1063,10 +1105,10 @@
 
 <para
 >El connector de construcció afegeix una vista d'eina <guilabel
->Sortida de la construcció</guilabel
+>Construeix</guilabel
 > a la part inferior i un menú <guimenu
 >Construeix</guimenu
-> a la barra de menús. La vista d'eina es pot utilitzar per a configurar les opcions de l'objectiu a construir, mentre que el menú es pot utilitzar per a dur a terme les accions de construcció, neteja i compilació.</para>
+> a la barra de menús. La vista d'eina es pot utilitzar per a seleccionar i configurar els objectius a construir, mentre que el menú i les seves dreceres es poden utilitzar per a seleccionar i executar les ordres configurades de l'intèrpret.</para>
 
 <screenshot id="screenshot-build-output">
 <screeninfo
@@ -1079,8 +1121,8 @@
 
 <para
 >La vista d'eina <guilabel
->Sortida de la construcció</guilabel
-> disposa dues pestanyes:</para>
+>Construeix</guilabel
+> disposa dues pestanyes estàtiques:</para>
 
 <itemizedlist>
 <listitem
@@ -1105,10 +1147,22 @@
 >La pestanya arranjament de l'objectiu es pot utilitzar per a configurar diversos objectius de construcció i definir conjunts d'objectius.</para>
 
 <para
->Per a canviar els noms o les ordres feu doble clic sobre les entrades de la taula i utilitzeu la llista desplegable per a seleccionar l'ajust de l'objectiu actiu. Utilitzeu la casella de selecció al davant de cada objectiu per a definir un valor predeterminat.</para>
+>Un conjunt de destinació és un grup d'ordres que es poden executar en un directori de treball especificat. Els conjunts de destinació es poden afegir a <guilabel
+>Projectes</guilabel
+> o <guilabel
+>Sessió</guilabel
+>. Els conjunts de destinació personalitzats afegits a <guilabel
+>Projectes</guilabel
+> s'emmagatzemen en un fitxer <guilabel
+>.kateproject.build</guilabel
+> al directori arrel del projecte i es restauren quan el projecte es torna a obrir. Els conjunts de destinació afegits a la <guilabel
+>Sessió</guilabel
+> s'emmagatzemen a la configuració de la sessió actual del Kate.</para>
 
 <para
->Un conjunt d'objectius conté diverses opcions de configuració:</para>
+>La primera fila, en un conjunt de destinació, conté un nom per al conjunt a la columna u, i a la columna dos tenim el directori on s'han d'executar les ordres. A cada fila següent, tenim un nom d'ordre a la columna u, una ordre de construcció a la columna dos i una ordre d'execució a la columna tres. Per a editar-ne un, feu doble clic a l'entrada o utilitzeu la drecera d'edició (sovint <keycap
+>F2</keycap
+>).</para>
 
 <variablelist>
 <varlistentry>
@@ -1118,62 +1172,66 @@
 ></term>
 <listitem
 ><para
->Aquí podeu establir el camí cap al projecte. Deixar el camp buit per a utilitzar el directori on es troba el document actual.</para
+>La segona columna de la primera fila en un conjunt de destinació, s'utilitza per a configurar el directori de treball utilitzat per a compilar i executar ordres. Si el connector del projecte està habilitat, la cadena del directori de treball també pot contenir espais reservats per al camí del directori base del projecte: <guilabel
+>%B</guilabel
+> i nom: <guilabel
+>%b</guilabel
+></para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Construeix</guilabel
+>Ordre de construcció</guilabel
 ></term>
 <listitem
 ><para
->Aquesta opció permet definir l'ordre per a executar la construcció. De manera predeterminada s'estableix a <command
->make</command
->.</para
+>La segona columna de les «files no primeres», conté l'ordre de l'intèrpret que s'executarà al directori de treball. Fixeu-vos en la paraula intèrpret. Gairebé qualsevol ordre de l'intèrpret ho farà. L'ordre de construcció pot contenir variables de substitució. <guilabel
+>%f</guilabel
+> per al fitxer actual, <guilabel
+>%d</guilabel
+> per al directori del fitxer actual i <guilabel
+>%n</guilabel
+> per al nom base del fitxer actual (nom de fitxer sense sufix).</para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Neteja</guilabel
+>Executa una ordre</guilabel
 ></term>
 <listitem
 ><para
->Aquesta opció permet definir l'ordre per a executar la neteja. De manera predeterminada s'estableix a <command
->make clean</command
->.</para
+>La tercera columna de les «files no primeres», pot contenir una ordre de l'intèrpret d'ordres per a l'execució en un terminal real en el directori de treball de destinació. El terminal s'obre com a pestanya. El connector intentarà reutilitzar la pestanya del terminal, si s'executa la mateixa ordre i l'aplicació anterior ha sortit.</para
 ></listitem>
 </varlistentry>
 
-<varlistentry>
-<term
-><guilabel
->Configuració</guilabel
-></term>
-<listitem
-><para
->Aquesta opció permet definir l'ordre per a executar la configuració. De manera predeterminada s'estableix a <command
->cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr/local ../</command
->.</para
-></listitem>
-</varlistentry>
 </variablelist>
 
 <para
->A la part superior d'aquest connector hi ha una barra d'eines amb els següents botons:</para>
+>A la part superior de la pestanya <guilabel
+>Arranjament de l'objectiu</guilabel
+> hi ha una barra d'eines un filtre d'objectius i els botons següents:</para>
 
 <simplelist>
 <member
 ><guiicon
 ><inlinemediaobject
 ><imageobject
-><imagedata fileref="dialog-ok-22.png" format="PNG"/></imageobject
+><imagedata fileref="run-build-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 ></guiicon
 > Construeix l'objectiu seleccionat</member>
+<member
+><guiicon
+><inlinemediaobject
+><imageobject
+><imagedata fileref="media-playback-start-22.png" format="PNG"/></imageobject
+></inlinemediaobject
+></guiicon
+> Construeix i executa l'objectiu seleccionat</member>
 <member
 ><guiicon
 ><inlinemediaobject
@@ -1189,7 +1247,7 @@
 ><imagedata fileref="document-new-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 ></guiicon
-> Crea un conjunt d'objectius de construcció nou</member>
+> Crea un conjunt nou d'objectius</member>
 <member
 ><guiicon
 ><inlinemediaobject
@@ -1205,7 +1263,7 @@
 ><imagedata fileref="edit-delete-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 ></guiicon
-> Elimina l'ordre actual o el conjunt d'objectius</member>
+> Suprimeix l'ordre actual o el conjunt d'objectius</member>
 </simplelist>
 
 </sect3>
@@ -1217,27 +1275,12 @@
 <para
 >La pestanya <guilabel
 >Sortida</guilabel
-> mostra la sortida de consola generada per l'última ordre.</para>
+> mostra la sortida de la consola generada per l'ordre d'execució (construcció). Si una línia conté una ubicació de fitxer, es podrà fer clic en aquesta línia. Si la línia a la sortida també mostra un error o un avís, la línia tindrà un color diferent. </para>
 
 <para
->Utilitzeu el control lliscant a la part superior per a mostrar o amagar les categories de la sortida:</para>
-
-<para
-><guilabel
->Sortida completa</guilabel
->, <guilabel
->Sortida analitzada</guilabel
->, <guilabel
->Errors i avisos</guilabel
-> o <guilabel
->Només els errors</guilabel
-> </para>
-
-<para
->Cada línia conté un missatge, el nom de fitxer i el número de línia si està disponible. En fer clic sobre l'error o l'avís se us indicarà el fitxer corresponent i es col·locarà el cursor sobre el número de línia corresponent.</para>
-
-<para
->Per a navegar cap a l'error anterior, premeu <keycombo action="simul"
+>Si l'opció <guilabel
+>Afegeix errors i avisos als diagnòstics</guilabel
+> està activada a la pàgina de configuració del connector a la configuració del Kate, els errors i avisos també s'afegiran a la vista de diagnòstic. Per a navegar cap a l'error anterior a la vista de diagnòstics, premeu <keycombo action="simul"
 >&Alt;&Maj;&Left;</keycombo
 >. Per a navegar cap a l'error següent, premeu <keycombo action="simul"
 >&Alt;&Maj;&Right;</keycombo
@@ -1257,42 +1300,63 @@
 ><guimenu
 >Construeix</guimenu
 ><guimenuitem
->Selecciona l'objectiu</guimenuitem
+>Selecciona l'objectiu…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Selecciona des d'una llista d'objectius configurats per l'usuari.</para
+>El filtre de selecció de destinació està enfocat a la pestanya Configuració de destinació. En escriure un nom s'ocultaran els objectius que no coincideixin amb la cadena escrita. També és possible utilitzar les tecles de fletxa per a navegar per l'arbre d'objectius. Quan se selecciona l'objectiu desitjat, en prémer <guilabel
+>Retorn</guilabel
+> o <guilabel
+>Entrada</guilabel
+> s'executarà i executarà l'objectiu seleccionat.</para
 ></listitem>
 </varlistentry>
 
-<varlistentry id="build-default">
+<varlistentry id="build-selected">
 <term
 ><menuchoice
 ><guimenu
 >Construeix</guimenu
 ><guimenuitem
->Construeix l'objectiu per defecte</guimenuitem
+>Construeix l'objectiu seleccionat</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Construeix l'objectiu definit com a predeterminat en el conjunt actiu d'objectius.</para
+>Construeix l'últim objectiu seleccionat. Si no se n'ha seleccionat cap, funciona com a <guilabel
+>Selecciona l'objectiu…</guilabel
+></para
 ></listitem>
 </varlistentry>
 
-<varlistentry id="build-previous">
+<varlistentry id="build-selected-run">
 <term
 ><menuchoice
 ><guimenu
 >Construeix</guimenu
 ><guimenuitem
->Construeix l'objectiu anterior</guimenuitem
+>Construeix i executa l'objectiu seleccionat</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Canvia a l'objectiu configurat anteriorment per l'usuari.</para
+>Construeix l'últim objectiu seleccionat i executa l'ordre d'execució després que l'ordre de construcció hagi finalitzat correctament.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="build-currentfile">
+<term
+><menuchoice
+><guimenu
+>Construeix</guimenu
+><guimenuitem
+>Compila el fitxer actual</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Intenta compilar el fitxer actual cercant una ordre en un possible «compile_commands.json».</para
 ></listitem>
 </varlistentry>
 
@@ -1311,41 +1375,50 @@
 ></listitem>
 </varlistentry>
 
-<varlistentry id="build-previous-error">
+<varlistentry id="build-previous-run-tab">
 <term
 ><menuchoice
-><shortcut
-><keycombo action="simul"
->&Ctrl;&Alt;&Left;</keycombo
-></shortcut
-> <guimenu
+><guimenu
 >Construeix</guimenu
 ><guimenuitem
->Error anterior</guimenuitem
+>Focus a la pestanya següent de l'esquerra</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Mou el cursor a la ubicació de l'anterior error en el document.</para
+>Enfoca la pestanya següent del connector de construcció a l'esquerra. O obre la vista d'eina del connector de construcció si està oculta.</para
 ></listitem>
 </varlistentry>
 
-<varlistentry id="build-next-error">
+<varlistentry id="build-next-run-tab">
 <term
 ><menuchoice
-><shortcut
-><keycombo action="simul"
->&Ctrl;&Alt;&Right;</keycombo
-></shortcut
-> <guimenu
+><guimenu
 >Construeix</guimenu
 ><guimenuitem
->Error següent</guimenuitem
+>Focus a la pestanya següent de la dreta</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Mou el cursor a la ubicació del següent error en el document.</para
+>Enfoca la pestanya següent del connector de construcció a la dreta. O obriu la vista d'eina del connector de construcció si està oculta.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="build-load-cmake-targets">
+<term
+><menuchoice
+><guimenu
+>Construeix</guimenu
+><guimenuitem
+>Carrega els objectius des del directori de construcció del CMake</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Obre el diàleg de fitxers i permet a l'usuari seleccionar un <guilabel
+>CMakeCache.txt</guilabel
+>. Quan se selecciona un fitxer, el connector genera objectius d'ordres de construcció del CMake que es poden executar al directori de construcció del projecte basat en el CMake.</para
 ></listitem>
 </varlistentry>
 
@@ -1393,7 +1466,7 @@
 </simplelist>
 
 <para
->Llavors teniu les següents opcions per a tancar documents com es mostra a la captura de pantalla:</para>
+>Llavors teniu les opcions següents per a tancar documents com es mostra a la captura de pantalla:</para>
 
 <screenshot id="screenshot-closeexceptlike">
 <screeninfo
@@ -1489,7 +1562,7 @@
 >Configuració</title>
 
 <para
->A la pàgina de configuració del Selector de color a la configuració del &kate;, podreu configurar les següents opcions de comportament del connector.</para>
+>A la pàgina de configuració del Selector de color a la configuració del &kate;, podreu configurar les opcions següents de comportament del connector.</para>
 
 <variablelist>
 
@@ -1534,6 +1607,25 @@
 
 </sect2>
 
+</sect1>
+
+<sect1 id="kate-application-plugin-colored-brackets">
+<title
+>Claus amb color</title>
+
+<sect2
+><title
+>Introducció</title>
+<para
+>El connector de claus amb color acoloreix els parells de claus que concorden en colors diferents per a millorar la llegibilitat. No obstant això, no s'acoloreixen totes les claus. S'ignorarà la clau quan la clau concordant d'obertura o tancament no sigui visible. De la mateixa manera, no s'acolorirà un parell de claus que sigui l'únic parell de claudàtors d'una línia. </para>
+</sect2>
+
+<sect2
+><title
+>Configuració</title>
+<para
+>El connector no proporciona cap configuració.</para>
+</sect2>
 </sect1>
 
 <sect1 id="kate-application-plugin-ctags">
@@ -1724,7 +1816,7 @@
 ><guimenu
 >CTags</guimenu
 > <guisubmenu
->Vés a la declaració</guisubmenu
+>Ves a la declaració</guisubmenu
 > </menuchoice
 ></term>
 <listitem>
@@ -1739,7 +1831,7 @@
 ><guimenu
 >CTags</guimenu
 > <guisubmenu
->Vés a la definició</guisubmenu
+>Ves a la definició</guisubmenu
 > </menuchoice
 ></term>
 <listitem>
@@ -1945,7 +2037,7 @@
 >Navegador del sistema de fitxers</title>
 
 <para
->El navegador del sistema de fitxers és un visor de carpetes, permet obrir fitxers d'una carpeta que es mostren en el marc actual.</para>
+>El navegador del sistema de fitxers és un visualitzador de carpetes, permet obrir fitxers d'una carpeta que es mostren en el marc actual.</para>
 
 <sect2 id="fsbrowser-menu">
 <title
@@ -1977,7 +2069,7 @@
 >Interfície</title>
 
 <para
->De dalt a baix, el navegador del sistema de fitxers consta dels següents elements:</para>
+>De dalt a baix, el navegador del sistema de fitxers consta dels elements següents:</para>
 
 <variablelist>
 <varlistentry>
@@ -2243,7 +2335,7 @@ folder if possible.</para
 > a la seva esquerra per a indicar el seu estat.</para>
 
 <para
->A la part superior de la llista Documents hi ha una barra d'eines amb els següents botons:</para>
+>A la part superior de la llista Documents hi ha una barra d'eines amb els botons següents:</para>
 
 <simplelist>
 <member
@@ -2308,9 +2400,7 @@ folder if possible.</para
 <para
 >Si s'obren dos o més fitxers amb el mateix nom (ubicats en diferents carpetes) en el <guimenuitem
 >Mode de llista</guimenuitem
->, el nom del segon prendrà la forma <quote
->(2)</quote
-> i així successivament. El consell d'eina per al fitxer mostrarà el seu nom complet incloent el camí, permetent-vos escollir el que vulgueu.</para
+>, el nom del segon prendrà la forma «(2)» i així successivament. El consell d'eina per al fitxer mostrarà el seu nom complet incloent el camí, permetent-vos escollir el que vulgueu.</para
 > <para
 >Per a mostrar un document en el marc actiu, feu clic al nom del document en la llista.</para>
 
@@ -2321,7 +2411,7 @@ folder if possible.</para
 
 <para
 >A més, hi ha accions del gestor de fitxers per a reanomenar o suprimir el fitxer. Amb <guimenuitem
->Copia el camí del fitxer</guimenuitem
+>Copia la ubicació</guimenuitem
 > podreu copiar el camí complet del document al porta-retalls.</para>
 
 <para
@@ -2547,7 +2637,7 @@ folder if possible.</para
 
 <important>
 <para
->L'experiència prèvia amb &gdb; és molt recomanable. Per a obtenir més informació sobre l'ús de &gdb;, visiteu el <ulink url="https://www.gnu.org/software/gdb/"
+>L'experiència prèvia amb &gdb; és molt recomanable. Per a obtenir més informació sobre l'ús de &gdb;, visiteu <ulink url="https://www.gnu.org/software/gdb/"
 >el lloc web de &gdb;</ulink
 >.</para>
 </important>
@@ -2837,7 +2927,7 @@ folder if possible.</para
 <para
 >La vista d'eina <guilabel
 >Vista del depurador</guilabel
-> consisteix de diverses pestanyes: </para>
+> consisteix en diverses pestanyes: </para>
 
 <variablelist>
 
@@ -2970,7 +3060,7 @@ folder if possible.</para
 ></term>
 <listitem>
 <para
->Conté una àrea que mostra la sortida del programa en execució i una línia d'ordres des d'on podeu proveir entrades a aquest.</para>
+>Conté una àrea que mostra la sortida del programa en execució i una línia d'ordres des d'on podeu proveir entrades en aquest.</para>
 
 <screenshot id="screenshot-gdb-io">
 <screeninfo
@@ -3074,7 +3164,7 @@ folder if possible.</para
 >Introducció</title>
 
 <para
->La idea bàsica del connector Projecte és tenir una llista estructurada dels fitxers que pertanyen al projecte amb les següents propietats:</para>
+>La idea bàsica del connector Projecte és tenir una llista estructurada dels fitxers que pertanyen al projecte amb les propietats següents:</para>
 
 <orderedlist>
 <listitem
@@ -3109,7 +3199,7 @@ folder if possible.</para
 >Vista estructurada dels fitxers</title>
 
 <para
->Una vegada es carrega el connector Projecte a la pàgina de configuració del &kate;, obriu un fitxer en un projecte i apareixerà una barra lateral que llistarà tots els projectes, així com els fitxers de projecte de la següent manera:</para>
+>Una vegada es carrega el connector Projecte a la pàgina de configuració del &kate;, obriu un fitxer en un projecte i apareixerà una barra lateral que llistarà tots els projectes, així com els fitxers de projecte de la manera següent:</para>
 
 <screenshot id="screenshot-project-view">
 <screeninfo
@@ -3121,9 +3211,7 @@ folder if possible.</para
 </screenshot>
 
 <para
->Com podeu veure, el projecte actualment actiu és el <quote
->Kate</quote
->, i el seu contingut apareix a la vista en arbre. En fer clic sobre algun dels fitxers a la vista en arbre, aquest s'obrirà a l'editor. A més, proporciona un menú contextual amb el qual podreu obrir els fitxers amb altres aplicacions, com per exemple un fitxer <filename class="extension"
+>Com podeu veure, el projecte actualment actiu és el «Kate», i el seu contingut apareix a la vista en arbre. En fer clic sobre algun dels fitxers a la vista en arbre, aquest s'obrirà a l'editor. A més, proporciona un menú contextual amb el qual podreu obrir els fitxers amb altres aplicacions, com per exemple un fitxer <filename class="extension"
 >.ui</filename
 > amb el Qt Designer.</para>
 <para
@@ -3190,34 +3278,6 @@ folder if possible.</para
 
 </sect2>
 
-<sect2 id="project-quickopen">
-<title
->Obre fitxers ràpidament</title>
-
-<para
->Com fer clic als fitxers a la vista en arbre no és la manera més ràpida per a obrir-los, el &kate; proporciona un mecanisme ràpid d'obertura que podeu activar amb <keycombo action="simul"
->&Ctrl;&Alt;<keycap
->O</keycap
-></keycombo
->. Obtindreu una llista com aquesta:</para>
-
-<screenshot id="screenshot-project-quickopen">
-<screeninfo
->Obertura ràpida</screeninfo>
-<mediaobject>
-<imageobject
-><imagedata fileref="project-quickopen.png" format="PNG"/></imageobject>
-</mediaobject>
-</screenshot>
-
-<para
->Podeu filtrar escrivint parts del nom de fitxer que esteu cercant, i també podeu navegar amb les tecles de fletxa i pàgina amunt/avall a través de la llista. Prémer &Intro; activarà el fitxer seleccionat, mentre que &Esc; ocultarà la vista Obertura ràpida.</para>
-
-<para
->A més, l'obertura ràpida recordarà el fitxer anterior. De manera que quan canvieu a la vista d'obertura ràpida, el fitxer prèviament activat serà seleccionat automàticament i només haureu de prémer &Intro;, el qual de vegades és molt útil.</para>
-
-</sect2>
-
 <sect2 id="project-build">
 <title
 >Implementar la construcció del projecte</title>
@@ -3260,21 +3320,21 @@ folder if possible.</para
 >.kateproject</filename
 > a la carpeta arrel del projecte. Per exemple, el fitxer <filename
 >.kateproject</filename
-> del <quote
->Kate</quote
-> es veu així: </para>
+> del «Kate» es veu així: </para>
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "git": 1 } ]
+  "name": "Kate",
+  "files": [
+    {
+      "git": 1
+    }
+  ]
 }
 </screen>
 
 <para
->El contingut del fitxer s'escriu en la sintaxi &JSON;. El nom del projecte és <quote
->Kate</quote
->, i els fitxers continguts s'han de llegir des de &git;. </para>
+>El contingut del fitxer s'escriu en la sintaxi &JSON;. El nom del projecte és «Kate», i els fitxers continguts s'han de llegir des de &git;. </para>
 
 <para
 >També en comptes de <literal
@@ -3283,35 +3343,98 @@ folder if possible.</para
 >svn</literal
 > i el mercurial a través de <literal
 >hg</literal
->. Si no voleu llegir des d'un sistema de control de versions, podeu dir-li que carregui els fitxers de forma recursiva des dels directoris com segueix: </para>
+>. Si no voleu llegir els fitxers des d'un sistema de control de versions, podeu invocar el Kate des de la línia d'ordres com: <screen>
+kate /path/to/folder
+</screen
+> o dir-li que carregui els fitxers de forma recursiva des dels directoris com segueix: </para>
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "directory": "kate", "filters": ["*.cpp", "*.h", "*.ui", "CMakeLists.txt", "Find*.cmake"], "recursive": 1 } ]
+  "name": "Kate",
+  "files": [
+    {
+      "directory": "kate",
+      "filters": [
+        "*.cpp",
+        "*.h",
+        "*.ui",
+        "CMakeLists.txt",
+        "Find*.cmake"
+      ],
+      "recursive": 1,
+      "hidden": 1
+    }
+  ],
+  "exclude_patterns" : [
+    "^build/.*"
+  ]
 }
 </screen>
 
 <para
->Aquí, les subcarpetes i filtres defineixen el que forma part del projecte. També podeu barrejar el control de versions i els fitxers basats en filtres. </para>
+>Aquí, les subcarpetes i els filtres defineixen què és part del projecte. També podeu barrejar el control de versions i fitxers basats en filtres. Els fitxers ocults no es recuperaran si l'opció <code
+>"hidden"</code
+> és 0. <code
+>"exclude_patterns"</code
+> és una llista de patrons d'expressió regular que es poden utilitzar per a excloure carpetes i fitxers de l'arbre del projecte. En aquest exemple, s'exclouran tots els fitxers i carpetes d'un directori <filename
+>build</filename
+> des de l'arrel. </para>
 
 <para id="projects-build-support"
->Si voleu afegir implementació per al connector Construeix, podeu escriure un <filename
+>Si voleu afegir implementació per a la construcció, podeu escriure un <filename
 >.kateproject</filename
 > com aquest:</para>
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "git": 1 } ]
-, "build": {
-    "directory": "build"
-  , "build": "make all"
-  , "clean": "make clean"
-  , "install": "make install"
+  "name": "Kate",
+  "files": [
+    {
+      "git": 1
+    }
+  ],
+  "build": {
+    "directory": "build",
+    "build": "make all",
+    "clean": "make clean",
+    "install": "make install",
+    "targets": [
+      {
+        "name": "all",
+        "build_cmd": "ninja"
+        "run_cmd": "./bin/kate"
+      },
+      {
+        "name": "kate",
+        "build_cmd": "ninja kate-bin"
+      }
+    ]
   }
 }
 </screen>
+
+<para
+>Els objectius especificats abans apareixeran al <link linkend="kate-application-plugin-build"
+>Connector de construcció</link
+> sota <emphasis role="bold"
+>«Objectius del connector de projectes»</emphasis
+>. Si s'especifica la matriu <code
+>"targets"</code
+>, llavors s'ignoren <code
+>"build"</code
+>, <code
+>"clean"</code
+> i <code
+>"install"</code
+>. Cada element de la matriu especifica un objectiu. <code
+>"name"</code
+> és el nom de l'objectiu, <code
+>"build_cmd"</code
+> s'usarà per a construir l'objectiu, <code
+>"run_cmd"</code
+> s'usarà per a executar l'objectiu. El més important de tot és <code
+> "directory"</code
+>, és a on s'executaran les ordres. </para>
 
 <para
 >En cas que tingueu un fitxer <filename
@@ -3341,7 +3464,7 @@ folder if possible.</para
 > <guimenu
 >Projectes</guimenu
 ><guimenuitem
->Vés a</guimenuitem
+>Ves a</guimenuitem
 ></menuchoice
 > obrireu la vista <guilabel
 >Projecte actual</guilabel
@@ -3479,7 +3602,7 @@ folder if possible.</para
 > <guimenu
 >Projectes</guimenu
 ><guimenuitem
->Vés a</guimenuitem
+>Ves a</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -3529,7 +3652,7 @@ Projects Replicode run / stop-->
 ><guimenu
 >Client LSP</guimenu
 > <guisubmenu
->Vés a la definició</guisubmenu
+>Ves a la definició</guisubmenu
 > </menuchoice
 ></term>
 <listitem>
@@ -3544,7 +3667,7 @@ Projects Replicode run / stop-->
 ><guimenu
 >Client LSP</guimenu
 > <guisubmenu
->Vés a la declaració</guisubmenu
+>Ves a la declaració</guisubmenu
 > </menuchoice
 ></term>
 <listitem>
@@ -3559,7 +3682,7 @@ Projects Replicode run / stop-->
 ><guimenu
 >Client LSP</guimenu
 > <guisubmenu
->Vés a la definició del tipus</guisubmenu
+>Ves a la definició del tipus</guisubmenu
 > </menuchoice
 ></term>
 <listitem>
@@ -3639,7 +3762,7 @@ Projects Replicode run / stop-->
 ></term>
 <listitem>
 <para
->[textDocument/formatting] [textDocument/rangeFormatting] Dóna format al document actual o a la selecció actual.</para>
+>[textDocument/formatting] [textDocument/rangeFormatting] Dona format al document actual o a la selecció actual.</para>
 </listitem>
 </varlistentry>
 
@@ -3759,7 +3882,7 @@ Projects Replicode run / stop-->
 ></term>
 <listitem>
 <para
->[document/onTypeFormatting] Dóna format a parts del document en escriure certs caràcters desencadenants. Per exemple, es podria aplicar sagnat a la línia nova, o segons ho determini el servidor LSP. Recordeu que els scripts de sagnat de l'editor podrien estar intentant fer el mateix (segons el mode) i, per tant, podria no ser recomanable tenir ambdós habilitats alhora. </para>
+>[document/onTypeFormatting] Dona format a parts del document en escriure certs caràcters desencadenants. Per exemple, es podria aplicar sagnat a la línia nova, o segons ho determini el servidor LSP. Recordeu que els scripts de sagnat de l'editor podrien estar intentant fer el mateix (segons el mode) i, per tant, podria no ser recomanable tenir ambdós habilitats alhora. </para>
 </listitem>
 </varlistentry>
 
@@ -3902,6 +4025,53 @@ Projects Replicode run / stop-->
 
 </sect2>
 
+<sect2 id="lspclient-go-to-symbol">
+<title
+>Implementació del símbol «goto»</title>
+<para
+>El client LSP pot ajudar-vos a saltar a qualsevol símbol en el vostre projecte o fitxer actual. Per a saltar a qualsevol símbol del fitxer, useu la vista d'eina «Client LSP de símbols d'esquema» a la vora dreta del Kate. Aquesta vista d'eina llista tots els símbols trobats pel servidor en el document actual. </para>
+
+<sect3 id="lspclient-symbol-outline-config">
+<title
+>Configuració del client LSP de símbols d'esquema</title>
+
+<para
+>De manera predeterminada, els símbols s'ordenen per la seva aparició en el document, però podeu canviar l'ordenació perquè sigui alfabètica. Per a fer-ho, feu clic dret a la vista d'eina i marqueu «Ordena alfabèticament». </para>
+
+<para
+>La vista d'eina mostra els símbols en mode arbre de manera predeterminada, però podeu canviar-ho a una llista utilitzant el menú contextual. </para>
+</sect3>
+
+<sect3 id="lspclient-global-go-to-symbol">
+<title
+>Implementació del símbol «goto» global</title>
+<para
+>Per a saltar a qualsevol símbol del projecte, podeu obrir el diàleg del símbol «goto» utilitzant <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>p</keycap
+></keycombo
+>. El diàleg està buit quan s'obre però tan aviat com escriviu alguna cosa el diàleg començarà a mostrar-vos símbols coincidents. La qualitat de les coincidències i les capacitats de filtratge depenen del servidor que utilitzeu. Per exemple, el «clangd» admet un filtratge aproximat, però pot ser que altres servidors no. </para>
+</sect3>
+
+</sect2>
+
+<sect2 id="lspclient-extra">
+<title
+>Altres característiques</title>
+
+<para
+>S'admet l'ordre de la capçalera del codi font de commutació del «clangd». Per a canviar la capçalera d'origen en un projecte de C o C++ utilitzeu l'opció «Commuta la capçalera del codi font» des del menú contextual o la drecera <keycombo action="simul"
+><keycap
+>F12</keycap
+></keycombo
+>. </para>
+
+<para
+>Podeu saltar a un símbol ràpidament posant el ratolí sobre el símbol i després prement <keycombo action="simul"
+>&Ctrl;</keycombo
+> + botó esquerre del ratolí. </para>
+
+</sect2>
 
 <sect2 id="lspclient-configuration">
 <title
@@ -3978,41 +4148,23 @@ Projects Replicode run / stop-->
 </screen>
 
 <para
->Cal tenir en compte que cada <quote
->command</quote
-> pot ser una matriu o una cadena (en aquest cas es divideix en una matriu). A més, una entrada <quote
->global</quote
-> de nivell superior (al costat de <quote
->server</quote
->) també es considerarà (vegeu més a baix). El binari especificat és la cerca de la forma habitual, &pex;, utilitzant <literal
+>Cal tenir en compte que cada «command» pot ser una matriu o una cadena (en aquest cas es divideix en una matriu). A més, una entrada «global» de nivell superior (al costat de «server») també es considerarà (vegeu més a baix). El binari especificat és la cerca de la forma habitual, &pex;, utilitzant <literal
 >PATH</literal
 >. Si està instal·lat en una ubicació personalitzada, és possible que s'hagi d'estendre aquest últim. O de manera alternativa, es pot utilitzar un enllaç (simbòlic) o un script d'embolcall en una ubicació que estigui dins del <literal
 >PATH</literal
-> habitual. Com s'il·lustra a dalt, també es pot especificar un <quote
->camí</quote
-> que se cercarà després de les ubicacions estàndard. </para>
+> habitual. Com s'il·lustra a dalt, també es pot especificar un «camí» que se cercarà després de les ubicacions estàndard. </para>
 
 <para
->Totes les entrades a <quote
->command</quote
->, <quote
->root</quote
-> i <quote
->path</quote
-> estan subjectes a l'expansió de les variables. </para>
+>Totes les entrades a «command», «root» i «path» estan subjectes a l'expansió de les variables. </para>
 
 <para
->El <quote
->highlightingModeRegex</quote
-> s'utilitza per a mapar el mode de ressaltat emprat pel &kate; amb l'ID d'idioma de servidor. Si no es proporciona una expressió regular, s'utilitzarà l'ID de l'idioma. Si s'estableix a fals una entrada <quote
->documentLanguageId</quote
->, no es proporcionarà cap ID d'idioma al servidor en obrir el document. Això pot tenir millors resultats per a alguns servidors que són més precisos determinant el tipus de document que fer-ho basant-se en un mode del &kate;. </para>
+>El «highlightingModeRegex» s'utilitza per a mapar el mode de ressaltat emprat pel &kate; amb l'ID d'idioma de servidor. Si no es proporciona una expressió regular, s'utilitzarà l'ID de l'idioma. Si s'estableix a fals una entrada «documentLanguageId», no es proporcionarà cap ID d'idioma al servidor en obrir el document. Això pot tenir millors resultats per a alguns servidors que són més precisos determinant el tipus de document que fer-ho basant-se en un mode del &kate;. </para>
 
 <para
->De l'exemple anterior, l'essència és presumiblement clara. A més, cada objecte d'entrada del servidor també podrà tenir una entrada «initializationOptions», la qual es passarà al servidor com a part del mètode «initialize». Si està present, es passarà una entrada «settings» al servidor mitjançant la notificació «workspace/didChangeConfiguration». </para>
+>A partir de l'exemple anterior, se suposa que l'essència és clara. A més, cada objecte d'entrada del servidor també podrà tenir una entrada «initializationOptions», la qual es passarà al servidor com a part del mètode «initialize». Si està present, es passarà una entrada «settings» al servidor mitjançant la notificació «workspace/didChangeConfiguration». Es poden especificar tant «completionTriggerCharacters» o «signatureTriggerCharacters» com un objecte JSON amb membres de cadena "exclude" i/o "include". S'utilitzaran per a excloure o afegir alguns caràcters al joc d'activadors respectiu tal com el proporciona el servidor. </para>
 
 <para
->S'apliquen diverses etapes de superposició/fusionat; <itemizedlist>
+>S'apliquen diverses etapes de superposició/fusió; <itemizedlist>
 <listitem>
 <para
 >configuració de l'usuari (carregada des del fitxer) superposa la configuració predeterminada (interna)</para>
@@ -4031,14 +4183,45 @@ Projects Replicode run / stop-->
 </para>
 
 <para
->S'utilitza una instància del servidor per combinació (arrel, tipus de servidor). Si s'especifica «root» com un camí absolut, llavors s'utilitzarà com està, en cas contrari serà relatiu a <quote
->projectBase</quote
-> (segons ho determini el <link linkend="kate-application-plugin-projects"
+>S'utilitza una instància del servidor per combinació (arrel, tipus de servidor). Si s'especifica «root» com un camí absolut, llavors s'utilitzarà com està, en cas contrari serà relatiu a «projectBase» (segons ho determini el <link linkend="kate-application-plugin-projects"
 >connector Projecte</link
->) si escau, o d'una altra manera relativa al directori del document. Si no s'especifica i «rootIndicationFileNames» és una matriu com noms de fitxer, llavors se selecciona un directori pare del document actual que conté aquest fitxer. Com a últim recurs, se seleccionarà el directori inicial com a «root». Per a qualsevol document, el «root» resultant determinarà si es necessita o no una instància separada. Si és així, el «root» es passarà com a rootUri/rootPath. </para>
+>) si escau, o d'una altra manera relativa al directori del document. Si no s'especifica i «rootIndicationFileNames» és una matriu com noms de fitxer, llavors se selecciona un directori pare del document actual que conté aquest fitxer. Alternativament, si no s'especifica «root» i «rootIndicationFilePatterns» és una matriu de patrons de fitxers, llavors se selecciona un directori pare del document actual que coincideixi amb el patró de fitxer. Com a últim recurs, se seleccionarà el directori inicial com a «root». Per a qualsevol document, el «root» resultant determinarà si es necessita o no una instància separada. Si és així, el «root» es passarà com a rootUri/rootPath. </para>
 
 <para
 >En general, es recomana deixar l'arrel sense especificar, ja que no és tan important per a un servidor (encara que la vostra experiència pot variar). Òbviament, menys instàncies del servidor serà més eficient, i també tindreu una vista «més àmplia» que amb la vista de moltes instàncies separades. </para>
+
+<para
+>Com s'ha esmentat anteriorment, diverses entrades estan subjectes a una expansió variable. Una aplicació adequada de la combinació amb els enfocaments «script embolcall» permet personalitzar en moltes circumstàncies. Per exemple, considereu un escenari de desenvolupament en Python format per múltiples projectes (p. ex., repositors Git), cadascun amb la seva pròpia configuració de «virtualenv». Utilitzant la configuració predeterminada, el servidor de llenguatge Python no serà conscient de l'entorn virtual. No obstant això, es pot solucionar amb l'enfocament següent. En primer lloc, es pot introduir el fragment següent «User Server Settings» en el connector de LSPClient: </para>
+<screen
+>{
+        "servers":
+        {
+                "python":
+                {
+                        "command": ["pylsp_in_env", "%{Project:NativePath}"],
+                        "root": "."
+                }
+        }
+}
+</screen>
+<para
+>L'entrada arrel de dalt és relativa al directori del projecte i garanteix que s'inicia un servidor de llenguatge a part per a cada projecte, el qual és necessari en aquest cas, ja que cadascun té un entorn virtual diferent. </para>
+<para
+><filename
+>pylsp_in_env</filename
+> és un petit «script d'embolcall» que s'hauria de col·locar en la <literal
+>PATH</literal
+> amb el contingut següent (per a ajustar): </para>
+<screen
+>#!/bin/bash
+cd $1
+# Executa el servidor (python-lsp-server) dins del «virtualenv»
+# (és a dir, amb les variables de «virtualenv» configurades),
+# de manera que es fonamenta el «virtualenv»source XYZ
+# El quilometratge o els arguments del servidor poden variar
+exec myserver
+</screen>
+
 
 <sect3 id="lspclient-customization">
 <title
@@ -4058,7 +4241,7 @@ Projects Replicode run / stop-->
 >). A més, la configuració personalitzada del servidor també es pot passar a través de LSP (protocol), consulteu les entrades esmentades anteriorment «initializationOptions» i «settings» a la configuració del servidor. </para>
 
 <para
->Atès que s'apliquen diversos nivells de superposició/fusionat, el següent exemple de configuració de client especificada per l'usuari modifica algunes configuracions de servidor del llenguatge Python. </para>
+>Atès que s'apliquen diversos nivells de superposició/fusió, l'exemple següent de configuració de client especificada per l'usuari modifica algunes configuracions de servidor del llenguatge Python. </para>
 
 <screen
 >{
@@ -4085,6 +4268,48 @@ Projects Replicode run / stop-->
 
 </sect3>
 
+<sect3 id="lspclient-format-on-save">
+<title
+>Format per a desar del servidor LSP</title>
+
+<para
+>Podeu activar el «format per a desar» dels paràmetres del LSP en el diàleg de configuració. </para>
+
+</sect3>
+
+<sect3 id="lspclient-diagnostics-suppression">
+<title
+>Supressió del diagnòstic del servidor LSP</title>
+
+<para
+>Pot passar que s'informi que els diagnòstics que no són prou útils. Això pot ser molt molest, especialment si n'hi ha molts (sovint del mateix tipus). En alguns casos, això es pot afinar mitjançant específics (servidor) del llenguatge. Per exemple, el <ulink url="https://clangd.llvm.org/config.html"
+>mecanisme de configuració de «clangd»</ulink
+> permet afinar alguns aspectes del diagnòstic. No obstant això, en general podria ser que no sempre sigui evident com fer-ho o pot ser que no sigui possible en les formes desitjades a causa de les limitacions dels servidors o de l'error. </para>
+
+<para
+>Com a tal, el connector admet la supressió de diagnòstics similar a, &pex;, les supressions de «valgrind». La configuració detallada es pot subministrar en una clau «suppressions» en la configuració en &JSON; (fusionada). </para>
+
+<screen
+>{
+    "servers": {
+        "c": {
+            "suppressions": {
+                "rulename": ["filename", "foo"],
+                "clang_pointer": ["", "clang-tidy", "clear_pointer"],
+            }
+        }
+    }
+}
+</screen>
+
+<para
+>Cada regla (vàlida) té un nom arbitrari i es defineix per una matriu de longitud 2 o 3, la qual proporciona una expressió regular que coincidirà amb el nom de fitxer (complet), una expressió regular perquè coincideixi amb el diagnòstic (text) i una expressió regular opcional que coincideixi amb el text (interval del codi font de) al qual s'aplica el diagnòstic. </para>
+
+<para
+>A més de la configuració detallada anterior, el menú contextual a la pestanya de diagnòstic també admet afegir/eliminar les supressions que coincideixin exactament amb un diagnòstic (text) en particular, sigui globalment (qualsevol fitxer) o sigui localment (el fitxer específic en qüestió). Aquestes supressions s'emmagatzemen i es carregaran des de la configuració de la sessió. </para>
+
+</sect3>
+
 <sect3 id="lspclient-troubleshooting">
 <title
 >Solució de problemes del servidor LSP</title>
@@ -4099,7 +4324,7 @@ Projects Replicode run / stop-->
 >També pot ser informatiu examinar l'intercanvi de protocols entre el client LSP del &kate; i el servidor LSP. De nou, aquest últim generalment té formes per a rastrejar-ho. El client LSP també proporciona un seguiment de depuració addicional (a la sortida d'error estàndard) quan s'invoca el &kate; amb el següent <literal
 >export</literal
 > <literal
->QT_LOGGING_RULES=katelspclientplugin=true</literal
+>LSPCLIENT_DEBUG=1</literal
 > adequat. </para>
 
 </sect3>
@@ -4187,7 +4412,7 @@ its view and place the cursor at the start of the definition.
 >Consulta de la cerca</title>
 
 <para
->Les següents opcions estan sempre a la part superior de la vista d'eina cerca en fitxers:</para>
+>Les opcions següents estan sempre a la part superior de la vista d'eina cerca en fitxers:</para>
 
 <variablelist>
 
@@ -4256,7 +4481,13 @@ its view and place the cursor at the start of the definition.
 ><para
 >En acabar de configurar-ho tot, només haureu de prémer el botó <guibutton
 >Cerca</guibutton
-> per a realitzar la cerca. Podeu prémer la tecla &Intro; en el quadre de text de consulta per a fer el mateix. </para
+> per a realitzar la cerca; premeu i manteniu premuda la tecla &Ctrl; abans de prémer el botó <guibutton
+>Cerca</guibutton
+> per a realitzar la cerca en una pestanya nova. També podeu prémer &Intro; en el quadre de text de <guilabel
+>Cerca</guilabel
+> per fer el mateix (prement de manera similar <keycombo action="simul"
+>&Ctrl;&Intro;</keycombo
+> es realitzarà la cerca en una pestanya nova). </para
 ></listitem>
 </varlistentry>
 
@@ -4286,14 +4517,14 @@ its view and place the cursor at the start of the definition.
 ></term>
 <listitem
 ><para
->Va a la següent coincidència de la vostra consulta de cerca, si és necessari alterna entre els fitxers. </para
+>Va a la coincidència següent de la vostra consulta de cerca, si és necessari alterna entre els fitxers. </para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guibutton
->Substitueix les verificades</guibutton
+>Substitueix les marcades</guibutton
 ></term>
 <listitem
 ><para
@@ -4610,12 +4841,12 @@ its view and place the cursor at the start of the definition.
 ><guimenu
 >Edita</guimenu
 > <guimenuitem
->Vés a la coincidència següent</guimenuitem
+>Ves a la coincidència següent</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
 <para
->Va a la següent coincidència en una cerca realitzada pel connector Cerca i substitueix.</para>
+>Va a la coincidència següent en una cerca realitzada pel connector Cerca i substitueix.</para>
 </listitem>
 </varlistentry>
 
@@ -4625,7 +4856,7 @@ its view and place the cursor at the start of the definition.
 ><guimenu
 >Edita</guimenu
 > <guimenuitem
->Vés a la coincidència anterior</guimenuitem
+>Ves a la coincidència anterior</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -4678,9 +4909,7 @@ its view and place the cursor at the start of the definition.
 <title
 >Introducció</title>
 <para
->El Retalls del &kate; és un connector utilitzat per a estalviar una mica de temps, afegint una implementació per als anomenats <quote
->retalls</quote
-> (codi font reutilitzable, codi de màquina o text). El connector també és compatible amb la compleció del codi i &javascript;.</para>
+>El Retalls del &kate; és un connector utilitzat per a estalviar una mica de temps, afegint una implementació per als anomenats «retalls» (codi font reutilitzable, codi de màquina o text). El connector també és compatible amb la compleció del codi i &javascript;.</para>
 </sect2>
 
 <sect2 id="snippets-menu">
@@ -4746,7 +4975,7 @@ its view and place the cursor at the start of the definition.
 </screenshot>
 
 <para
->Al plafó hauríeu de veure una llista dels repositoris de retalls, juntament amb les opcions per a crear el vostre, obtenir-los des d'Internet o carregar-los des d'un fitxer local. Cada repositori té una casella de selecció que es pot utilitzar per a activar o desactivar. També hi ha botons per a editar i eliminar els repositoris existents.</para>
+>Al plafó hauríeu de veure una llista dels repositoris de retalls, juntament amb les opcions per a crear el vostre, obtenir-los des d'Internet o carregar-los des d'un fitxer local. Cada repositori té una casella de selecció que es pot utilitzar per a activar o desactivar. També hi ha botons per a editar i suprimir els repositoris existents.</para>
 
 <sect3 id="snippets-repo-internet">
 <title
@@ -4793,7 +5022,7 @@ when finished.</para
 </screenshot>
 
 <para
->L'editor per al repositori de retalls conté les següents opcions:</para>
+>L'editor per al repositori de retalls conté les opcions següents:</para>
 
 <variablelist>
 
@@ -4848,9 +5077,7 @@ when finished.</para
 ></term>
 <listitem
 ><para
->Seleccioneu el/s tipus de fitxer/s que voleu aplicar al repositori de retalls. De manera predeterminada s'estableix a <quote
-></quote
-> -es deixa buit-, de manera que el repositori ho aplicarà a tots els fitxers. Podeu canviar-ho a quelcom com C++, o seleccionar des d'una llista fent clic en els elements. Podeu especificar més d'un tipus de fitxer prement la tecla &Maj; mentre s'afegeixen els tipus.</para
+>Seleccioneu el/s tipus de fitxer/s que voleu aplicar al repositori de retalls. De manera predeterminada s'estableix a «» -es deixa buit-, de manera que el repositori ho aplicarà a tots els fitxers. Podeu canviar-ho a quelcom com C++, o seleccionar des d'una llista fent clic en els elements. Podeu especificar més d'un tipus de fitxer prement la tecla &Maj; mentre s'afegeixen els tipus.</para
 ></listitem>
 </varlistentry>
 
@@ -4910,7 +5137,7 @@ when finished.</para
 ><para
 >El text que heu retallat s'inserirà en el document.</para>
 <para
->Un retall pot contenir camps editables. Es poden alternar prement la tecla &Tab;. Es poden utilitzar les següents expressions en el text de la plantilla per a crear camps:</para>
+>Un retall pot contenir camps editables. Es poden alternar prement la tecla &Tab;. Es poden utilitzar les expressions següents en el text de la plantilla per a crear camps:</para>
 <para
 ><userinput
 >${<replaceable
@@ -4981,7 +5208,37 @@ when finished.</para
 >document</userinput
 > i <userinput
 >vista</userinput
->. Referiu-vos a la documentació de l'API per a la creació de scripts per a obtenir més informació</para>
+>. Consulteu la documentació de l'API per a la creació de scripts per a obtenir més informació.</para>
+<para
+>Per als scripts més complexos, pot ser important entendre que <emphasis
+>primer </emphasis
+> s'insereix el retall en brut en el document, i <emphasis
+>després</emphasis
+> s'avaluen les funcions. P. ex., si una funció recupera el text a la línia a on s'ha inserit el retall, aquest text també contindrà <userinput
+>${functionCall()}</userinput
+>.</para>
+<para
+>Com a exemple de treballar amb seleccions utilitzant l'API de creació de scripts, una manera senzilla d'ajustar el text seleccionat dins d'etiquetes és aquest fragment: <userinput
+>&lt;strong&gt;${view.selectedText()}&lt;/strong&gt;</userinput
+> </para>
+<para
+>L'exemple següent invoca un script que insereix un text predeterminat en cas que no hi hagi cap selecció. Retall:</para>
+<para>
+<userinput
+>${rangeCommand("&lt;strong&gt;%%1&lt;/strong&gt;", "Bold")}</userinput
+></para>
+<para
+>Script: <programlisting
+>function rangeCommand(command, def) {
+    if (view.selectedText().length 
+> 0) {
+        return command.replace("%%1", view.selectedText());
+    } else {
+        return command.replace("%%1", def);
+    }
+}
+</programlisting>
+</para>
 </listitem>
 </varlistentry>
 
@@ -5029,7 +5286,7 @@ when finished.</para
 <para
 >Si el retall conté variables (a més de <literal
 >${cursor}</literal
->), el cursor passarà automàticament a la primera ocurrència d'una variable i esperarà perquè escriviu quelcom. En acabar, podeu prémer &Tab; per a passar a la següent variable, i així successivament.</para>
+>), el cursor passarà automàticament a la primera ocurrència d'una variable i esperarà perquè escriviu quelcom. En acabar, podeu prémer &Tab; per a passar a la variable següent, i així successivament.</para>
 
 </sect2>
 
@@ -5040,6 +5297,280 @@ when finished.</para
 >Els retalls del &kate; han estat escrits per en Joseph Wenninger.</para>
 <para
 >Un agraïment especial a la Google Code-in 2011, al participant Martin Gergov per escriure gran part d'aquesta secció.</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="kate-application-plugin-keyboardmacros">
+<sect1info>
+<authorgroup>
+<!--author
+>&Pablo.Rauzy; &Pablo.Rauzy.mail;</author--> <!-- TODO: use that when the version of KDocTools that Kate depends on has it -->
+<author
+><firstname
+>Pablo</firstname
+> <surname
+>Rauzy</surname
+> <email
+>r .at. uzy.me</email
+></author>
+</authorgroup>
+</sect1info>
+<title
+>Connector de macros de teclat</title>
+
+<sect2 id="keyboardmacros-intro">
+<title
+>Introducció</title>
+<para
+>Enregistra i reprodueix macros de teclat (és a dir, una seqüència d'acció de teclat).</para>
+</sect2>
+
+<sect2 id="keyboardmacros-basicusage">
+<title
+>Ús bàsic</title>
+
+<sect3 id="keyboardmacros-basicusage-record">
+<title
+>Per a començar l'enregistrament d'una macro de teclat:</title>
+<para
+><menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Macros de teclat</guimenuitem
+><guimenuitem
+>Enregistra una macro...</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>El connector enregistrarà cada pulsació de tecla fins que finalitzeu l'enregistrament.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-record-end">
+<title
+>Per a finalitzar l'enregistrament:</title>
+<para
+><menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Macros de teclat</guimenuitem
+><guimenuitem
+>Finalitza l'enregistrament de la macro</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>El connector aturarà l'enregistrament de les pulsacions de tecles i desarà la seqüència com a macro actual.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-record-cancel">
+<title
+>Per a cancel·lar l'enregistrament:</title>
+<para
+><menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Macros de teclat</guimenuitem
+><guimenuitem
+>Cancel·la l'enregistrament de la macro</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Alt;&Maj;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>El connector aturarà l'enregistrament de les pulsacions de tecles, però no canviarà la macro actual.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-play">
+<title
+>Per a reproduir la macro actual:</title>
+<para
+><menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Macros de teclat</guimenuitem
+><guimenuitem
+>Reprodueix la macro</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>El connector reproduirà la macro actual.</para>
+<para
+>L'ordre <userinput
+>kmplay</userinput
+> sense cap argument també reproduirà la macro actual.</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="keyboardmacros-namedmacros">
+<title
+>Macros amb nom</title>
+
+<para
+>És possible desar macros de teclat donant-les un nom.</para>
+<para
+>Les macros amb nom són permanents entre sessions del Kate, es desen en el fitxer <filename
+>keyboardmacros.json</filename
+> en el directori de dades d'usuari del Kate (normalment <filename
+>~/.local/share/kate/</filename
+>).</para>
+
+<sect3 id="keyboardmacros-namedmacros-save">
+<title
+>Per a desar la macro actual:</title>
+<para
+><menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Macros de teclat</guimenuitem
+><guimenuitem
+>Desa la macro actual</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Alt;&Maj;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>El connector demanarà un nom i desarà la macro amb aquest.</para>
+<para
+>L'ordre <userinput
+>kmsave <replaceable
+>nom</replaceable
+></userinput
+> desarà la macro actual amb el nom <userinput
+><replaceable
+>nom</replaceable
+></userinput
+>.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-load">
+<title
+>Per a carregar una macro desada com a macro actual:</title>
+<para
+><menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Macros de teclat</guimenuitem
+><guimenuitem
+>Carrega una macro amb nom...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>El connector llista les macros desades com a elements en aquest submenú. En activar un element es carregarà la macro corresponent com a l'actual.</para>
+<para
+>L'ordre <userinput
+>kmload <replaceable
+>nom</replaceable
+></userinput
+> carregarà la macro desada amb el nom <userinput
+><replaceable
+>nom</replaceable
+></userinput
+> com a l'actual.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-play">
+<title
+>Per a reproduir una macro desada sense carregar-la:</title>
+<para
+><menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Macros de teclat</guimenuitem
+><guimenuitem
+>Reprodueix una macro amb nom...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>El connector llista les macros desades com a elements en aquest submenú. En activar un element es reproduirà la macro corresponent sense carregar-la.</para>
+<para
+>Tingueu en compte que cada macro desada és una acció que forma part de la col·lecció d'accions actuals, de manera que s'hi pot assignar una drecera personalitzada a través de la interfície <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guimenuitem
+>Configura les dreceres de teclat...</guimenuitem
+></menuchoice
+>.</para>
+<para
+>L'ordre <userinput
+>kmplay <replaceable
+>nom</replaceable
+></userinput
+> reproduirà la macro desada amb el nom <userinput
+><replaceable
+>nom</replaceable
+></userinput
+> sense carregar-la.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-wipe">
+<title
+>Per a esborrar (és a dir, suprimir) una macro desada:</title>
+<para
+><menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Macros de teclat</guimenuitem
+><guimenuitem
+>Esborra una macro amb nom...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>El connector llista les macros desades com a elements en aquest submenú. En activar un element s'esborrarà (és a dir, se suprimirà) la macro corresponent.</para>
+<para
+>L'ordre <userinput
+>kmwipe <replaceable
+>nom</replaceable
+></userinput
+> esborrarà la macro desada amb el nom <userinput
+><replaceable
+>nom</replaceable
+></userinput
+>.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-command-tips">
+<title
+>Consells per a les ordres:</title>
+<para
+>Tingueu en compte després del prefix <userinput
+>km</userinput
+>, totes aquestes ordres usen una lletra diferent de manera que les podeu invocar amb eficiència usant la compleció amb el tabulador!</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="keyboardmacros-limitations">
+<title
+>Limitacions</title>
+
+<para
+>Per ara, les macros de teclat no es poden reproduir correctament si s'utilitzen alguns tipus de ginys de la IGU: QMenu, QuickOpenLineEdit, o TabSwitcherTreeView, per exemple. No estic segur de per què, però la meva primera suposició seria que aquests ginys funcionen d'una manera no estàndard pel que fa als esdeveniments de teclat.</para>
+
 </sect2>
 
 </sect1>
@@ -5367,7 +5898,7 @@ VALUES ("<replaceable
 
 <para
 >Per a actualitzar aquesta llista, feu clic dret a qualsevol lloc en la vista d'eina i seleccioneu <guimenuitem
->Refresca</guimenuitem
+>Actualitza</guimenuitem
 >. Per a generar una consulta sobre qualsevol entrada a la llista, feu clic sobre una entrada, seleccioneu <guisubmenu
 >Genera</guisubmenu
 >, i seleccioneu el tipus de consulta (<guimenuitem
@@ -5485,7 +6016,7 @@ VALUES ("<replaceable
 <sect1 id="kate-application-plugin-symbolviewer">
 <!--https://kate-editor.org/2010/10/27/php-treeview-improvements-in-kate/?-->
 <title
->Connector Visor de símbols</title>
+>Connector Visualitzador de símbols</title>
 
 <sect2 id="symbolviewer-using">
 <title
@@ -5496,7 +6027,7 @@ VALUES ("<replaceable
 <para
 >En fer clic, amb la informació analitzada es podrà explorar amb facilitat el codi.</para>
 <para
->De moment s'admeten els següents llenguatges:</para>
+>De moment s'admeten els llenguatges següents:</para>
 <para
 >C/C++, &Java;, Perl, PHP, Python, Ruby, XSLT, Tcl/Tk, Fortran</para>
 
@@ -5557,7 +6088,7 @@ VALUES ("<replaceable
 
 <screenshot id="screenshot-symbolviewer-settings">
 <screeninfo
->Visor de símbols</screeninfo>
+>Visualitzador de símbols</screeninfo>
 <mediaobject>
 <imageobject
 ><imagedata fileref="symbolviewer-settings.png" format="PNG"/></imageobject>
@@ -5582,7 +6113,7 @@ VALUES ("<replaceable
 ><primary
 >Emulador de terminal</primary
 ></indexterm
-> L'emulador de terminal incrustat és una còpia de l'aplicació de terminal &konsole; del &kde;, per a la vostra comoditat. Està disponible des de l'element de menú <menuchoice
+> L'emulador de terminal integrat és una còpia de l'aplicació de terminal &konsole; del &kde;, per a la vostra comoditat. Està disponible des de l'element de menú <menuchoice
 ><guimenu
 >Visualitza</guimenu
 ><guisubmenu
@@ -5603,7 +6134,7 @@ VALUES ("<replaceable
 >.</para>
 
 <para
->L'emulador de terminal incrustat és proporcionat pel connector Vista d'eina del terminal.</para>
+>L'emulador de terminal integrat és proporcionat pel connector Vista d'eina del terminal.</para>
 
 <sect2 id="konsole-menus">
 <title
@@ -5624,7 +6155,7 @@ VALUES ("<replaceable
 ></term>
 <listitem>
 <para
->Mostra o oculta la presència de l'emulador de terminal incrustat.</para>
+>Mostra o oculta la presència de l'emulador de terminal integrat.</para>
 <para
 >Quan s'activa la primera vegada, es crearà el terminal.</para>
 <para
@@ -5649,7 +6180,7 @@ VALUES ("<replaceable
 ></term>
 <listitem
 ><para
->Envia el text seleccionat cap a l'emulador de terminal incrustat. No s'afegirà una línia nova després del text.</para
+>Envia el text seleccionat cap a l'emulador de terminal integrat. No s'afegirà una línia nova després del text.</para
 ></listitem>
 </varlistentry>
 
@@ -5664,12 +6195,27 @@ VALUES ("<replaceable
 ></term>
 <listitem>
 <para
->Això farà que el terminal encastat faci <command
+>Això farà que el terminal integrat faci <command
 >cd</command
 > al directori del document actiu.</para>
 
 <para
 >Altrament podeu configurar el &kate; per a mantenir sincronitzat sempre el terminal amb el document actual. Per a més informació, vegeu <xref linkend="konsole-config"/>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="tools-run-current-document">
+<term
+><menuchoice
+><guimenu
+>Eines</guimenu
+> <guimenuitem
+>Executa el document actual</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Executa el document actual en el &konsole;. Només es poden executar els documents locals. El &kate; mostrarà un avís abans d'executar el document perquè aquesta acció pot ser una amenaça seriosa de seguretat.</para>
 </listitem>
 </varlistentry>
 
@@ -5679,7 +6225,7 @@ VALUES ("<replaceable
 ><guimenu
 >Eines</guimenu
 > <guimenuitem
->[Dóna el focus al/Treu el focus del] plafó del terminal</guimenuitem
+>[Dona el focus al/Treu el focus del] plafó del terminal</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -5703,7 +6249,7 @@ VALUES ("<replaceable
 >.</para>
 
 <para
->Hi ha disponibles les següents opcions:</para>
+>Hi ha disponibles les opcions següents:</para>
 
 <variablelist>
 <varlistentry>
@@ -5713,7 +6259,7 @@ VALUES ("<replaceable
 ></term>
 <listitem
 ><para
->Això causarà que el terminal incrustat canviï al directori del document actiu en iniciar-se i que quan se seleccioni un document nou doni el focus a aquest directori. Si no està activada, haureu de navegar pel vostre compte en el terminal. </para
+>Això causarà que el terminal integrat canviï al directori del document actiu en iniciar-se i que quan se seleccioni un document nou doni el focus a aquest directori. Si no està activada, haureu de navegar pel vostre compte en el terminal. </para
 ></listitem>
 </varlistentry>
 
@@ -5726,7 +6272,7 @@ VALUES ("<replaceable
 ><para
 >Estableix la variable d'entorn <envar
 >EDITOR</envar
-> de manera que els programes que s'executin en el terminal incrustat, obrin automàticament un fitxer a l'editor, obrint-lo en el &kate; en lloc de l'editor predeterminat configurat en el vostre intèrpret d'ordres. No podreu seguir utilitzant el terminal fins que tanqueu el fitxer al &kate;, de manera que el programa cridat reconeix que l'heu acabat d'editar.</para
+> de manera que els programes que s'executin en el terminal integrat, obrin automàticament un fitxer a l'editor, obrint-lo en el &kate; en lloc de l'editor predeterminat configurat en el vostre intèrpret d'ordres. No podreu seguir utilitzant el terminal fins que tanqueu el fitxer al &kate;, de manera que el programa cridat reconeix que l'heu acabat d'editar.</para
 ></listitem>
 </varlistentry>
 
@@ -5737,7 +6283,7 @@ VALUES ("<replaceable
 ></term>
 <listitem
 ><para
->Permet tancar el terminal incrustat prement la tecla &Esc;. Pot causar problemes amb les aplicacions de terminal que fan servir la tecla &Esc;, &pex;, el <application
+>Permet tancar el terminal integrat prement la tecla &Esc;. Pot causar problemes amb les aplicacions de terminal que fan servir la tecla &Esc;, &pex;, el <application
 >vim</application
 >. Afegiu aquestes aplicacions en el quadre d'entrada de text que hi ha a continuació. Els elements de la llista s'hauran de separar amb comes.</para
 ></listitem>
@@ -5875,11 +6421,7 @@ VALUES ("<replaceable
 <para
 >Aquest connector comprova que els fitxers &XML; estiguin ben formats i que són vàlids.</para>
 <para
->Aquest connector comprova el fitxer actual. A la part inferior de la finestra principal del &kate; apareixerà una llista d'avisos i errors. Podeu fer clic sobre un missatge d'error per a saltar al lloc corresponent en el fitxer. Si el fitxer té una <quote
->DOCTYPE</quote
->, la DTD indicada amb aquest tipus de document serà utilitzada per a comprovar la validesa del fitxer. S'espera que la DTD estigui al lloc corresponent en el fitxer actual, &pex; si el tipus de document fa referència a <quote
->DTD/xhtml1-transitional.dtd</quote
-> i el fitxer és <filename
+>Aquest connector comprova el fitxer actual. A la part inferior de la finestra principal del &kate; apareixerà una llista d'avisos i errors. Podeu fer clic sobre un missatge d'error per a saltar al lloc corresponent en el fitxer. Si el fitxer té una «DOCTYPE», la DTD indicada amb aquest tipus de document serà utilitzada per a comprovar la validesa del fitxer. S'espera que la DTD estigui al lloc corresponent en el fitxer actual, &pex; si el tipus de document fa referència a «DTD/xhtml1-transitional.dtd» i el fitxer és <filename
 >/home/pere/prova.xml</filename
 >, s'esperarà que la DTD es trobi a <filename
 >/home/pere/DTD/xhtml1-transitional.dtd</filename
@@ -5940,9 +6482,7 @@ VALUES ("<replaceable
 <title
 >Agraïments i reconeixements</title>
 <para
->Copyright del connector <quote
->Validació &XML;</quote
-> del &kate;, 2002 per en &Daniel.Naber; &Daniel.Naber.mail;. </para>
+>Copyright del connector «Validació &XML;» del &kate;, 2002 per en &Daniel.Naber; &Daniel.Naber.mail;. </para>
 <para
 >Copyright de la documentació, 2002 per en &Daniel.Naber;</para>
 
@@ -5961,18 +6501,14 @@ VALUES ("<replaceable
 >Compleció &XML;</title>
 
 <para
->Aquest connector ofereix consells sobre el que està permès en una determinada posició en un fitxer &XML;, segons la DTD del fitxer. Es mostrarà una llista de possibles elements, atributs, valors d'atributs o entitats, en funció de la posició del cursor (&pex;, totes les entitats seran llistades si el caràcter a l'esquerra del cursor és <quote
->&amp;</quote
->). També és possible tancar l'etiqueta d'obertura més propera a l'esquerra.</para>
+>Aquest connector ofereix consells sobre el que està permès en una determinada posició en un fitxer &XML;, segons la DTD del fitxer. Es mostrarà una llista de possibles elements, atributs, valors d'atributs o entitats, en funció de la posició del cursor (&pex;, totes les entitats seran llistades si el caràcter a l'esquerra del cursor és «&amp;»). També és possible tancar l'etiqueta d'obertura més propera a l'esquerra.</para>
 
 <para
 >La <acronym
 >DTD</acronym
 > ha d'existir en format &XML;, presentada pel programa <command
 >dtdparse</command
-> de Perl. Cridarem una DTD en aquest format <quote
->meta DTD</quote
->. Se subministren algunes meta DTD. Es troben instal·lades a <filename class="directory"
+> de Perl. Cridarem una DTD en aquest format «meta DTD». Se subministren algunes meta DTD. Es troben instal·lades a <filename class="directory"
 >katexmltools/</filename
 > a <userinput
 ><command
@@ -6011,9 +6547,7 @@ VALUES ("<replaceable
 ><guimenuitem
 >Assigna la meta DTD...</guimenuitem
 ></menuchoice
->. Si el document no conté una <quote
->DOCTYPE</quote
-> o el tipus de document és desconegut, haureu de triar una meta DTD des del sistema de fitxers. En cas contrari, la meta DTD que coincideixi amb el DOCTYPE del document actual serà carregada automàticament.</para>
+>. Si el document no conté una «DOCTYPE» o el tipus de document és desconegut, haureu de triar una meta DTD des del sistema de fitxers. En cas contrari, la meta DTD que coincideixi amb el DOCTYPE del document actual serà carregada automàticament.</para>
 
 <para
 >Ara podeu utilitzar el connector en teclejar el vostre text:</para>
@@ -6027,9 +6561,7 @@ VALUES ("<replaceable
 > (menys que)</term>
 <listitem
 ><para
->Donarà lloc a una llista de possibles elements menors al cursor que ja es troben dins d'una etiqueta. Cal tenir en compte que actualment no es pot utilitzar per a inserir l'element de nivell superior (&pex;, <quote
->&lt;html&gt;</quote
->).</para
+>Donarà lloc a una llista de possibles elements menors al cursor que ja es troben dins d'una etiqueta. Cal tenir en compte que actualment no es pot utilitzar per a inserir l'element de nivell superior (&pex;, «&lt;html&gt;»).</para
 ></listitem>
 </varlistentry>
 
@@ -6171,9 +6703,7 @@ VALUES ("<replaceable
 <title
 >Agraïments i reconeixements</title>
 <para
->Copyright del connector <quote
->Compleció &XML;</quote
-> del &kate;, 2001, 2002 per en &Daniel.Naber; &Daniel.Naber.mail;. </para>
+>Copyright del connector «Compleció &XML;» del &kate;, 2001, 2002 per en &Daniel.Naber; &Daniel.Naber.mail;. </para>
 <para
 >Copyright de la versió SC 4 del &kde;, 2010 per en Tomáš Trnka</para>
 <para
@@ -6181,5 +6711,378 @@ VALUES ("<replaceable
 </sect2>
 </sect1>
 
+<sect1 id="kate-application-plugin-compilerexplorer">
+<title
+>Connector Explorador del compilador</title>
+
+<para
+>El connector explorador del compilador permet utilitzar l'explorador del compilador des del Kate. L'explorador del compilador normalment es limita a només 1 fitxer i és difícil utilitzar-lo per veure el codi generat d'un fitxer en el projecte. Aquest connector té com a objectiu simplificar aquest procés detectant automàticament les ordres de compilació del fitxer.</para>
+
+<sect2 id="ce-how-to-use">
+<title
+>Ús</title>
+
+<para
+>El primer que cal fer és obrir una pestanya de l'explorador del compilador. Premeu <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>I</keycap
+></keycombo
+> per a obrir la barra d'ordres i cercar «Obre el fitxer actual a l'explorador del compilador» i premeu la tecla d'entrada. Podeu afegir aquesta acció a la barra d'eines o assignar-hi una drecera per a un accés més fàcil. </para>
+
+<para
+>A continuació, heu de configurar una instància local de l'explorador del compilador o utilitzar la instància pública <ulink url="https://godbolt.org/"
+>https://godbolt.org/</ulink
+>. Vegeu <ulink url="https://github.com/compiler-explorer/compiler-explorer"
+>https://github.com/compiler-explorer/compiler-explorer</ulink
+>. Un cop tingueu una instància, feu clic al quadre combinat <guilabel
+>Opció</guilabel
+> a la pestanya de l'explorador del compilador que heu obert abans i seleccioneu <guilabel
+>Canvia l'URL...</guilabel
+> i després introduïu l'URL del servidor de l'explorador del compilador.</para>
+
+<para
+>A continuació, necessitareu un «compile_commands.json» si necessiteu veure el codi generat d'un fitxer del projecte. En cas contrari, podeu ometre aquesta part. Això es pot obtenir fàcilment si utilitzeu un sistema de construcció modern com el CMake o el Meson. Per al CMake és suficient passar <code
+>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code
+> quan s'invoca el «cmake». El <code
+>compile_commands.json</code
+> s'hauria de situar a l'arrel del projecte. Tanqueu i torneu a obrir la pestanya de l'explorador del compilador al Kate. Després de tornar a obrir la pestanya, hauria de mostrar les ordres de compilació necessàries per a compilar el fitxer</para>
+
+<para
+>Si esteu utilitzant l'explorador del compilador per a veure el codi generat d'una cosa temporal, només podeu escriure les ordres de compilació del fitxer i fer clic a <guilabel
+>Compila</guilabel
+>. Tingueu en compte que no s'accepta la recompilació automàtica en l'edició. Cal fer clic a Compila cada vegada que vulgueu tornar a compilar el fitxer</para>
+
+<para
+>Un cop compilat el fitxer, haureu de veure el codi generat a la dreta. Podeu fer clic amb el botó dret i seleccionar <guilabel
+>Mostra el codi enllaçat</guilabel
+> per a veure el codi generat d'una línia en particular. De la mateixa manera a la dreta, podeu fer clic dret i seleccionar <guilabel
+>Desplaça al codi font</guilabel
+> per a mostrar el codi font d'una línia donada de codi generat</para>
+
+</sect2>
+
+</sect1>
+
+<!-- BEGIN Format plugin -->
+
+<sect1 id="kate-application-plugin-formatting">
+<title
+>Connector de donar format</title>
+
+<para
+>El connector de donar format permet donar format al codi fàcilment. El connector té com a objectiu conservar l'historial de desfer del document i la posició del cursor de l'usuari en donar format al codi de manera que el format del codi no pertorbi el treball de l'usuari. Això és especialment important per a donar format automàticament en desar.</para>
+
+<sect2 id="formatting-how-to-use">
+<title
+>Ús</title>
+
+<para
+>Permet a l'usuari donar format al codi de dues maneres: <itemizedlist>
+<listitem
+><para
+>Utilitzant manualment l'acció «Dona format a un document».</para
+></listitem>
+<listitem
+><para
+>Automàticament en desar</para
+></listitem>
+</itemizedlist>
+</para>
+
+<tip
+><para
+>Podeu cercar aquesta acció a la barra d'ordres i vincular-hi una drecera per a un accés més fàcil</para
+></tip>
+
+</sect2>
+
+<sect2 id="formatting-supported-langs-formatters">
+<title
+>Llenguatges i formatadors admesos</title>
+
+<para
+>La llista actual de llenguatges i formatadors admesos és la següent: <itemizedlist>
+
+<listitem
+><para
+>C/C++/ObjectiveC/ObjectiveC++/Protobuf/GLSL/Java: <command
+>clang-format</command
+> </para
+></listitem>
+
+<listitem
+><para
+>Javascript/Typescript/JSX/TSX: <command
+>prettier</command
+> </para
+></listitem>
+
+<listitem
+><para
+>JSON <itemizedlist>
+  <listitem
+><para
+><command
+>prettier</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>clang-format</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>jq</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Dart: <command
+>dartfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Rust: <command
+>rustfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Go: <command
+>gofmt</command
+></para
+></listitem>
+<listitem
+><para
+>XML: <command
+>xmllint</command
+></para
+></listitem>
+<listitem
+><para
+>Zig: <command
+>zigfmt</command
+></para
+></listitem>
+<listitem
+><para
+>CMake: <command
+>cmake-format</command
+></para
+></listitem>
+<listitem
+><para
+>D: <command
+>dfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Intèrpret d'ordres Fish: <command
+>fish_indent</command
+></para
+></listitem>
+<listitem
+><para
+>Bash: <command
+>shfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Nix: <command
+>nixfmt</command
+></para
+></listitem>
+<listitem
+><para
+>QML: <command
+>qmlformat</command
+></para
+></listitem>
+<listitem
+><para
+>HTML: <command
+>prettier</command
+></para
+></listitem>
+<listitem
+><para
+>Swift: <command
+>swiftformat</command
+></para
+></listitem>
+<listitem
+><para
+>Erlang: <command
+>erlfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Godot Script: <command
+>gdformat</command
+></para
+></listitem>
+
+<listitem
+><para
+>Python <itemizedlist>
+  <listitem
+><para
+><command
+>autopep8</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>ruff</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>YAML <itemizedlist>
+  <listitem
+><para
+><command
+>yamlfmt</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>prettier</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+</itemizedlist>
+</para>
+
+</sect2>
+
+<sect2 id="formatting-plugin-configuring">
+<title
+>Configuració</title>
+
+<para
+>El connector es pot configurar dues maneres: <itemizedlist>
+<listitem
+><para
+>Globalment, des del diàleg de configuració</para
+></listitem>
+<listitem
+><para
+>En una base per projecte utilitzant el fitxer <filename
+>.kateproject</filename
+></para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>En llegir la configuració, el connector primer intentarà llegir la configuració des del fitxer <filename
+>.kateproject</filename
+> i després llegirà la configuració global. Exemple: </para>
+
+<screen
+>{
+    "formatOnSave": true,
+    "formatterForJson": "jq",
+    "cmake-format": {
+        "formatOnSave": false
+    },
+    "autopep8": {
+        "formatOnSave": false
+    }
+}
+</screen>
+
+<para
+>L'anterior: <itemizedlist>
+<listitem
+><para
+>activa «dona format en desar» ("format on save") globalment</para
+></listitem>
+<listitem
+><para
+>especifica «jq» com a formatador per al JSON</para
+></listitem>
+<listitem
+><para
+>desactiva «dona format en desar» ("format on save") per al cmake-format i autopep8</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Per a configurar el format d'un projecte, primer creeu un fitxer <filename
+>.kateproject</filename
+> i després afegiu-hi un objecte <code
+>"formatting"</code
+>. A l'objecte <code
+>"formatting"</code
+> podeu especificar la vostra configuració com es mostra a l'exemple anterior. Exemple: </para>
+<note
+><para
+>Cal activar el <link linkend="kate-application-plugin-projects"
+>Connector de projecte</link
+> per a que això funcioni</para
+></note>
+
+<screen
+>{
+    "name": "My Cool Project",
+    "files": [
+        {
+            "git": 1
+        }
+    ],
+    "formatting": {
+        "formatterForJson": "clang-format",
+        "autopep8": {
+            "formatOnSave": false
+        }
+    }
+}
+</screen>
+
+</sect2>
+
+<sect2 id="formatting-plugin-temp-disable-autosave-format">
+<title
+>Desactiva temporalment el format en desar</title>
+
+<para
+>Mentre treballeu, sovint haureu de desactivar el format durant un temps curt per qualsevol motiu. Podeu fer-ho des de la barra de menús, <menuchoice
+><guimenu
+>Eines</guimenu
+> <guimenuitem
+>Format en desar</guimenuitem
+></menuchoice
+>. També podeu activar aquesta acció des de la <guilabel
+>barra d'ordres</guilabel
+>. </para>
+
+</sect2>
+
+</sect1>
+
+<!-- END Format plugin -->
 
 </chapter>

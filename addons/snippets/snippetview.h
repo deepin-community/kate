@@ -9,9 +9,9 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef SNIPPETVIEW_H
-#define SNIPPETVIEW_H
+#pragma once
 
+#include <KNSWidgets/Action>
 #include <KTextEditor/MainWindow>
 
 #include "ui_snippetview.h"
@@ -32,15 +32,13 @@ namespace KTextEditor
  */
 class SnippetView : public QWidget, public Ui::SnippetViewBase
 {
-    Q_OBJECT
-
 public:
     explicit SnippetView(KateSnippetGlobal *plugin, KTextEditor::MainWindow *mainWindow, QWidget *parent = nullptr);
 
 public:
     void setupActionsForWindow(QWidget *widget);
 
-private Q_SLOTS:
+private:
     /**
      * Opens the "Add Repository" dialog.
      */
@@ -76,16 +74,6 @@ private Q_SLOTS:
      */
     void slotAddSnippet();
 
-    /**
-     * Slot to get hot new stuff.
-     */
-    void slotGHNS();
-
-    /**
-     * Slot to put the selected snippet to GHNS
-     */
-    void slotSnippetToGHNS();
-
     void contextMenu(const QPoint &pos);
     /// disables or enables available actions based on the currently selected item
     void validateActions();
@@ -105,8 +93,5 @@ private:
     QAction *m_addSnippetAction;
     QAction *m_removeSnippetAction;
     QAction *m_editSnippetAction;
-    QAction *m_getNewStuffAction;
-    QAction *m_putNewStuffAction;
+    KNSWidgets::Action *m_getNewStuffAction;
 };
-
-#endif

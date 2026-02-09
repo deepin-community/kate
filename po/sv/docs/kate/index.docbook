@@ -90,16 +90,16 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2021-03-06</date>
+>2022-04-22</date>
 <releaseinfo
->Program 21.04</releaseinfo>
+>Program 22.08</releaseinfo>
 
 <abstract>
 <para
 >&kate; är en texteditor för programmerare av &kde;.</para>
 
 <para
->Denna handbok dokumenterar &kate; version 18.12</para>
+>Denna handbok dokumenterar &kate; version 22.08</para>
 </abstract>
 
 <keywordset>

@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef TEXTOUTPUTWIDGET_H
-#define TEXTOUTPUTWIDGET_H
+#pragma once
 
 class QHBoxLayout;
 class QTextEdit;
@@ -15,10 +14,8 @@ class QTextEdit;
 
 class TextOutputWidget : public QWidget
 {
-    Q_OBJECT
-
 public:
-    TextOutputWidget(QWidget *parent = nullptr);
+    explicit TextOutputWidget(QWidget *parent = nullptr);
     ~TextOutputWidget() override;
 
 public Q_SLOTS:
@@ -37,5 +34,3 @@ private:
     QColor m_errorTextColor;
     QColor m_errorBackgroundColor;
 };
-
-#endif // TEXTOUTPUTWIDGET_H

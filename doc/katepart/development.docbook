@@ -270,7 +270,11 @@ files is as follows:</para>
 </row>
 <row>
 <entry>On &Windows;</entry>
-<entry><filename>%USERPROFILE%&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;syntax</filename></entry>
+<entry><filename class="directory">%USERPROFILE%&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;syntax</filename></entry>
+</row>
+<row>
+<entry>On &macOS;</entry>
+<entry><filename class="directory"><envar>$HOME</envar>/Library/Application Support/org.kde.syntax-highlighting/syntax/</filename></entry>
 </row>
 </tbody>
 </tgroup>
@@ -439,6 +443,11 @@ line. Available attributes are:</term>
 <para><userinput>name</userinput> states the context name. Rules will use this name
 to specify the context to switch to if the rule matches.</para>
 
+<para><userinput>attribute</userinput> identifies the style to use for a
+character when no rule matches or when a rule does not specify attribute.
+In the latter case, <emphasis>attribute</emphasis> of the context specified
+in the rule's <emphasis>context</emphasis> will be used.</para>
+
 <para><userinput>lineEndContext</userinput> defines the context the highlight
 system switches to if it reaches the end of a line. This may either be a name
 of another context, <userinput>#stay</userinput> to not switch the context
@@ -448,10 +457,9 @@ to pop three times, or even <userinput>#pop#pop!OtherContext</userinput> to pop
 two times and switch to the context named <userinput>OtherContext</userinput>.
 It is also possible to switch to a context that belongs to another language definition,
 in the same way as in the <userinput>IncludeRules</userinput> rules, &eg;,
-<userinput>SomeContext##JavaScript</userinput>. Note that it is not possible to use
-this context switch in combination with <userinput>#pop</userinput>, for example,
-<userinput>#pop!SomeContext##JavaScript</userinput> is not valid.
-Context switches are also described in <xref linkend="kate-highlight-rules-detailled"/>.</para>
+<userinput>SomeContext##JavaScript</userinput>.
+Context switches are also described in <xref linkend="kate-highlight-rules-detailled"/>.
+Default: #stay.</para>
 <para><userinput>lineEmptyContext</userinput> defines the context if an empty
 line is encountered. The nomenclature of context switches is the same as
 previously described in <emphasis>lineEndContext</emphasis>. Default: #stay.</para>
@@ -496,7 +504,7 @@ Available default styles are explained in detail later.</para>
 <para><userinput>italic</userinput> if <emphasis>true</emphasis>, the text will be italic.</para>
 <para><userinput>bold</userinput> if <emphasis>true</emphasis>, the text will be bold.</para>
 <para><userinput>underline</userinput> if <emphasis>true</emphasis>, the text will be underlined.</para>
-<para><userinput>strikeout</userinput> if <emphasis>true</emphasis>, the text will be struck out.</para>
+<para><userinput>strikeOut</userinput> if <emphasis>true</emphasis>, the text will be struck out.</para>
 <para><userinput>spellChecking</userinput> if <emphasis>true</emphasis>, the text will be spellchecked.</para>
 </listitem>
 </varlistentry>
@@ -710,7 +718,8 @@ context.</para>
 <listitem>
 <para>An <emphasis>order</emphasis> telling the engine to stay in the
 current context (<userinput>#stay</userinput>), or to pop back to a
-previous context used in the string (<userinput>#pop</userinput>).</para>
+previous context used in the string (<userinput>#pop</userinput>).
+An empty or absent context is equivalent to <userinput>#stay</userinput>.</para>
 <para>To go back more steps, the #pop keyword can be repeated:
 <userinput>#pop#pop#pop</userinput></para>
 </listitem>
@@ -727,9 +736,7 @@ followed by two hashes (<userinput>##</userinput>) and another
 This naming is similar to that used in <userinput>IncludeRules</userinput>
 rules and allows you to switch to a context belonging to another syntax
 highlighting definition, e.g. <userinput>SomeContext##JavaScript</userinput>.
-Note that it is not possible to use this context switch in combination with
-<userinput>#pop</userinput>, for example,
-<userinput>#pop!SomeContext##JavaScript</userinput> is not valid.</para>
+</para>
 </listitem>
 </itemizedlist>
 
@@ -740,15 +747,14 @@ following sections.</para>
 <title>Common attributes</title>
 <para>All rules have the following attributes in common and are
 available whenever <userinput>(common attributes)</userinput> appears.
-<emphasis>attribute</emphasis> and <emphasis>context</emphasis>
-are required attributes, all others are optional.
+All attributes are optional.
 </para>
 
 <listitem>
-<para><emphasis>attribute</emphasis>: An attribute maps to a defined <emphasis>itemData</emphasis>.</para>
+<para><emphasis>attribute</emphasis>: An attribute maps to a defined <emphasis>itemData</emphasis>. Default: <emphasis>attribute</emphasis> from the context specified in <emphasis>context</emphasis> attribute.</para>
 </listitem>
 <listitem>
-<para><emphasis>context</emphasis>: Specify the context to which the highlighting system switches if the rule matches.</para>
+<para><emphasis>context</emphasis>: Specify the context to which the highlighting system switches if the rule matches. Default: #stay.</para>
 </listitem>
 <listitem>
 <para><emphasis>beginRegion</emphasis>: Start a code folding block. Default: unset.</para>
@@ -922,6 +928,8 @@ to match.</para>
 <programlisting>&lt;Detect2Chars char=&quot;(character)&quot; char1=&quot;(character)&quot; (common attributes) /&gt;</programlisting>
 <para>The <userinput>char</userinput> attribute defines the first character to match,
 <userinput>char1</userinput> the second.</para>
+<para>This rule is present for historical reasons and for readability it's
+preferable to use <userinput>StringDetect</userinput>.</para>
 </listitem>
 </varlistentry>
 
@@ -1178,11 +1186,6 @@ tips.
 </para>
 
 <listitem>
-<para>If you only match two characters use <userinput>Detect2Chars</userinput>
-instead of <userinput>StringDetect</userinput>. The same applies to
-<userinput>DetectChar</userinput>.</para>
-</listitem>
-<listitem>
 <para>Regular expressions are easy to use but often there is another much
 faster way to achieve the same result. Consider you only want to match
 the character <userinput>'#'</userinput> if it is the first character in the
@@ -1211,7 +1214,7 @@ want to switch context when you meet the string <userinput>*/</userinput>, but
 need to process that string in the next context. The below rule will match, and
 the <userinput>lookAhead</userinput> attribute will cause the highlighter to
 keep the matched string for the next context.
-<programlisting>&lt;Detect2Chars attribute=&quot;Comment&quot; context=&quot;#pop&quot; char=&quot;*&quot; char1=&quot;/&quot; lookAhead=&quot;true&quot; /&gt;</programlisting>
+<programlisting>&lt;StringDetect attribute=&quot;Comment&quot; context=&quot;#pop&quot; String=&quot;*/&quot; lookAhead=&quot;true&quot; /&gt;</programlisting>
 </para>
 </listitem>
 <listitem>
@@ -1228,9 +1231,8 @@ keep the matched string for the next context.
 </listitem>
 <listitem>
 <para>You can validate every &XML; file by using the command
-<command>validatehl.sh language.xsd mySyntax.xml</command>.
-The files <filename>validatehl.sh</filename> and <filename>language.xsd</filename>
-are available in <ulink url="https://commits.kde.org/syntax-highlighting?path=data/schema">Syntax
+<command>validatehl.sh mySyntax.xml</command>.
+The file <filename>validatehl.sh</filename> uses <filename>language.xsd</filename> which are both available in <ulink url="https://commits.kde.org/syntax-highlighting?path=data/schema">Syntax
 Highlighting repository</ulink>.
 </para>
 </listitem>
@@ -1239,13 +1241,32 @@ Highlighting repository</ulink>.
 <emphasis>ENTITIES</emphasis>. Example:</para>
 <programlisting>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!DOCTYPE language SYSTEM "language.dtd"
+&lt;!DOCTYPE language
 [
         &lt;!ENTITY myref    "[A-Za-z_:][\w.:_-]*"&gt;
 ]&gt;
 </programlisting>
 <para>Now you can use <emphasis>&amp;myref;</emphasis> instead of the regular
 expression.</para>
+</listitem>
+<listitem>
+<para>On Kate Editor, you can reload syntaxes using the built-in command line
+(<userinput>F7</userinput> shortcut by default) and the <command>reload-highlighting</command>
+command.</para>
+</listitem>
+<listitem>
+<para>You can use the command-line utility named <userinput>ksyntaxhighlighter6</userinput>
+(<userinput>kate-syntax-highlighter</userinput> on older versions) to test a
+syntax and display the style and regions associated with each part of a text.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="ksyntaxhighlighter6-trace-format.png"/></imageobject>
+<textobject><phrase>Result of <command>ksyntaxhighlighter6 --output-format=ansi --syntax-trace=format test.cpp</command>.</phrase></textobject>
+<caption><para>Result of <command>ksyntaxhighlighter6 --output-format=ansi --syntax-trace=format test.cpp</command>.</para>
+</caption>
+</mediaobject>
+
+<para>Use <command>ksyntaxhighlighter6 -h</command> for more options.</para>
 </listitem>
 </itemizedlist>
 </sect3>
@@ -1422,7 +1443,11 @@ and in a Snap application that location is
 </row>
 <row>
 <entry>On &Windows;</entry>
-<entry><filename>%USERPROFILE%&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;themes</filename></entry>
+<entry><filename class="directory">%USERPROFILE%&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;themes</filename></entry>
+</row>
+<row>
+<entry>On &macOS;</entry>
+<entry><filename class="directory"><envar>$HOME</envar>/Library/Application Support/org.kde.syntax-highlighting/themes/</filename></entry>
 </row>
 </tbody>
 </tgroup>
@@ -2508,6 +2533,10 @@ package on Flathub</ulink> (only in GNU/Linux).</para>
 <ulink url="https://flathub.org/apps/details/org.gnome.design.Contrast">the Flatpak
 package on Flathub</ulink> (only in GNU/Linux).</para>
 
+<para>A python script in <ulink url="https://invent.kde.org/frameworks/syntax-highlighting/-/blob/master/utils/theme_contrast_checker.py?ref_type=heads">Syntax
+Highlighting repository</ulink> lets you visualize all the colors in a theme,
+as well as the contrast with the various backgrounds configured.</para>
+
 </sect3>
 
 <sect3 id="color-themes-tips-and-tricks-consistency">
@@ -2574,7 +2603,7 @@ called &eg; <filename>javascript.js</filename> in the local home folder
 Therein, the environment variable <envar>XDG_DATA_HOME</envar> typically expands to
 either <filename>~/.local</filename> or <filename>~/.local/share</filename>.
 </para>
-<para>On &Windows; these files are located in <filename>%USERPROFILE%\AppData\Local\katepart5\indentation</filename>.
+<para>On &Windows; these files are located in <filename>%USERPROFILE%\AppData\Local\katepart5\script\indentation</filename>.
 <replaceable>%USERPROFILE%</replaceable> usually expands to <filename>C:\\Users\\<replaceable>user</replaceable></filename>.</para>
 
 <sect3 id="dev-scripting-indentation-header">
@@ -2642,7 +2671,7 @@ triggerCharacters = "{}/:;";
 function indent(line, indentWidth, ch)
 {
     // called for each newline (ch == '\n') and all characters specified in
-    // the global variable triggerCharacters. When calling <menuchoice><guimenu>Tools</guimenu><guimenuitem>Align</guimenuitem></menuchoice>
+    // the global variable triggerCharacters. When calling <menuchoice><guimenu>Tools</guimenu><guimenuitem>Format Indentation</guimenuitem></menuchoice>
     // the variable ch is empty, i.e. ch == ''.
     //
     // see also: Scripting API
@@ -2654,7 +2683,7 @@ The function <function>indent()</function> has three parameters:
 <itemizedlist>
 <listitem><para><literal>line</literal>: the line that has to be indented</para></listitem>
 <listitem><para><literal>indentWidth</literal>: the indentation width in number of spaces</para></listitem>
-<listitem><para><literal>ch</literal>: either a newline character (<literal>ch == '\n'</literal>), the trigger character specified in <literal>triggerCharacters</literal> or empty if the user invoked the action <menuchoice><guimenu>Tools</guimenu><guimenuitem>Align</guimenuitem></menuchoice>.</para></listitem>
+<listitem><para><literal>ch</literal>: either a newline character (<literal>ch == '\n'</literal>), the trigger character specified in <literal>triggerCharacters</literal> or empty if the user invoked the action <menuchoice><guimenu>Tools</guimenu><guimenuitem>Format Indentation</guimenuitem></menuchoice>.</para></listitem>
 </itemizedlist>
 The return value of the <function>indent()</function> function specifies how
 the line will be indented. If the return value is a simple integer number, it
@@ -2692,7 +2721,7 @@ with a different tab width.
 <para>
 A default &kde; installation ships &kappname; with several indenters. The
 corresponding &javascript; source code can be found in <filename>$<envar>XDG_DATA_DIRS</envar>/katepart5/script/indentation</filename>.</para>
-<para>On &Windows; these files are located in <filename>%USERPROFILE%\AppData\Local\katepart5\indentation</filename>.
+<para>On &Windows; these files are located in <filename>%USERPROFILE%\AppData\Local\katepart5\script\indentation</filename>.
 <replaceable>%USERPROFILE%</replaceable> usually expands to <filename>C:\\Users\\<replaceable>user</replaceable></filename>.
 </para>
 
@@ -2729,7 +2758,7 @@ So as a first step, create a new <filename>*.js</filename> file called
 <filename>$<envar>XDG_DATA_HOME</envar>/katepart5/script/commands</filename>.
 Therein, the environment variable <envar>XDG_DATA_HOME</envar> typically expands to
 either <filename>~/.local</filename> or <filename>~/.local/share</filename>.</para>
-<para>On &Windows; these files are located in <filename>%USERPROFILE%\AppData\Local\katepart5\commands</filename>.
+<para>On &Windows; these files are located in <filename>%USERPROFILE%\AppData\Local\katepart5\script\commands</filename>.
 <replaceable>%USERPROFILE%</replaceable> usually expands to <filename>C:\\Users\\<replaceable>user</replaceable></filename>.
 </para>
 
@@ -3265,7 +3294,7 @@ Returns the range as a string of the form <quote><literal>Range(Cursor(line, col
 String read(<parameter>String <replaceable>file</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Will search the given <replaceable>file</replaceable> relative to the <literal>katepart/script/files</literal> directory and return its content as a string.
+Will search the given <replaceable>file</replaceable> relative to the <literal>katepart5/script/files</literal> directory and return its content as a string.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -3274,7 +3303,7 @@ Will search the given <replaceable>file</replaceable> relative to the <literal>k
 void require(<parameter>String <replaceable>file</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Will search the given <replaceable>file</replaceable> relative to the <literal>katepart/script/libraries</literal> directory and evaluate it.
+Will search the given <replaceable>file</replaceable> relative to the <literal>katepart5/script/libraries</literal> directory and evaluate it.
 <literal>require</literal> is internally guarded against multiple inclusions of the same <replaceable>file</replaceable>.
 </para>
 <para>
@@ -3524,6 +3553,51 @@ Clears the text selection without removing the text.
 </para></listitem>
 </varlistentry>
 
+
+<varlistentry>
+<term><synopsis>
+void view.setBlockSelection(bool on);
+</synopsis></term>
+<listitem><para>
+Set block selection mode on or off.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><synopsis>
+bool view.blockSelection();
+</synopsis></term>
+<listitem><para>
+Returns <literal>true</literal>, if block selection mode is on, otherwise <literal>false</literal>.
+</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><synopsis>
+void view.align(<parameter>Range <replaceable>range</replaceable></parameter>);
+</synopsis></term>
+<listitem><para>
+Properly re-indent lines within <replaceable>range</replaceable> according to current indentation settings.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><synopsis>
+void view.alignOn(<parameter>Range <replaceable>range</replaceable></parameter>, <parameter>String <replaceable>pattern</replaceable> = &quot;&quot;</parameter>);
+</synopsis></term>
+<listitem><para>
+Aligns lines in <replaceable>range</replaceable> on the column given by the regular expression <replaceable>pattern</replaceable>.
+With an empty <replaceable>pattern</replaceable> it will align on the first non-blank character by default.
+If the pattern has a capture it will indent on the captured match.
+</para>
+<para><emphasis>Examples:</emphasis></para>
+<para><literal>view.alignOn(document.documentRange(), '-');</literal> will insert spaces before the first <literal>-</literal> of each lines to align them all on the same column.</para>
+<para><literal>view.alignOn(document.documentRange(), ':\\s+(.)');</literal> will insert spaces before the first non-blank character that occurs after a colon to align them all on the same column.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry>
 <term><synopsis>
 object view.executeCommand(<parameter>String <replaceable>command</replaceable></parameter>,
@@ -3538,6 +3612,23 @@ that indicates whether execution of the <replaceable>command</replaceable> was s
 In case of an error, the string <replaceable>object.status</replaceable> contains an error message.
 </para>
 <para>Since: &kde-frameworks; 5.50</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><synopsis>
+Range view.searchText(<parameter>Range <replaceable>range</replaceable></parameter>,
+                      <parameter>String <replaceable>pattern</replaceable></parameter>,
+                      <parameter>bool <replaceable>backwards</replaceable> = false</parameter>);
+</synopsis></term>
+<listitem><para>
+Search for the first occurrence of <replaceable>pattern</replaceable> in <replaceable>range</replaceable> and returns the matched range.
+Search is performed backwards if the optional boolean parameter <replaceable>backwards</replaceable> is set to <literal>true</literal>.
+</para>
+<para>
+The returned range is invalid (see Range.isValid()) if <replaceable>pattern</replaceable> is not found in <replaceable>range</replaceable>.
+</para>
+<para>Since: &kde-frameworks; 5.97</para>
 </listitem>
 </varlistentry>
 
@@ -4394,6 +4485,15 @@ bool document.isOthers(<parameter>Cursor <replaceable>cursor</replaceable></para
 <listitem><para>
     Returns <literal>true</literal>, if the attribute of the character at the cursor position
     is <literal>dsOthers</literal>, otherwise <literal>false</literal>.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><synopsis>
+void document.indent(<parameter>Range <replaceable>range</replaceable></parameter>, <parameter>int <replaceable>change</replaceable></parameter>);
+</synopsis></term>
+<listitem><para>
+Indents all lines in <replaceable>range</replaceable> by <replaceable>change</replaceable> tabs or <replaceable>change</replaceable> times <literal>tabSize</literal> spaces depending on the users preferences. The <replaceable>change</replaceable> parameter can be negative.
 </para></listitem>
 </varlistentry>
 

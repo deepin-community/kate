@@ -5,9 +5,11 @@
 */
 #include "gotosymbolmodel.h"
 
+#include "hostprocess.h"
+
 #include <KLocalizedString>
-#include <QDebug>
 #include <QProcess>
+#include <QStandardPaths>
 
 GotoSymbolModel::GotoSymbolModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -58,21 +60,29 @@ void GotoSymbolModel::refresh(const QString &filePath)
     m_rows.clear();
     endResetModel();
 
+    // only use ctags from PATH
+    static const auto fullExecutablePath = safeExecutableName(QStringLiteral("ctags"));
+    if (fullExecutablePath.isEmpty()) {
+        beginResetModel();
+        m_rows.append(SymbolItem{.name = i18n("CTags executable not found."), .line = -1, .icon = QIcon()});
+        endResetModel();
+        return;
+    }
+
     QProcess p;
-    p.start(QStringLiteral("ctags"), {QStringLiteral("-x"), QStringLiteral("--_xformat=%{name}%{signature}\t%{kind}\t%{line}"), filePath});
+    startHostProcess(p, fullExecutablePath, {QStringLiteral("-x"), QStringLiteral("--_xformat=%{name}%{signature}\t%{kind}\t%{line}"), filePath});
 
     QByteArray out;
     if (p.waitForFinished()) {
         out = p.readAllStandardOutput();
     } else {
-        qWarning() << "Ctags failed";
         beginResetModel();
-        m_rows.append(SymbolItem{i18n("CTags executable not found."), -1, QIcon()});
+        m_rows.append(SymbolItem{.name = i18n("CTags executable failed to execute."), .line = -1, .icon = QIcon()});
         endResetModel();
         return;
     }
 
-    QVector<SymbolItem> symItems;
+    QList<SymbolItem> symItems;
     const auto tags = out.split('\n');
     symItems.reserve(tags.size());
     for (const auto &tag : tags) {
@@ -135,7 +145,7 @@ void GotoSymbolModel::refresh(const QString &filePath)
     if (!symItems.isEmpty()) {
         m_rows = std::move(symItems);
     } else {
-        m_rows.append(SymbolItem{i18n("CTags was unable to parse this file."), -1, QIcon()});
+        m_rows.append(SymbolItem{.name = i18n("CTags was unable to parse this file."), .line = -1, .icon = QIcon()});
     }
     endResetModel();
 }

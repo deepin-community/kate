@@ -8,12 +8,11 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef KATE_FILEBROWSER_PLUGIN_H
-#define KATE_FILEBROWSER_PLUGIN_H
+#pragma once
 
+#include <KTextEditor/Document>
 #include <KTextEditor/SessionConfigInterface>
 #include <ktexteditor/configpage.h>
-#include <ktexteditor/document.h>
 #include <ktexteditor/mainwindow.h>
 #include <ktexteditor/plugin.h>
 
@@ -22,10 +21,8 @@ class KateFileBrowserPluginView;
 
 class KateFileBrowserPlugin : public KTextEditor::Plugin
 {
-    Q_OBJECT
-
 public:
-    explicit KateFileBrowserPlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KateFileBrowserPlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KateFileBrowserPlugin() override
     {
     }
@@ -35,7 +32,7 @@ public:
     int configPages() const override;
     KTextEditor::ConfigPage *configPage(int number = 0, QWidget *parent = nullptr) override;
 
-public Q_SLOTS:
+public:
     void viewDestroyed(QObject *view);
 
 private:
@@ -69,7 +66,3 @@ private:
     KTextEditor::MainWindow *m_mainWindow;
     friend class KateFileBrowserPlugin;
 };
-
-#endif // KATE_FILEBROWSER_PLUGIN_H
-
-// kate: space-indent on; indent-width 2; replace-tabs on;

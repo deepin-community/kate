@@ -3,11 +3,11 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef GITSTATUS_H
-#define GITSTATUS_H
+#pragma once
 
+#include <QList>
+#include <QSet>
 #include <QString>
-#include <QVector>
 
 namespace GitUtils
 {
@@ -52,25 +52,25 @@ enum StatusXY {
 struct StatusItem {
     QByteArray file;
     GitStatus status;
-    char statusChar;
-    int linesAdded;
-    int linesRemoved;
+    char statusChar = 0;
+    int linesAdded = 0;
+    int linesRemoved = 0;
 };
 
 struct GitParsedStatus {
-    QVector<StatusItem> untracked;
-    QVector<StatusItem> unmerge;
-    QVector<StatusItem> staged;
-    QVector<StatusItem> changed;
+    QList<StatusItem> untracked;
+    QList<StatusItem> unmerge;
+    QList<StatusItem> staged;
+    QList<StatusItem> changed;
+    QSet<QString> nonUniqueFileNames;
+    QString gitRepo;
 };
 
-GitParsedStatus parseStatus(const QByteArray &raw);
+GitParsedStatus parseStatus(const QByteArray &raw, const QString &workingDir);
 
-void parseDiffNumStat(QVector<GitUtils::StatusItem> &items, const QByteArray &raw);
+void parseDiffNumStat(QList<GitUtils::StatusItem> &items, const QByteArray &raw);
 
-QVector<StatusItem> parseDiffNameStatus(const QByteArray &raw);
+QList<StatusItem> parseDiffNameStatus(const QByteArray &raw);
 
 QString statusString(GitStatus s);
 }
-
-#endif // GITSTATUS_H

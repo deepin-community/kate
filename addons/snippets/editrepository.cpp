@@ -13,15 +13,19 @@
 #include "snippetrepository.h"
 #include "snippetstore.h"
 
-#include <ktexteditor/document.h>
+#include <KTextEditor/Document>
 #include <ktexteditor/editor.h>
 
+#include <KConfigGroup>
 #include <KLocalizedString>
+#include <KSharedConfig>
 #include <KStandardGuiItem>
 #include <KUser>
 
 #include <QDialogButtonBox>
 #include <QPushButton>
+
+static const char s_configFile[] = "kate-snippetsrc";
 
 EditRepository::EditRepository(SnippetRepository *repository, QWidget *parent)
     : QDialog(parent)
@@ -42,7 +46,7 @@ EditRepository::EditRepository(SnippetRepository *repository, QWidget *parent)
     connect(cancel, &QPushButton::clicked, this, &EditRepository::reject);
 
     // fill list of available modes
-    QSharedPointer<KTextEditor::Document> document(KTextEditor::Editor::instance()->createDocument(nullptr));
+    std::shared_ptr<KTextEditor::Document> document(KTextEditor::Editor::instance()->createDocument(nullptr));
     repoFileTypesList->addItems(document->highlightingModes());
     repoFileTypesList->sortItems();
     repoFileTypesList->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -84,6 +88,13 @@ EditRepository::EditRepository(SnippetRepository *repository, QWidget *parent)
     validate();
     updateFileTypes();
     repoNameEdit->setFocus();
+
+    KSharedConfigPtr config = KSharedConfig::openConfig(QLatin1String(s_configFile));
+    KConfigGroup group = config->group(QStringLiteral("General"));
+    const QSize savedSize = group.readEntry("Size", QSize());
+    if (savedSize.isValid()) {
+        resize(savedSize);
+    }
 }
 
 void EditRepository::validate()
@@ -113,6 +124,11 @@ void EditRepository::save()
     m_repo->save();
 
     setWindowTitle(i18n("Edit Snippet Repository %1", m_repo->text()));
+
+    KSharedConfigPtr config = KSharedConfig::openConfig(QLatin1String(s_configFile));
+    KConfigGroup group = config->group(QStringLiteral("General"));
+    group.writeEntry("Size", size());
+    group.sync();
 }
 
 void EditRepository::updateFileTypes()

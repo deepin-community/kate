@@ -10,11 +10,11 @@
 <author
 >&Lauri.Watts; &Lauri.Watts.mail;</author>
 <date
->2018-03-18</date>
+>2021-07-12</date>
 <releaseinfo
->Anwendungen 18.04</releaseinfo>
+>KDE Gear 21.08</releaseinfo>
 <productname
->KDE-Anwendungen</productname>
+>KDE Gear</productname>
 </refentryinfo>
 
 <refmeta>
@@ -48,6 +48,10 @@
 > <group choice="opt"
 ><option
 >--startanon</option
+></group
+> <group choice="opt"
+><option
+>--new-session</option
 ></group
 > <group choice="opt"
 ><option
@@ -139,6 +143,18 @@
 <term
 ><option
 >--startanon</option
+></term>
+<listitem
+><para
+>&kate; mit einer neuen, anonymen Sitzung starten. Impliziert <option
+>-n</option
+> (veraltet).</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--new-session</option
 ></term>
 <listitem
 ><para

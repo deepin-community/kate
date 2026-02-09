@@ -68,7 +68,6 @@ TODO:
 #include "plugin_katexmltools.h"
 
 #include <QAction>
-#include <QComboBox>
 #include <QFile>
 #include <QFileDialog>
 #include <QGuiApplication>
@@ -84,13 +83,13 @@ TODO:
 
 #include <KActionCollection>
 #include <KHistoryComboBox>
+#include <KIO/JobUiDelegate>
+#include <KIO/TransferJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KPluginFactory>
 #include <KXMLGUIClient>
-#include <kio/job.h>
-#include <kio/jobuidelegate.h>
-#include <kxmlguifactory.h>
+#include <KXMLGUIFactory>
 
 K_PLUGIN_FACTORY_WITH_JSON(PluginKateXMLToolsFactory, "katexmltools.json", registerPlugin<PluginKateXMLTools>();)
 
@@ -115,20 +114,18 @@ PluginKateXMLToolsView::PluginKateXMLToolsView(KTextEditor::MainWindow *mainWin)
 {
     // qDebug() << "PluginKateXMLTools constructor called";
 
-    KXMLGUIClient::setComponentName(QStringLiteral("katexmltools"), i18n("Kate XML Tools"));
+    KXMLGUIClient::setComponentName(QStringLiteral("katexmltools"), i18n("XML Tools"));
     setXMLFile(QStringLiteral("ui.rc"));
 
-    QAction *actionInsert = new QAction(i18n("&Insert Element..."), this);
+    auto *actionInsert = new QAction(i18n("&Insert Element..."), this);
     connect(actionInsert, &QAction::triggered, &m_model, &PluginKateXMLToolsCompletionModel::slotInsertElement);
     actionCollection()->addAction(QStringLiteral("xml_tool_insert_element"), actionInsert);
-    actionCollection()->setDefaultShortcut(actionInsert, Qt::CTRL | Qt::Key_Return);
 
-    QAction *actionClose = new QAction(i18n("&Close Element"), this);
+    auto *actionClose = new QAction(i18n("&Close Element"), this);
     connect(actionClose, &QAction::triggered, &m_model, &PluginKateXMLToolsCompletionModel::slotCloseElement);
     actionCollection()->addAction(QStringLiteral("xml_tool_close_element"), actionClose);
-    actionCollection()->setDefaultShortcut(actionClose, Qt::CTRL | Qt::Key_Less);
 
-    QAction *actionAssignDTD = new QAction(i18n("Assign Meta &DTD..."), this);
+    auto *actionAssignDTD = new QAction(i18n("Assign Meta &DTD..."), this);
     connect(actionAssignDTD, &QAction::triggered, &m_model, &PluginKateXMLToolsCompletionModel::getDTD);
     actionCollection()->addAction(QStringLiteral("xml_tool_assign"), actionAssignDTD);
 
@@ -380,7 +377,7 @@ void PluginKateXMLToolsCompletionModel::getDTD()
     // ### replace this with something more sane
     // Start where the supplied XML-DTDs are fed by default unless
     // user changed directory last time:
-    QString defaultDir = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("katexmltools")) + "/katexmltools/";
+    QString defaultDir = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("katexmltools")) + QStringLiteral("/katexmltools/");
     if (m_urlString.isNull()) {
         m_urlString = defaultDir;
     }
@@ -478,6 +475,7 @@ void PluginKateXMLToolsCompletionModel::slotFinished(KJob *job)
     if (job->error()) {
         // qDebug() << "XML Plugin error: DTD in XML format (" << filename << " ) could not be loaded";
         static_cast<KIO::Job *>(job)->uiDelegate()->showErrorMessage();
+#if KIO_VERSION < QT_VERSION_CHECK(6, 3, 0) // Not implemented after that
     } else if (static_cast<KIO::TransferJob *>(job)->isErrorPage()) {
         // catch failed loading loading via http:
         KMessageBox::error(nullptr,
@@ -485,8 +483,9 @@ void PluginKateXMLToolsCompletionModel::slotFinished(KJob *job)
                                 "The server returned an error.",
                                 m_urlString),
                            i18n("XML Plugin Error"));
+#endif
     } else {
-        PseudoDTD *dtd = new PseudoDTD();
+        auto *dtd = new PseudoDTD();
         dtd->analyzeDTD(m_urlString, m_dtdString);
 
         m_dtds.insert(m_urlString, dtd);
@@ -501,7 +500,7 @@ void PluginKateXMLToolsCompletionModel::slotFinished(KJob *job)
 
 void PluginKateXMLToolsCompletionModel::slotData(KIO::Job *, const QByteArray &data)
 {
-    m_dtdString += QString(data);
+    m_dtdString += QString::fromUtf8(data);
 }
 
 void PluginKateXMLToolsCompletionModel::assignDTD(PseudoDTD *dtd, KTextEditor::View *view)
@@ -509,15 +508,8 @@ void PluginKateXMLToolsCompletionModel::assignDTD(PseudoDTD *dtd, KTextEditor::V
     m_docDtds.insert(view->document(), dtd);
 
     // TODO:perhaps for all views()?
-    KTextEditor::CodeCompletionInterface *cci = qobject_cast<KTextEditor::CodeCompletionInterface *>(view);
-
-    if (cci) {
-        cci->registerCompletionModel(this);
-        cci->setAutomaticInvocationEnabled(true);
-        qDebug() << "PluginKateXMLToolsView: completion model registered";
-    } else {
-        qWarning() << "PluginKateXMLToolsView: completion interface unavailable";
-    }
+    view->registerCompletionModel(this);
+    view->setAutomaticInvocationEnabled(true);
 }
 
 /**
@@ -553,7 +545,7 @@ void PluginKateXMLToolsCompletionModel::slotInsertElement()
     }
 
     if (!text.isEmpty()) {
-        QStringList list = text.split(QChar(' '));
+        QStringList list = text.split(u' ');
         QString pre;
         QString post;
         // anders: use <tagname/> if the tag is required to be empty.
@@ -566,13 +558,13 @@ void PluginKateXMLToolsCompletionModel::slotInsertElement()
         }
 
         if (dtd && dtd->allowedElements(list[0]).contains(QLatin1String("__EMPTY"))) {
-            pre = '<' + text + "/>";
+            pre = u'<' + text + u"/>";
             if (adjust) {
                 adjust++; // for the "/"
             }
         } else {
-            pre = '<' + text + '>';
-            post = "</" + list[0] + '>';
+            pre = QLatin1Char('<') + text + QLatin1Char('>');
+            post = QStringLiteral("</") + list[0] + u'>';
         }
 
         QString marked;
@@ -613,7 +605,7 @@ void PluginKateXMLToolsCompletionModel::slotCloseElement()
     QString parentElement = getParentElement(*kv, 0);
 
     // qDebug() << "parentElement: '" << parentElement << "'";
-    QString closeTag = "</" + parentElement + '>';
+    QString closeTag = u"</" + parentElement + u'>';
     if (!parentElement.isEmpty()) {
         kv->insertText(closeTag);
     }
@@ -636,16 +628,16 @@ void PluginKateXMLToolsCompletionModel::executeCompletionItem(KTextEditor::View 
 
     int posCorrection = 0; // where to move the cursor after completion ( >0 = move right )
     if (m_mode == entities) {
-        text = text + ';';
+        text = text + u';';
     }
 
     else if (m_mode == attributes) {
-        text = text + "=\"\"";
+        text = text + u"=\"\"";
         posCorrection = -1;
         if (!rightCh.isEmpty() && rightCh != QLatin1String(">") && rightCh != QLatin1String("/") && rightCh != QLatin1String(" ")) {
             // TODO: other whitespaces
             // add space in front of the next attribute
-            text = text + ' ';
+            text = text + u' ';
             posCorrection--;
         }
     }
@@ -682,9 +674,9 @@ void PluginKateXMLToolsCompletionModel::executeCompletionItem(KTextEditor::View 
         QString str;
         bool isEmptyTag = m_docDtds[document]->allowedElements(text).contains(QLatin1String("__EMPTY"));
         if (isEmptyTag) {
-            str = text + "/>";
+            str = text + QStringLiteral("/>");
         } else {
-            str = text + "></" + text + '>';
+            str = text + QStringLiteral("></") + text + QLatin1Char('>');
         }
 
         // Place the cursor where it is most likely wanted:
@@ -700,7 +692,7 @@ void PluginKateXMLToolsCompletionModel::executeCompletionItem(KTextEditor::View 
     }
 
     else if (m_mode == closingtag) {
-        text += '>';
+        text += u'>';
     }
 
     document->replaceText(toReplace, text);
@@ -828,7 +820,15 @@ QString PluginKateXMLToolsCompletionModel::insideAttribute(KTextEditor::View &kv
  */
 QString PluginKateXMLToolsCompletionModel::getParentElement(KTextEditor::View &kv, int skipCharacters)
 {
-    enum { parsingText, parsingElement, parsingElementBoundary, parsingNonElement, parsingAttributeDquote, parsingAttributeSquote, parsingIgnore } parseState;
+    enum {
+        parsingText,
+        parsingElement,
+        parsingElementBoundary,
+        parsingNonElement,
+        parsingAttributeDquote,
+        parsingAttributeSquote,
+        parsingIgnore
+    } parseState;
     parseState = (skipCharacters > 0) ? parsingIgnore : parsingText;
 
     int nestingLevel = 0;
@@ -1006,27 +1006,26 @@ QString PluginKateXMLToolsCompletionModel::currentModeToString() const
 /** Sort a QStringList case-insensitively. Static. TODO: make it more simple. */
 QStringList PluginKateXMLToolsCompletionModel::sortQStringList(QStringList list)
 {
-    // Sort list case-insensitive. This looks complicated but using a QMap
+    // Sort list case-insensitive. This looks complicated but using a map
     // is even suggested by the Qt documentation.
-    QMap<QString, QString> mapList;
-    for (const auto &str : qAsConst(list)) {
-        if (mapList.contains(str.toLower())) {
+    std::map<QString, QString> mapList;
+    for (const auto &str : std::as_const(list)) {
+        if (mapList.find(str.toLower()) != mapList.end()) {
             // do not override a previous value, e.g. "Auml" and "auml" are two different
             // entities, but they should be sorted next to each other.
             // TODO: currently it's undefined if e.g. "A" or "a" comes first, it depends on
             // the meta DTD ( really? it seems to work okay?!? )
-            mapList[str.toLower() + '_'] = str;
+            mapList[str.toLower() + u'_'] = str;
         } else {
             mapList[str.toLower()] = str;
         }
     }
 
     list.clear();
-    QMap<QString, QString>::Iterator it;
 
     // Qt doc: "the items are alphabetically sorted [by key] when iterating over the map":
-    for (it = mapList.begin(); it != mapList.end(); ++it) {
-        list.append(it.value());
+    for (const auto &[_, value] : mapList) {
+        list.append(value);
     }
 
     return list;
@@ -1038,11 +1037,11 @@ InsertElement::InsertElement(const QStringList &completions, QWidget *parent)
 {
     setWindowTitle(i18n("Insert XML Element"));
 
-    QVBoxLayout *topLayout = new QVBoxLayout(this);
+    auto *topLayout = new QVBoxLayout(this);
 
     // label
     QString text = i18n("Enter XML tag name and attributes (\"<\", \">\" and closing tag will be supplied):");
-    QLabel *label = new QLabel(text, this);
+    auto *label = new QLabel(text, this);
     label->setWordWrap(true);
     // combo box
     m_cmbElements = new KHistoryComboBox(this);
@@ -1050,7 +1049,7 @@ InsertElement::InsertElement(const QStringList &completions, QWidget *parent)
     connect(m_cmbElements->lineEdit(), &QLineEdit::textChanged, this, &InsertElement::slotHistoryTextChanged);
 
     // button box
-    QDialogButtonBox *box = new QDialogButtonBox(this);
+    auto *box = new QDialogButtonBox(this);
     box->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     m_okButton = box->button(QDialogButtonBox::Ok);
     m_okButton->setDefault(true);
@@ -1084,6 +1083,7 @@ QString InsertElement::text() const
 }
 // END InsertElement dialog
 
+#include "moc_plugin_katexmltools.cpp"
 #include "plugin_katexmltools.moc"
 
 // kate: space-indent on; indent-width 4; replace-tabs on; mixed-indent off;

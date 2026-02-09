@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-06 00:21+0000\n"
+"POT-Creation-Date: 2023-07-08 01:19+0000\n"
 "PO-Revision-Date: 2017-10-21 13:52+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -16,75 +16,74 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 2.0\n"
 
 #: ktexteditorpreviewview.cpp:31
 #, kde-format
 msgid "Preview"
 msgstr "Podgląd"
 
-#: previewwidget.cpp:47
+#: previewwidget.cpp:44
 #, kde-format
 msgid "Lock Current Document"
 msgstr "Zablokuj bieżący dokument"
 
-#: previewwidget.cpp:48
+#: previewwidget.cpp:45
 #, kde-format
 msgid "Lock preview to current document"
 msgstr "Zablokuj podgląd bieżącego dokumentu"
 
-#: previewwidget.cpp:49
+#: previewwidget.cpp:46
 #, kde-format
 msgid "Unlock Current View"
 msgstr "Odblokuj bieżący widok"
 
-#: previewwidget.cpp:49
+#: previewwidget.cpp:46
 #, kde-format
 msgid "Unlock current view"
 msgstr "Odblokuj bieżący widok"
 
-#: previewwidget.cpp:56
+#: previewwidget.cpp:53
 #, kde-format
 msgid "Automatically Update Preview"
 msgstr "Samoczynnie uaktualniaj podgląd"
 
-#: previewwidget.cpp:57
+#: previewwidget.cpp:54
 #, kde-format
 msgid "Enable automatic updates of the preview to the current document content"
 msgstr "Włącz samoczynne uaktualnianie podgląd treści bieżącego dokumentu"
 
-#: previewwidget.cpp:58
+#: previewwidget.cpp:55
 #, kde-format
 msgid "Manually Update Preview"
 msgstr "Ręcznie uaktualniaj podgląd"
 
-#: previewwidget.cpp:60
+#: previewwidget.cpp:57
 #, kde-format
 msgid ""
 "Disable automatic updates of the preview to the current document content"
 msgstr "Wyłącz samoczynne uaktualnianie podgląd treści bieżącego dokumentu"
 
-#: previewwidget.cpp:65
+#: previewwidget.cpp:62
 #, kde-format
 msgid "Update Preview"
 msgstr "Uaktualnij podgląd"
 
-#: previewwidget.cpp:66
+#: previewwidget.cpp:63
 #, kde-format
 msgid "Update the preview to the current document content"
 msgstr "Uaktualnij podgląd treści bieżącego dokumentu"
 
-#: previewwidget.cpp:74
+#: previewwidget.cpp:71
 #, kde-format
 msgid "View"
 msgstr "Widok"
 
-#: previewwidget.cpp:99
+#: previewwidget.cpp:96
 #, kde-format
 msgid "No preview available."
 msgstr "Podgląd niedostępny."
 
-#: previewwidget.cpp:230
+#: previewwidget.cpp:232
 #, kde-format
 msgid "About %1"
 msgstr "O %1"

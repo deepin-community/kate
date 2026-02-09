@@ -1,18 +1,19 @@
 //
 // Description: Widget for configuring build targets
 //
-// SPDX-FileCopyrightText: 2011-2014 Kåre Särs <kare.sars@iki.fi>
+// SPDX-FileCopyrightText: 2011-2022 Kåre Särs <kare.sars@iki.fi>
 //
 //  SPDX-License-Identifier: LGPL-2.0-only
 
-#ifndef TARGETS_H
-#define TARGETS_H
+#pragma once
 
+#include "TargetFilterProxyModel.h"
 #include "TargetHtmlDelegate.h"
 #include "TargetModel.h"
 #include <QComboBox>
 #include <QGridLayout>
 #include <QLabel>
+#include <QLineEdit>
 #include <QToolButton>
 #include <QTreeView>
 #include <QWidget>
@@ -22,23 +23,44 @@ class TargetsUi : public QWidget
     Q_OBJECT
 
 public:
-    TargetsUi(QObject *view, QWidget *parent = nullptr);
+    explicit TargetsUi(QObject *view, QWidget *parent = nullptr);
 
-    QLabel *targetLabel;
-    QComboBox *targetCombo;
-    QToolButton *newTarget;
-    QToolButton *copyTarget;
-    QToolButton *deleteTarget;
+    QLabel *targetLabel = nullptr;
+    QComboBox *targetCombo = nullptr;
+    QLineEdit *targetFilterEdit = nullptr;
+    QToolButton *newTarget = nullptr;
+    QToolButton *copyTarget = nullptr;
+    QToolButton *moveTargetUp = nullptr;
+    QToolButton *moveTargetDown = nullptr;
+    QToolButton *deleteTarget = nullptr;
 
-    QTreeView *targetsView;
+    QTreeView *targetsView = nullptr;
     TargetModel targetsModel;
+    TargetFilterProxyModel proxyModel;
 
-    QToolButton *addButton;
-    QToolButton *buildButton;
+    QToolButton *addButton = nullptr;
+    QToolButton *buildButton = nullptr;
+    QToolButton *runButton = nullptr;
+
+    QString currentProjectBaseDir;
+
+    double columnCommandStretch = 0.65;
+
+    void updateTargetsButtonStates() const;
 
 public Q_SLOTS:
-    void targetSetSelected(int index);
     void targetActivated(const QModelIndex &index);
+    void customTargetsMenuRequested(const QPoint &pos);
+
+private Q_SLOTS:
+    void copyCurrentItem();
+    void cutCurrentItem();
+    void pasteAfterCurrentItem();
+
+    void targetSetNew();
+    void targetOrSetClone();
+    void targetDelete();
+    void slotAddTargetClicked();
 
 Q_SIGNALS:
     void enterPressed();
@@ -47,7 +69,5 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
-    TargetHtmlDelegate *m_delegate;
+    TargetHtmlDelegate *m_delegate = nullptr;
 };
-
-#endif

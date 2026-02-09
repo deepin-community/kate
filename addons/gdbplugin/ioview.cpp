@@ -22,10 +22,12 @@
 #include <KColorScheme>
 #include <KRandom>
 
+#ifndef Q_OS_WIN
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#endif
 
 IOView::IOView(QWidget *parent)
     : QWidget(parent)
@@ -37,17 +39,17 @@ IOView::IOView(QWidget *parent)
     // fixed wide font, like konsole
     m_output->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     // alternate color scheme, like konsole
-    KColorScheme schemeView(QPalette::Active, KColorScheme::View);
-    m_output->setTextBackgroundColor(schemeView.foreground().color());
-    m_output->setTextColor(schemeView.background().color());
+    KColorScheme schemeView(QPalette::Active, KColorScheme::Complementary);
+    m_output->setTextBackgroundColor(schemeView.background().color());
+    m_output->setTextColor(schemeView.foreground().color());
     QPalette p = m_output->palette();
-    p.setColor(QPalette::Base, schemeView.foreground().color());
+    p.setColor(QPalette::Base, schemeView.background().color());
     m_output->setPalette(p);
 
     m_input = new QLineEdit();
     m_output->setFocusProxy(m_input); // take the focus from the output
 
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    auto *layout = new QVBoxLayout(this);
     layout->addWidget(m_output, 10);
     layout->addWidget(m_input, 0);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -59,6 +61,7 @@ IOView::IOView(QWidget *parent)
 
 IOView::~IOView()
 {
+#ifndef Q_OS_WIN
     m_stdin.close();
 
     m_stdout.close();
@@ -72,10 +75,12 @@ IOView::~IOView()
     m_stdin.remove();
     m_stdout.remove();
     m_stderr.remove();
+#endif
 }
 
 void IOView::createFifos()
 {
+#ifndef Q_OS_WIN
     m_stdinFifo = createFifo(QStringLiteral("stdInFifo"));
     m_stdoutFifo = createFifo(QStringLiteral("stdOutFifo"));
     m_stderrFifo = createFifo(QStringLiteral("stdErrFifo"));
@@ -116,8 +121,7 @@ void IOView::createFifos()
     m_stderrNotifier = new QSocketNotifier(m_stderrFD, QSocketNotifier::Read, this);
     connect(m_stderrNotifier, &QSocketNotifier::activated, this, &IOView::readErrors);
     m_stderrNotifier->setEnabled(true);
-
-    return;
+#endif
 }
 
 void IOView::returnPressed()
@@ -201,12 +205,17 @@ void IOView::addStdErrText(const QString &text)
 
 QString IOView::createFifo(const QString &prefix)
 {
+#ifndef Q_OS_WIN
     QString fifo = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + prefix + KRandom::randomString(3);
     int result = mkfifo(QFile::encodeName(fifo).data(), 0666);
     if (result != 0) {
         return QString();
     }
     return fifo;
+#else
+    Q_ASSERT(false);
+    return {};
+#endif
 }
 
 const QString IOView::stdinFifo()
@@ -231,3 +240,5 @@ void IOView::clearOutput()
 {
     m_output->clear();
 }
+
+#include "moc_ioview.cpp"

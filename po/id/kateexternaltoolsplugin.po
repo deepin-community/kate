@@ -1,113 +1,72 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kate package.
-# Wantoyo <wantoyek@gmail.com>, 2019, 2021.
+# Wantoyo <wantoyek@gmail.com>, 2019, 2021, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-27 00:20+0000\n"
-"PO-Revision-Date: 2021-04-18 00:40+0700\n"
-"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
-"Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2024-09-29 00:42+0000\n"
+"PO-Revision-Date: 2022-08-19 20:36+0700\n"
+"Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
+"Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.12.1\n"
+"X-Generator: Lokalize 21.12.3\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Wantoyo"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "wantoyek@gmail.com"
-
-#. i18n: file: 12
-#, kde-format
-msgctxt "External tool name"
-msgid "git-cola"
-msgstr "git-cola"
-
-#. i18n: file: 23
-#, kde-format
-msgctxt "External tool name"
-msgid "gitk"
-msgstr "gitk"
-
-#. i18n: file: 35
-#, kde-format
-msgctxt "External tool name"
-msgid "git blame"
-msgstr "git blame"
-
-#. i18n: file: 48
-#, kde-format
-msgctxt "External tool name"
-msgid "Run Shell Script"
-msgstr "Jalankan Skrip Shell"
-
-#. i18n: file: 61
-#, kde-format
-msgctxt "External tool name"
-msgid "Google Selected Text"
-msgstr "Google-kan Teks Terpilih"
-
-#. i18n: file: 72
-#, kde-format
-msgctxt "External tool name"
-msgid "Insert UUID"
-msgstr "Sisipkan UUID"
-
-#. i18n: file: 83
+#. i18n: file: 7
 #, kde-format
 msgctxt "External tool name"
 msgid "Clang Format Full File"
 msgstr "File Lengkap Format Clang"
 
-#. i18n: file: 96
+#. i18n: file: 4
+#, kde-format
+msgctxt "External tool category"
+msgid "Tools"
+msgstr "Peralatan"
+
+#. i18n: file: 8
 #, kde-format
 msgctxt "External tool name"
 msgid "Clang Format Selected Text"
 msgstr "Clang-Format-kan Teks Terpilih"
 
-#. i18n: file: 109
+#. i18n: file: 7
 #, kde-format
 msgctxt "External tool name"
-msgid "JSON Format Full File"
-msgstr "File Lengkap Format JSON"
-
-#. i18n: file: 122
-#, kde-format
-msgctxt "External tool name"
-msgid "XML Format Full File"
-msgstr "File Lengkap Format XML"
-
-#. i18n: file: 136
-#, fuzzy, kde-format
-#| msgctxt "External tool name"
-#| msgid "XML Format Full File"
-msgctxt "External tool name"
-msgid "Rust Fmt Full File"
-msgstr "File Lengkap Format XML"
-
-#. i18n: file: 148
-#, kde-format
-msgctxt "External tool name"
-msgid "Prettier Format Current File"
+msgid "Compile and Run cpp"
 msgstr ""
 
-#. i18n: file: 161
+#. i18n: file: 7
 #, kde-format
 msgctxt "External tool name"
-msgid "Qt Quick 2 Preview (qmlscene)"
-msgstr "Pratinjau Qt Quick 2 (qmlscene)"
+msgid "git blame"
+msgstr "git blame"
 
-#. i18n: file: 175
+#. i18n: file: 4
+#. i18n: file: 3
+#, kde-format
+msgctxt "External tool category"
+msgid "Git"
+msgstr "Git"
+
+#. i18n: file: 8
+#, kde-format
+msgctxt "External tool name"
+msgid "git-cola"
+msgstr "git-cola"
+
+#. i18n: file: 7
+#, kde-format
+msgctxt "External tool name"
+msgid "gitk"
+msgstr "gitk"
+
+#. i18n: file: 9
 #, fuzzy, kde-format
 #| msgctxt "External tool name"
 #| msgid "XML Format Full File"
@@ -115,7 +74,13 @@ msgctxt "External tool name"
 msgid "Go Fmt Full File"
 msgstr "File Lengkap Format XML"
 
-#. i18n: file: 189
+#. i18n: file: 4
+#, kde-format
+msgctxt "External tool category"
+msgid "Go"
+msgstr ""
+
+#. i18n: file: 9
 #, fuzzy, kde-format
 #| msgctxt "External tool name"
 #| msgid "XML Format Full File"
@@ -123,61 +88,73 @@ msgctxt "External tool name"
 msgid "GoImports Full File"
 msgstr "File Lengkap Format XML"
 
-#. i18n: file: 201
+#. i18n: file: 8
 #, kde-format
 msgctxt "External tool name"
-msgid "Compile and Run cpp"
+msgid "Google Selected Text"
+msgstr "Google-kan Teks Terpilih"
+
+#. i18n: file: 7
+#, kde-format
+msgctxt "External tool name"
+msgid "Insert UUID"
+msgstr "Sisipkan UUID"
+
+#. i18n: file: 9
+#, kde-format
+msgctxt "External tool name"
+msgid "JSON Format Full File"
+msgstr "File Lengkap Format JSON"
+
+#. i18n: file: 7
+#, kde-format
+msgctxt "External tool name"
+msgid "Prettier Format Current File"
 msgstr ""
 
-#. i18n: file: 216
+#. i18n: file: 8
+#, kde-format
+msgctxt "External tool name"
+msgid "Qt Quick 2 Preview (qmlscene)"
+msgstr "Pratinjau Qt Quick 2 (qmlscene)"
+
+#. i18n: file: 4
+#, kde-format
+msgctxt "External tool category"
+msgid "Qt"
+msgstr "Qt"
+
+#. i18n: file: 8
+#, kde-format
+msgctxt "External tool name"
+msgid "Run Shell Script"
+msgstr "Jalankan Skrip Shell"
+
+#. i18n: file: 9
+#, fuzzy, kde-format
+#| msgctxt "External tool name"
+#| msgid "XML Format Full File"
+msgctxt "External tool name"
+msgid "Rust Fmt Full File"
+msgstr "File Lengkap Format XML"
+
+#. i18n: file: 10
 #, kde-format
 msgctxt "External tool name"
 msgid "Search KDE API"
 msgstr ""
 
-#. i18n: file: 231
+#. i18n: file: 10
 #, kde-format
 msgctxt "External tool name"
 msgid "Search Qt API"
 msgstr ""
 
 #. i18n: file: 8
-#. i18n: file: 19
-#. i18n: file: 32
 #, kde-format
-msgctxt "External tool category"
-msgid "Git"
-msgstr "Git"
-
-#. i18n: file: 44
-#. i18n: file: 57
-#. i18n: file: 69
-#. i18n: file: 80
-#. i18n: file: 92
-#. i18n: file: 105
-#. i18n: file: 118
-#. i18n: file: 131
-#. i18n: file: 145
-#. i18n: file: 198
-#. i18n: file: 210
-#. i18n: file: 225
-#, kde-format
-msgctxt "External tool category"
-msgid "Tools"
-msgstr "Peralatan"
-
-#. i18n: file: 157
-#, kde-format
-msgctxt "External tool category"
-msgid "Qt"
-msgstr "Qt"
-
-#. i18n: file: 170
-#. i18n: file: 184
-#, kde-format
-msgctxt "External tool category"
-msgid "Go"
-msgstr ""
+msgctxt "External tool name"
+msgid "XML Format Full File"
+msgstr "File Lengkap Format XML"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, lbTools)
 #: configwidget.ui:17
@@ -206,36 +183,44 @@ msgstr "&Edit..."
 msgid "&Remove"
 msgstr "&Buang"
 
-#: externaltoolsplugin.cpp:182
+#: externaltoolsplugin.cpp:287
 #, kde-format
-msgid "Running %1: %2 %3"
+msgid ""
+"Failed to find executable '%1'. Please make sure the executable file exists "
+"and that variable names, if used, are correct"
 msgstr ""
 
-#: externaltoolsplugin.cpp:183
-#, kde-format
-msgid "Running %1: %2 %3 with input %4"
-msgstr ""
-
-#: externaltoolsplugin.cpp:188 externaltoolsplugin.cpp:285
-#: kateexternaltoolsconfigwidget.cpp:287 kateexternaltoolsconfigwidget.cpp:292
-#: kateexternaltoolsview.cpp:157 kateexternaltoolsview.cpp:161
-#: kateexternaltoolsview.cpp:207
+#: externaltoolsplugin.cpp:289 externaltoolsplugin.cpp:299
+#: externaltoolsplugin.cpp:416 kateexternaltoolsconfigwidget.cpp:271
+#: kateexternaltoolsconfigwidget.cpp:276 kateexternaltoolsview.cpp:158
+#: kateexternaltoolsview.cpp:162 kateexternaltoolsview.cpp:210
+#: kateexternaltoolsview.cpp:278
 #, kde-format
 msgid "External Tools"
 msgstr "Alat Eksternal"
 
-#: externaltoolsplugin.cpp:266
+#: externaltoolsplugin.cpp:295
+#, kde-format
+msgid "Running %1: %2 %3"
+msgstr ""
+
+#: externaltoolsplugin.cpp:296
+#, kde-format
+msgid "Running %1: %2 %3 with input %4"
+msgstr ""
+
+#: externaltoolsplugin.cpp:399
 #, fuzzy, kde-format
 #| msgid "Data written to stderr:"
 msgid "Data written to stderr:\n"
 msgstr "Data yang ditulis untuk stderr:"
 
-#: externaltoolsplugin.cpp:277
+#: externaltoolsplugin.cpp:410
 #, kde-format
 msgid "%1 crashed"
 msgstr ""
 
-#: externaltoolsplugin.cpp:279
+#: externaltoolsplugin.cpp:412
 #, fuzzy, kde-format
 #| msgid "Finished with exit code: %1"
 msgid "%1 finished with exit code %2"
@@ -246,74 +231,79 @@ msgstr "Selesai dengan mengeluarkan kode: %1"
 msgid "Starts the external tool '%1'"
 msgstr "Menjalankan alat eksternal '%1'"
 
-#: kateexternaltoolsconfigwidget.cpp:130
+#: kateexternaltoolsconfigwidget.cpp:131
 #, kde-format
 msgid "Edit External Tool"
 msgstr "Edit Alat Eksternal"
 
-#: kateexternaltoolsconfigwidget.cpp:161
+#: kateexternaltoolsconfigwidget.cpp:164
 #, kde-format
 msgid "Revert tool to default settings"
 msgstr "Kembalikan alat ke pengaturan baku"
 
-#: kateexternaltoolsconfigwidget.cpp:185
+#: kateexternaltoolsconfigwidget.cpp:189 kateexternaltoolsconfigwidget.cpp:195
 #, kde-format
 msgid "External Tool"
 msgstr "Alat Eksternal"
 
-#: kateexternaltoolsconfigwidget.cpp:185
+#: kateexternaltoolsconfigwidget.cpp:189
 #, kde-format
 msgid "You must specify at least a name and an executable"
 msgstr ""
 "Kamu harus menentukan setidaknya sebuah nama dan sebuah dapat-dieksekusi"
 
-#: kateexternaltoolsconfigwidget.cpp:194
+#: kateexternaltoolsconfigwidget.cpp:195
+#, kde-format
+msgid "With 'Trigger' enabled, at least one mimetype needs to be specified."
+msgstr ""
+
+#: kateexternaltoolsconfigwidget.cpp:204
 #, kde-format
 msgid "Select the MimeTypes for which to enable this tool."
 msgstr "Pilihlah MimeTypes mana untuk memfungsikan alat ini."
 
-#: kateexternaltoolsconfigwidget.cpp:200
+#: kateexternaltoolsconfigwidget.cpp:206
 #, kde-format
 msgid "Select Mime Types"
 msgstr "Pilih Tipe Mime"
 
-#: kateexternaltoolsconfigwidget.cpp:248
+#: kateexternaltoolsconfigwidget.cpp:240
 #, kde-format
 msgid "Add Tool..."
 msgstr "Tambahkan Alat..."
 
-#: kateexternaltoolsconfigwidget.cpp:249
+#: kateexternaltoolsconfigwidget.cpp:241
 #, kde-format
 msgid "Add Tool from Defaults"
 msgstr "Tambahkan Alat dari Bakunya"
 
-#: kateexternaltoolsconfigwidget.cpp:251
+#: kateexternaltoolsconfigwidget.cpp:243
 #, kde-format
 msgid "Add Category"
 msgstr "Tambahkan Kategori"
 
-#: kateexternaltoolsconfigwidget.cpp:306 kateexternaltoolsconfigwidget.cpp:418
-#: kateexternaltoolsconfigwidget.cpp:463
+#: kateexternaltoolsconfigwidget.cpp:290 kateexternaltoolsconfigwidget.cpp:403
+#: kateexternaltoolsconfigwidget.cpp:450
 #, kde-format
 msgid "Uncategorized"
 msgstr "Tidak berkategori"
 
-#: kateexternaltoolsconfigwidget.cpp:514
+#: kateexternaltoolsconfigwidget.cpp:492
 #, kde-format
 msgid "New Category"
 msgstr "Kategori Baru"
 
-#: kateexternaltoolsconfigwidget.cpp:517
+#: kateexternaltoolsconfigwidget.cpp:495
 #, kde-format
 msgid "New Category %1"
 msgstr "Kategori Baru %1"
 
-#: kateexternaltoolsview.cpp:98
+#: kateexternaltoolsview.cpp:102
 #, kde-format
 msgid "Configure..."
 msgstr "Konfigurasikan..."
 
-#: kateexternaltoolsview.cpp:163
+#: kateexternaltoolsview.cpp:164
 #, kde-format
 msgid "Launch external helper applications"
 msgstr "Luncurkan aplikasi penunjang eksternal"
@@ -348,44 +338,56 @@ msgstr "Urutkan nama-nama alat"
 msgid "Executable:"
 msgstr "Dapat dieksekusi:"
 
-#. i18n: ectx: property (text), widget (QLabel, lblArgs)
+#. i18n: ectx: property (placeholderText), widget (KUrlRequester, edtExecutable)
 #: tooldialog.ui:57
+#, kde-format
+msgid "Application or interpreter"
+msgstr "Aplikasi atau penafsir"
+
+#. i18n: ectx: property (text), widget (QLabel, lblArgs)
+#: tooldialog.ui:64
 #, kde-format
 msgid "Ar&guments:"
 msgstr "Ar&gumen:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, edtArgs)
-#: tooldialog.ui:67
+#: tooldialog.ui:74
 #, kde-format
 msgid "Command line arguments"
 msgstr "Argumen baris perintah"
 
 #. i18n: ectx: property (text), widget (QLabel, lblInput)
-#: tooldialog.ui:74
+#: tooldialog.ui:81
 #, kde-format
 msgid "&Input:"
 msgstr "&Input:"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, edtInput)
-#: tooldialog.ui:84
+#: tooldialog.ui:91
 #, kde-format
 msgid "Optional standard input"
 msgstr "Input standar opsional"
 
 #. i18n: ectx: property (text), widget (QLabel, lblWorkingDir)
-#: tooldialog.ui:91
+#: tooldialog.ui:98
 #, kde-format
 msgid "Working directory:"
 msgstr "Direktori kerja:"
 
+#. i18n: ectx: property (placeholderText), widget (KUrlRequester, edtWorkingDir)
+#: tooldialog.ui:108
+#, kde-format
+msgid "Uses current document path if empty"
+msgstr "Menggunakan alur dokumen saat ini jika kosong"
+
 #. i18n: ectx: property (text), widget (QLabel, lblMimeType)
-#: tooldialog.ui:101
+#: tooldialog.ui:115
 #, kde-format
 msgid "Mime &types:"
 msgstr "&Tipe Mime:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, edtMimeType)
-#: tooldialog.ui:113
+#: tooldialog.ui:127
 #, kde-format
 msgid ""
 "A semicolon-separated list of mime types for which this tool should be "
@@ -395,26 +397,26 @@ msgstr ""
 "seharusnya tersedia. Jika kosong, maka alat akan selalu tersedia."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, edtMimeType)
-#: tooldialog.ui:116
+#: tooldialog.ui:130
 #, kde-format
 msgid "Show tool only for given mime types"
 msgstr "Tampilkan hanya alat bagi tipe mime yang diberikan"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, btnMimeType)
-#: tooldialog.ui:123
+#: tooldialog.ui:137
 #, kde-format
 msgid "Opens a dialog that helps in creating a list of mimetypes."
 msgstr ""
 "Membukakan sebuah dialog yang menunjang dalam penciptaan daftar mimetypes."
 
 #. i18n: ectx: property (text), widget (QLabel, lblSave)
-#: tooldialog.ui:136
+#: tooldialog.ui:149
 #, kde-format
 msgid "Save:"
 msgstr "Simpan:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, cmbSave)
-#: tooldialog.ui:146
+#: tooldialog.ui:159
 #, kde-format
 msgid ""
 "Optionally save the current or all modified documents prior to running the "
@@ -426,91 +428,110 @@ msgstr ""
 "aplikasi seperti, misalnya, klien FTP."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbSave)
-#: tooldialog.ui:150
+#. i18n: ectx: property (text), item, widget (QComboBox, cmbTrigger)
+#: tooldialog.ui:163 tooldialog.ui:189
 #, kde-format
 msgid "None"
 msgstr "Nihil"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbSave)
-#: tooldialog.ui:155
+#: tooldialog.ui:168
 #, kde-format
 msgid "Current Document"
 msgstr "Dokumen Saat Ini"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbSave)
-#: tooldialog.ui:160
+#: tooldialog.ui:173
 #, kde-format
 msgid "All Documents"
 msgstr "Semua Dokumen"
 
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: tooldialog.ui:181
+#, kde-format
+msgid "Trigger"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, cmbTrigger)
+#: tooldialog.ui:194
+#, kde-format
+msgid "Before Save"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, cmbTrigger)
+#: tooldialog.ui:199
+#, kde-format
+msgid "After Save"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QCheckBox, chkReload)
-#: tooldialog.ui:168
+#: tooldialog.ui:207
 #, kde-format
 msgid "Reload current document after execution"
 msgstr "Muat ulang dokumen saat ini setelah eksekusi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: tooldialog.ui:175
+#: tooldialog.ui:214
 #, kde-format
 msgid "O&utput:"
 msgstr "O&utput:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbOutput)
-#: tooldialog.ui:186
+#: tooldialog.ui:225
 #, kde-format
 msgid "Ignore"
 msgstr "Abaikan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbOutput)
-#: tooldialog.ui:191
+#: tooldialog.ui:230
 #, kde-format
 msgid "Insert at Cursor Position"
 msgstr "Sisipkan di Posisi Kursor"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbOutput)
-#: tooldialog.ui:196
+#: tooldialog.ui:235
 #, kde-format
 msgid "Replace Selected Text"
 msgstr "Ganti Teks Terpilih"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbOutput)
-#: tooldialog.ui:201
+#: tooldialog.ui:240
 #, kde-format
 msgid "Replace Current Document"
 msgstr "Ganti Dokumen Saat Ini"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbOutput)
-#: tooldialog.ui:206
+#: tooldialog.ui:245
 #, kde-format
 msgid "Append to Current Document"
 msgstr "Bubuhkan ke Dokumen Saat Ini"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbOutput)
-#: tooldialog.ui:211
+#: tooldialog.ui:250
 #, kde-format
 msgid "Insert in New Document"
 msgstr "Sisipkan di dalam Dokumen Baru"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbOutput)
-#: tooldialog.ui:216
+#: tooldialog.ui:255
 #, kde-format
 msgid "Copy to Clipboard"
 msgstr "Salin ke PapanKlip"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, cmbOutput)
-#: tooldialog.ui:221
+#: tooldialog.ui:260
 #, kde-format
 msgid "Display in Pane"
 msgstr "Display di dalam Panel"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: tooldialog.ui:229
+#: tooldialog.ui:268
 #, kde-format
 msgid "Editor command:"
 msgstr "Perintah editor:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, edtCommand)
-#: tooldialog.ui:239
+#: tooldialog.ui:278
 #, kde-format
 msgid ""
 "If you specify a name here, you can invoke the command from the view command "
@@ -522,22 +543,10 @@ msgstr ""
 "gunakan spasi atau tab pada nama."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, edtCommand)
-#: tooldialog.ui:242
+#: tooldialog.ui:281
 #, kde-format
 msgid "Optional view command line name"
 msgstr "Nama baris perintah tampilan opsional"
-
-#. i18n: ectx: property (placeholderText), widget (KUrlRequester, edtExecutable)
-#: tooldialog.ui:256
-#, kde-format
-msgid "Application or interpreter"
-msgstr "Aplikasi atau penafsir"
-
-#. i18n: ectx: property (placeholderText), widget (KUrlRequester, edtWorkingDir)
-#: tooldialog.ui:263
-#, kde-format
-msgid "Uses current document path if empty"
-msgstr "Menggunakan alur dokumen saat ini jika kosong"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabOutput)
 #: toolview.ui:27
@@ -561,7 +570,15 @@ msgstr "Pera&latan"
 #: ui.rc:9
 #, kde-format
 msgid "Main Toolbar"
-msgstr "Toolbar Utama"
+msgstr "Bilah Alat Utama"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Wantoyo"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "wantoyek@gmail.com"
 
 #~ msgid "Running external tool: %1"
 #~ msgstr "Menjalankan alat eksternal: %1"

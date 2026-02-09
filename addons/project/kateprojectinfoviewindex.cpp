@@ -7,15 +7,15 @@
 
 #include "kateprojectinfoviewindex.h"
 #include "kateproject.h"
+#include "kateprojectindex.h"
 #include "kateprojectplugin.h"
 #include "kateprojectpluginview.h"
+#include "ktexteditor_utils.h"
 
 #include <KLocalizedString>
 #include <KMessageWidget>
 #include <QAction>
 #include <QVBoxLayout>
-
-#include <KTextEditor/MainWindow>
 
 KateProjectInfoViewIndex::KateProjectInfoViewIndex(KateProjectPluginView *pluginView, KateProject *project, QWidget *parent)
     : QWidget(parent)
@@ -47,8 +47,9 @@ KateProjectInfoViewIndex::KateProjectInfoViewIndex(KateProjectPluginView *plugin
     /**
      * layout widget
      */
-    QVBoxLayout *layout = new QVBoxLayout;
+    auto *layout = new QVBoxLayout;
     layout->setSpacing(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_lineEdit);
     layout->addWidget(m_treeView);
     setLayout(layout);
@@ -102,7 +103,8 @@ void KateProjectInfoViewIndex::slotTextChanged(const QString &text)
     if (m_project && m_project->projectIndex() && !text.isEmpty()) {
         m_project->projectIndex()->findMatches(*m_model, text, KateProjectIndex::FindMatches);
     } else if (!text.isEmpty()) {
-        for (const auto &project : m_pluginView->plugin()->projects()) {
+        const auto projects = m_pluginView->plugin()->projects();
+        for (const auto project : projects) {
             if (project->projectIndex()) {
                 project->projectIndex()->findMatches(*m_model, text, KateProjectIndex::FindMatches, TAG_FULLMATCH | TAG_OBSERVECASE);
             }
@@ -146,7 +148,7 @@ void KateProjectInfoViewIndex::slotClicked(const QModelIndex &index)
     }
 
     /** save current position in location history */
-    Q_EMIT m_pluginView->addPositionToHistory(url, pos);
+    Utils::addPositionToHistory(url, pos, m_pluginView->mainWindow());
 
     /**
      * set cursor, if possible
@@ -156,7 +158,7 @@ void KateProjectInfoViewIndex::slotClicked(const QModelIndex &index)
         view->setCursorPosition(KTextEditor::Cursor(line - 1, 0));
 
         /** save the jump position in location history */
-        Q_EMIT m_pluginView->addPositionToHistory(view->document()->url(), {line - 1, 0});
+        Utils::addPositionToHistory(view->document()->url(), {line - 1, 0}, m_pluginView->mainWindow());
     }
 }
 
@@ -183,6 +185,7 @@ void KateProjectInfoViewIndex::enableWidgets(bool valid)
         }
     } else if (!m_messageWidget) {
         m_messageWidget = new KMessageWidget();
+        m_messageWidget->setPosition(KMessageWidget::Header);
         m_messageWidget->setCloseButtonVisible(true);
         m_messageWidget->setMessageType(KMessageWidget::Warning);
         m_messageWidget->setWordWrap(false);

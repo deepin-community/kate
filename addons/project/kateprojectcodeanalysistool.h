@@ -5,12 +5,14 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_CODE_ANALYSIS_TOOL_H
-#define KATE_PROJECT_CODE_ANALYSIS_TOOL_H
+#pragma once
 
+#include <KLocalizedString>
 #include <QObject>
 #include <QString>
 #include <QStringList>
+
+#include "diagnostics/diagnostic_types.h"
 
 class KateProject;
 namespace KTextEditor
@@ -23,8 +25,7 @@ class MainWindow;
  */
 class KateProjectCodeAnalysisTool : public QObject
 {
-    Q_OBJECT
-protected:
+public:
     explicit KateProjectCodeAnalysisTool(QObject *parent = nullptr);
 
     /**
@@ -34,7 +35,6 @@ protected:
 
     KTextEditor::MainWindow *m_mainWindow;
 
-public:
     ~KateProjectCodeAnalysisTool() override;
 
     /**
@@ -90,7 +90,7 @@ public:
      * @param line
      * @return file, line, severity, message
      */
-    virtual QStringList parseLine(const QString &line) const = 0;
+    virtual FileDiagnostics parseLine(const QString &line) const = 0;
 
     /**
      * Tells the tool runner if the returned process exit code
@@ -128,7 +128,3 @@ public:
 private:
     int m_filesCount = 0;
 };
-
-Q_DECLARE_METATYPE(KateProjectCodeAnalysisTool *)
-
-#endif // KATE_PROJECT_CODE_ANALYSIS_TOOL_H

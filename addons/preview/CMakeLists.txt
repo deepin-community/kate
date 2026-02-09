@@ -1,6 +1,6 @@
-add_library(ktexteditorpreviewplugin MODULE "")
+kate_add_plugin(ktexteditorpreviewplugin)
 target_compile_definitions(ktexteditorpreviewplugin PRIVATE TRANSLATION_DOMAIN="ktexteditorpreviewplugin")
-target_link_libraries(ktexteditorpreviewplugin PRIVATE KF5::I18n KF5::TextEditor)
+target_link_libraries(ktexteditorpreviewplugin PRIVATE KF6::I18n KF6::TextEditor)
 
 include(ECMQtDeclareLoggingCategory)
 ecm_qt_declare_logging_category(
@@ -20,6 +20,6 @@ target_sources(
     kpartview.cpp
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(ktexteditorpreviewplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS ktexteditorpreviewplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(ktexteditorpreviewplugin REUSE_FROM katepch)
+endif()

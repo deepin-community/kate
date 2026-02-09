@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesdk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
 "PO-Revision-Date: 2012-10-05 17:19+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -30,7 +30,12 @@ msgstr ""
 "<title>Rezultat od:</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr ""
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
@@ -39,23 +44,23 @@ msgstr ""
 "Nije vam dozvoljeno da izvršavate proizvoljne spoljašnje programe. Ako ipak "
 "to želite, kontaktirajte svog administratora sistema."
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
 msgstr "Ograničenja pristupa"
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Text Filter"
 msgstr "Filter"
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
 msgstr "Upotreba: textfilter NAREDBA"
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
@@ -64,7 +69,7 @@ msgstr ""
 "<qt><p>Upotreba: <code>textfilter NAREDBA</code></p><p>Vrši zamjenu "
 "označenog teksta sa izlazom navedene naredbe školjke.</p></qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
 msgstr ""

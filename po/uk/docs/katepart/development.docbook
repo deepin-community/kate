@@ -322,8 +322,18 @@
 <entry
 >У &Windows;:</entry>
 <entry
-><filename
+><filename class="directory"
 >%USERPROFILE%&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;syntax</filename
+></entry>
+</row>
+<row>
+<entry
+>У &macOS;</entry>
+<entry
+><filename class="directory"
+><envar
+>$HOME</envar
+>/Library/Application Support/org.kde.syntax-highlighting/syntax/</filename
 ></entry>
 </row>
 </tbody>
@@ -598,6 +608,15 @@
 
 <para
 ><userinput
+>attribute</userinput
+> визначає стиль, який слід використати для символу, якщо не виявлено відповідності жодному правилу або якщо правило не визначає атрибута. У другому випадку буде використано <emphasis
+>атрибут</emphasis
+> контексту, який вказано у <emphasis
+>контексті</emphasis
+> правила.</para>
+
+<para
+><userinput
 >lineEndContext</userinput
 > визначає контекст, на який має перемкнутися система підсвічування у разі досягнення кінця рядка. Значенням може бути назва іншого контексту, <userinput
 >#stay</userinput
@@ -613,11 +632,7 @@
 >IncludeRules</userinput
 >, наприклад, <userinput
 >ЯкийсьКонтекст##JavaScript</userinput
->. Зауважте, що цей перемикач контексту не можна використовувати у поєднанні із <userinput
->#pop</userinput
->. Наприклад, <userinput
->#pop!ЯкийсьКонтекст##JavaScript</userinput
-> є некоректним. Перемикачі контексту також описано у розділі <xref linkend="kate-highlight-rules-detailled"/>.</para>
+>. Перемикачі контексту також описано у розділі <xref linkend="kate-highlight-rules-detailled"/>. Типове значення: #stay.</para>
 <para
 ><userinput
 >lineEmptyContext</userinput
@@ -707,7 +722,7 @@
 >, текст буде підкреслено.</para>
 <para
 ><userinput
->strikeout</userinput
+>strikeOut</userinput
 >, якщо цей параметр має значення <emphasis
 >true</emphasis
 >, текст буде перекреслено.</para>
@@ -1144,7 +1159,9 @@
 >#stay</userinput
 >), чи слід повернутися до попереднього контексту, використаного у рядку (<userinput
 >#pop</userinput
->).</para>
+>). Порожній або невизначений контекст означає <userinput
+>#stay</userinput
+>.</para>
 <para
 >Щоб повернутися на декілька рівнів контексту назад, ключове слово #pop можна повторити декілька разів: <userinput
 >#pop#pop#pop</userinput
@@ -1174,11 +1191,7 @@
 >IncludeRules</userinput
 >. Воно надає вам змогу перемкнутися на контекст, що належить іншому визначення підсвічування синтаксису, наприклад, <userinput
 >ЯкийсьКонтекст##JavaScript</userinput
->. Зауважте, що не можна використовувати цей перемикач контексту у поєднанні із <userinput
->#pop</userinput
->. Наприклад, запис <userinput
->#pop!ЯкийсьКонтекст##JavaScript</userinput
-> є некоректним.</para>
+>. </para>
 </listitem>
 </itemizedlist>
 
@@ -1191,11 +1204,7 @@
 <para
 >Всі правила мають перелічені нижче атрибути, їх можна вказувати всюди, де ви побачите напис <userinput
 >(загальні атрибути)</userinput
-> у списку. Атрибути <emphasis
->attribute</emphasis
-> і <emphasis
->context</emphasis
-> є обов’язковими атрибутами, всі інші атрибути є необов’язковими. </para>
+> у списку. Усі атрибути є необов’язковими. </para>
 
 <listitem>
 <para
@@ -1203,13 +1212,17 @@
 >attribute</emphasis
 >: атрибут, що вказує на визначені <emphasis
 >itemData</emphasis
+>. Типове значення: <emphasis
+>attribute</emphasis
+> з контексту, який вказано в атрибуті <emphasis
+>context</emphasis
 >.</para>
 </listitem>
 <listitem>
 <para
 ><emphasis
 >context</emphasis
->: визначає контекст, на який слід перемкнути систему підсвічування у разі виявлення відповідника правила.</para>
+>: визначає контекст, на який слід перемкнути систему підсвічування у разі виявлення відповідника правила. Типове значення: #stay.</para>
 </listitem>
 <listitem>
 <para
@@ -1517,6 +1530,10 @@
 > визначає перший символ для порівняння, <userinput
 >char1</userinput
 > — другий.</para>
+<para
+>Це правило лишилося з історичних міркувань. Для того, щоб зробити читання зручнішим варто користуватися <userinput
+>StringDetect</userinput
+>.</para>
 </listitem>
 </varlistentry>
 
@@ -1900,16 +1917,6 @@
 
 <listitem>
 <para
->Якщо вам потрібно перевірити відповідність лише двом символам, скористайтеся правилом <userinput
->Detect2Chars</userinput
->, замість правила <userinput
->StringDetect</userinput
->. Те саме стосується правила <userinput
->DetectChar</userinput
->.</para>
-</listitem>
-<listitem>
-<para
 >Формальними виразами просто користуватися, але часто існує інший, набагато швидший спосіб досягти результату. Припустімо вам потрібно перевірити, чи є символ <userinput
 >'#'</userinput
 > першим символом рядка. Вирішення на основі формального виразу має виглядати десь так: <programlisting
@@ -1951,7 +1958,7 @@
 >, але також слід обробити цей рядок у наступному контексті. Ви можете скористатися наведеним нижче правилом, у якому атрибут <userinput
 >lookAhead</userinput
 > призведе до того, що інструмент визначення підсвічування збереже знайдений рядок для обробки у наступному контексті. <programlisting
->&lt;Detect2Chars attribute=&quot;Comment&quot; context=&quot;#pop&quot; char=&quot;*&quot; char1=&quot;/&quot; lookAhead=&quot;true&quot; /&gt;</programlisting>
+>&lt;StringDetect attribute=&quot;Comment&quot; context=&quot;#pop&quot; String=&quot;*/&quot; lookAhead=&quot;true&quot; /&gt;</programlisting>
 </para>
 </listitem>
 <listitem>
@@ -1979,12 +1986,12 @@
 <listitem>
 <para
 >Ви можете перевірити коректність будь-якого файла &XML; за допомогою команди <command
->validatehl.sh language.xsd mySyntax.xml</command
->. Файли <filename
+>validatehl.sh mySyntax.xml</command
+>. Файл <filename
 >validatehl.sh</filename
-> і <filename
+> використовує <filename
 >language.xsd</filename
-> зберігаються у <ulink url="https://commits.kde.org/syntax-highlighting?path=data/schema"
+>. Обидва ці файли зберігаються у <ulink url="https://commits.kde.org/syntax-highlighting?path=data/schema"
 >сховищі бібліотеки підсвічування синтаксичних конструкцій</ulink
 >. </para>
 </listitem>
@@ -1995,7 +2002,7 @@
 >. Приклад:</para>
 <programlisting
 >&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!DOCTYPE language SYSTEM "language.dtd"
+&lt;!DOCTYPE language
 [
         &lt;!ENTITY myref    "[A-Za-z_:][\w.:_-]*"&gt;
 ]&gt;
@@ -2004,6 +2011,44 @@
 >Після такого визначення ви зможете використовувати <emphasis
 >&amp;myref;</emphasis
 > замість формального виразу.</para>
+</listitem>
+<listitem>
+<para
+>У редакторі Kate ви можете перезавантажити синтаксиси за допомогою вбудованого командного рядка (типове скорочення <userinput
+>F7</userinput
+>) і команди <command
+>reload-highlighting</command
+>.</para>
+</listitem>
+<listitem>
+<para
+>Ви можете скористатися засобом командного рядка із назвою <userinput
+>ksyntaxhighlighter6</userinput
+> (<userinput
+>kate-syntax-highlighter</userinput
+> у старіших версіях) для тестування синтаксису і перегляду стилю та ділянок, які пов'язано із кожною частиною тексту.</para>
+
+<mediaobject>
+<imageobject
+><imagedata format="PNG" fileref="ksyntaxhighlighter6-trace-format.png"/></imageobject>
+<textobject
+><phrase
+>Результати виконання <command
+>ksyntaxhighlighter6 --output-format=ansi --syntax-trace=format test.cpp</command
+>.</phrase
+></textobject>
+<caption
+><para
+>Результат виконання <command
+>ksyntaxhighlighter6 --output-format=ansi --syntax-trace=format test.cpp</command
+>.</para>
+</caption>
+</mediaobject>
+
+<para
+>Скористайтеся командою <command
+>ksyntaxhighlighter6 -h</command
+>, щоб дізнатися більше про параметри керування роботою програми.</para>
 </listitem>
 </itemizedlist>
 </sect3>
@@ -2299,8 +2344,18 @@
 <entry
 >У &Windows;:</entry>
 <entry
-><filename
+><filename class="directory"
 >%USERPROFILE%&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;themes</filename
+></entry>
+</row>
+<row>
+<entry
+>У &macOS;</entry>
+<entry
+><filename class="directory"
+><envar
+>$HOME</envar
+>/Library/Application Support/org.kde.syntax-highlighting/themes/</filename
 ></entry>
 </row>
 </tbody>
@@ -4108,6 +4163,11 @@
 >пакунка Flatpak з Flathub</ulink
 > (лише у GNU/Linux).</para>
 
+<para
+>За допомогою скрипту мовою python у <ulink url="https://invent.kde.org/frameworks/syntax-highlighting/-/blob/master/utils/theme_contrast_checker.py?ref_type=heads"
+>сховищі підсвічувань синтаксичних конструкцій</ulink
+> ви можете візуалізувати усі кольори у темі, а також переглянути контрастність з різними налаштованими кольорами тла.</para>
+
 </sect3>
 
 <sect3 id="color-themes-tips-and-tricks-consistency">
@@ -4211,7 +4271,7 @@
 >. </para>
 <para
 >У &Windows; ці файли зберігаються у <filename
->%USER%\AppData\Local\katepart5\indentation</filename
+>%USERPROFILE%\AppData\Local\katepart5\script\indentation</filename
 >. <replaceable
 >%USERPROFILE%</replaceable
 > зазвичай є скороченням для <filename
@@ -4322,7 +4382,7 @@ function indent(line, indentWidth, ch)
 ><guimenu
 >Інструменти</guimenu
 ><guimenuitem
->Вирівняти</guimenuitem
+>Форматований відступ</guimenuitem
 ></menuchoice>
     // змінна ch матиме порожнє значення, тобто ch == ''.
     //
@@ -4357,7 +4417,7 @@ function indent(line, indentWidth, ch)
 ><guimenu
 >Інструменти</guimenu
 > <guimenuitem
->Вирівняти</guimenuitem
+>Форматований відступ</guimenuitem
 ></menuchoice
 >.</para
 ></listitem
@@ -4411,7 +4471,7 @@ function indent(line, indentWidth, ch)
 >.</para>
 <para
 >У &Windows; ці файли зберігаються у <filename
->%USER%\AppData\Local\katepart5\indentation</filename
+>%USERPROFILE%\AppData\Local\katepart5\script\indentation</filename
 >. <replaceable
 >%USERPROFILE%</replaceable
 > зазвичай є скороченням для <filename
@@ -4464,7 +4524,7 @@ function indent(line, indentWidth, ch)
 >.</para>
 <para
 >У &Windows; ці файли зберігаються у <filename
->%USERPROFILE%\AppData\Local\katepart5\commands</filename
+>%USERPROFILE%\AppData\Local\katepart5\script\commands</filename
 >. <replaceable
 >%USERPROFILE%</replaceable
 > зазвичай є скороченням для <filename
@@ -5443,7 +5503,7 @@ require ("range.js");
 >Виконає пошук файла з назвою <replaceable
 >назва файла</replaceable
 > у каталозі <literal
->katepart/script/files</literal
+>katepart5/script/files</literal
 > і поверне його вміст як рядок. </para
 ></listitem>
 </varlistentry
@@ -5465,7 +5525,7 @@ require ("range.js");
 >Виконає пошук файла з назвою <replaceable
 >назва файла</replaceable
 > у каталозі <literal
->katepart/script/libraries</literal
+>katepart5/script/libraries</literal
 > і обробить його код. У <literal
 >require</literal
 > передбачено вбудований захист від повторного включення одного і того самого файла. </para>
@@ -5915,6 +5975,94 @@ void view.setVirtualCursorPosition(<parameter
 ></listitem>
 </varlistentry>
 
+
+<varlistentry>
+<term
+><synopsis
+>void view.setBlockSelection(bool on);
+</synopsis
+></term>
+<listitem
+><para
+>Вмикає або вимикає режим позначення блоку. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><synopsis
+>bool view.blockSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Повертає <literal
+>true</literal
+>, якщо увімкнено режим позначення блоку, інакше повертає <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term
+><synopsis
+>void view.align(<parameter
+>Range <replaceable
+>діапазон</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Належним чином повторно встановити відступи рядків у вказаному діапазоні <replaceable
+>діапазон</replaceable
+> за поточними параметрами відступів. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><synopsis
+>void view.alignOn(<parameter
+>Range <replaceable
+>діапазон</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>взірець</replaceable
+> = &quot;&quot;</parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Вирівнює рядки у діапазоні <replaceable
+>діапазон</replaceable
+> у позиції, яку задано формальним виразом <replaceable
+>взірець</replaceable
+>. Якщо буде вказано порожній <replaceable
+>взірець</replaceable
+>, вирівнювання типово відбудеться за першим непорожнім символом. Якщо у взірці буде вказано блок захоплення, вирівнювання відбудеться за захопленим блоком. </para>
+<para
+><emphasis
+>Приклади:</emphasis
+></para>
+<para
+><literal
+>view.alignOn(document.documentRange(), '-');</literal
+> вставить пробіли до першого <literal
+>-</literal
+> у кожному з рядків для вирівнювання усіх дефісів за вказаною позицією.</para>
+<para
+><literal
+>view.alignOn(document.documentRange(), ':\\s+(.)');</literal
+> вставить пробіли до першого непорожнього символу, який стоїть після двокрапки, для вирівнювання усіх таких символів за однаковою позицією.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry>
 <term
 ><synopsis
@@ -5956,6 +6104,48 @@ void view.setVirtualCursorPosition(<parameter
 > міститиметься повідомлення про помилку. </para>
 <para
 >Актуальна версія: &kde-frameworks; 5.50</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><synopsis
+>Range view.searchText(<parameter
+>Range <replaceable
+>діапазон</replaceable
+></parameter
+>,
+                      <parameter
+>String <replaceable
+>взірець</replaceable
+></parameter
+>,
+                      <parameter
+>bool <replaceable
+>назад</replaceable
+> = false</parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Шукати перше включення <replaceable
+>взірця</replaceable
+> у <replaceable
+>діапазоні</replaceable
+> і повернути знайдений діапазон. Пошук буде виконано у зворотному напрямку, якщо для додаткового булевого параметра <replaceable
+>назад</replaceable
+> буде встановлено значення <literal
+>true</literal
+>. </para>
+<para
+>Повернутий діапазон буде некоректним (див. Range.isValid()), якщо <replaceable
+>взірець</replaceable
+> не буде знайдено у <replaceable
+>діапазоні</replaceable
+>. </para>
+<para
+>Актуальна версія: &kde-frameworks; 5.97</para>
 </listitem>
 </varlistentry>
 
@@ -7754,6 +7944,36 @@ bool document.isOthers(<parameter
 >. Якщо це не так, повертає <literal
 >false</literal
 >. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><synopsis
+>void document.indent(<parameter
+>Range <replaceable
+>діапазон</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>зміна</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Встановити відступи у всіх рядка у діапазоні <replaceable
+>діапазон</replaceable
+> на <replaceable
+>зміна</replaceable
+> табуляцій або <replaceable
+>зміна</replaceable
+> разів на <literal
+>tabSize</literal
+> пробілів, залежно від визначених користувачем параметрів. Значення <replaceable
+>зміна</replaceable
+> може бути від'ємним. </para
 ></listitem>
 </varlistentry>
 

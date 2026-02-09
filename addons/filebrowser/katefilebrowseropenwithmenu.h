@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KATE_FILEBROWSEROPENWITHMENU_H
-#define KATE_FILEBROWSEROPENWITHMENU_H
+#pragma once
 
 #include <KFileItem>
 #include <QMenu>
@@ -22,7 +21,7 @@ class KateFileBrowserOpenWithMenu : public QMenu
 
 public:
     explicit KateFileBrowserOpenWithMenu(const QString &title, QWidget *parent = nullptr);
-    ~KateFileBrowserOpenWithMenu();
+    ~KateFileBrowserOpenWithMenu() override;
 
     void setItem(KFileItem item)
     {
@@ -42,7 +41,3 @@ protected:
 private:
     KFileItem m_item;
 };
-
-#endif // KATE_FILEBROWSEROPENWITHMENU_H
-
-// kate: space-indent on; indent-width 2; replace-tabs on;

@@ -96,7 +96,7 @@
 ></entry>
 <entry
 ><para
->Перейти до попереднього рядка редагування.</para
+>Перейти до попереднього місця редагування у документі.</para
 ></entry>
 </row>
 <row>
@@ -110,7 +110,7 @@
 ></entry>
 <entry
 ><para
->Перейти до наступного рядка редагування.</para
+>Перейти до наступного місця редагування у документі.</para
 ></entry>
 </row>
 <row>
@@ -307,22 +307,8 @@
 <entry
 ><para
 ><keycombo action="simul"
->&Ctrl;&Alt;<keycap
->↑</keycap
-></keycombo
-></para
-></entry>
-<entry
-><para
->Здублювати позначені рядки вище.</para
-></entry>
-</row>
-<row>
-<entry
-><para
-><keycombo action="simul"
->&Ctrl;&Alt;<keycap
->↓</keycap
+>&Ctrl;<keycap
+>.</keycap
 ></keycombo
 ></para
 ></entry>
@@ -441,6 +427,30 @@
 > вам просто слід натиснути цю комбінацію клавіш і новий рядок почнеться з вже готового <quote
 >// </quote
 >. Отже, вам не потрібно буде вводити символи коментарів на початку кожного нового рядка з коментарями.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;&Enter;</keycombo
+></para
+></entry>
+<entry
+><para
+>Створити рядок під поточним рядком.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Enter;</keycombo
+></para
+></entry>
+<entry
+><para
+>Створити рядок над поточним рядком.</para
 ></entry>
 </row>
 <row>
@@ -1292,6 +1302,78 @@ action="simul"
 >Розгорнути скорочення.</para
 ></entry>
 </row>
+
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>↑</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Додати курсор над поточним курсором.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>↓</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Додати курсор під поточним курсором.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Shift;&Alt;<keycap
+>I</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Створити курсор наприкінці кожного рядка у позначеному.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Знайти наступне входження слова під курсором і позначити його.</para
+></entry>
+</row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>J</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Знайти усі входження слова під курсором і позначити їх.</para
+></entry>
+</row>
+
 </tbody>
 </tgroup>
 </informaltable>

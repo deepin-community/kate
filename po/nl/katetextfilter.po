@@ -6,23 +6,23 @@
 # Samuel Derous, 2003.
 # Rinse de Vries <rinse@kde.nl>, 2003.
 # Rinse de Vries <rinsedevries@kde.nl>, 2004, 2005, 2007.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2013, 2015, 2018, 2021.
+# SPDX-FileCopyrightText: 2009, 2013, 2015, 2018, 2021, 2024 Freek de Kruijf <freekdekruijf@kde.nl>
 msgid ""
 msgstr ""
 "Project-Id-Version: katetextfilter\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
-"PO-Revision-Date: 2021-03-11 12:10+0100\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
+"PO-Revision-Date: 2024-10-20 15:10+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.2\n"
+"X-Generator: Lokalize 24.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -32,7 +32,12 @@ msgstr ""
 "<title>Resultaat van:</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr "Proces starten is mislukt"
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
@@ -41,22 +46,22 @@ msgstr ""
 "U hebt geen toegangsrechten voor het uitvoeren van willekeurige externe "
 "programma's. Als u dat wel wilt, neem dan contact op met uw systeembeheerder."
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
 msgstr "Toegangsrestricties"
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
 #, kde-format
 msgid "Text Filter"
 msgstr "Tekstfilter"
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
 msgstr "Gebruik: textfilter COMMAND"
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
@@ -65,7 +70,7 @@ msgstr ""
 "<qt> <p>Gebruik: <code>textfilter COMMANDO</code></p> <p>Vervang de selectie "
 "met de uitvoer van het opgegeven shell-commando.</p> </qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
 msgstr "&Filteren via commando..."

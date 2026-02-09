@@ -5,28 +5,72 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_H
-#define KATE_PROJECT_H
+#pragma once
 
-#include "kateprojectindex.h"
-#include "kateprojectitem.h"
-#include <KTextEditor/ModificationInterface>
-#include <QDateTime>
+#include <KTextEditor/Document>
+
+#include "git/gitstatus.h"
 #include <QHash>
-#include <QSharedPointer>
-#include <QTextDocument>
+#include <QPointer>
+#include <QStandardItemModel>
+#include <memory>
+
+class QTextDocument;
+class KateProjectItem;
+class KateProjectIndex;
+
+class KateProjectModel : public QStandardItemModel
+{
+public:
+    using QStandardItemModel::QStandardItemModel;
+
+    enum StatusType {
+        Invalid,
+        Added,
+        Modified,
+        None
+    };
+    enum Role {
+        StatusRole = Qt::UserRole + 2
+    };
+
+    Qt::DropActions supportedDropActions() const override
+    {
+        return Qt::CopyAction;
+    }
+
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+    bool canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+
+    void setStatus(const GitUtils::GitParsedStatus &status)
+    {
+        m_status = status;
+        m_cachedStatusByPath = {};
+    }
+
+private:
+    StatusType getStatusTypeForPath(const QString &) const;
+
+    friend class KateProject;
+    QPointer<class KateProject> m_project;
+    GitUtils::GitParsedStatus m_status;
+
+    mutable QHash<QString, StatusType> m_cachedStatusByPath;
+};
 
 /**
  * Shared pointer data types.
  * Used to pass pointers over queued connected slots
  */
-typedef QSharedPointer<QStandardItem> KateProjectSharedQStandardItem;
+typedef std::shared_ptr<QStandardItem> KateProjectSharedQStandardItem;
 Q_DECLARE_METATYPE(KateProjectSharedQStandardItem)
 
-typedef QSharedPointer<QHash<QString, KateProjectItem *>> KateProjectSharedQHashStringItem;
+typedef std::shared_ptr<QHash<QString, KateProjectItem *>> KateProjectSharedQHashStringItem;
 Q_DECLARE_METATYPE(KateProjectSharedQHashStringItem)
 
-typedef QSharedPointer<KateProjectIndex> KateProjectSharedProjectIndex;
+typedef std::shared_ptr<KateProjectIndex> KateProjectSharedProjectIndex;
 Q_DECLARE_METATYPE(KateProjectSharedProjectIndex)
 
 class KateProjectPlugin;
@@ -40,11 +84,30 @@ class KateProject : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString baseDir READ baseDir)
+    Q_PROPERTY(QString name READ name)
+
 public:
     /**
-     * construct empty project
+     * Construct project by reading from given file.
+     * Success can be checked later by using isValid().
+     *
+     * @param threadPool thread pool to be used by worker threads
+     * @param plugin our plugin instance, for config & file system watcher
+     * @param fileName fileName to load the project from
      */
-    KateProject(QThreadPool &threadPool, KateProjectPlugin *plugin);
+    KateProject(QThreadPool &threadPool, KateProjectPlugin *plugin, const QString &fileName);
+
+    /**
+     * Construct project from given data for given base directory
+     * Success can be checked later by using isValid().
+     *
+     * @param threadPool thread pool to be used by worker threads
+     * @param plugin our plugin instance, for config & file system watcher
+     * @param globalProject globalProject object content
+     * @param directory project base directory
+     */
+    KateProject(QThreadPool &threadPool, KateProjectPlugin *plugin, const QVariantMap &globalProject, const QString &directory);
 
     /**
      * deconstruct project
@@ -52,13 +115,22 @@ public:
     ~KateProject() override;
 
     /**
-     * Load a project from project file
-     * Only works once, afterwards use reload().
-     * @param fileName name of project file
-     * @return success
+     * Is this project valid?
+     * @return project valid? we are valid, if we have some name set
      */
-    bool loadFromFile(const QString &fileName);
-    bool loadFromData(const QVariantMap &globalProject, const QString &directory);
+    bool isValid() const
+    {
+        return !name().isEmpty();
+    }
+
+    /**
+     * Is this a file backed project or just generated from e.g. opening a directory or VCS?
+     * @return file backed project? e.g. was this read from a .kateproject file?
+     */
+    bool isFileBacked() const
+    {
+        return m_fileBacked;
+    }
 
     /**
      * Try to reload a project.
@@ -70,6 +142,8 @@ public:
 
     /**
      * Accessor to file name.
+     * Even for projects generated from version control or by open directory we will create a fake name,
+     * as the project file name is used in many places as unique identifier for the project.
      * @return file name
      */
     const QString &fileName() const
@@ -87,15 +161,6 @@ public:
     }
 
     /**
-     * Return the time when the project file has been modified last.
-     * @return QFileInfo::lastModified()
-     */
-    QDateTime fileLastModified() const
-    {
-        return m_fileLastModified;
-    }
-
-    /**
      * Accessor to project map containing the whole project info.
      * @return project info
      */
@@ -110,7 +175,6 @@ public:
      */
     QString name() const
     {
-        // MSVC doesn't support QStringLiteral here
         return m_projectMap[QStringLiteral("name")].toString();
     }
 
@@ -145,18 +209,20 @@ public:
     /**
      * add a new file to the project
      */
-    void addFile(const QString &file, KateProjectItem *item)
+    bool addFile(const QString &file, KateProjectItem *item)
     {
-        if (m_file2Item && item) {
+        if (m_file2Item && item && !m_file2Item->contains(file)) {
             (*m_file2Item)[file] = item;
+            return true;
         }
+        return false;
     }
 
     /**
      * rename a file
      */
     void renameFile(const QString &newName, const QString &oldName);
-    
+
     /**
      * remove a file
      */
@@ -170,7 +236,7 @@ public:
      */
     KateProjectIndex *projectIndex()
     {
-        return m_projectIndex.data();
+        return m_projectIndex.get();
     }
 
     KateProjectPlugin *plugin()
@@ -211,6 +277,27 @@ public:
      */
     void unregisterDocument(KTextEditor::Document *document);
 
+    /**
+     * All project roots, files below these roots are considered to be part of the project.
+     * This includes the directory with the project file, the baseDir and the build directory.
+     * Paths will be stored as absolute and canonical variants.
+     *
+     * This is used e.g. in KateProjectPlugin::openProjectForDirectory
+     *
+     * @return project root directories for fast lookup
+     */
+    const QSet<QString> &projectRoots() const
+    {
+        return m_projectRoots;
+    }
+
+    /*
+     * For a given path, find the item corresponding to
+     * the last path part e.g., for "myProject/dir1/dir2/"
+     * return the item for "dir2" if found or nullptr otherwise
+     */
+    QStandardItem *itemForPath(const QString &path) const;
+
 private Q_SLOTS:
     bool load(const QVariantMap &globalProject, bool force = false);
 
@@ -229,7 +316,13 @@ private Q_SLOTS:
 
     void slotModifiedChanged(KTextEditor::Document *);
 
-    void slotModifiedOnDisk(KTextEditor::Document *document, bool isModified, KTextEditor::ModificationInterface::ModifiedOnDiskReason reason);
+    void slotModifiedOnDisk(KTextEditor::Document *document, bool isModified, KTextEditor::Document::ModifiedOnDiskReason reason);
+
+    /**
+     * did some project file change?
+     * @param file name of file that did change
+     */
+    void slotFileChanged(const QString &file);
 
 Q_SIGNALS:
     /**
@@ -259,18 +352,33 @@ private:
      *
      * In case of an error, the returned object verifies isNull() is true.
      */
-    static QJsonDocument readJSONFile(const QString &fileName);
+    QJsonDocument readJSONFile(const QString &fileName) const;
+
+    /**
+     * update project root directories, see projectRoots()
+     */
+    void updateProjectRoots();
 
 private:
     /**
-     * Last modification time of the project file
+     * thread pool used for project worker
      */
-    QDateTime m_fileLastModified;
+    QThreadPool &m_threadPool;
 
     /**
-     * project file name
+     * Project plugin (configuration)
      */
-    QString m_fileName;
+    KateProjectPlugin *const m_plugin;
+
+    /**
+     * file backed project? e.g. was this read from a .kateproject file?
+     */
+    const bool m_fileBacked;
+
+    /**
+     * project file name, will stay constant
+     */
+    const QString m_fileName;
 
     /**
      * base directory of the project
@@ -290,7 +398,7 @@ private:
     /**
      * standard item model with content of this project
      */
-    QStandardItemModel m_model;
+    KateProjectModel m_model;
 
     /**
      * mapping files => items
@@ -305,7 +413,7 @@ private:
     /**
      * notes buffer for project local notes
      */
-    QTextDocument *m_notesDocument;
+    QTextDocument *m_notesDocument = nullptr;
 
     /**
      * Set of existing documents for this project.
@@ -315,12 +423,7 @@ private:
     /**
      * Parent item for existing documents that are not in the project tree
      */
-    QStandardItem *m_untrackedDocumentsRoot;
-
-    /**
-     * thread pool used for project worker
-     */
-    QThreadPool &m_threadPool;
+    QStandardItem *m_untrackedDocumentsRoot = nullptr;
 
     /**
      * project configuration (read from file or injected)
@@ -328,9 +431,7 @@ private:
     QVariantMap m_globalProject;
 
     /**
-     * Project plugin (configuration)
+     * project root directories, see projectRoots()
      */
-    KateProjectPlugin *m_plugin;
+    QSet<QString> m_projectRoots;
 };
-
-#endif

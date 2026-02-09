@@ -1,0 +1,33 @@
+From 9502ae1798b4f94239d90a9f5507f102515a0d12 Mon Sep 17 00:00:00 2001
+From: Waqar Ahmed <waqar.17a@gmail.com>
+Date: Thu, 19 Jun 2025 17:50:08 +0500
+Subject: [PATCH] closeDocuments with closeUrl = false
+
+We do queryclose_internal prior to calling this function which should
+already query about modified/untitled docs. Doing this here again
+leads to one dialog per document which is annoying. Additionally this
+makes it harder to test stashing because we are confronted with
+dialogs when switching a session.
+---
+ apps/lib/session/katesessionmanager.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/apps/lib/session/katesessionmanager.cpp b/apps/lib/session/katesessionmanager.cpp
+index 0d194680e1..3cda12ce80 100644
+--- a/apps/lib/session/katesessionmanager.cpp
++++ b/apps/lib/session/katesessionmanager.cpp
+@@ -178,7 +178,10 @@ bool KateSessionManager::activateSession(KateSession::Ptr session, const bool cl
+         saveActiveSession();
+ 
+         // really close last
+-        if (!KateApp::self()->documentManager()->closeAllDocuments()) {
++        // dont closeUrl, The queryClose_internal() should already have queried about
++        // modified documents correctly. Doing this again leads to one dialog per doc
++        // even when we have stashing enabled.
++        if (!KateApp::self()->documentManager()->closeAllDocuments(/*closeUrl=*/false)) {
+             // can still fail for modified files, bug 466553
+             return false;
+         }
+-- 
+GitLab
+

@@ -24,14 +24,6 @@ void KatePluginSymbolViewerView::parseXMLSymbols(void)
 
     m_struct->setText(i18n("Show Tags"));
 
-    QString cl;
-
-    char comment = 0;
-    int i;
-
-    QPixmap cls(class_xpm);
-    QPixmap sct(struct_xpm);
-
     QTreeWidgetItem *node = nullptr;
     QTreeWidgetItem *topNode = nullptr;
 
@@ -39,19 +31,20 @@ void KatePluginSymbolViewerView::parseXMLSymbols(void)
 
     m_symbols->setRootIsDecorated(0);
 
-    for (i = 0; i < kv->lines(); i++) {
-        cl = kv->line(i);
+    bool is_comment = false;
+    for (int i = 0; i < kv->lines(); i++) {
+        QString cl = kv->line(i);
         cl = cl.trimmed();
 
-        if (cl.indexOf(QRegularExpression(QLatin1String("<!--"))) >= 0) {
-            comment = 1;
+        if (cl.indexOf(QLatin1String("<!--")) >= 0) {
+            is_comment = true;
         }
-        if (cl.indexOf(QRegularExpression(QLatin1String("-->"))) >= 0) {
-            comment = 0;
+        if (cl.indexOf(QLatin1String("-->")) >= 0) {
+            is_comment = false;
             continue;
         }
 
-        if (comment == 1) {
+        if (is_comment) {
             continue;
         }
 
@@ -74,7 +67,7 @@ void KatePluginSymbolViewerView::parseXMLSymbols(void)
                 QList<QTreeWidgetItem *> reslist = m_symbols->findItems(type, Qt::MatchExactly);
                 if (reslist.isEmpty()) {
                     topNode = new QTreeWidgetItem(m_symbols, QStringList(type));
-                    topNode->setIcon(0, QIcon(cls));
+                    topNode->setIcon(0, m_icon_class);
                     if (m_expandOn->isChecked()) {
                         m_symbols->expandItem(topNode);
                     }
@@ -86,7 +79,7 @@ void KatePluginSymbolViewerView::parseXMLSymbols(void)
             } else {
                 node = new QTreeWidgetItem(m_symbols);
             }
-            node->setIcon(0, QIcon(sct));
+            node->setIcon(0, m_icon_variable);
             node->setText(0, stripped);
             node->setText(1, QString::number(i, 10));
         }

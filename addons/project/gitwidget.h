@@ -3,12 +3,12 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef GITWIDGET_H
-#define GITWIDGET_H
+#pragma once
 
 #include <QFutureWatcher>
 #include <QPointer>
 #include <QProcess>
+#include <QTimer>
 #include <QWidget>
 
 #include "git/gitstatus.h"
@@ -24,6 +24,8 @@ class QTemporaryFile;
 class KateProjectPluginView;
 class GitWidgetTreeView;
 class QStackedWidget;
+class QLineEdit;
+class KActionCollection;
 
 namespace KTextEditor
 {
@@ -39,11 +41,26 @@ class GitWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GitWidget(KateProject *project, KTextEditor::MainWindow *mainWindow = nullptr, KateProjectPluginView *pluginView = nullptr);
-    ~GitWidget();
+    explicit GitWidget(KTextEditor::MainWindow *mainWindow, KateProjectPluginView *pluginView, QWidget *parent);
+    ~GitWidget() override;
+
+    void init();
 
     bool eventFilter(QObject *o, QEvent *e) override;
-    void getStatus(bool untracked = true, bool submodules = false);
+
+    void showEvent(QShowEvent *e) override;
+
+    /**
+     * Trigger the GitWidget to update itself.
+     * It is safe to call it repeatedly in a short time, due to delayed update after the last call.
+     */
+    void updateStatus();
+
+    bool isInitialized() const
+    {
+        return m_initialized;
+    }
+
     KTextEditor::MainWindow *mainWindow();
 
     // will just proxy the message to the plugin view
@@ -51,36 +68,67 @@ public:
 
     QString dotGitPath() const
     {
-        return m_gitPath;
+        return m_activeGitDirPath;
     }
 
+    QString indexPath() const
+    {
+        return m_gitIndexFilePath;
+    }
+
+    // Called from project view when project is changed
+    void updateGitProjectFolder();
+
 private:
-    QToolButton *m_menuBtn;
-    QToolButton *m_commitBtn;
-    QToolButton *m_pushBtn;
-    QToolButton *m_pullBtn;
-    QToolButton *m_cancelBtn;
-    GitWidgetTreeView *m_treeView;
-    GitStatusModel *m_model;
-    KateProject *m_project;
-    /** This ends with "/", always remember this */
-    QString m_gitPath;
+    // The absolute path to the ".git/index" file
+    QString m_gitIndexFilePath;
+
+    /** These ends with "/", always remember this */
+
+    // This variable contains the current active git path
+    // being tracked by this widget
+    QString m_activeGitDirPath;
+    // This variable contains the topLevel git path
+    QString m_topLevelGitPath;
+    // This variable contains all submodule paths
+    QStringList m_submodulePaths;
+
+    /**
+     * Helper to avoid multiple reloads at a time
+     * @see slotUpdateStatus
+     */
+    QTimer m_updateTrigger;
+
+    QToolButton *m_menuBtn = nullptr;
+    QToolButton *m_commitBtn = nullptr;
+    QToolButton *m_pushBtn = nullptr;
+    QToolButton *m_pullBtn = nullptr;
+    QToolButton *m_cancelBtn = nullptr;
+    GitWidgetTreeView *m_treeView = nullptr;
+    GitStatusModel *m_model = nullptr;
+    QLineEdit *m_filterLineEdit = nullptr;
     QFutureWatcher<GitUtils::GitParsedStatus> m_gitStatusWatcher;
     QString m_commitMessage;
     KTextEditor::MainWindow *m_mainWin;
-    QMenu *m_gitMenu;
+    QMenu *m_gitMenu = nullptr;
     KateProjectPluginView *m_pluginView;
+    bool m_initialized = false;
+    class BusyWrapperWidget *m_refreshButton = nullptr;
 
-    QWidget *m_mainView;
-    QStackedWidget *m_stackWidget;
+    QWidget *m_mainView = nullptr;
+    QStackedWidget *m_stackWidget = nullptr;
 
     using CancelHandle = QPointer<QProcess>;
     CancelHandle m_cancelHandle;
 
-    QProcess *gitp();
-
-    void buildMenu();
     void setDotGitPath();
+    void setSubmodulesPaths();
+    void setActiveGitDir();
+    void selectActiveFileInStatus();
+
+    QProcess *gitp(const QStringList &arguments);
+
+    void buildMenu(KActionCollection *ac);
     void runGitCmd(const QStringList &args, const QString &i18error);
     void runPushPullCmd(const QStringList &args);
     void stage(const QStringList &files, bool = false);
@@ -91,32 +139,31 @@ private:
     void showDiff(const QString &file, bool staged);
     void launchExternalDiffTool(const QString &file, bool staged);
     void commitChanges(const QString &msg, const QString &desc, bool signOff, bool amend = false);
-    void applyDiff(const QString &fileName, bool staged, bool hunk, KTextEditor::View *v);
-    void numStatForStatus(QVector<GitUtils::StatusItem> &list, bool modified);
     void branchCompareFiles(const QString &from, const QString &to);
 
-    QMenu *stashMenu();
+    QMenu *stashMenu(KActionCollection *pCollection);
+    QAction *stashMenuAction(KActionCollection *ac, const QString &name, const QString &text, StashMode m);
 
-    void hideEmptyTreeNodes();
     void treeViewContextMenuEvent(QContextMenuEvent *e);
     void selectedContextMenu(QContextMenuEvent *e);
 
-    QString getDiff(KTextEditor::View *view, bool hunk, bool alreadyStaged);
     void createStashDialog(StashMode m, const QString &gitPath);
 
     void enableCancel(QProcess *git);
     void hideCancel();
 
-private Q_SLOTS:
+private:
+    /**
+     * Does the real update
+     */
+    void slotUpdateStatus();
+
     void parseStatusReady();
     void openCommitChangesDialog(bool amend = false);
     void handleClick(const QModelIndex &idx, ClickAction clickAction);
     void treeViewSingleClicked(const QModelIndex &idx);
     void treeViewDoubleClicked(const QModelIndex &idx);
 
-    // signals
-public:
-    Q_SIGNAL void checkoutBranch();
+Q_SIGNALS:
+    void statusUpdated(const GitUtils::GitParsedStatus &status);
 };
-
-#endif // GITWIDGET_H

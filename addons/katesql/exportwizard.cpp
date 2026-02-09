@@ -16,7 +16,6 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
-#include <QLayout>
 #include <QRadioButton>
 
 // BEGIN ExportWizard
@@ -41,18 +40,18 @@ ExportOutputPage::ExportOutputPage(QWidget *parent)
     setTitle(i18nc("@title Wizard page title", "Output Target"));
     setSubTitle(i18nc("@title Wizard page subtitle", "Select the output target."));
 
-    QVBoxLayout *layout = new QVBoxLayout();
+    auto *layout = new QVBoxLayout();
 
     documentRadioButton = new QRadioButton(i18nc("@option:radio Output target", "Current document"), this);
     clipboardRadioButton = new QRadioButton(i18nc("@option:radio Output target", "Clipboard"), this);
     fileRadioButton = new QRadioButton(i18nc("@option:radio Output target", "File"), this);
 
-    QHBoxLayout *fileLayout = new QHBoxLayout();
+    auto *fileLayout = new QHBoxLayout();
     fileLayout->setContentsMargins(20, 0, 0, 0);
 
     fileUrl = new KUrlRequester(this);
     fileUrl->setMode(KFile::File);
-    fileUrl->setFilter(i18n("*.csv|Comma Separated Values\n*|All files"));
+    fileUrl->setNameFilters({i18n("Comma Separated Values") + QLatin1String(" (*.csv)"), i18n("All files") + QLatin1String(" (*)")});
 
     fileLayout->addWidget(fileUrl);
 
@@ -97,10 +96,10 @@ ExportFormatPage::ExportFormatPage(QWidget *parent)
     setTitle(i18nc("@title Wizard page title", "Fields Format"));
     setSubTitle(i18nc("@title Wizard page subtitle", "Select fields format.\nClick on \"Finish\" button to export data."));
 
-    QVBoxLayout *layout = new QVBoxLayout();
+    auto *layout = new QVBoxLayout();
 
-    QGroupBox *headersGroupBox = new QGroupBox(i18nc("@title:group", "Headers"), this);
-    QVBoxLayout *headersLayout = new QVBoxLayout();
+    auto *headersGroupBox = new QGroupBox(i18nc("@title:group", "Headers"), this);
+    auto *headersLayout = new QVBoxLayout();
 
     exportColumnNamesCheckBox = new QCheckBox(i18nc("@option:check", "Export column names"), headersGroupBox);
     exportLineNumbersCheckBox = new QCheckBox(i18nc("@option:check", "Export line numbers"), headersGroupBox);
@@ -110,8 +109,8 @@ ExportFormatPage::ExportFormatPage(QWidget *parent)
 
     headersGroupBox->setLayout(headersLayout);
 
-    QGroupBox *quoteGroupBox = new QGroupBox(i18nc("@title:group", "Quotes"), this);
-    QGridLayout *quoteLayout = new QGridLayout();
+    auto *quoteGroupBox = new QGroupBox(i18nc("@title:group", "Quotes"), this);
+    auto *quoteLayout = new QGridLayout();
 
     quoteStringsCheckBox = new QCheckBox(i18nc("@option:check", "Quote strings"), quoteGroupBox);
     quoteNumbersCheckBox = new QCheckBox(i18nc("@option:check", "Quote numbers"), quoteGroupBox);
@@ -131,8 +130,8 @@ ExportFormatPage::ExportFormatPage(QWidget *parent)
 
     quoteGroupBox->setLayout(quoteLayout);
 
-    QGroupBox *delimitersGroupBox = new QGroupBox(i18nc("@title:group", "Delimiters"), this);
-    QFormLayout *delimitersLayout = new QFormLayout();
+    auto *delimitersGroupBox = new QGroupBox(i18nc("@title:group", "Delimiters"), this);
+    auto *delimitersLayout = new QFormLayout();
 
     fieldDelimiterLine = new KLineEdit(delimitersGroupBox);
     fieldDelimiterLine->setMaxLength(3);
@@ -187,3 +186,5 @@ bool ExportFormatPage::validatePage()
     return true;
 }
 // END ExportFormatPage
+
+#include "moc_exportwizard.cpp"

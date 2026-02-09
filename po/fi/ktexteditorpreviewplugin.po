@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-04-06 00:21+0000\n"
+"POT-Creation-Date: 2023-07-08 01:19+0000\n"
 "PO-Revision-Date: 2018-01-23 17:47+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -15,76 +15,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
 
 #: ktexteditorpreviewview.cpp:31
 #, kde-format
 msgid "Preview"
 msgstr "Esikatselu"
 
-#: previewwidget.cpp:47
+#: previewwidget.cpp:44
 #, kde-format
 msgid "Lock Current Document"
 msgstr "Lukitse nykyinen tiedosto"
 
-#: previewwidget.cpp:48
+#: previewwidget.cpp:45
 #, kde-format
 msgid "Lock preview to current document"
 msgstr "Lukitse nykyisen tiedoston esikatselu"
 
-#: previewwidget.cpp:49
+#: previewwidget.cpp:46
 #, kde-format
 msgid "Unlock Current View"
 msgstr "Avaa nykyisen näkymän lukitus"
 
-#: previewwidget.cpp:49
+#: previewwidget.cpp:46
 #, kde-format
 msgid "Unlock current view"
 msgstr "Avaa nykyisen näkymän lukitus"
 
-#: previewwidget.cpp:56
+#: previewwidget.cpp:53
 #, kde-format
 msgid "Automatically Update Preview"
 msgstr "Virkistä esikatselu automaattisesti"
 
-#: previewwidget.cpp:57
+#: previewwidget.cpp:54
 #, kde-format
 msgid "Enable automatic updates of the preview to the current document content"
 msgstr "Käytä nykyisen tiedoston sisällön esikatselun automaattivirkistystä"
 
-#: previewwidget.cpp:58
+#: previewwidget.cpp:55
 #, kde-format
 msgid "Manually Update Preview"
 msgstr "Virkistä esikatselu itse"
 
-#: previewwidget.cpp:60
+#: previewwidget.cpp:57
 #, kde-format
 msgid ""
 "Disable automatic updates of the preview to the current document content"
 msgstr ""
 "Poista nykyisen tiedoston sisällön esikatselun automaattivirkistys käytöstä"
 
-#: previewwidget.cpp:65
+#: previewwidget.cpp:62
 #, kde-format
 msgid "Update Preview"
 msgstr "Virkistä esikatselu"
 
-#: previewwidget.cpp:66
+#: previewwidget.cpp:63
 #, kde-format
 msgid "Update the preview to the current document content"
 msgstr "Virkistä nykyisen tiedoston sisällön esikatselu"
 
-#: previewwidget.cpp:74
+#: previewwidget.cpp:71
 #, kde-format
 msgid "View"
 msgstr "Näkymä"
 
-#: previewwidget.cpp:99
+#: previewwidget.cpp:96
 #, kde-format
 msgid "No preview available."
 msgstr "Esikatselua ei saatavissa."
 
-#: previewwidget.cpp:230
+#: previewwidget.cpp:232
 #, kde-format
 msgid "About %1"
 msgstr "Tietoa osiosta %1|/|Tietoa $[yleisnimi_pienellä $[elat %1] ]"

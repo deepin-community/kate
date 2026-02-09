@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
+"POT-Creation-Date: 2022-09-27 00:48+0000\n"
 "PO-Revision-Date: 2015-10-04 22:05+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -16,16 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 1.5\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Freek de Kruijf"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "freekdekruijf@kde.nl"
 
 #. i18n: ectx: attribute (title), widget (QWidget, run)
 #: config.ui:18
@@ -291,93 +281,88 @@ msgstr "Modellen dumpen naar bestand:"
 msgid "Test models:"
 msgstr "Modellen testen:"
 
-#: replicodeconfigpage.cpp:26
+#: replicodeconfigpage.cpp:24
 #, kde-format
 msgid "Path to replicode executor:"
 msgstr "Pad naar uitvoerder van replicode:"
 
-#: replicodeconfigpage.cpp:41
+#: replicodeconfigpage.cpp:39 replicodeview.cpp:51
 #, kde-format
 msgid "Replicode"
 msgstr "Replicode"
 
-#: replicodeconfigpage.cpp:46
+#: replicodeconfigpage.cpp:44
 #, kde-format
 msgid "Replicode configuration"
 msgstr "Configuratie van Replicode"
 
-#: replicodeview.cpp:40
+#: replicodeview.cpp:38
 #, kde-format
 msgid "Run replicode"
 msgstr "Replicode uitvoeren"
 
-#: replicodeview.cpp:44
+#: replicodeview.cpp:42
 #, kde-format
 msgid "Stop replicode"
 msgstr "Replicode stoppen"
 
-#: replicodeview.cpp:53
-#, kde-format
-msgid "Replicode Output"
-msgstr "Uitvoer van Replicode"
-
-#: replicodeview.cpp:63
+#: replicodeview.cpp:61
 #, kde-format
 msgid "Replicode Config"
 msgstr "Configuratie van Replicode"
 
-#: replicodeview.cpp:66
+#: replicodeview.cpp:64
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Run (%1)"
 msgstr "Uitvoeren (%1)"
 
-#: replicodeview.cpp:67
+#: replicodeview.cpp:65
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Stop (%1)"
 msgstr "Stoppen (%1)"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgctxt "@title:window"
 msgid "Active Document Not Found"
 msgstr "Actieve document niet gevonden"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgid "Could not find an active document to run."
 msgstr "Kon geen actief document om uit voeren vinden."
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgctxt "@title:window"
 msgid "Empty Document"
 msgstr "Leeg document"
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgid "Cannot execute an empty document."
 msgstr "Kan een leeg document niet uitvoeren."
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgctxt "@title:window"
 msgid "File Not Found"
 msgstr "Bestand niet gevonden"
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgid "Unable to open source file for reading."
 msgstr "Kan bronbestand niet openen voor lezen."
 
-#: replicodeview.cpp:122
+#: replicodeview.cpp:127
 #, kde-format
 msgctxt "@title:window"
 msgid "Replicode Executable Not Found"
 msgstr "Uitvoerder van Replicode niet gevonden"
 
-#: replicodeview.cpp:123
+#: replicodeview.cpp:128
 #, kde-format
 msgid ""
 "Unable to find replicode executor.\n"
@@ -386,13 +371,13 @@ msgstr ""
 "Kan uitvoerder van replicode niet vinden.\n"
 "Ga naar instellingen en stel het pad naar de uitvoerder van Replicode in."
 
-#: replicodeview.cpp:130
+#: replicodeview.cpp:135
 #, kde-format
 msgctxt "@title:window"
 msgid "User Operator Library Not Found"
 msgstr "Operator-bibliotheek van gebruiker niet gevonden"
 
-#: replicodeview.cpp:131
+#: replicodeview.cpp:136
 #, kde-format
 msgid ""
 "Unable to find user operator library.\n"
@@ -401,15 +386,26 @@ msgstr ""
 "Kan operator-bibliotheek van gebruiker niet vinden\n"
 "Ga naar instellingen en stel het pad naar de uitvoerder van Replicode in."
 
-#: replicodeview.cpp:196
+#: replicodeview.cpp:201
 #, kde-format
 msgid "Replicode execution failed: %1"
 msgstr "Uitvoeren van Replicode is mislukt: %1"
 
-#: replicodeview.cpp:206
+#: replicodeview.cpp:211
 #, kde-format
 msgid "Replicode execution finished."
 msgstr "Uitvoeren van Replicode is gereed."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Freek de Kruijf"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "freekdekruijf@kde.nl"
+
+#~ msgid "Replicode Output"
+#~ msgstr "Uitvoer van Replicode"
 
 #~ msgid "Unable to find active file"
 #~ msgstr "Kan geen actief bestand vinden"

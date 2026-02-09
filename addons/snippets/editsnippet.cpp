@@ -16,26 +16,27 @@
 #include "snippetrepository.h"
 #include "snippetstore.h"
 
-#include <KHelpClient>
+#include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KMessageWidget>
+#include <KSharedConfig>
 
 #include <QAction>
 #include <QPushButton>
-#include <QToolButton>
 #include <QWhatsThis>
 
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
 #include <KTextEditor/View>
 
-KTextEditor::View *createView(QWidget *tabWidget)
+static const char s_configFile[] = "kate-snippetsrc";
+
+static KTextEditor::View *createView(QWidget *tabWidget)
 {
     auto document = KTextEditor::Editor::instance()->createDocument(tabWidget);
     auto view = document->createView(tabWidget);
 
-    view->action("file_save")->setEnabled(false);
+    view->action(QStringLiteral("file_save"))->setEnabled(false);
     tabWidget->layout()->addWidget(view);
     view->setStatusBarEnabled(false);
     return view;
@@ -43,7 +44,7 @@ KTextEditor::View *createView(QWidget *tabWidget)
 
 EditSnippet::EditSnippet(SnippetRepository *repository, Snippet *snippet, QWidget *parent)
     : QDialog(parent)
-    , m_ui(new Ui::EditSnippetBase)
+    , m_ui(std::make_unique<Ui::EditSnippetBase>())
     , m_repo(repository)
     , m_snippet(snippet)
     , m_topBoxModified(false)
@@ -112,8 +113,12 @@ EditSnippet::EditSnippet(SnippetRepository *repository, Snippet *snippet, QWidge
     m_ui->snippetNameEdit->setFocus();
     setTabOrder(m_ui->snippetNameEdit, m_snippetView);
 
-    QSize initSize = sizeHint();
-    initSize.setHeight(initSize.height() + 200);
+    KSharedConfigPtr config = KSharedConfig::openConfig(QLatin1String(s_configFile));
+    KConfigGroup group = config->group(QStringLiteral("General"));
+    const QSize savedSize = group.readEntry("Size", QSize());
+    if (savedSize.isValid()) {
+        resize(savedSize);
+    }
 }
 
 void EditSnippet::test()
@@ -123,10 +128,7 @@ void EditSnippet::test()
     m_testView->setFocus();
 }
 
-EditSnippet::~EditSnippet()
-{
-    delete m_ui;
-}
+EditSnippet::~EditSnippet() = default;
 
 void EditSnippet::setSnippetText(const QString &text)
 {
@@ -137,18 +139,15 @@ void EditSnippet::setSnippetText(const QString &text)
 void EditSnippet::validate()
 {
     const QString &name = m_ui->snippetNameEdit->text();
-    bool valid = !name.isEmpty() && !m_snippetView->document()->isEmpty();
+    bool valid = !name.simplified().isEmpty() && !m_snippetView->document()->isEmpty();
     // make sure the snippetname includes no spaces
     if (name.contains(QLatin1Char(' ')) || name.contains(QLatin1Char('\t'))) {
-        m_ui->messageWidget->setText(i18n("Snippet name cannot contain spaces"));
+        // allow with a warning
+        m_ui->messageWidget->setText(i18n("Snippet names with spaces may not work well in completions"));
         m_ui->messageWidget->animatedShow();
-        valid = false;
     } else {
         // hide message widget if snippet does not include spaces
         m_ui->messageWidget->animatedHide();
-    }
-    if (valid) {
-        m_ui->messageWidget->hide();
     }
     m_okButton->setEnabled(valid);
 }
@@ -173,15 +172,22 @@ void EditSnippet::save()
     m_repo->save();
 
     setWindowTitle(i18n("Edit Snippet %1 in %2", m_snippet->text(), m_repo->text()));
+
+    KSharedConfigPtr config = KSharedConfig::openConfig(QLatin1String(s_configFile));
+    KConfigGroup group = config->group(QStringLiteral("General"));
+    group.writeEntry("Size", size());
+    group.sync();
 }
 
 void EditSnippet::reject()
 {
     if (m_topBoxModified || m_snippetView->document()->isModified() || m_scriptsView->document()->isModified()) {
-        int ret = KMessageBox::warningContinueCancel(qApp->activeWindow(),
-                                                     i18n("The snippet contains unsaved changes. Do you want to continue and lose all changes?"),
-                                                     i18n("Warning - Unsaved Changes"));
-        if (ret == KMessageBox::Cancel) {
+        int ret = KMessageBox::warningTwoActions(qApp->activeWindow(),
+                                                 i18n("The snippet contains unsaved changes. Do you want to discard all changes?"),
+                                                 i18n("Warning - Unsaved Changes"),
+                                                 KStandardGuiItem::discard(),
+                                                 KGuiItem(i18n("Continue editing")));
+        if (ret == KMessageBox::SecondaryAction) {
             return;
         }
     }
@@ -192,3 +198,5 @@ void EditSnippet::topBoxModified()
 {
     m_topBoxModified = true;
 }
+
+#include "moc_editsnippet.cpp"

@@ -4,699 +4,814 @@
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013.
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2014, 2015.
 # Kiszel Kristóf <kiszel.kristof@gmail.com>, 2017.
+# Kristof Kiszel <ulysses@fsf.hu>, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-09-17 01:43+0000\n"
-"PO-Revision-Date: 2017-02-14 23:24+0100\n"
-"Last-Translator: Kiszel Kristóf <kiszel.kristof@gmail.com>\n"
+"POT-Creation-Date: 2025-03-19 02:34+0000\n"
+"PO-Revision-Date: 2022-02-01 10:20+0100\n"
+"Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Úr Balázs"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "urbalazs@gmail.com"
+"X-Generator: Lokalize 21.07.70\n"
 
 #: branchcheckoutdialog.cpp:29
 #, kde-format
 msgid "Select branch to checkout. Press 'Esc' to cancel."
-msgstr ""
+msgstr "Válasszon ágat az átváltáshoz. Megszakításhoz nyomja meg az 'Esc'-et."
 
 #: branchcheckoutdialog.cpp:36
 #, kde-format
 msgid "Create New Branch"
-msgstr ""
+msgstr "Új ág létrehozása"
 
 #: branchcheckoutdialog.cpp:38
 #, kde-format
 msgid "Create New Branch From..."
-msgstr ""
+msgstr "Új ág létrehozása ebből…"
 
-#: branchcheckoutdialog.cpp:53
+#: branchcheckoutdialog.cpp:54
 #, kde-format
 msgid "Branch %1 checked out"
-msgstr ""
+msgstr "A(z) %1 ág átváltva"
 
-#: branchcheckoutdialog.cpp:56
+#: branchcheckoutdialog.cpp:57
 #, kde-format
 msgid "Failed to checkout to branch %1, Error: %2"
-msgstr ""
+msgstr "Nem sikerült átváltani a(z) %1 ágat. Hiba: %2"
 
-#: branchcheckoutdialog.cpp:77 branchcheckoutdialog.cpp:89
+#: branchcheckoutdialog.cpp:85 branchcheckoutdialog.cpp:97
 #, kde-format
 msgid "Enter new branch name. Press 'Esc' to cancel."
-msgstr ""
+msgstr "Adja meg az új ág nevét. Megszakításhoz nyomja meg az 'Esc'-et."
 
-#: branchcheckoutdialog.cpp:94
+#: branchcheckoutdialog.cpp:102
 #, kde-format
 msgid "Select branch to checkout from. Press 'Esc' to cancel."
 msgstr ""
+"Válasszon forráságat az átváltáshoz. Megszakításhoz nyomja meg az 'Esc'-et."
 
-#: branchcheckoutdialog.cpp:121
+#: branchcheckoutdialog.cpp:125
 #, kde-format
 msgid "Checked out to new branch: %1"
-msgstr ""
+msgstr "Átváltva az új ágra: %1"
 
-#: branchcheckoutdialog.cpp:123
+#: branchcheckoutdialog.cpp:127
 #, kde-format
 msgid "Failed to create new branch. Error \"%1\""
-msgstr ""
+msgstr "Nem sikerült létrehozni az új ágat. Hiba: „%1”"
 
-#: branchesdialog.cpp:175
+#: branchdeletedialog.cpp:124
+#, kde-format
+msgid "Branch"
+msgstr "Ág"
+
+#: branchdeletedialog.cpp:124
+#, kde-format
+msgid "Last Commit"
+msgstr "Legutolsó véglegesítés"
+
+#: branchdeletedialog.cpp:137 kateprojecttreeviewcontextmenu.cpp:106
+#, kde-format
+msgid "Delete"
+msgstr "Törlés"
+
+#: branchdeletedialog.cpp:142
+#, kde-format
+msgid "Are you sure you want to delete the selected branch?"
+msgid_plural "Are you sure you want to delete the selected branches?"
+msgstr[0] "Biztosan törölni szeretné a kijelölt ágat?"
+msgstr[1] "Biztosan törölni szeretné törölni a kijelölt ágakat?"
+
+#: branchesdialog.cpp:101
 #, kde-format
 msgid "Select Branch..."
-msgstr ""
+msgstr "Ág kiválasztása…"
 
-#: branchesdialog.cpp:209 gitwidget.cpp:283 kateprojectpluginview.cpp:71
-#: kateprojectview.cpp:142
-#, fuzzy, kde-format
-#| msgid "&Git"
+#: branchesdialog.cpp:113 gitwidget.cpp:567 kateprojectpluginview.cpp:69
+#, kde-format
 msgid "Git"
-msgstr "&Git"
+msgstr "Git"
 
-#: comparebranchesview.cpp:138 filehistorywidget.cpp:198
+#: comparebranchesview.cpp:145
 #, kde-format
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
-#: filehistorywidget.cpp:33
+#: currentgitbranchbutton.cpp:122
+#, fuzzy, kde-format
+#| msgid "Failed to commit: %1"
+msgctxt "Tooltip text, describing that '%1' commit is checked out"
+msgid "HEAD at commit %1"
+msgstr "Sikertelen véglegesítés: %1"
+
+#: currentgitbranchbutton.cpp:124
 #, kde-format
-msgid "Failed to get file history: %1"
+msgctxt "Tooltip text, describing that '%1' tag is checked out"
+msgid "HEAD is at this tag %1"
 msgstr ""
 
-#: gitcommitdialog.cpp:68 gitcommitdialog.cpp:113
+#: currentgitbranchbutton.cpp:126
+#, fuzzy, kde-format
+#| msgid "Checked out to new branch: %1"
+msgctxt "Tooltip text, describing that '%1' branch is checked out"
+msgid "Active branch: %1"
+msgstr "Átváltva az új ágra: %1"
+
+#: gitcommitdialog.cpp:69 gitcommitdialog.cpp:120
 #, kde-format
 msgid "Commit Changes"
-msgstr ""
+msgstr "Változtatások véglegesítése"
 
-#: gitcommitdialog.cpp:70 gitcommitdialog.cpp:112 gitwidget.cpp:169
+#: gitcommitdialog.cpp:73 gitcommitdialog.cpp:119 gitwidget.cpp:282
+#: gitwidget.cpp:1099
 #, kde-format
 msgid "Commit"
-msgstr ""
+msgstr "Véglegesítés"
 
-#: gitcommitdialog.cpp:71
+#: gitcommitdialog.cpp:74
 #, kde-format
 msgid "Cancel"
-msgstr ""
+msgstr "Mégsem"
 
-#: gitcommitdialog.cpp:73
+#: gitcommitdialog.cpp:76
 #, kde-format
 msgid "Write commit message..."
-msgstr ""
+msgstr "Véglegesítési üzenet írása…"
 
-#: gitcommitdialog.cpp:80
+#: gitcommitdialog.cpp:83
 #, kde-format
 msgid "Extended commit description..."
-msgstr ""
+msgstr "Bővített véglegesítés-leírás…"
 
-#: gitcommitdialog.cpp:104
+#: gitcommitdialog.cpp:107
 #, kde-format
 msgid "Sign off"
-msgstr ""
+msgstr "Aláírás"
 
-#: gitcommitdialog.cpp:108 gitcommitdialog.cpp:117
+#: gitcommitdialog.cpp:111 gitcommitdialog.cpp:124
 #, kde-format
 msgid "Amend"
-msgstr ""
+msgstr "Javítás"
 
-#: gitcommitdialog.cpp:109 gitwidget.cpp:825
+#: gitcommitdialog.cpp:112 gitwidget.cpp:1054
 #, kde-format
 msgid "Amend Last Commit"
-msgstr ""
+msgstr "Legutolsó véglegesítés javítása"
 
-#: gitcommitdialog.cpp:116
+#: gitcommitdialog.cpp:123
 #, kde-format
 msgid "Amending Commit"
-msgstr ""
+msgstr "Véglegesítés javítása"
 
-#: gitcommitdialog.cpp:200
+#: gitcommitdialog.cpp:207
 #, kde-format
 msgctxt "Number of characters"
 msgid "%1 / 52"
-msgstr ""
+msgstr "%1 / 52"
 
-#: gitcommitdialog.cpp:204
+#: gitcommitdialog.cpp:211
 #, kde-format
 msgctxt "Number of characters"
 msgid "<span style=\"color:%1;\">%2</span> / 52"
-msgstr ""
+msgstr "<span style=\"color:%1;\">%2</span> / 52"
 
-#: gitstatusmodel.cpp:86
+#: gitstatusmodel.cpp:85
 #, kde-format
 msgid "Staged"
-msgstr ""
+msgstr "Kiválasztva"
 
-#: gitstatusmodel.cpp:88
-#, fuzzy, kde-format
-#| msgid "<untracked>"
+#: gitstatusmodel.cpp:87
+#, kde-format
 msgid "Untracked"
-msgstr "<nem követett>"
+msgstr "Nem követett"
 
-#: gitstatusmodel.cpp:90
+#: gitstatusmodel.cpp:89
 #, kde-format
 msgid "Conflict"
-msgstr ""
+msgstr "Konfliktus"
 
-#: gitstatusmodel.cpp:92
+#: gitstatusmodel.cpp:91
 #, kde-format
 msgid "Modified"
-msgstr ""
+msgstr "Módosítva"
 
-#: gitwidget.cpp:171
-#, kde-format
-msgid "Git push"
-msgstr ""
+#: gitwidget.cpp:290
+#, fuzzy, kde-format
+#| msgid "Git push"
+msgid "Git Push"
+msgstr "Git felküldés"
 
-#: gitwidget.cpp:178
-#, kde-format
-msgid "Git pull"
-msgstr ""
+#: gitwidget.cpp:303
+#, fuzzy, kde-format
+#| msgid "Git pull"
+msgid "Git Pull"
+msgstr "Git lekérés"
 
-#: gitwidget.cpp:185
+#: gitwidget.cpp:316
 #, kde-format
 msgid "Cancel Operation"
-msgstr ""
+msgstr "Művelet megszakítása"
 
-#: gitwidget.cpp:193
+#: gitwidget.cpp:324
 #, kde-format
 msgid " canceled."
-msgstr ""
+msgstr " megszakítva."
 
-#: gitwidget.cpp:269
+#: gitwidget.cpp:332
 #, kde-format
-msgid "Failed to find .git directory, things may not work correctly"
+msgid "Refresh git status"
 msgstr ""
 
-#: gitwidget.cpp:356
+#: gitwidget.cpp:354 kateprojectview.cpp:59
+#, fuzzy, kde-format
+#| msgid "Filter..."
+msgid "Filter…"
+msgstr "Szűrő…"
+
+#: gitwidget.cpp:444
+#, fuzzy, kde-format
+#| msgid "Failed to find .git directory, things may not work correctly"
+msgid "Failed to find .git directory for '%1', things may not work correctly"
+msgstr ""
+"A .git mappa nem található, a dolgok nem biztos, hogy megfelelően fognak "
+"működni"
+
+#: gitwidget.cpp:654
 #, kde-format
 msgid " error: %1"
-msgstr ""
+msgstr " hiba: %1"
 
-#: gitwidget.cpp:362
+#: gitwidget.cpp:660
 #, kde-format
 msgid "\"%1\" executed successfully: %2"
-msgstr ""
+msgstr "„%1” sikeresen végrehajtva: %2"
 
-#: gitwidget.cpp:383
+#: gitwidget.cpp:680
 #, kde-format
 msgid "Failed to stage file. Error:"
-msgstr ""
+msgstr "Nem sikerült kiválasztani a fájlt. Hiba:"
 
-#: gitwidget.cpp:396
+#: gitwidget.cpp:693
 #, kde-format
 msgid "Failed to unstage file. Error:"
-msgstr ""
+msgstr "Nem sikerült visszavonni a fájlt. Hiba:"
 
-#: gitwidget.cpp:407
+#: gitwidget.cpp:704
 #, kde-format
 msgid "Failed to discard changes. Error:"
-msgstr ""
+msgstr "Nem sikerült eldobni a változtatásokat. Hiba:"
 
-#: gitwidget.cpp:418
+#: gitwidget.cpp:715
 #, kde-format
 msgid "Failed to remove. Error:"
-msgstr ""
+msgstr "Sikertelen eltávolítás. Hiba:"
 
-#: gitwidget.cpp:435
+#: gitwidget.cpp:731
 #, kde-format
 msgid "Failed to open file at HEAD: %1"
-msgstr ""
+msgstr "Nem sikerült megnyitni a fájlt HEAD-en: %1"
 
-#: gitwidget.cpp:467
+#: gitwidget.cpp:763
 #, kde-format
 msgid "Failed to get Diff of file: %1"
-msgstr ""
+msgstr "Nem sikerült lekérni a fájl különbözetét: %1"
 
-#: gitwidget.cpp:475
-#, kde-format
-msgid "Stage Hunk"
-msgstr ""
-
-#: gitwidget.cpp:476
-#, kde-format
-msgid "Stage Lines"
-msgstr ""
-
-#: gitwidget.cpp:488
-#, kde-format
-msgid "Unstage Hunk"
-msgstr ""
-
-#: gitwidget.cpp:489
-#, kde-format
-msgid "Unstage Lines"
-msgstr ""
-
-#: gitwidget.cpp:550
+#: gitwidget.cpp:831
 #, kde-format
 msgid "Failed to commit: %1"
-msgstr ""
-
-#: gitwidget.cpp:554
-#, kde-format
-msgid "Changes committed successfully."
-msgstr ""
-
-#: gitwidget.cpp:595
-#, kde-format
-msgid "Failed to stage selection"
-msgstr ""
-
-#: gitwidget.cpp:606
-#, kde-format
-msgid "Failed to stage: %1"
-msgstr ""
-
-#: gitwidget.cpp:627
-#, kde-format
-msgid "Nothing to commit. Please stage your changes first."
-msgstr ""
-
-#: gitwidget.cpp:648
-#, kde-format
-msgid "Commit message cannot be empty."
-msgstr ""
-
-#: gitwidget.cpp:768
-#, kde-format
-msgid "No diff for %1...%2"
-msgstr ""
-
-#: gitwidget.cpp:774
-#, kde-format
-msgid "Failed to compare %1...%2"
-msgstr ""
-
-#: gitwidget.cpp:784
-#, kde-format
-msgid "Failed to get numstat when diffing %1...%2"
-msgstr ""
-
-#: gitwidget.cpp:818
-#, kde-format
-msgid "Refresh"
-msgstr ""
-
-#: gitwidget.cpp:829
-#, kde-format
-msgid "Checkout Branch"
-msgstr ""
+msgstr "Sikertelen véglegesítés: %1"
 
 #: gitwidget.cpp:835
 #, kde-format
-msgid "Compare Branch with ..."
-msgstr ""
+msgid "Changes committed successfully."
+msgstr "A változtatások véglegesítése sikeresen befejeződött."
 
-#: gitwidget.cpp:844 gitwidget.cpp:878
+#: gitwidget.cpp:845
 #, kde-format
-msgid "Stash"
-msgstr ""
+msgid "Nothing to commit. Please stage your changes first."
+msgstr "Nincs mit véglegesíteni. Válassza ki a változtatásait előbb."
 
-#: gitwidget.cpp:879
+#: gitwidget.cpp:859
 #, kde-format
-msgid "Pop Last Stash"
-msgstr ""
+msgid "Commit message cannot be empty."
+msgstr "A véglegesítési üzenet nem lehet üres."
 
-#: gitwidget.cpp:880
+#: gitwidget.cpp:990
 #, kde-format
-msgid "Pop Stash"
-msgstr ""
+msgid "No diff for %1...%2"
+msgstr "Nincs különbözet ehhez: %1…%2"
 
-#: gitwidget.cpp:881
+#: gitwidget.cpp:996
 #, kde-format
-msgid "Apply Last Stash"
-msgstr ""
+msgid "Failed to compare %1...%2"
+msgstr "Sikertelen összehasonlítás: %1…%2"
 
-#: gitwidget.cpp:882
+#: gitwidget.cpp:1011
 #, kde-format
-msgid "Stash (Keep Staged)"
-msgstr ""
+msgid "Failed to get numstat when diffing %1...%2"
+msgstr "Sikertelen numstat %1…%2 összehasonlításakor"
 
-#: gitwidget.cpp:883
+#: gitwidget.cpp:1046
 #, kde-format
-msgid "Stash (Include Untracked)"
-msgstr ""
+msgid "Refresh"
+msgstr "Frissítés"
 
-#: gitwidget.cpp:884
+#: gitwidget.cpp:1062
 #, kde-format
-msgid "Apply Stash"
-msgstr ""
+msgid "Checkout Branch"
+msgstr "Ág átváltása"
 
-#: gitwidget.cpp:885
+#: gitwidget.cpp:1074
 #, kde-format
-msgid "Drop Stash"
-msgstr ""
-
-#: gitwidget.cpp:886
-#, kde-format
-msgid "Show Stash Content"
-msgstr ""
-
-#: gitwidget.cpp:939
-#, kde-format
-msgid "Stage All"
-msgstr ""
-
-#: gitwidget.cpp:941
-#, kde-format
-msgid "Remove All"
-msgstr ""
-
-#: gitwidget.cpp:941
-#, kde-format
-msgid "Discard All"
-msgstr ""
-
-#: gitwidget.cpp:944
-#, kde-format
-msgid "Open .gitignore"
-msgstr ""
-
-#: gitwidget.cpp:945 gitwidget.cpp:1033
-#, kde-format
-msgid "Show diff"
-msgstr ""
-
-#: gitwidget.cpp:962
-#, kde-format
-msgid "Are you sure you want to remove these files?"
-msgstr ""
-
-#: gitwidget.cpp:967
-#, kde-format
-msgid "Are you sure you want to discard all changes?"
-msgstr ""
-
-#: gitwidget.cpp:990 kateprojectconfigpage.cpp:81 kateprojectconfigpage.cpp:92
-#, fuzzy, kde-format
-#| msgid "Open With"
-msgid "Open file"
-msgstr "Megnyitás ezzel"
-
-#: gitwidget.cpp:991
-#, kde-format
-msgid "Show raw diff"
-msgstr ""
-
-#: gitwidget.cpp:992
-#, kde-format
-msgid "Show in external git diff tool"
-msgstr ""
-
-#: gitwidget.cpp:993
-#, kde-format
-msgid "Open at HEAD"
-msgstr ""
-
-#: gitwidget.cpp:994
-#, kde-format
-msgid "Unstage file"
-msgstr ""
-
-#: gitwidget.cpp:994
-#, kde-format
-msgid "Stage file"
-msgstr ""
-
-#: gitwidget.cpp:995
-#, kde-format
-msgid "Remove"
-msgstr ""
-
-#: gitwidget.cpp:995
-#, kde-format
-msgid "Discard"
-msgstr ""
-
-#: gitwidget.cpp:1012
-#, kde-format
-msgid "Are you sure you want to discard the changes in this file?"
-msgstr ""
-
-#: gitwidget.cpp:1021
-#, kde-format
-msgid "Are you sure you want to remove this file?"
-msgstr ""
-
-#: gitwidget.cpp:1032
-#, kde-format
-msgid "Unstage All"
-msgstr ""
-
-#: gitwidget.cpp:1087
-#, kde-format
-msgid "Unstage Selected Files"
-msgstr ""
-
-#: gitwidget.cpp:1087
-#, kde-format
-msgid "Stage Selected Files"
-msgstr ""
+msgid "Delete Branch"
+msgstr "Ág törlése"
 
 #: gitwidget.cpp:1088
+#, fuzzy, kde-format
+#| msgid "Compare Branch with ..."
+msgid "Compare Branch with..."
+msgstr "Ág összehasonlítása ezzel…"
+
+#: gitwidget.cpp:1093
+#, fuzzy, kde-format
+#| msgid "Commit"
+msgid "Show Commit"
+msgstr "Véglegesítés"
+
+#: gitwidget.cpp:1111
+#, fuzzy, kde-format
+#| msgid "Last Commit"
+msgid "Show Last Commit"
+msgstr "Legutolsó véglegesítés"
+
+#: gitwidget.cpp:1129
+#, fuzzy, kde-format
+#| msgid "Open Folder..."
+msgid "Open Commit..."
+msgstr "Mappa megnyitása…"
+
+#: gitwidget.cpp:1132 gitwidget.cpp:1171
+#, kde-format
+msgid "Stash"
+msgstr "Félretétel"
+
+#: gitwidget.cpp:1142
+#, kde-format
+msgid "Diff - stash"
+msgstr ""
+
+#: gitwidget.cpp:1175
+#, kde-format
+msgid "Pop Last Stash"
+msgstr "Utolsó félretett változat visszaállítása"
+
+#: gitwidget.cpp:1179
+#, kde-format
+msgid "Pop Stash"
+msgstr "Félretett változat visszaállítása"
+
+#: gitwidget.cpp:1183
+#, kde-format
+msgid "Apply Last Stash"
+msgstr "Utolsó félretett változat alkalmazása"
+
+#: gitwidget.cpp:1185
+#, kde-format
+msgid "Stash (Keep Staged)"
+msgstr "Félretétel (maradjon kiválasztva)"
+
+#: gitwidget.cpp:1189
+#, kde-format
+msgid "Stash (Include Untracked)"
+msgstr "Félretétel (beleértve a nem követetteket is)"
+
+#: gitwidget.cpp:1193
+#, kde-format
+msgid "Apply Stash"
+msgstr "Félretett változat alkalmazása"
+
+#: gitwidget.cpp:1194
+#, kde-format
+msgid "Drop Stash"
+msgstr "Félretett változat eldobása"
+
+#: gitwidget.cpp:1195
+#, kde-format
+msgid "Show Stash Content"
+msgstr "Félretettek tartalmának megjelenítése"
+
+#: gitwidget.cpp:1233
+#, kde-format
+msgid "Stage All"
+msgstr "Összes kiválasztása"
+
+#: gitwidget.cpp:1235
+#, kde-format
+msgid "Remove All"
+msgstr "Összes eltávolítása"
+
+#: gitwidget.cpp:1235
+#, kde-format
+msgid "Discard All"
+msgstr "Összes eldobása"
+
+#: gitwidget.cpp:1238
+#, kde-format
+msgid "Open .gitignore"
+msgstr ".gitignore megnyitása"
+
+#: gitwidget.cpp:1239 gitwidget.cpp:1280 gitwidget.cpp:1330
+#: kateprojectconfigpage.cpp:90 kateprojectconfigpage.cpp:102
+#, kde-format
+msgid "Show Diff"
+msgstr "Összehasonlítás megjelenítése"
+
+#: gitwidget.cpp:1256
+#, kde-format
+msgid "Are you sure you want to remove these files?"
+msgstr "Biztosan törölni szeretné ezeket a fájlokat?"
+
+#: gitwidget.cpp:1261
+#, kde-format
+msgid "Are you sure you want to discard all changes?"
+msgstr "Biztosan szeretné eldobni az összes változtatást?"
+
+#: gitwidget.cpp:1279
+#, fuzzy, kde-format
+#| msgid "Open file"
+msgid "Open File"
+msgstr "Fájl megnyitása"
+
+#: gitwidget.cpp:1281
+#, fuzzy, kde-format
+#| msgid "Show in external git diff tool"
+msgid "Show in External Git Diff Tool"
+msgstr "Megjelenítés külső git összehasonlító programmal"
+
+#: gitwidget.cpp:1282
+#, kde-format
+msgid "Open at HEAD"
+msgstr "Megnyitás a HEAD-en"
+
+#: gitwidget.cpp:1283
+#, fuzzy, kde-format
+#| msgid "Unstage file"
+msgid "Unstage File"
+msgstr "Fájl visszavonása"
+
+#: gitwidget.cpp:1283
+#, fuzzy, kde-format
+#| msgid "Stage file"
+msgid "Stage File"
+msgstr "Fájl kiválasztása"
+
+#: gitwidget.cpp:1284
+#, kde-format
+msgid "Remove"
+msgstr "Törlés"
+
+#: gitwidget.cpp:1284
+#, kde-format
+msgid "Discard"
+msgstr "Eldobás"
+
+#: gitwidget.cpp:1303
+#, kde-format
+msgid "Are you sure you want to discard the changes in this file?"
+msgstr "Biztosan el szeretné dobni a változtatásokat ebben a fájlban?"
+
+#: gitwidget.cpp:1312
+#, kde-format
+msgid "Are you sure you want to remove this file?"
+msgstr "Biztosan törölni szeretné ezt a fájlt?"
+
+#: gitwidget.cpp:1329
+#, kde-format
+msgid "Unstage All"
+msgstr "Összes visszavonása"
+
+#: gitwidget.cpp:1396
+#, kde-format
+msgid "Unstage Selected Files"
+msgstr "Kijelölt fájlok visszavonása"
+
+#: gitwidget.cpp:1396
+#, kde-format
+msgid "Stage Selected Files"
+msgstr "Kijelölt fájlok kiválasztása"
+
+#: gitwidget.cpp:1397
 #, kde-format
 msgid "Discard Selected Files"
-msgstr ""
+msgstr "Kijelölt fájlok eldobása"
 
-#: gitwidget.cpp:1092
+#: gitwidget.cpp:1401
 #, kde-format
 msgid "Remove Selected Files"
-msgstr ""
+msgstr "Kijelölt fájlok törlése"
 
-#: gitwidget.cpp:1105
+#: gitwidget.cpp:1414
 #, kde-format
 msgid "Are you sure you want to discard the changes?"
-msgstr ""
+msgstr "Biztosan el szeretné dobni a változtatásokat?"
 
-#: gitwidget.cpp:1110
+#: gitwidget.cpp:1419
 #, kde-format
 msgid "Are you sure you want to remove these untracked changes?"
+msgstr "Biztosan törölni szeretné ezeket a nem követett változtatásokat?"
+
+#: kateproject.cpp:300
+#, kde-format
+msgid "Malformed JSON file '%1': %2"
 msgstr ""
 
-#: kateproject.cpp:422
+#: kateproject.cpp:367 kateprojectplugin.cpp:734 kateprojectpluginview.cpp:74
+#: kateprojectpluginview.cpp:221 kateprojectviewtree.cpp:207
+#: kateprojectviewtree.cpp:218 kateprojectviewtree.cpp:245
+#: kateprojectviewtree.cpp:252
+#, kde-format
+msgid "Project"
+msgstr "Projekt"
+
+#: kateproject.cpp:666
 #, kde-format
 msgid "<untracked>"
 msgstr "<nem követett>"
 
-#: kateprojectcompletion.cpp:43
+#: kateprojectcompletion.cpp:54
 #, kde-format
 msgid "Project Completion"
-msgstr "Projekt kiegészítés"
+msgstr "Projektkiegészítés"
 
-#: kateprojectconfigpage.cpp:25
-#, kde-format
+#: kateprojectconfigpage.cpp:24
+#, fuzzy, kde-format
+#| msgctxt "Groupbox title"
+#| msgid "Autoload Repositories"
 msgctxt "Groupbox title"
-msgid "Autoload Repositories"
+msgid "Autoload Repositories && Build Trees"
 msgstr "Automatikus tárolóbetöltés"
 
-#: kateprojectconfigpage.cpp:27
-#, kde-format
+#: kateprojectconfigpage.cpp:26
+#, fuzzy, kde-format
+#| msgid ""
+#| "Project plugin is able to autoload repository working copies when there "
+#| "is no .kateproject file defined yet."
 msgid ""
-"Project plugin is able to autoload repository working copies when there is "
-"no .kateproject file defined yet."
+"Project plugin is able to autoload repository working copies and build trees "
+"when there is no .kateproject file defined yet."
 msgstr ""
 "A Projekt bővítmény képes automatikusan betölteni a tárolók munkapéldányait, "
 "amennyiben nincs még .kateproject fájl definiálva."
 
-#: kateprojectconfigpage.cpp:30
+#: kateprojectconfigpage.cpp:29
 #, kde-format
 msgid "&Git"
 msgstr "&Git"
 
-#: kateprojectconfigpage.cpp:33
+#: kateprojectconfigpage.cpp:32
 #, kde-format
 msgid "&Subversion"
 msgstr "&Subversion"
 
-#: kateprojectconfigpage.cpp:35
+#: kateprojectconfigpage.cpp:34
 #, kde-format
 msgid "&Mercurial"
 msgstr "&Mercurial"
 
-#: kateprojectconfigpage.cpp:44
-#, fuzzy, kde-format
-#| msgid "Project"
-msgctxt "Groupbox title"
-msgid "Project Index"
-msgstr "Projekt"
-
-#: kateprojectconfigpage.cpp:45
+#: kateprojectconfigpage.cpp:36
 #, kde-format
-msgid "Project ctags index settings"
+msgid "&Fossil"
+msgstr "&Fossil"
+
+#: kateprojectconfigpage.cpp:38
+#, kde-format
+msgid "&CMake"
 msgstr ""
 
-#: kateprojectconfigpage.cpp:46 kateprojectinfoviewindex.cpp:206
+#: kateprojectconfigpage.cpp:47
 #, kde-format
-msgid "Enable indexing"
+msgctxt "Groupbox title"
+msgid "Session Behavior"
+msgstr ""
+
+#: kateprojectconfigpage.cpp:48
+#, kde-format
+msgid "Session settings for projects"
 msgstr ""
 
 #: kateprojectconfigpage.cpp:49
+#, fuzzy, kde-format
+#| msgid "Current Project"
+msgid "Restore Open Projects"
+msgstr "Jelenlegi projekt"
+
+#: kateprojectconfigpage.cpp:56
+#, kde-format
+msgctxt "Groupbox title"
+msgid "Project Index"
+msgstr "Projektindex"
+
+#: kateprojectconfigpage.cpp:57
+#, kde-format
+msgid "Project ctags index settings"
+msgstr "A projekt ctags indexelésének beállításai"
+
+#: kateprojectconfigpage.cpp:58 kateprojectinfoviewindex.cpp:209
+#, kde-format
+msgid "Enable indexing"
+msgstr "Indexelés bekapcsolása"
+
+#: kateprojectconfigpage.cpp:61
 #, kde-format
 msgid "Directory for index files"
-msgstr ""
+msgstr "Indexfájlok mappája"
 
-#: kateprojectconfigpage.cpp:53
+#: kateprojectconfigpage.cpp:65
 #, kde-format
 msgid ""
 "The system temporary directory is used if not specified, which may overflow "
 "for very large repositories"
 msgstr ""
+"A rendszer átmeneti mappáját használja, ha nincs kitöltve, ami túlcsordulhat "
+"nagyon nagy tárolók esetén"
 
-#: kateprojectconfigpage.cpp:60
+#: kateprojectconfigpage.cpp:72
 #, kde-format
 msgctxt "Groupbox title"
 msgid "Cross-Project Functionality"
-msgstr ""
+msgstr "Projektközi funkcionalitás"
 
-#: kateprojectconfigpage.cpp:61
+#: kateprojectconfigpage.cpp:73
 #, kde-format
 msgid ""
 "Project plugin is able to perform some operations across multiple projects"
 msgstr ""
+"A Projekt bővítmény képes végrehajtani bizonyos műveleteket több projekten is"
 
-#: kateprojectconfigpage.cpp:62
-#, fuzzy, kde-format
-#| msgid "Project Completion"
+#: kateprojectconfigpage.cpp:74
+#, kde-format
 msgid "Cross-Project Completion"
-msgstr "Projekt kiegészítés"
+msgstr "Projektközi kiegészítés"
 
-#: kateprojectconfigpage.cpp:64
+#: kateprojectconfigpage.cpp:76
 #, kde-format
 msgid "Cross-Project Goto Symbol"
-msgstr ""
+msgstr "Projektközi goto szimbólum"
 
-#: kateprojectconfigpage.cpp:72
-#, fuzzy, kde-format
-#| msgid "&Git"
+#: kateprojectconfigpage.cpp:84
+#, kde-format
 msgctxt "Groupbox title"
 msgid "Git"
-msgstr "&Git"
+msgstr "Git"
 
-#: kateprojectconfigpage.cpp:73
-#, kde-format
-msgid "Show number of changed lines in git status"
-msgstr ""
-
-#: kateprojectconfigpage.cpp:77
+#: kateprojectconfigpage.cpp:87
 #, kde-format
 msgid "Single click action in the git status view"
-msgstr ""
+msgstr "Egyszeres kattintás művelet a git állapotnézetben"
 
-#: kateprojectconfigpage.cpp:79 kateprojectconfigpage.cpp:90
+#: kateprojectconfigpage.cpp:89 kateprojectconfigpage.cpp:101
 #, kde-format
 msgid "No Action"
-msgstr ""
+msgstr "Nincs művelet"
 
-#: kateprojectconfigpage.cpp:80 kateprojectconfigpage.cpp:91
+#: kateprojectconfigpage.cpp:91 kateprojectconfigpage.cpp:103
 #, kde-format
-msgid "Show Diff"
-msgstr ""
+msgid "Open file"
+msgstr "Fájl megnyitása"
 
-#: kateprojectconfigpage.cpp:82 kateprojectconfigpage.cpp:93
+#: kateprojectconfigpage.cpp:92 kateprojectconfigpage.cpp:104
 #, kde-format
 msgid "Stage / Unstage"
-msgstr ""
+msgstr "Kiválasztás / visszavonás"
 
-#: kateprojectconfigpage.cpp:88
+#: kateprojectconfigpage.cpp:99
 #, kde-format
 msgid "Double click action in the git status view"
-msgstr ""
+msgstr "Dupla kattintás művelet a git állapotnézetben"
 
-#: kateprojectconfigpage.cpp:122 kateprojectpluginview.cpp:66
+#: kateprojectconfigpage.cpp:142 kateprojectpluginview.cpp:68
 #, kde-format
 msgid "Projects"
 msgstr "Projektek"
 
-#: kateprojectconfigpage.cpp:127
+#: kateprojectconfigpage.cpp:147
 #, kde-format
 msgctxt "Groupbox title"
 msgid "Projects Properties"
 msgstr "Projektbeállítások"
 
-#: kateprojectinfoview.cpp:35
-#, kde-format
-msgid "Terminal (.kateproject)"
-msgstr ""
-
-#: kateprojectinfoview.cpp:43
+#: kateprojectinfoview.cpp:80
 #, fuzzy, kde-format
-#| msgid "Terminal"
-msgid "Terminal (Base)"
-msgstr "Terminál"
+#| msgid "Terminal (Base)"
+msgctxt "@title:tab"
+msgid "Terminal"
+msgstr "Terminál (alap)"
 
-#: kateprojectinfoview.cpp:50
+#: kateprojectinfoview.cpp:89
+#, fuzzy, kde-format
+#| msgid "Terminal (.kateproject)"
+msgctxt "@title:tab"
+msgid "Terminal (Project)"
+msgstr "Terminál (.kateproject)"
+
+#: kateprojectinfoview.cpp:98
+#, fuzzy, kde-format
+#| msgid "Terminal (Base)"
+msgctxt "@title:tab"
+msgid "Terminal (Base)"
+msgstr "Terminál (alap)"
+
+#: kateprojectinfoview.cpp:107
+#, fuzzy, kde-format
+#| msgid "Terminal (Base)"
+msgctxt "@title:tab"
+msgid "Terminal (Build)"
+msgstr "Terminál (alap)"
+
+#: kateprojectinfoview.cpp:114
 #, kde-format
 msgid "Code Index"
 msgstr "Kódindex"
 
-#: kateprojectinfoview.cpp:55
+#: kateprojectinfoview.cpp:119
 #, kde-format
 msgid "Code Analysis"
 msgstr "Kódelemzés"
 
-#: kateprojectinfoview.cpp:60
+#: kateprojectinfoview.cpp:124
 #, kde-format
 msgid "Notes"
 msgstr "Megjegyzések"
 
-#: kateprojectinfoviewcodeanalysis.cpp:29
+#: kateprojectinfoviewcodeanalysis.cpp:35
 #, kde-format
 msgid "Start Analysis..."
 msgstr "Elemzés indítása…"
 
-#: kateprojectinfoviewcodeanalysis.cpp:42 kateprojectinfoviewindex.cpp:35
-#, kde-format
-msgid "File"
-msgstr "Fájl"
-
-#: kateprojectinfoviewcodeanalysis.cpp:42 kateprojectinfoviewindex.cpp:35
-#, kde-format
-msgid "Line"
-msgstr "Sor"
-
-#: kateprojectinfoviewcodeanalysis.cpp:42
-#, kde-format
-msgid "Severity"
-msgstr "Súlyosság"
-
-#: kateprojectinfoviewcodeanalysis.cpp:42
-#, kde-format
-msgid "Message"
-msgstr "Üzenet"
-
-#: kateprojectinfoviewcodeanalysis.cpp:108
-#, kde-format
-msgid ""
-"%1<br/><br/>The tool will be run on all project files which match this list "
-"of file extensions:<br/><br/><b>%2</b>"
-msgstr ""
-
-#: kateprojectinfoviewcodeanalysis.cpp:243
+#: kateprojectinfoviewcodeanalysis.cpp:43
 #, fuzzy, kde-format
-#| msgid "Analysis finished."
-msgid "Analysis on %1 file finished."
-msgid_plural "Analysis on %1 files finished."
-msgstr[0] "Az analízis befejeződött."
-msgstr[1] "Az analízis befejeződött."
+#| msgid "Code Analysis"
+msgctxt "'%1' refers to project name, e.g,. Code Analysis - MyProject"
+msgid "Code Analysis - %1"
+msgstr "Kódelemzés"
 
-#: kateprojectinfoviewcodeanalysis.cpp:255
-#, kde-format
-msgid "Analysis on %1 file failed with exit code %2."
-msgid_plural "Analysis on %1 files failed with exit code %2."
-msgstr[0] ""
-msgstr[1] ""
+#: kateprojectinfoviewcodeanalysis.cpp:100
+#, fuzzy, kde-format
+#| msgid ""
+#| "%1<br/><br/>The tool will be run on all project files which match this "
+#| "list of file extensions:<br/><br/><b>%2</b>"
+msgid ""
+"'%1' is not installed on your system, %2.<br/><br/>%3. The tool will be run "
+"on all project files which match this list of file extensions:<br/><b>%4</b>"
+msgstr ""
+"%1<br/><br/>Az eszköz az összes olyan projektfájlra futtatva lesz, ami "
+"illeszkedik erre a fájlkiterjesztés-listára:<br/><br/><b>%2</b>"
+
+#: kateprojectinfoviewcodeanalysis.cpp:110
+#, fuzzy, kde-format
+#| msgid ""
+#| "%1<br/><br/>The tool will be run on all project files which match this "
+#| "list of file extensions:<br/><br/><b>%2</b>"
+msgid ""
+"Using %1 installed at: %2.<br/><br/>%3. The tool will be run on all project "
+"files which match this list of file extensions:<br/><b>%4</b>"
+msgstr ""
+"%1<br/><br/>Az eszköz az összes olyan projektfájlra futtatva lesz, ami "
+"illeszkedik erre a fájlkiterjesztés-listára:<br/><br/><b>%2</b>"
+
+#: kateprojectinfoviewcodeanalysis.cpp:152
+#: kateprojectinfoviewcodeanalysis.cpp:212
+#: kateprojectinfoviewcodeanalysis.cpp:216
+#, fuzzy, kde-format
+#| msgid "Code Analysis"
+msgid "CodeAnalysis"
+msgstr "Kódelemzés"
+
+#: kateprojectinfoviewcodeanalysis.cpp:207
+#, fuzzy, kde-format
+#| msgid "Analysis on %1 file finished."
+#| msgid_plural "Analysis on %1 files finished."
+msgctxt ""
+"Message to the user that analysis finished. %1 is the name of the program "
+"that did the analysis, %2 is a number. e.g., [clang-tidy]Analysis on 5 files "
+"finished"
+msgid "[%1]Analysis on %2 file finished."
+msgid_plural "[%1]Analysis on %2 files finished."
+msgstr[0] "%1 fájl elemzése befejeződött."
+msgstr[1] "%1 fájl elemzése befejeződött."
+
+#: kateprojectinfoviewcodeanalysis.cpp:215
+#, fuzzy, kde-format
+#| msgid "Analysis on %1 file failed with exit code %2."
+#| msgid_plural "Analysis on %1 files failed with exit code %2."
+msgid "Analysis failed with exit code %1, Error: %2"
+msgstr "%1 fájl elemzése sikertelen a következő hibakóddal: %2."
 
 #: kateprojectinfoviewindex.cpp:35
 #, kde-format
@@ -708,279 +823,444 @@ msgstr "Név"
 msgid "Kind"
 msgstr "Fajta"
 
+#: kateprojectinfoviewindex.cpp:35
+#, kde-format
+msgid "File"
+msgstr "Fájl"
+
+#: kateprojectinfoviewindex.cpp:35
+#, kde-format
+msgid "Line"
+msgstr "Sor"
+
 #: kateprojectinfoviewindex.cpp:36
 #, kde-format
 msgid "Search"
 msgstr "Keresés"
 
-#: kateprojectinfoviewindex.cpp:195
+#: kateprojectinfoviewindex.cpp:198
 #, kde-format
 msgid "The index could not be created. Please install 'ctags'."
 msgstr "Az index nem hozható létre. Telepítse a „ctags” csomagot."
 
-#: kateprojectinfoviewindex.cpp:205
+#: kateprojectinfoviewindex.cpp:208
 #, kde-format
 msgid "Indexing is not enabled"
-msgstr ""
+msgstr "Az indexelés nincs bekapcsolva"
 
-#: kateprojectitem.cpp:163
+#: kateprojectitem.cpp:166
 #, kde-format
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
-#: kateprojectitem.cpp:163
+#: kateprojectitem.cpp:166
 #, kde-format
 msgid "File name already exists"
-msgstr ""
+msgstr "A fájlnév már létezik"
 
-#: kateprojectplugin.cpp:220
+#: kateprojectplugin.cpp:217
 #, kde-format
 msgid "Confirm project closing: %1"
-msgstr ""
+msgstr "Projektbezárás megerősítése: %1"
 
-#: kateprojectplugin.cpp:221
+#: kateprojectplugin.cpp:218
 #, kde-format
 msgid "Do you want to close the project %1 and the related %2 open documents?"
 msgstr ""
+"Szeretné bezárni a(z) %1 projektet és a kapcsolódó %2 megnyitott "
+"dokumentumot?"
 
-#: kateprojectplugin.cpp:513
+#: kateprojectplugin.cpp:600
 #, kde-format
 msgid "Full path to current project excluding the file name."
-msgstr ""
+msgstr "Az aktuális projekt teljes elérési útja a fájlnév nélkül."
 
-#: kateprojectplugin.cpp:530
+#: kateprojectplugin.cpp:617
 #, kde-format
 msgid ""
 "Full path to current project excluding the file name, with native path "
 "separator (backslash on Windows)."
 msgstr ""
+"Az aktuális projekt teljes elérési útja a fájlnév nélkül, natív elválasztó "
+"karakterekkel (Windowson fordított perjel)."
 
-#: kateprojectpluginview.cpp:56
-#, kde-format
-msgid "Kate Project Manager"
+#: kateprojectpluginview.cpp:58
+#, fuzzy, kde-format
+#| msgid "Kate Project Manager"
+msgid "Project Manager"
 msgstr "Kate projektkezelő"
 
-#: kateprojectpluginview.cpp:76
-#, kde-format
-msgid "Current Project"
-msgstr "Jelenlegi projekt"
-
-#: kateprojectpluginview.cpp:177
-#, fuzzy, kde-format
-#| msgid "Open With"
-msgid "Open Folder..."
-msgstr "Megnyitás ezzel"
-
-#: kateprojectpluginview.cpp:180
-#, fuzzy, kde-format
-#| msgid "Projects"
-msgid "Project TODOs"
-msgstr "Projektek"
-
-#: kateprojectpluginview.cpp:190
-#, fuzzy, kde-format
-#| msgid "Lookup: %1"
-msgid "Lookup"
-msgstr "Keresés: %1"
-
-#: kateprojectpluginview.cpp:193
+#: kateprojectpluginview.cpp:80
 #, fuzzy, kde-format
 #| msgid "Current Project"
-msgid "Close Project"
+msgid "Open projects list"
 msgstr "Jelenlegi projekt"
 
-#: kateprojectpluginview.cpp:198 kateprojectviewtree.cpp:131
-#: kateprojectviewtree.cpp:156
-#, kde-format
-msgid "Project"
-msgstr "Projekt"
+#: kateprojectpluginview.cpp:85
+#, fuzzy, kde-format
+#| msgid "Close Project"
+msgid "Reload project"
+msgstr "Projekt bezárása"
 
-#: kateprojectpluginview.cpp:201 kateprojectpluginview.cpp:686
+#: kateprojectpluginview.cpp:88
+#, fuzzy, kde-format
+#| msgid "Close Project"
+msgid "Close project"
+msgstr "Projekt bezárása"
+
+#: kateprojectpluginview.cpp:164
+#, fuzzy, kde-format
+#| msgid "Open Folder..."
+msgid "Open &Folder..."
+msgstr "Mappa megnyitása…"
+
+#: kateprojectpluginview.cpp:170
+#, kde-format
+msgid "Project TODOs"
+msgstr "Projekt tennivalók"
+
+#: kateprojectpluginview.cpp:175
+#, kde-format
+msgid "Activate Previous Project"
+msgstr ""
+
+#: kateprojectpluginview.cpp:181
+#, kde-format
+msgid "Activate Next Project"
+msgstr ""
+
+#: kateprojectpluginview.cpp:187
+#, kde-format
+msgid "Lookup"
+msgstr "Keresés"
+
+#: kateprojectpluginview.cpp:192
+#, kde-format
+msgid "Close Project"
+msgstr "Projekt bezárása"
+
+#: kateprojectpluginview.cpp:197
+#, fuzzy, kde-format
+#| msgid "Close Project"
+msgid "Close All Projects"
+msgstr "Projekt bezárása"
+
+#: kateprojectpluginview.cpp:202
+#, fuzzy, kde-format
+#| msgid "Close Project"
+msgid "Close Orphaned Projects"
+msgstr "Projekt bezárása"
+
+#: kateprojectpluginview.cpp:207
+#, fuzzy, kde-format
+#| msgid "Close Project"
+msgid "Reload Project"
+msgstr "Projekt bezárása"
+
+#: kateprojectpluginview.cpp:218
+#, kde-format
+msgid "Checkout Git Branch"
+msgstr "Git ág átváltása"
+
+#: kateprojectpluginview.cpp:224 kateprojectpluginview.cpp:797
 #, kde-format
 msgid "Lookup: %1"
 msgstr "Keresés: %1"
 
-#: kateprojectpluginview.cpp:202 kateprojectpluginview.cpp:687
-#, fuzzy, kde-format
-#| msgid "Lookup: %1"
+#: kateprojectpluginview.cpp:225 kateprojectpluginview.cpp:798
+#, kde-format
 msgid "Goto: %1"
-msgstr "Keresés: %1"
+msgstr "Ugrás: %1"
 
-#: kateprojectpluginview.cpp:260
-#, fuzzy, kde-format
-#| msgid "Project"
+#: kateprojectpluginview.cpp:299
+#, kde-format
 msgid "Projects Index"
-msgstr "Projekt"
+msgstr "Projektindex"
 
-#: kateprojectpluginview.cpp:718
+#: kateprojectpluginview.cpp:842
 #, kde-format
 msgid "Choose a directory"
-msgstr ""
+msgstr "Válasszon egy mappát"
 
 #: kateprojecttreeviewcontextmenu.cpp:45
 #, kde-format
 msgid "Enter name:"
-msgstr ""
+msgstr "Név:"
 
-#: kateprojecttreeviewcontextmenu.cpp:46
+#: kateprojecttreeviewcontextmenu.cpp:62
 #, kde-format
-msgid "Add"
-msgstr ""
+msgid "Delete File"
+msgstr "Fájl törlése"
 
-#: kateprojecttreeviewcontextmenu.cpp:67
-#, fuzzy, kde-format
-#| msgid "Copy Filename"
-msgid "Copy File Path"
-msgstr "Fájlnév másolása"
-
-#: kateprojecttreeviewcontextmenu.cpp:72
-#, fuzzy, kde-format
-#| msgid "File"
-msgid "Add File"
-msgstr "Fájl"
-
-#: kateprojecttreeviewcontextmenu.cpp:73
+#: kateprojecttreeviewcontextmenu.cpp:63
 #, kde-format
-msgid "Add Folder"
-msgstr ""
+msgid "Do you want to delete the file '%1'?"
+msgstr "Szeretné törölni a(z) „%1” fájlt?"
 
-#: kateprojecttreeviewcontextmenu.cpp:80
+#: kateprojecttreeviewcontextmenu.cpp:90
+#, fuzzy, kde-format
+#| msgid "Follow Location"
+msgid "Copy Location"
+msgstr "Hely követése"
+
+#: kateprojecttreeviewcontextmenu.cpp:97
+#, fuzzy, kde-format
+#| msgid "Open file"
+msgid "New File…"
+msgstr "Fájl megnyitása"
+
+#: kateprojecttreeviewcontextmenu.cpp:98
+#, fuzzy, kde-format
+#| msgid "Add Folder"
+msgid "New Folder…"
+msgstr "Mappa hozzáadása"
+
+#: kateprojecttreeviewcontextmenu.cpp:105
 #, kde-format
 msgid "&Rename"
-msgstr ""
+msgstr "Átneve&zés"
 
-#: kateprojecttreeviewcontextmenu.cpp:81
+#: kateprojecttreeviewcontextmenu.cpp:112
 #, kde-format
-msgid "Delete"
-msgstr ""
-
-#: kateprojecttreeviewcontextmenu.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "Groupbox title"
-#| msgid "Projects Properties"
 msgid "Properties"
-msgstr "Projektbeállítások"
+msgstr "Tulajdonságok"
 
-#: kateprojecttreeviewcontextmenu.cpp:94
+#: kateprojecttreeviewcontextmenu.cpp:116
 #, kde-format
 msgid "Open With"
 msgstr "Megnyitás ezzel"
 
-#: kateprojecttreeviewcontextmenu.cpp:112
+#: kateprojecttreeviewcontextmenu.cpp:124
 #, kde-format
 msgid "Open Internal Terminal Here"
-msgstr ""
+msgstr "Belső terminál megnyitása itt"
 
-#: kateprojecttreeviewcontextmenu.cpp:121
+#: kateprojecttreeviewcontextmenu.cpp:133
 #, kde-format
 msgid "Open External Terminal Here"
-msgstr ""
+msgstr "Külső terminál megnyitása itt"
 
-#: kateprojecttreeviewcontextmenu.cpp:126
+#: kateprojecttreeviewcontextmenu.cpp:138
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Tartalmazó mappa megnyitása"
 
-#: kateprojecttreeviewcontextmenu.cpp:136
+#: kateprojecttreeviewcontextmenu.cpp:147
 #, kde-format
 msgid "Show Git History"
-msgstr ""
+msgstr "Git előzmények megjelenítése"
 
-#: kateprojecttreeviewcontextmenu.cpp:156
-#, kde-format
-msgid "Delete File"
-msgstr ""
+#: kateprojecttreeviewcontextmenu.cpp:210
+#, fuzzy, kde-format
+#| msgid "Open file"
+msgid "New File"
+msgstr "Fájl megnyitása"
 
-#: kateprojecttreeviewcontextmenu.cpp:157
-#, kde-format
-msgid "Do you want to delete the file '%1'?"
-msgstr ""
+#: kateprojecttreeviewcontextmenu.cpp:215
+#, fuzzy, kde-format
+#| msgid "Add Folder"
+msgid "New Folder"
+msgstr "Mappa hozzáadása"
 
-#: kateprojectview.cpp:63
-#, kde-format
-msgid "Checkout Git Branch"
-msgstr ""
+#: kateprojectviewtree.cpp:207
+#, fuzzy, kde-format
+#| msgid "File name already exists"
+msgid "The file already exists"
+msgstr "A fájlnév már létezik"
 
-#: kateprojectview.cpp:68
-#, kde-format
-msgid "Filter..."
-msgstr ""
-
-#: kateprojectviewtree.cpp:133
+#: kateprojectviewtree.cpp:218
 #, kde-format
 msgid "Failed to create file: %1, Error: %2"
-msgstr ""
+msgstr "Nem sikerült létrehozni a fájlt: %1, hiba: %2"
 
-#: kateprojectviewtree.cpp:158
+#: kateprojectviewtree.cpp:245
+#, fuzzy, kde-format
+#| msgid "File name already exists"
+msgid "The directory already exists"
+msgstr "A fájlnév már létezik"
+
+#: kateprojectviewtree.cpp:252
 #, kde-format
 msgid "Failed to create dir: %1"
+msgstr "Nem sikerült létrehozni a mappát: %1"
+
+#: kateprojectworker.cpp:730
+#, kde-format
+msgid ""
+"Unable to load %1 based project because either %1 is not installed or it "
+"wasn't found in PATH environment variable. Please install %1 or "
+"alternatively disable the option 'Autoload Repositories && Build Trees' in "
+"project settings."
 msgstr ""
 
-#: stashdialog.cpp:164
+#: project_commands.cpp:35
+#, kde-format
+msgid "Execute a command in the active project's terminal."
+msgstr ""
+
+#: project_commands.cpp:47
+#, kde-format
+msgid "No cmd provided"
+msgstr ""
+
+#: project_commands.cpp:60
+#, fuzzy, kde-format
+#| msgid "Project Completion"
+msgid "Project Command"
+msgstr "Projektkiegészítés"
+
+#: stashdialog.cpp:36
 #, kde-format
 msgid "Stash message (optional). Enter to confirm, Esc to leave."
 msgstr ""
+"Félretételi üzenet (opcionális). Nyomja meg az Entert a megerősítéshez, "
+"Escet a kilépéshez."
 
-#: stashdialog.cpp:171
+#: stashdialog.cpp:43
 #, kde-format
 msgid "Type to filter, Enter to pop stash, Esc to leave."
 msgstr ""
+"Gépeljen a szűréshez, nyomja meg az Entert félretett változat "
+"visszaállításához, Escet a kilépéshez."
 
-#: stashdialog.cpp:249
+#: stashdialog.cpp:144
 #, kde-format
 msgid "Failed to stash changes %1"
-msgstr ""
+msgstr "Nem sikerült félretenni a változtatásokat: %1"
 
-#: stashdialog.cpp:251
+#: stashdialog.cpp:146
 #, kde-format
 msgid "Changes stashed successfully."
-msgstr ""
+msgstr "Változtatások sikeresen félretéve."
 
-#: stashdialog.cpp:271
+#: stashdialog.cpp:165
 #, kde-format
 msgid "Failed to get stash list. Error: "
-msgstr ""
+msgstr "Nem sikerült lekérni a félreteendő változtatások listáját. Hiba: "
 
-#: stashdialog.cpp:305
+#: stashdialog.cpp:181
 #, kde-format
 msgid "Failed to apply stash. Error: "
-msgstr ""
+msgstr "Nem sikerült alkalmazni a félretett változtatásokat. Hiba: "
 
-#: stashdialog.cpp:307
+#: stashdialog.cpp:183
 #, kde-format
 msgid "Failed to drop stash. Error: "
-msgstr ""
+msgstr "Nem sikerült eldobni a félretett változtatásokat. Hiba: "
 
-#: stashdialog.cpp:309
+#: stashdialog.cpp:185
 #, kde-format
 msgid "Failed to pop stash. Error: "
-msgstr ""
+msgstr "Nem sikerült visszaállítani a félretett változtatásokat. Hiba: "
 
-#: stashdialog.cpp:313
+#: stashdialog.cpp:189
 #, kde-format
 msgid "Stash applied successfully."
-msgstr ""
+msgstr "Félretett változtatások sikeresen alkalmazva."
 
-#: stashdialog.cpp:315
+#: stashdialog.cpp:191
 #, kde-format
 msgid "Stash dropped successfully."
-msgstr ""
+msgstr "Félretett változtatások sikeresen eldobva."
 
-#: stashdialog.cpp:317
+#: stashdialog.cpp:193
 #, kde-format
 msgid "Stash popped successfully."
-msgstr ""
+msgstr "Félretett változtatások sikeresen visszaállítva."
 
-#: stashdialog.cpp:348
+#: stashdialog.cpp:222
 #, kde-format
 msgid "Show stash failed. Error: "
-msgstr ""
+msgstr "Nem sikerült megjeleníteni a félretett változtatásokat. Hiba: "
 
 #. i18n: ectx: Menu (projects)
 #: ui.rc:9
 #, kde-format
 msgid "&Projects"
 msgstr "&Projektek"
+
+#~ msgid "Add"
+#~ msgstr "Hozzáadás"
+
+#~ msgid "Add File"
+#~ msgstr "Fájl hozzáadása"
+
+#, fuzzy
+#~| msgid "Commit Changes"
+#~ msgid "Commit hash"
+#~ msgstr "Változtatások véglegesítése"
+
+#~ msgid "Show number of changed lines in git status"
+#~ msgstr "Megváltozott sorok számának megjelenítése a git állapotban"
+
+#, fuzzy
+#~| msgid "Checkout Branch"
+#~ msgid "Checkout branch"
+#~ msgstr "Ág átváltása"
+
+#~ msgid "Severity"
+#~ msgstr "Súlyosság"
+
+#~ msgid "Message"
+#~ msgstr "Üzenet"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kiszel Kristóf,Úr Balázs"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "ulysses@fsf.hu,urbalazs@gmail.com"
+
+#~ msgid "Failed to get file history: git executable not found in PATH"
+#~ msgstr ""
+#~ "Nem sikerült lekérni az előzményeket: a git végrehajtható állomány nem "
+#~ "található a PATH-ban"
+
+#~ msgid "Failed to get file history: %1"
+#~ msgstr "Nem sikerült lekérni az előzményeket: %1"
+
+#, fuzzy
+#~| msgid "Show Git History"
+#~ msgid "Show File Git History"
+#~ msgstr "Git előzmények megjelenítése"
+
+#~ msgid "Stage Hunk"
+#~ msgstr "Módosítás kiválasztása"
+
+#~ msgid "Stage Lines"
+#~ msgstr "Sorok kiválasztása"
+
+#, fuzzy
+#~| msgid "Discard"
+#~ msgid "Discard Lines"
+#~ msgstr "Eldobás"
+
+#~ msgid "Unstage Hunk"
+#~ msgstr "Módosítás visszavonása"
+
+#~ msgid "Unstage Lines"
+#~ msgstr "Sorok visszavonása"
+
+#~ msgid "Failed to stage selection"
+#~ msgstr "Nem sikerült kiválasztani a kijelölést"
+
+#~ msgid "Failed to stage: %1"
+#~ msgstr "Sikertelen kiválasztás: %1"
+
+#~ msgid "Show diff"
+#~ msgstr "Összehasonlítás megjelenítése"
+
+#, fuzzy
+#~| msgid "Show raw diff"
+#~ msgid "Show Raw Diff"
+#~ msgstr "Nyers összehasonlítás megjelenítése"
+
+#~ msgid "Copy File Path"
+#~ msgstr "Fájlútvonal másolása"
+
+#~ msgid "Type to filter..."
+#~ msgstr "Gépeljen szűréshez…"
 
 #~ msgid "Git:"
 #~ msgstr "Git:"
@@ -995,9 +1275,6 @@ msgstr "&Projektek"
 
 #~ msgid "Please install 'cppcheck'."
 #~ msgstr "Kérjük telepítse a „cppcheck” programot."
-
-#~ msgid "Follow Location"
-#~ msgstr "Hely követése"
 
 #~ msgid "Git Tools"
 #~ msgstr "Git eszközök"

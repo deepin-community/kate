@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: katebacktracebrowserplugin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
+"POT-Creation-Date: 2023-07-08 01:19+0000\n"
 "PO-Revision-Date: 2009-04-21 23:29+0900\n"
 "Last-Translator: Japanese KDE translation team <kde-jp@kde.org>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -10,19 +10,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, lstBacktrace)
 #: btbrowserwidget.ui:27
@@ -132,52 +122,47 @@ msgstr ""
 msgid "Indexing files..."
 msgstr ""
 
-#: katebacktracebrowser.cpp:117
-#, kde-format
-msgid "Backtrace Browser"
-msgstr ""
-
-#: katebacktracebrowser.cpp:151
-#, kde-format
-msgid "Load Backtrace"
-msgstr ""
-
-#: katebacktracebrowser.cpp:193
-#, kde-format
-msgid "Loading backtrace succeeded"
-msgstr ""
-
-#: katebacktracebrowser.cpp:195
-#, kde-format
-msgid "Loading backtrace failed"
-msgstr ""
-
-#: katebacktracebrowser.cpp:229
-#, kde-format
-msgid "File not found: %1"
-msgstr ""
-
-#: katebacktracebrowser.cpp:240
-#, kde-format
-msgid "Opened file: %1"
-msgstr ""
-
-#: katebacktracebrowser.cpp:243
-#, kde-format
-msgid "No debugging information available"
-msgstr ""
-
-#: katebacktracebrowser.cpp:280
+#: katebacktracebrowser.cpp:116 katebacktracebrowser.cpp:279
 #, kde-format
 msgid "Backtrace"
 msgstr ""
 
-#: katebacktracebrowser.cpp:285
+#: katebacktracebrowser.cpp:150
+#, kde-format
+msgid "Load Backtrace"
+msgstr ""
+
+#: katebacktracebrowser.cpp:192
+#, kde-format
+msgid "Loading backtrace succeeded"
+msgstr ""
+
+#: katebacktracebrowser.cpp:194
+#, kde-format
+msgid "Loading backtrace failed"
+msgstr ""
+
+#: katebacktracebrowser.cpp:228
+#, kde-format
+msgid "File not found: %1"
+msgstr ""
+
+#: katebacktracebrowser.cpp:239
+#, kde-format
+msgid "Opened file: %1"
+msgstr ""
+
+#: katebacktracebrowser.cpp:242
+#, kde-format
+msgid "No debugging information available"
+msgstr ""
+
+#: katebacktracebrowser.cpp:284
 #, kde-format
 msgid "Backtrace Settings"
 msgstr ""
 
-#: katebacktracebrowser.cpp:363
+#: katebacktracebrowser.cpp:358
 #, kde-format
 msgid "Backtrace Browser Settings"
 msgstr ""

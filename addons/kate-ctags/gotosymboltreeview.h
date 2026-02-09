@@ -1,5 +1,4 @@
-#ifndef GOTOSYMBOLTREEVIEW_H
-#define GOTOSYMBOLTREEVIEW_H
+#pragma once
 /*
     SPDX-FileCopyrightText: 2020 Waqar Ahmed <waqar.17a@gmail.com>
 
@@ -14,10 +13,8 @@ class MainWindow;
 
 class GotoSymbolTreeView : public QTreeView
 {
-    Q_OBJECT
-
 public:
-    GotoSymbolTreeView(KTextEditor::MainWindow *mainWindow, QWidget *parent = nullptr);
+    explicit GotoSymbolTreeView(KTextEditor::MainWindow *mainWindow, QWidget *parent = nullptr);
     int sizeHintWidth() const;
     void setGlobalMode(bool value)
     {
@@ -31,5 +28,3 @@ private:
     KTextEditor::MainWindow *m_mainWindow;
     bool globalMode = false;
 };
-
-#endif // GOTOSYMBOLTREEVIEW_H

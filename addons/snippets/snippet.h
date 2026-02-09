@@ -8,8 +8,7 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef __SNIPPET_H__
-#define __SNIPPET_H__
+#pragma once
 
 #include <QStandardItem>
 
@@ -33,6 +32,21 @@ public:
      */
     Snippet();
     ~Snippet() override;
+
+    static constexpr inline int SnippetItemType = QStandardItem::UserType + 2;
+
+    int type() const override
+    {
+        return SnippetItemType;
+    }
+
+    static Snippet *fromItem(QStandardItem *item)
+    {
+        if (item && item->type() == SnippetItemType) {
+            return static_cast<Snippet *>(item);
+        }
+        return nullptr;
+    }
 
     /**
      * Returns the actual contents of this snippet.
@@ -60,5 +74,3 @@ private:
 };
 
 Q_DECLARE_METATYPE(Snippet *)
-
-#endif

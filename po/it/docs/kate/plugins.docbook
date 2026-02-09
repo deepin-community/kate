@@ -93,19 +93,19 @@
 <para
 ><link linkend="kate-application-plugin-external-tools"
 >Strumenti esterni</link
-> - avvia strumenti esterni ed applicazioni</para>
+>: avvia strumenti esterni ed applicazioni</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-backtracebrowser"
 >Navigatore backtrace</link
-> - vista dello strumento di navigazione dei backtrace C/C++</para>
+>: vista dello strumento di navigazione dei backtrace C/C++</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-build"
 >Estensione di compilazione</link
-> - compila o esegue il <command
+>: compila o esegui il <command
 >make</command
 > ed elabora i messaggi d'errore</para>
 </listitem>
@@ -113,31 +113,37 @@
 <para
 ><link linkend="kate-application-plugin-closeexceptlike"
 >Chiudi escludendo/includendo</link
-> - chiude un gruppo di documenti basati su un percorso comune, o su un'estensione di file</para>
+>: chiudi un gruppo di documenti in base a un percorso comune, o a un'estensione di file</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-colorpicker"
 >Selettore di colore</link
-> - mostra l'anteprima per i nomi dei colori noti</para>
+>: mostra l'anteprima per i nomi dei colori noti</para>
+</listitem>
+<listitem>
+<para
+><link linkend="kate-application-plugin-colored-brackets"
+>Parentesi colorate</link
+>: parentesi colorate per migliorare la leggibilità</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-ctags"
 >CTags</link
-> - cerca definizioni e dichiarazioni con CTags</para>
+>: cerca definizioni e dichiarazioni con CTags</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-preview"
 >Anteprima del documento</link
-> - anteprima del documento nel formato di destinazione</para>
+>: esegui l'anteprima del documento nel formato di destinazione</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-documentswitcher"
->Scambiatore di documenti</link
-> - sfoglia rapidamente i documenti per mezzo della combinazione <keycombo action="simul"
+>Selettore di documenti</link
+>: sfoglia rapidamente i documenti per mezzo della combinazione <keycombo action="simul"
 >&Alt; &Tab;</keycombo
 ></para>
 </listitem>
@@ -145,53 +151,53 @@
 <para
 ><link linkend="kate-application-plugin-fsbrowser"
 >Selettore dei file</link
-> - vista dello strumento Selettore dei file</para>
+>: vista dello strumento Selettore dei file</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-documents"
 >Vista Albero dei documenti</link
-> - visualizza i file aperti in un albero di file</para>
+>: visualizza i file aperti in un albero di file</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-gdb"
 >&gdb;</link
-> - fornisce una semplice interfaccia a &gdb;</para>
+>: fornisce una semplice interfaccia a &gdb;</para>
 </listitem>
-<!--from workspace/plasma-sdk, why picked up here?
-<listitem>
-<para
->Icon picker - Invokes Cuttlefish icon picker</para>
-</listitem>
--->
 <listitem>
 <para
 ><link linkend="kate-application-plugin-projects"
 >Estensione di progetto</link
-> - integrazione con &git; e con altri sistemi di controllo del sorgente</para>
+>: integrazione con &git; e con altri sistemi di controllo del sorgente</para>
 </listitem>
 <listitem>
 <para
->Replicode - linguaggio costruttivista per IA ed l'esecuzione</para>
+>Replicode - linguaggio costruttivista per IA ed esecuzione</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-lspclient"
 >Client LSP</link
-> - il client LSP fornisce navigazione e completamento del codice per molti linguaggi</para>
+>: il client LSP fornisce navigazione e completamento del codice per molti linguaggi</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-searchinfiles"
 >Cerca e sostituisci</link
-> - cerca e sostituisci nei documenti, nelle cartelle o nei progetti</para>
+>: cerca e sostituisci nei documenti, nelle cartelle o nei progetti</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-snippets"
 >Vista strumento per i frammenti di testo</link
-> - Vista dello strumento che incorpora la gestione dei frammenti</para>
+>: vista dello strumento che incorpora la gestione dei frammenti</para>
+</listitem>
+<listitem>
+<para
+><link linkend="kate-application-plugin-keyboardmacros"
+>Macro da tastiera</link
+>: registra ed esegui le macro da tastiera (cioè una sequenza di azioni da tastiera).</para>
 </listitem>
 <listitem>
 <para
@@ -203,31 +209,43 @@
 <para
 ><link linkend="kate-application-plugin-symbolviewer"
 >Visore di simboli</link
-> - estrae e visualizza i simboli di riferimento dal sorgente</para>
+> estrai e visualizza i simboli di riferimento dal sorgente</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-konsole"
 >Vista strumento Terminale</link
-> - hai un terminale pronto all'uso, usando l'oggetto &konsole; di &kde;</para>
+>: usando l'oggetto &konsole; di &kde; hai un terminale pronto all'uso</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-textfilter"
 >Filtro di testo</link
-> - elabora il testo usando comandi da terminale</para>
+>: elabora il testo usando comandi da terminale</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-xmltools"
 >Completamento &XML;</link
-> - elenca gli elementi, gli attributi, i valori di attributi e le entità &XML; permesse da DTD.</para>
+>: elenca gli elementi, gli attributi, i valori di attributi e le entità &XML; permesse da DTD.</para>
 </listitem>
 <listitem>
 <para
 ><link linkend="kate-application-plugin-xmlcheck"
 >Validazione &XML;</link
-> - valida i file &XML; con xmllint</para>
+>: valida i file &XML; con xmllint</para>
+</listitem>
+<listitem>
+<para
+><link linkend="kate-application-plugin-compilerexplorer"
+>Esploratore del compilatore</link
+>: interfaccia allo strumento Esploratore del compilatore</para>
+</listitem>
+<listitem>
+<para
+><link linkend="kate-application-plugin-formatting"
+>Formattazione</link
+>: estensione per la formattazione del codice</para>
 </listitem>
 </itemizedlist>
 </sect1>
@@ -314,12 +332,36 @@
 >, quando invocato, non salva niente, oppure il documento corrente o tutti i documenti.</para>
 <para
 ><userinput
->Ricarica il documento corrente dopo l'esecuzione</userinput
-> è utile quando il file corrente viene modificato sul disco.</para>
+>Attivazione</userinput
+>, i criteri di attivazione per eseguire lo strumento. Esso influenzerà il documento attivo corrente, e verrà eseguito solamente se il suo tipo MIME corrisponde a quello dello strumento esterno.</para>
+    <variablelist
+><varlistentry>
+    <term
+>Sono disponibili i seguenti criteri di attivazione:</term>
+    <listitem>
+    <para
+><userinput
+>Nessuno</userinput
+>: è il predefinito, significa che lo strumento non ha criteri di attivazione.</para>
+    <para
+><userinput
+>Prima di salvare</userinput
+>: questo criterio di attivazione eseguirà lo strumento appena prima che il documento venga salvato.</para>
+    <para
+><userinput
+>Dopo aver salvato</userinput
+>: questo strumento di attivazione eseguirà lo strumento dopo che il documento è stato salvato.</para>
+    </listitem>
+    </varlistentry
+></variablelist>
 <para
 ><userinput
->Output</userinput
->, l'output definisce l'obiettivo di stdout. È impostato o a <userinput
+>Ricarica il documento corrente dopo l'esecuzione</userinput
+>: è utile quando il file corrente viene modificato sul disco.</para>
+<para
+><userinput
+>Risultato</userinput
+>: il risultato definisce l'obiettivo di stdout. È impostato o a <userinput
 >Ignorato</userinput
 >, o a <userinput
 >Inserisci alla posizione del cursore</userinput
@@ -355,7 +397,7 @@
 
 <sect2 id="kate-application-plugin-external-tools-variables">
 <title
->Espansione della variabile</title>
+>Espansione delle variabili</title>
 
 <para
 >Alcuni campi modificabili, quali <guilabel
@@ -408,8 +450,8 @@
 >%{variable-name}</userinput
 >, sostituisce semplicemente la variabile col suo contenuto. Per esempio, la variabile <userinput
 >%{Document:FileName}</userinput
-> viene sostituita dal nome del file del documento corrente senza il percorso. La seconda forma,  <userinput
->%{variable-name:&lg;value&gt;}</userinput
+> viene sostituita dal nome del file del documento corrente senza il percorso. La seconda forma, <userinput
+>%{variable-name:&lt;value&gt;}</userinput
 >, prende <userinput
 >&lt;value&gt;</userinput
 > come contenuto, per esempio può essere usata per espandere una variabile d'ambiente con <userinput
@@ -1552,7 +1594,7 @@
 ></term>
 <listitem>
 <para
->Se mostrare il selettore di colore per i nomi dei colori noti  (&eg;, <literal
+>Se mostrare il selettore di colore per i nomi dei colori noti (&eg;, <literal
 >azzurro</literal
 >). Vedi <ulink url="https://www.w3.org/TR/SVG11/types.html#ColorKeywords"
 >questa pagina</ulink
@@ -1586,6 +1628,25 @@
 
 </sect2>
 
+</sect1>
+
+<sect1 id="kate-application-plugin-colored-brackets">
+<title
+>Parentesi colorate</title>
+
+<sect2
+><title
+>Introduzione</title>
+<para
+>L'estensione parentesi colorate colora le coppie di parentesi corrispondenti con dei colori diversi, in modo da migliorare la leggibilità. Tuttavia, non tutte le parentesi vengono colorate: ad esempio, una la cui apertura o chiusura corrispondente non è visibile verrà ignorata. Allo stesso modo, l'unica coppia di parentesi su una riga non verrà colorata. </para>
+</sect2>
+
+<sect2
+><title
+>Configurazione</title>
+<para
+>L'estensione non fornisce nessuna configurazione.</para>
+</sect2>
 </sect1>
 
 <sect1 id="kate-application-plugin-ctags">
@@ -1817,7 +1878,7 @@
 <title
 >Introduzione</title>
 <para
->Questa estensione abilita un'anteprima in diretta del documento di testo attualmente modificato; questo avviene nella barra laterale nel suo formato finale. Quindi il risultato sarà immediatamente visibile vicino al testo sorgente quando, ad esempio, modifichi un testo &Markdown; o un'immagine &SVG;. </para>
+>L'estensione abilita un'anteprima in diretta del documento di testo attualmente modificato; questo avviene nella barra laterale nel suo formato finale. Quindi il risultato sarà immediatamente visibile vicino al testo sorgente quando, ad esempio, modifichi un testo &Markdown; o un'immagine &SVG;. </para>
 
 <para
 >Per la visualizzazione viene utilizzata l'estensione &kparts; che è attualmente selezionata come preferita per il tipo &MIME; del documento. L'anteprima non è quindi possibile se non c'è nessuna estensione &kparts; per quel tipo. </para>
@@ -1925,7 +1986,7 @@
 <sect1 id="kate-application-plugin-documentswitcher">
 
 <title
->Estensione per lo scambio dei documenti</title>
+>Estensione per il selettore dei documenti</title>
 
 <sect2 id="documentswitcher-menu">
 <title
@@ -2373,7 +2434,7 @@ folder if possible.</para
 
 <para
 >Ci sono anche le azioni proprie di un gestore di file, che servono per rinominare o per eliminare i file; con <guimenuitem
->Copia percorso del file</guimenuitem
+>Copia posizione</guimenuitem
 > potrai copiare negli appunti l'intero percorso del documento.</para>
 
 <para
@@ -3242,34 +3303,6 @@ folder if possible.</para
 
 </sect2>
 
-<sect2 id="project-quickopen">
-<title
->Apertura rapida dei file</title>
-
-<para
->Dato che fare clic su un file in una vista ad albero non è il modo più rapido per aprirlo, &kate; fornisce un veloce meccanismo integrato; lo puoi attivare con <keycombo action="simul"
->&Ctrl;&Alt;<keycap
->O</keycap
-></keycombo
->. Ottieni un elenco come questo:</para>
-
-<screenshot id="screenshot-project-quickopen">
-<screeninfo
->Apertura rapida</screeninfo>
-<mediaobject>
-<imageobject
-><imagedata fileref="project-quickopen.png" format="PNG"/></imageobject>
-</mediaobject>
-</screenshot>
-
-<para
->Puoi filtrare digitando parte del nome del file che stai cercando, e puoi anche spostarti nella lista sia con i tasti freccia sia con Pagina su/giù.; con &Enter; attiverai invece il file selezionato, mentre con &Esc; nasconderai la vista di apertura rapida.</para>
-
-<para
->Inoltre l'apertura rapida si ricorda del file precedente, che viene selezionato quando passi alla vista di apertura rapida; così tu non devi far altro che premere &Enter;, cosa generalmente molto comoda.</para>
-
-</sect2>
-
 <sect2 id="project-build">
 <title
 >Supporto alla compilazione del progetto</title>
@@ -3318,8 +3351,12 @@ folder if possible.</para
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "git": 1 } ]
+  "name": "Kate",
+  "files": [
+    {
+      "git": 1
+    }
+  ]
 }
 </screen>
 
@@ -3335,35 +3372,98 @@ folder if possible.</para
 >svn</literal
 >, e mercurial con <literal
 >hg</literal
->. Se non vuoi leggere da un sistema di controllo di versione puoi caricare ricorsivamente i file dalle cartelle, come segue: </para>
+>. Se non vuoi leggere dei file da un sistema di controllo di versione puoi semplicemente invocare kate dalla riga di comando come: <screen>
+kate /path/to/folder
+</screen
+> oppure puoi caricare ricorsivamente i file dalle cartelle, come di seguito: </para>
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "directory": "kate", "filters": ["*.cpp", "*.h", "*.ui", "CMakeLists.txt", "Find*.cmake"], "recursive": 1 } ]
+  "name": "Kate",
+  "files": [
+    {
+      "directory": "kate",
+      "filters": [
+        "*.cpp",
+        "*.h",
+        "*.ui",
+        "CMakeLists.txt",
+        "Find*.cmake"
+      ],
+      "recursive": 1,
+      "hidden": 1
+    }
+  ],
+  "exclude_patterns" : [
+    "^build/.*"
+  ]
 }
 </screen>
 
 <para
->Qui le sottocartelle ed i filtri definiscono ciò che fa parte del progetto; puoi anche mescolare il controllo della versione con dei file basati sui filtri. </para>
+>Qui le sotto-cartelle e i filtri definiscono qual è parte del progetto. Puoi anche mischiare controllo della versione e file in base ai filtri. I file nascosti non verranno recuperati se l'opzione <code
+>"hidden"</code
+> è 0. <code
+>"exclude_patterns"</code
+> è un elenco di modelli di espressioni regolari che possono essere usati per escludere file e cartelle dall'albero del progetto. In questo esempio verranno esclusi tutti i file e le cartelle in una cartella <filename
+>build</filename
+>. </para>
 
 <para id="projects-build-support"
->Se vuoi aggiungere il supporto all'estensione di compilazione, allora puoi scrivere il file <filename
+>Se vuoi aggiungere il supporto per la compilazione, allora puoi scrivere un <filename
 >.kateproject</filename
-> così:</para>
+> come questo:</para>
 
 <screen
 >{
-  "name": "Kate"
-, "files": [ { "git": 1 } ]
-, "build": {
-    "directory": "build"
-  , "build": "make all"
-  , "clean": "make clean"
-  , "install": "make install"
+  "name": "Kate",
+  "files": [
+    {
+      "git": 1
+    }
+  ],
+  "build": {
+    "directory": "build",
+    "build": "make all",
+    "clean": "make clean",
+    "install": "make install",
+    "targets": [
+      {
+        "name": "all",
+        "build_cmd": "ninja"
+        "run_cmd": "./bin/kate"
+      },
+      {
+        "name": "kate",
+        "build_cmd": "ninja kate-bin"
+      }
+    ]
   }
 }
 </screen>
+
+<para
+>Gli obiettivi specificati sopra appariranno quindi nell'<link linkend="kate-application-plugin-build"
+>estensione di compilazione </link
+> sotto <emphasis role="bold"
+> "Obiettivi dell'estensione di progetto	"</emphasis
+>. Se il vettore <code
+>"targets"</code
+> è specificato, allora <code
+>"build"</code
+>, <code
+>"clean"</code
+> and <code
+>"install"</code
+> vengono ignorati. Ogni elemento nel vettore specifica un obiettivo:<code
+>"name"</code
+> è il nome dell'obiettivo, <code
+>"build_cmd"</code
+> verrà utilizzato per compilare l'obiettivo, <code
+>"run_cmd"</code
+> verrà usato per eseguire l'obiettivo. Il più importante di tutti è <code
+>"directory"</code
+>, che è dove verrà eseguito il comando. </para>
 
 <para
 >Nel caso tu abbia un file <filename
@@ -3954,6 +4054,53 @@ Projects Replicode run / stop-->
 
 </sect2>
 
+<sect2 id="lspclient-go-to-symbol">
+<title
+>Supporto ai simboli di arrivo</title>
+<para
+>Il client LSP può aiutarti a saltare a ogni simbolo nel progetto o nel file corrente. Per saltare ai simboli nel file usa lo strumento visivo «Schema del simbolo del client LSP» nel bordo destro di Kate. Lo strumento visivo elenca tutti i simboli che sono trovati dal server nel documento corrente. </para>
+
+<sect3 id="lspclient-symbol-outline-config">
+<title
+>Configurazione dello schema dei simboli del client LSP</title>
+
+<para
+>Per impostazione predefinita i simboli vengono ordinati in base alla loro occorrenza nel documento, ma potresti anche ordinarli alfabeticamente. Per farlo, clic destro sullo strumento visivo, poi spunta «Ordina alfabeticamente». </para>
+
+<para
+>Per impostazione predefinita lo strumento visivo mostra i simboli nella modalità ad albero, tuttavia puoi modificarla in un elenco dal menu contestuale. </para>
+</sect3>
+
+<sect3 id="lspclient-global-go-to-symbol">
+<title
+>Supporto ai simboli di arrivo globale</title>
+<para
+>Per saltare ai simboli nel progetto puoi aprire la finestra dei simboli di arrivo usando <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>p</keycap
+></keycombo
+>. La finestra è vuota quando si apre, ma non appena inizi a digitare comincia a mostrare i simboli corrispondenti. La qualità delle corrispondenze e della capacità di filtraggio dipende dal server che usi: ad esempio, clangd supporta il filtraggio approssimato, ma altri server potrebbero non supportarlo. </para>
+</sect3>
+
+</sect2>
+
+<sect2 id="lspclient-extra">
+<title
+>Altre funzionalità</title>
+
+<para
+>Il comando per scambiare intestazione e sorgente è supportato. Per farlo in un progetto C o C++ puoi utilizzare l'opzione «Scambia sorgente e intestazione» sia dal menu contestuale che con la scorciatoia <keycombo action="simul"
+><keycap
+>F12</keycap
+></keycombo
+>. </para>
+
+<para
+>Puoi andare velocemente a un simbolo mettendo il mouse sopra di esso e poi premendo <keycombo action="simul"
+>&Ctrl;</keycombo
+> più il pulsante sinistro del mouse. </para>
+
+</sect2>
 
 <sect2 id="lspclient-configuration">
 <title
@@ -4037,13 +4184,13 @@ Projects Replicode run / stop-->
 > usuale. Come illustrato sopra, uno può specificare un «percorso» in cui cercare dopo averlo fatto nelle posizioni standard. </para>
 
 <para
->Tutte le voci in «command», «root» e «path» sono soggette a espansione variabile. </para>
+>Tutte le voci in «command», «root» e «path» sono soggette all'espansione delle variabili. </para>
 
 <para
 >«HighlightingModeRegex» viene usato per associare la modalità di evidenziazione usata da &kate; all'ID del linguaggio del server. Se non viene fornita alcuna espressione regolare, viene utilizzato l'id del linguaggio stesso. Se una voce «documentLanguageId» viene impostata a falso allora non viene fornito al server nessun ID del linguaggio all'apertura del documento. Questo potrebbe dare dei risultati migliori su alcuni server che sono più precisi nel determinare il tipo di documento piuttosto che farlo in base alla modalità di kate. </para>
 
 <para
->Dall'esempio qui sopra, il principio è probabilmente chiaro. Inoltre, ciascun oggetto di voce del server può avere anche una voce «initializationOptions», che viene passata al server come parte del metodo «initialize». Se presente, viene passata al server una voce «settings» per mezzo della notifica «workspace/didChangeConfiguration». </para>
+>Dall'esempio qui sopra, il principio è probabilmente chiaro. Inoltre, ciascun oggetto di voce del server può avere anche una voce «initializationOptions», che viene passata al server come parte del metodo «initialize». Se presente, viene passata al server una voce «settings» per mezzo della notifica «workspace/didChangeConfiguration». Sia «completionTriggerCharacters» che «signatureTriggerCharacters» possono essere specificati come oggetto JSON col membro stringa «exclude» oppure «include». Questi verranno usati per, rispettivamente, escludere o aggiungere alcuni caratteri ai rispettivi attuatori impostati come forniti dal server. </para>
 
 <para
 >Vengono applicate varie fasi di sovrapposizione/unione; <itemizedlist>
@@ -4053,7 +4200,7 @@ Projects Replicode run / stop-->
 </listitem>
 <listitem>
 <para
->La voce <filename
+>La voce «lspclient» in <filename
 >.kateproject</filename
 > nella configurazione del progetto ha la precedenza su quella qui sopra</para>
 </listitem>
@@ -4069,10 +4216,44 @@ Projects Replicode run / stop-->
 >projectBase</quote
 > (come determinato dall'<link linkend="kate-application-plugin-projects"
 >estensione di progetto</link
->) se applicabile, oppure è relativo alla cartella del documento. Se non è stato specificato e se «rootIndicationFileNames» è un vettore, allora viene selezionata una cartella genitore del documento corrente che contiene quel file. Come ultimo ripiego viene selezionata come «root» la cartella home. Per qualsiasi documento la cartella «root» risultante determina se è necessaria o meno un'istanza separata. Se sì, «root» viene passata come rootUri/rootPath. </para>
+>) se applicabile, oppure è relativo alla cartella del documento. Se non è stato specificato, e se «rootIndicationFileNames» è un vettore, allora viene selezionata una cartella genitore del documento corrente che contiene il file che è selezionato. In alternativa, se «root» non è specificato e «rootIndicationFilePatterns» è un vettore di modelli di file, viene selezionata una cartella genitore del documento corrente che corrisponde al modello di file che è selezionato. Come ultimo ripiego viene selezionata come «root» la cartella home. Per qualsiasi documento la cartella «root» risultante determina se è necessaria o meno un'istanza separata. Se sì, «root» viene passata come rootUri/rootPath. </para>
 
 <para
 >In generale viene raccomandato di lasciare root non specificata poiché non è così importante per un server (ma dipende dalle tue esigenze). Un numero minore di istanze del server è ovviamente più efficiente e ha anche una visione "più ampia" rispetto a molte istanze separate. </para>
+
+<para
+>Come menzionato sopra, molte voci sono soggette all'espansione delle variabili. Un'applicazione adatta di essa, associata ad uno «script adattatore», permette la personalizzazione in molte circostanze. Ad esempio, considera uno scenario di sviluppo in Python formato da più progetti (ad esempio repository git), ciascuno con le proprie impostazioni di ambiente virtuale (venv). Usando la configurazione predefinita il server del linguaggio Python non sarà a conoscenza dell'ambiente virtuale. A questo però si può rimediare col seguente approccio: per prima cosa, nell'estensione «User Server Settings» di LSPClient si può inserire il seguente frammento: </para>
+<screen
+>{
+        "servers":
+        {
+                "python":
+                {
+                        "command": ["pylsp_in_env"], ["%{Project:NativePath}"],
+                        "root": "."
+                }
+        }
+}
+</screen>
+<para
+>La voce principale qui sopra è relativa alla cartella del progetto e garantisce che sia stato avviato un server di lingua separato per ogni progetto. In questo caso ciò è necessario, in quanto ciascuno ha un ambiente virtuale distinto. </para>
+<para
+><filename
+>pylsp_in_env</filename
+> è un piccolo «script adattatore» che dovrebbe essere messo in <literal
+>PATH</literal
+>, col seguente contenuto (da sistemare): </para>
+<screen
+>#!/bin/bash
+cd $1
+# avvia il server (python-lsp-server) nell'ambiente virtuale
+# (ad esempio con le impostazioni delle variabili dell'ambiente virtuale)
+# quindi sorgente dell'ambiente virtuale
+source XYZ
+# il server e gli argomenti possono variare
+exec myserver
+</screen>
+
 
 <sect3 id="lspclient-customization">
 <title
@@ -4116,6 +4297,48 @@ Projects Replicode run / stop-->
 >Sfortunatamente la configurazione/personalizzazione del server LSP spesso non è così ben documentata, e spesso solo esaminando il codice sorgente si capiscono gli approcci di configurazione e l'insieme delle opzioni di configurazione disponibili. In particolare, il server di esempio qui sopra supporta molte altre opzioni in «settings». Consulta la <ulink url="https://github.com/neoclide/coc.nvim/wiki/Language-servers"
 >documentazione di un altro client LSP</ulink
 > per molti altri esempi di server di linguaggi e per le impostazioni corrispondenti, che possono essere facilmente e prontamente trasformate nella configurazione &JSON; utilizzata qui e descritta sopra. </para>
+
+</sect3>
+
+<sect3 id="lspclient-format-on-save">
+<title
+>Formattazione al salvataggio del server LSP</title>
+
+<para
+>Puoi abilitare «Formattazione al salvataggio» dalle impostazioni LSP nella finestra di configurazione. </para>
+
+</sect3>
+
+<sect3 id="lspclient-diagnostics-suppression">
+<title
+>Soppressione diagnostica del server LSP</title>
+
+<para
+>Può accadere che vengano riportate diagnostiche che non sono realmente utili. Questo può essere un po' problematico, specialmente se ce ne sono molte (e spesso dello stesso tipo). In alcuni casi ciò potrebbe essere ottimizzato con dei mezzi specifici del linguaggio (del server). Ad esempio, il <ulink url="https://clangd.llvm.org/config.html"
+>meccanismo di configurazione clangd</ulink
+> permette l'ottimizzazione di alcuni aspetti di diagnostica. In generale, tuttavia, potrebbe non essere evidente come farlo, oppure non affatto possibile nei modi desiderati a causa di limitazioni del server o di bug. </para>
+
+<para
+>Come tale, l'estensione supporta la soppressione della diagnostica in modo simile ad esempio alle soppressioni in Valgrind. La configurazione più raffinata può essere fornita da una chiave «suppressions» nel &JSON; (unito) di configurazione. </para>
+
+<screen
+>{
+    "servers": {
+        "c": {
+            "suppressions": {
+                "rulename": ["filename", "pippo"],
+                "clang_pointer": ["", "clang-tidy", "clear_pointer"],
+            }
+        }
+    }
+}
+</screen>
+
+<para
+>Ogni regola (valida) ha un nome arbitrario ed è definita da un vettore di lunghezza 2 o 3 che fornisce un'espressione regolare da confrontare al nome del file (completo), un'altra da confrontare con la diagnostica (testo) e da un'altra facoltativa da confrontare con (l'intervallo del codice sorgente del) testo a cui si applica la diagnostica. </para>
+
+<para
+>Oltre alla configurazione particolareggiata qui sopra, il menu contestuale nella scheda della diagnostica supporta anche l'aggiunta e la rimozione delle soppressioni che corrispondono esattamente ad una diagnostica particolare (testo), sia a livello globale (qualsiasi file) che locale (il file specifico in questione). Queste soppressione sono memorizzate e vengono caricate dalla configurazione della sessione. </para>
 
 </sect3>
 
@@ -5020,6 +5243,36 @@ when finished.</para
 > e <userinput
 >view</userinput
 >. Per ulteriori informazioni fai riferimento alla documentazione dell'API di scripting.</para>
+<para
+>Per script più complessi può essere importante capire che <emphasis
+>prima</emphasis
+> il frammento grezzo viene inserito nel documento, <emphasis
+>poi</emphasis
+> le funzioni vengono valutate. Ad esempio, se una funzione restituisce il testo della riga nella quale è stato inserito il frammento, quel testo conterrà anche <userinput
+>${functionCall()}</userinput
+>.</para>
+<para
+>Questo frammento è un esempio di come lavorare con le selezioni usando lo scripting con l'API. È un modo semplice per avvolgere il testo selezionato all'interno di etichette: <userinput
+>&lt;strong&gt;${view.selectedText()}&lt;/strong&gt;</userinput
+> </para>
+<para
+>L'esempio seguente invoca uno script che inserisce un testo predefinito nel caso non ci sia nessuna selezione. Frammento:</para>
+<para>
+<userinput
+>${rangeCommand("&lt;strong&gt;%%1&lt;/strong&gt;", "Bold")}</userinput
+></para>
+<para
+>Script: <programlisting
+>function rangeCommand(command, def) {
+    if (view.selectedText().length 
+> 0) {
+        return command.replace("%%1", view.selectedText());
+    } else {
+        return command.replace("%%1", def);
+    }
+}
+</programlisting>
+</para>
 </listitem>
 </varlistentry>
 
@@ -5078,6 +5331,280 @@ when finished.</para
 >I frammenti di &kate; sono stati scritti da Joseph Wenninger.</para>
 <para
 >Ringraziamenti speciali vanno al partecipante del Google Code-In 2011, Martin Gergov, per aver scritto la maggior parte di questa sezione.</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="kate-application-plugin-keyboardmacros">
+<sect1info>
+<authorgroup>
+<!--author
+>&Pablo.Rauzy; &Pablo.Rauzy.mail;</author--> <!-- TODO: use that when the version of KDocTools that Kate depends on has it -->
+<author
+><firstname
+>Pablo</firstname
+> <surname
+>Rauzy</surname
+> <email
+>r .at. uzy.me</email
+></author>
+</authorgroup>
+</sect1info>
+<title
+>Estensione Macro da tastiera</title>
+
+<sect2 id="keyboardmacros-intro">
+<title
+>Introduzione</title>
+<para
+>Registra ed esegui le macro da tastiera (cioè una sequenza di azioni da tastiera).</para>
+</sect2>
+
+<sect2 id="keyboardmacros-basicusage">
+<title
+>Uso basilare</title>
+
+<sect3 id="keyboardmacros-basicusage-record">
+<title
+>Per avviare la registrazione di una macro da tastiera:</title>
+<para
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Macro da tastiera</guimenuitem
+><guimenuitem
+>Registra macro...</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>L'estensione registrerà ogni pressione di tasti fino al termine della registrazione.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-record-end">
+<title
+>Per interrompere la registrazione:</title>
+<para
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Macro da tastiera</guimenuitem
+><guimenuitem
+>Interrompi la registrazione della macro</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>L'estensione interromperà la registrazione della pressione dei tasti e salverà la sequenza come macro corrente.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-record-cancel">
+<title
+>Per annullare la registrazione:</title>
+<para
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Macro da tastiera</guimenuitem
+><guimenuitem
+>Annulla registrazione della macro</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>L'estensione interromperà la registrazione della pressione dei tasti, ma la macro corrente non cambierà.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-basicusage-play">
+<title
+>Per eseguire la macro corrente:</title>
+<para
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Macro da tastiera</guimenuitem
+><guimenuitem
+>Esegui macro</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>L'estensione eseguirà la macro corrente.</para>
+<para
+>Anche il comando <userinput
+>kmplay</userinput
+>, senza argomenti, eseguirà la macro corrente.</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="keyboardmacros-namedmacros">
+<title
+>Macro con nome</title>
+
+<para
+>È possibile salvare le macro da tastiera dandogli un nome.</para>
+<para
+>Le macro con nome sono persistenti tra le sessioni di Kate: vengono salvate nel file <filename
+>keyboardmacros.json</filename
+> che si trova nella cartella dei dati utente di Kate (di solito <filename
+>~/.local/share/kate/</filename
+>).</para>
+
+<sect3 id="keyboardmacros-namedmacros-save">
+<title
+>Per salvare la macro corrente:</title>
+<para
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Macro da tastiera</guimenuitem
+><guimenuitem
+>Salva la macro corrente</guimenuitem
+></menuchoice
+> (<keycombo action="simul"
+>&Alt;&Shift;<keycap
+>K</keycap
+></keycombo
+>). </para>
+<para
+>L'estensione ti chiederà un nome, e salverà la macro con quello.</para>
+<para
+>Il comando <userinput
+>kmsave <replaceable
+>nome</replaceable
+></userinput
+> salverà la macro corrente come <userinput
+><replaceable
+>nome</replaceable
+></userinput
+>.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-load">
+<title
+>Per caricare una macro come la corrente:</title>
+<para
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Macro da tastiera</guimenuitem
+><guimenuitem
+>Carica macro con nome...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>L'estensione elenca le macro salvate come voci di questo sotto-menu: attivandone una, questa verrà caricata come corrente.</para>
+<para
+>Il comando <userinput
+>kmload <replaceable
+>nome</replaceable
+></userinput
+> caricherà come corrente la macro salvata come <userinput
+><replaceable
+>nome</replaceable
+></userinput
+>.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-play">
+<title
+>Per eseguire una macro salvata senza caricarla:</title>
+<para
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Macro da tastiera</guimenuitem
+><guimenuitem
+>Esegui macro con nome...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>L'estensione elenca le macro salvate come voci di questo sotto-menu: attivandone una, la macro corrispondente verrà eseguita senza essere caricata.</para>
+<para
+>Nota che ogni macro salvata è un'azione che fa parte della collezione di azioni corrente; in questo modo una scorciatoia personalizzata può essere assegnata ad essa dall'interfaccia <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Configura scorciatoie da tastiera...</guimenuitem
+></menuchoice
+>.</para>
+<para
+>Il comando <userinput
+>kmplay <replaceable
+>nome</replaceable
+></userinput
+> eseguirà la macro salvata come <userinput
+><replaceable
+>nome</replaceable
+></userinput
+> senza caricarla.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-wipe">
+<title
+>Per pulire, cioè eliminare, una macro salvata:</title>
+<para
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Macro da tastiera</guimenuitem
+><guimenuitem
+>Pulisci macro con nome...</guimenuitem
+></menuchoice
+>. </para>
+<para
+>L'estensione elenca le macro salvate come voci di questo sotto-menu: attivandone una, la macro corrispondente verrà pulita (cioè eliminata).</para>
+<para
+>Il comando <userinput
+>kmwipe <replaceable
+>nome</replaceable
+></userinput
+> pulirà la macro salvata come <userinput
+><replaceable
+>nome</replaceable
+></userinput
+>.</para>
+</sect3>
+
+<sect3 id="keyboardmacros-namedmacros-command-tips">
+<title
+>Suggerimenti per i comandi:</title>
+<para
+>Nota che tutti questi comando dopo il prefisso <userinput
+>km</userinput
+> utilizzano una lettera diversa: in questo modo puoi chiamarli in maniera efficiente usando il completamento con tab!</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="keyboardmacros-limitations">
+<title
+>Limitazioni</title>
+
+<para
+>Al momento le macro da tastiera non vengono eseguite correttamente se nell'interfaccia vengono utilizzati alcuni oggetti, ad esempio QMenu, QuickOpenLineEdit o TabSwitcherTreeView. Non sono sicuro sul perché, ma il mio primo pensiero è che questi oggetti funzionino in una modalità non standard riguardo agli eventi da tastiera.</para>
+
 </sect2>
 
 </sect1>
@@ -5711,6 +6238,21 @@ VALUES ("<replaceable
 </listitem>
 </varlistentry>
 
+<varlistentry id="tools-run-current-document">
+<term
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Esegui il documento attuale</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Esegui il documento attuale in &konsole;. Possono essere eseguiti solo i documenti locali. &kate; mostrerà un avviso prima di eseguire i documenti, perché questa azione può essere una seria minaccia alla sicurezza.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry id="tools-focus-terminal">
 <term
 ><menuchoice
@@ -6223,5 +6765,376 @@ VALUES ("<replaceable
 </sect2>
 </sect1>
 
+<sect1 id="kate-application-plugin-compilerexplorer">
+<title
+>L'estensione Esploratore del compilatore</title>
+
+<para
+>L'estensione Esploratore del compilatore ti permette di usare direttamente in Kate l'esploratore del compilatore. Questo strumento è di solito limitato solamente a un file, ed è difficile vedere il codice generato di un file nel progetto. Questa estensione mira a semplificare questo processo, rilevando automaticamente i comandi di compilazione del tuo file.</para>
+
+<sect2 id="ce-how-to-use">
+<title
+>Uso</title>
+
+<para
+>La prima cosa che devi fare è aprire una scheda dell'esploratore del compilatore: premi <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>I</keycap
+></keycombo
+> per aprire la barra dei comandi, poi cerca «Apri il file corrente nell'Esploratore del compilatore» e premi Invio. Potresti anche voler aggiungere questa azione alla barra degli strumenti, oppure assegnarle una scorciatoia per un accesso più semplice. </para>
+
+<para
+>Successivamente devi impostare un'istanza locale dell'esploratore del compilatore, oppure di usare quella pubblica <ulink url="https://godbolt.org/"
+>https://godbolt.org/</ulink
+> instance. Vedi <ulink url="https://github.com/compiler-explorer/compiler-explorer"
+>https://github.com/compiler-explorer/compiler-explorer</ulink
+>. Dopo averla aggiunta, fai clic sulla casella combinata <guilabel
+>Option</guilabel
+> nella scheda dell'esploratore del compilatore che avevi aperto in precedenza, poi seleziona <guilabel
+>Modifica Url...</guilabel
+>. Inserisci quindi l'url del server dell'esploratore del compilatore.</para>
+
+<para
+>Se devi vedere il codice generato di un file nel progetto hai bisogno anche di un compile_commands.json, diversamente puoi saltare questa parte. Questo può essere ottenuto facilmente se stai utilizzando un sistema di compilazione moderno, ad esempio CMake o Meson. Per CMake è sufficiente passare <code
+>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON</code
+> quando si invoca cmake. Il <code
+>compile_commands.json</code
+> dovrebbe essere messo nella radice del progetto. Chiudi la scheda dell'esploratore del compilatore: quando la riapri dovrebbe essere così. Chiudi la scheda dell'esploratore del compilatore in Kate: quando la riapri dovrebbe mostrare i comandi di compilazione necessari per compilare il file.</para>
+
+<para
+>Se stai usando l'esploratore del compilatore solo per vedere il codice generato per qualcosa di temporaneo, puoi semplicemente scrivere i comandi di compilazione per il tuo file e poi fare clic su <guilabel
+>Compila</guilabel
+>. Nota che la ricompilazione automatica alla modifica non è supportata: devi fare clic su Compila ogni volta che vuoi ricompilare.</para>
+
+<para
+>Quando il file è stato compilato, nella parte destra dovresti vedere il codice generato. Puoi fare clic col tasto destro e selezionare <guilabel
+>Rivela il codice collegato</guilabel
+> per vedere il codice generato di una particolare riga. In maniera simile, nella parte destra puoi fare clic col tasto destro e selezionare <guilabel
+>Scorri al sorgente</guilabel
+> per vedere il codice sorgente di una  certa riga di codice generato.</para>
+
+</sect2>
+
+</sect1>
+
+<!-- BEGIN Format plugin -->
+
+<sect1 id="kate-application-plugin-formatting">
+<title
+>L'estensione Formattazione</title>
+
+<para
+>L'estensione di formattazione permette di formattare il codice in maniera semplice. L'estensione mira a preservare la cronologia degli annullamenti e la posizione del cursore utente durante la formattazione del codice, in modo che l'azione non disturbi il lavoro dell'utente. Questo è particolarmente importante per la formattazione automatica al salvataggio.</para>
+
+<sect2 id="formatting-how-to-use">
+<title
+>Uso</title>
+
+<para
+>Permette all'utente di usare il formattatore del codice in due modi: <itemizedlist>
+<listitem
+><para
+>Manualmente, usando l'azione «Formatta documento».</para
+></listitem>
+<listitem
+><para
+>Automaticamente al salvataggio</para
+></listitem>
+</itemizedlist>
+</para>
+
+<tip
+><para
+>Per un accesso più semplice puoi cercare questa azione nella barra dei comandi, e poi associargli una scorciatoia</para
+></tip>
+
+</sect2>
+
+<sect2 id="formatting-supported-langs-formatters">
+<title
+>Linguaggi e formattatori supportati</title>
+
+<para
+>L'elenco attuale delle lingue e dei formattatori comprende: <itemizedlist>
+
+<listitem
+><para
+>C/C++/ObjectiveC/ObjectiveC++/Protobuf/GLSL/Java - <command
+>clang-format</command
+> </para
+></listitem>
+
+<listitem
+><para
+>Javascript/Typescript/JSX/TSX - <command
+>prettier</command
+> </para
+></listitem>
+
+<listitem
+><para
+>JSON <itemizedlist>
+  <listitem
+><para
+><command
+>prettier</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>clang-format</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>jq</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Dart - <command
+>dartfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Rust - <command
+>rustfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Go - <command
+>gofmt</command
+></para
+></listitem>
+<listitem
+><para
+>XML - <command
+>xmllint</command
+></para
+></listitem>
+<listitem
+><para
+>Zig - <command
+>zigfmt</command
+></para
+></listitem>
+<listitem
+><para
+>CMake - <command
+>cmake-format</command
+></para
+></listitem>
+<listitem
+><para
+>D - <command
+>dfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Fish Shell - <command
+>fish_indent</command
+></para
+></listitem>
+<listitem
+><para
+>Bash - <command
+>shfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Nix - <command
+>nixfmt</command
+></para
+></listitem>
+<listitem
+><para
+>QML - <command
+>qmlformat</command
+></para
+></listitem>
+<listitem
+><para
+>HTML - <command
+>prettier</command
+></para
+></listitem>
+<listitem
+><para
+>Swift - <command
+>swiftformat</command
+></para
+></listitem>
+<listitem
+><para
+>Erlang - <command
+>erlfmt</command
+></para
+></listitem>
+<listitem
+><para
+>Godot Script - <command
+>gdformat</command
+></para
+></listitem>
+
+<listitem
+><para
+>Python <itemizedlist>
+  <listitem
+><para
+><command
+>autopep8</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>ruff</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>YAML <itemizedlist>
+  <listitem
+><para
+><command
+>yamlfmt</command
+></para
+></listitem>
+  <listitem
+><para
+><command
+>prettier</command
+></para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+
+</itemizedlist>
+</para>
+
+</sect2>
+
+<sect2 id="formatting-plugin-configuring">
+<title
+>Configurazione</title>
+
+<para
+>L'estensione può essere configurata in due modi: <itemizedlist>
+<listitem
+><para
+>Globalmente, dalla finestra Configura</para
+></listitem>
+<listitem
+><para
+>Per progetto, usando il file <filename
+>.kateproject</filename
+></para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Alla lettura della configurazione l'estensione prova prima a leggerla dal file <filename
+>.kateproject</filename
+>, quindi legge quella globale. Esempio: </para>
+
+<screen
+>{
+    "formatOnSave": true,
+    "formatterForJson": "jq",
+    "cmake-format": {
+        "formatOnSave": false
+    },
+    "autopep8": {
+        "formatOnSave": false
+    }
+}
+</screen>
+
+<para
+>Quanto sopra: <itemizedlist>
+<listitem
+><para
+>abilita "format on save" globalmente</para
+></listitem>
+<listitem
+><para
+>specifica "jq" come il formattatore per JSON</para
+></listitem>
+<listitem
+><para
+>disabilita "format on save" per cmake-format e per autopep8</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Per configurare il formattatore per un progetto, crea prima un file <filename
+>.kateproject</filename
+> e poi aggiungigli un oggetto <code
+>"formattatore"</code
+>. Qui dentro puoi specificare le impostazioni, come mostrato nell'esempio precedente. Esempio: </para>
+<note
+><para
+>Affinché funzioni devi abilitare l'<link linkend="kate-application-plugin-projects"
+>Estensione di progetto</link
+></para
+></note>
+
+<screen
+>{
+    "name": "My Cool Project",
+    "files": [
+        {
+            "git": 1
+        }
+    ],
+    "formatting": {
+        "formatterForJson": "clang-format",
+        "autopep8": {
+            "formatOnSave": false
+        }
+    }
+}
+</screen>
+
+</sect2>
+
+<sect2 id="formatting-plugin-temp-disable-autosave-format">
+<title
+>Disabilitare temporaneamente la formattazione al salvataggio</title>
+
+<para
+>Mentre lavori, potresti aver spesso bisogno di disabilitare temporaneamente il formattatore per vari di motivi. Puoi farlo dalla barra dei menu, <menuchoice
+><guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Formattazione al salvataggio</guimenuitem
+></menuchoice
+>. Puoi anche innescare questa azione dalla <guilabel
+>Barra dei comandi</guilabel
+>. </para>
+
+</sect2>
+
+</sect1>
+
+<!-- END Format plugin -->
 
 </chapter>

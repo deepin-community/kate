@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: katesymbolviewer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-13 02:54+0100\n"
+"POT-Creation-Date: 2024-12-06 00:43+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -17,64 +17,56 @@ msgstr ""
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
 "3 : 4\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Kevin Scannell"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "kscanne@gmail.com"
-
-#: bash_parser.cpp:32 cpp_parser.cpp:36 fortran_parser.cpp:43
-#: plugin_katesymbolviewer.cpp:89
+#: bash_parser.cpp:25 cpp_parser.cpp:31 fortran_parser.cpp:37
+#: julia_parser.cpp:34 plugin_katesymbolviewer.cpp:86 python_parser.cpp:25
+#: ruby_parser.cpp:21
 #, kde-format
 msgid "Show Functions"
 msgstr "Taispeáin Feidhmeanna"
 
-#: bash_parser.cpp:35 cpp_parser.cpp:48 fortran_parser.cpp:46 php_parser.cpp:37
-#: tcl_parser.cpp:39
+#: bash_parser.cpp:28 cpp_parser.cpp:43 fortran_parser.cpp:40
+#: julia_parser.cpp:60 php_parser.cpp:34 python_parser.cpp:45
+#: ruby_parser.cpp:33 tcl_parser.cpp:35
 #, kde-format
 msgid "Functions"
 msgstr "Feidhmeanna"
 
-#: cpp_parser.cpp:34 plugin_katesymbolviewer.cpp:85
+#: cpp_parser.cpp:29 julia_parser.cpp:32 plugin_katesymbolviewer.cpp:82
 #, kde-format
 msgid "Show Macros"
 msgstr "Taispeáin Macraí"
 
-#: cpp_parser.cpp:35 plugin_katesymbolviewer.cpp:87
+#: cpp_parser.cpp:30 julia_parser.cpp:33 plugin_katesymbolviewer.cpp:84
 #, kde-format
 msgid "Show Structures"
 msgstr "Taispeáin Struchtúir"
 
-#: cpp_parser.cpp:46
+#: cpp_parser.cpp:41 julia_parser.cpp:61
 #, kde-format
 msgid "Macros"
 msgstr "Macraí"
 
-#: cpp_parser.cpp:47
+#: cpp_parser.cpp:42 julia_parser.cpp:59
 #, kde-format
 msgid "Structures"
 msgstr "Struchtúir"
 
-#: fortran_parser.cpp:41 perl_parser.cpp:23
+#: fortran_parser.cpp:35 perl_parser.cpp:23
 #, kde-format
 msgid "Show Subroutines"
 msgstr "Taispeáin foghnáthaimh"
 
-#: fortran_parser.cpp:42
+#: fortran_parser.cpp:36
 #, kde-format
 msgid "Show Modules"
 msgstr "Taispeáin Modúil"
 
-#: fortran_parser.cpp:47 perl_parser.cpp:40
+#: fortran_parser.cpp:41 perl_parser.cpp:35
 #, kde-format
 msgid "Subroutines"
 msgstr "Foghnáthaimh"
 
-#: fortran_parser.cpp:48
+#: fortran_parser.cpp:42
 #, kde-format
 msgid "Modules"
 msgstr "Modúil"
@@ -89,138 +81,138 @@ msgstr "Taispeáin Úsáidí"
 msgid "Show Pragmas"
 msgstr "Taispeáin Pragmanna"
 
-#: perl_parser.cpp:38
+#: perl_parser.cpp:33
 #, kde-format
 msgid "Uses"
 msgstr "Úsáidí"
 
-#: perl_parser.cpp:39
+#: perl_parser.cpp:34
 #, kde-format
 msgid "Pragmas"
 msgstr "Pragmanna"
 
-#: php_parser.cpp:34
+#: php_parser.cpp:31
 #, kde-format
 msgid "Namespaces"
 msgstr "Ainmspásanna"
 
-#: php_parser.cpp:35
+#: php_parser.cpp:32
 #, kde-format
 msgid "Defines"
 msgstr "Sainmhíníonn"
 
-#: php_parser.cpp:36 python_parser.cpp:41 ruby_parser.cpp:41
+#: php_parser.cpp:33 python_parser.cpp:44 ruby_parser.cpp:32
 #, kde-format
 msgid "Classes"
 msgstr "Aicmí"
 
-#: plugin_katesymbolviewer.cpp:69
+#: plugin_katesymbolviewer.cpp:66
 #, kde-format
 msgid "SymbolViewer"
 msgstr "Amharcán Siombailí"
 
-#: plugin_katesymbolviewer.cpp:78
+#: plugin_katesymbolviewer.cpp:75
 #, fuzzy, kde-format
 #| msgid "List/Tree Mode"
 msgid "Tree Mode"
 msgstr "Mód Liosta/Crainn"
 
-#: plugin_katesymbolviewer.cpp:80
+#: plugin_katesymbolviewer.cpp:77
 #, kde-format
 msgid "Expand Tree"
 msgstr ""
 
-#: plugin_katesymbolviewer.cpp:82
+#: plugin_katesymbolviewer.cpp:79
 #, fuzzy, kde-format
 #| msgid "Show Structures"
 msgid "Show Sorted"
 msgstr "Taispeáin Struchtúir"
 
-#: plugin_katesymbolviewer.cpp:91
+#: plugin_katesymbolviewer.cpp:88
 #, fuzzy, kde-format
 #| msgid "Show Params"
 msgid "Show Parameters"
 msgstr "Taispeáin Paraiméadair"
 
-#: plugin_katesymbolviewer.cpp:115
+#: plugin_katesymbolviewer.cpp:114
 #, kde-format
 msgid "Symbol List"
 msgstr "Liosta Siombailí"
 
-#: plugin_katesymbolviewer.cpp:134
+#: plugin_katesymbolviewer.cpp:132
+#, kde-format
+msgid "Filter…"
+msgstr ""
+
+#: plugin_katesymbolviewer.cpp:142
 #, kde-format
 msgctxt "@title:column"
 msgid "Symbols"
 msgstr "Siombailí"
 
-#: plugin_katesymbolviewer.cpp:134
+#: plugin_katesymbolviewer.cpp:142
 #, kde-format
 msgctxt "@title:column"
 msgid "Position"
 msgstr "Ionad"
 
-#: plugin_katesymbolviewer.cpp:347
+#: plugin_katesymbolviewer.cpp:360
 #, fuzzy, kde-format
 #| msgid "Sorry. Language not supported yet"
 msgid "Sorry, not supported yet!"
 msgstr "Ní thacaítear leis an teanga seo fós"
 
-#: plugin_katesymbolviewer.cpp:351
+#: plugin_katesymbolviewer.cpp:364
 #, kde-format
 msgid "File type: %1"
 msgstr ""
 
-#: plugin_katesymbolviewer.cpp:436
+#: plugin_katesymbolviewer.cpp:477
 #, kde-format
 msgid "Display functions parameters"
 msgstr "Taispeáin paraiméadair na bhfeidhmeanna"
 
-#: plugin_katesymbolviewer.cpp:437
+#: plugin_katesymbolviewer.cpp:478
 #, kde-format
 msgid "Automatically expand nodes in tree mode"
 msgstr "Leathnaigh nóid go huathoibríoch sa mhód crainn"
 
-#: plugin_katesymbolviewer.cpp:438
+#: plugin_katesymbolviewer.cpp:479
 #, kde-format
 msgid "Always display symbols in tree mode"
 msgstr ""
 
-#: plugin_katesymbolviewer.cpp:439
+#: plugin_katesymbolviewer.cpp:480
 #, kde-format
 msgid "Always sort symbols"
 msgstr ""
 
-#: plugin_katesymbolviewer.cpp:441
+#: plugin_katesymbolviewer.cpp:482
 #, kde-format
 msgid "Parser Options"
 msgstr "Roghanna Parsálaí"
 
-#: plugin_katesymbolviewer.cpp:469
+#: plugin_katesymbolviewer.cpp:510
 #, kde-format
 msgid "Symbol Viewer"
 msgstr "Amharcán Siombailí"
 
-#: plugin_katesymbolviewer.cpp:473
+#: plugin_katesymbolviewer.cpp:515
 #, kde-format
 msgid "Symbol Viewer Configuration Page"
 msgstr "Leathanach Cumraíochta an Amharcáin Siombailí"
 
-#: python_parser.cpp:21 ruby_parser.cpp:21
-#, kde-format
-msgid "Show Globals"
-msgstr "Taispeáin Siombailí Comhchoiteanna"
-
-#: python_parser.cpp:22 ruby_parser.cpp:22
+#: python_parser.cpp:26 ruby_parser.cpp:22
 #, kde-format
 msgid "Show Methods"
 msgstr "Taispeáin Modhanna"
 
-#: python_parser.cpp:23 ruby_parser.cpp:23
+#: python_parser.cpp:27 ruby_parser.cpp:23
 #, kde-format
 msgid "Show Classes"
 msgstr "Taispeáin Aicmí"
 
-#: python_parser.cpp:42 tcl_parser.cpp:40
+#: tcl_parser.cpp:36
 #, kde-format
 msgid "Globals"
 msgstr "Siombailí Comhchoiteanna"
@@ -252,20 +244,31 @@ msgstr "Taispeáin Athróga"
 msgid "Show Templates"
 msgstr "Taispeáin Teimpléid"
 
-#: xslt_parser.cpp:45
+#: xslt_parser.cpp:34
 #, kde-format
 msgid "Params"
 msgstr "Paraiméadair"
 
-#: xslt_parser.cpp:46
+#: xslt_parser.cpp:35
 #, kde-format
 msgid "Variables"
 msgstr "Athróga"
 
-#: xslt_parser.cpp:47
+#: xslt_parser.cpp:36
 #, kde-format
 msgid "Templates"
 msgstr "Teimpléid"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kevin Scannell"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "kscanne@gmail.com"
+
+#~ msgid "Show Globals"
+#~ msgstr "Taispeáin Siombailí Comhchoiteanna"
 
 #~ msgid "Refresh List"
 #~ msgstr "Athnuaigh an Liosta"

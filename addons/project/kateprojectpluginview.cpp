@@ -6,37 +6,39 @@
  */
 
 #include "kateprojectpluginview.h"
+#include "branchcheckoutdialog.h"
+#include "currentgitbranchbutton.h"
 #include "fileutil.h"
+#include "gitprocess.h"
 #include "gitwidget.h"
 #include "kateproject.h"
 #include "kateprojectinfoview.h"
 #include "kateprojectinfoviewindex.h"
 #include "kateprojectplugin.h"
 #include "kateprojectview.h"
+#include "ktexteditor_utils.h"
 
 #include <KTextEditor/Command>
+#include <KTextEditor/Document>
 #include <ktexteditor/application.h>
-#include <ktexteditor/codecompletioninterface.h>
-#include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
 #include <ktexteditor/view.h>
 
-#include <KAboutData>
+#include <kconfigwidgets_version.h>
+
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KLocalizedString>
 #include <KPluginFactory>
+#include <KStandardAction>
 #include <KStringHandler>
 #include <KXMLGUIFactory>
+#include <KXmlGuiWindow>
 
 #include <QAction>
-#include <QDialog>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QKeyEvent>
-#include <QMenu>
-#include <QTimer>
-#include <QVBoxLayout>
 
 #define PROJECTCLOSEICON "window-close"
 
@@ -53,7 +55,7 @@ KateProjectPluginView::KateProjectPluginView(KateProjectPlugin *plugin, KTextEdi
     , m_gotoSymbolAction(nullptr)
     , m_gotoSymbolActionAppMenu(nullptr)
 {
-    KXMLGUIClient::setComponentName(QStringLiteral("kateproject"), i18n("Kate Project Manager"));
+    KXMLGUIClient::setComponentName(QStringLiteral("kateproject"), i18n("Project Manager"));
     setXMLFile(QStringLiteral("ui.rc"));
 
     /**
@@ -64,29 +66,28 @@ KateProjectPluginView::KateProjectPluginView(KateProjectPlugin *plugin, KTextEdi
                                               KTextEditor::MainWindow::Left,
                                               QIcon::fromTheme(QStringLiteral("project-open")),
                                               i18n("Projects"));
-    m_gitToolView.reset(m_mainWindow->createToolView(m_plugin,
-                                                     QStringLiteral("kateprojectgit"),
-                                                     KTextEditor::MainWindow::Left,
-                                                     QIcon(QStringLiteral(":/icons/icons/sc-apps-git.svg")),
-                                                     i18n("Git")));
+    m_gitToolView.reset(m_mainWindow->createToolView(m_plugin, QStringLiteral("kateprojectgit"), KTextEditor::MainWindow::Left, gitIcon(), i18n("Git")));
     m_toolInfoView = m_mainWindow->createToolView(m_plugin,
                                                   QStringLiteral("kateprojectinfo"),
                                                   KTextEditor::MainWindow::Bottom,
                                                   QIcon::fromTheme(QStringLiteral("view-choose")),
-                                                  i18n("Current Project"));
+                                                  i18n("Project"));
 
     /**
      * create the combo + buttons for the toolViews + stacked widgets
      */
     m_projectsCombo = new QComboBox(m_toolView);
+    m_projectsCombo->setToolTip(i18n("Open projects list"));
     m_projectsCombo->setFrame(false);
     m_reloadButton = new QToolButton(m_toolView);
     m_reloadButton->setAutoRaise(true);
     m_reloadButton->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
+    m_reloadButton->setToolTip(i18n("Reload project"));
     m_closeProjectButton = new QToolButton(m_toolView);
     m_closeProjectButton->setAutoRaise(true);
+    m_closeProjectButton->setToolTip(i18n("Close project"));
     m_closeProjectButton->setIcon(QIcon::fromTheme(QStringLiteral(PROJECTCLOSEICON)));
-    QHBoxLayout *layout = new QHBoxLayout();
+    auto *layout = new QHBoxLayout();
     layout->setSpacing(0);
     layout->addWidget(m_projectsCombo);
     layout->addWidget(m_reloadButton);
@@ -94,40 +95,29 @@ KateProjectPluginView::KateProjectPluginView(KateProjectPlugin *plugin, KTextEdi
     m_toolView->layout()->addItem(layout);
     m_toolView->layout()->setSpacing(0);
 
-    m_projectsComboGit = new QComboBox(m_gitToolView.get());
-    m_projectsComboGit->setFrame(false);
-    m_gitStatusRefreshButton = new QToolButton(m_gitToolView.get());
-    m_gitStatusRefreshButton->setAutoRaise(true);
-    m_gitStatusRefreshButton->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
-    layout = new QHBoxLayout();
-    layout->setSpacing(0);
-    layout->addWidget(m_projectsComboGit);
-    layout->addWidget(m_gitStatusRefreshButton);
-    m_gitToolView->layout()->addItem(layout);
+    auto separator = new QFrame(m_toolView);
+    separator->setFrameShape(QFrame::HLine);
+    separator->setEnabled(false);
+    m_toolView->layout()->addWidget(separator);
+
     m_gitToolView->layout()->setSpacing(0);
 
     m_stackedProjectViews = new QStackedWidget(m_toolView);
     m_stackedProjectInfoViews = new QStackedWidget(m_toolInfoView);
-    m_stackedgitViews = new QStackedWidget(m_gitToolView.get());
+    m_gitWidget = new GitWidget(m_mainWindow, this, m_gitToolView.get());
 
-    connect(m_projectsCombo,
-            static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            m_projectsComboGit,
-            static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged));
-    connect(m_projectsComboGit, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int index) {
-        m_projectsCombo->setCurrentIndex(index);
-    });
     connect(m_projectsCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KateProjectPluginView::slotCurrentChanged);
     connect(m_reloadButton, &QToolButton::clicked, this, &KateProjectPluginView::slotProjectReload);
 
-    connect(m_closeProjectButton, &QToolButton::clicked, this, &KateProjectPluginView::slotProjectAboutToClose);
-    connect(m_plugin, &KateProjectPlugin::pluginViewProjectClosing, this, &KateProjectPluginView::slotProjectClose);
+    connect(m_closeProjectButton, &QToolButton::clicked, this, &KateProjectPluginView::slotCloseProject);
+    connect(m_plugin, &KateProjectPlugin::pluginViewProjectClosing, this, &KateProjectPluginView::slotHandleProjectClosing);
 
-    connect(m_gitStatusRefreshButton, &QToolButton::clicked, this, [this] {
-        if (auto widget = m_stackedgitViews->currentWidget()) {
-            qobject_cast<GitWidget *>(widget)->getStatus();
+    connect(&m_plugin->fileWatcher(), &QFileSystemWatcher::fileChanged, this, [this](const QString &path) {
+        if (m_gitChangedWatcherFile == path) {
+            slotUpdateStatus(true);
         }
     });
+
     /**
      * create views for all already existing projects
      * will create toolviews on demand!
@@ -166,33 +156,66 @@ KateProjectPluginView::KateProjectPluginView(KateProjectPlugin *plugin, KTextEdi
     }
 
     /**
-     * trigger once view change, to highlight right document
-     */
-    slotViewChanged();
-
-    /**
      * back + forward
      */
-    auto a = actionCollection()->addAction(QStringLiteral("projects_open_project"), this, SLOT(openDirectoryOrProject()));
-    a->setText(i18n("Open Folder..."));
+    auto a = actionCollection()->addAction(QStringLiteral("projects_open_project"), this, [this] {
+        openDirectoryOrProject();
+    });
+    a->setText(i18n("Open &Folder..."));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("document-open-folder")));
+    KActionCollection::setDefaultShortcut(a, QKeySequence(QKeySequence(QStringLiteral("Ctrl+T, O"), QKeySequence::PortableText)));
 
-    a = actionCollection()->addAction(QStringLiteral("projects_todos"), this, SLOT(showProjectTodos()));
+    m_projectTodosAction = a = actionCollection()->addAction(QStringLiteral("projects_todos"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::showProjectTodos);
     a->setText(i18n("Project TODOs"));
     a->setIcon(QIcon::fromTheme(QStringLiteral("korg-todo")));
 
-    a = actionCollection()->addAction(KStandardAction::Back, QStringLiteral("projects_prev_project"), this, SLOT(slotProjectPrev()));
-    actionCollection()->setDefaultShortcut(a, QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Left));
+    m_projectPrevAction = a = actionCollection()->addAction(QStringLiteral("projects_prev_project"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::slotProjectPrev);
+    a->setText(i18n("Activate Previous Project"));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("arrow-left")));
+    KActionCollection::setDefaultShortcut(a, QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Left));
 
-    a = actionCollection()->addAction(KStandardAction::Forward, QStringLiteral("projects_next_project"), this, SLOT(slotProjectNext()));
-    actionCollection()->setDefaultShortcut(a, QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Right));
+    m_projectNextAction = a = actionCollection()->addAction(QStringLiteral("projects_next_project"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::slotProjectNext);
+    a->setText(i18n("Activate Next Project"));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("arrow-right")));
+    KActionCollection::setDefaultShortcut(a, QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Right));
 
-    a = actionCollection()->addAction(QStringLiteral("projects_goto_index"), this, SLOT(slotProjectIndex()));
+    m_projectGotoIndexAction = a = actionCollection()->addAction(QStringLiteral("projects_goto_index"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::slotProjectIndex);
     a->setText(i18n("Lookup"));
-    actionCollection()->setDefaultShortcut(a, QKeySequence(Qt::ALT | Qt::Key_1));
-    a = actionCollection()->addAction(QStringLiteral("projects_close"), this, SLOT(slotProjectAboutToClose()));
+    KActionCollection::setDefaultShortcut(a, QKeySequence(Qt::ALT | Qt::Key_1));
+
+    m_projectCloseAction = a = actionCollection()->addAction(QStringLiteral("projects_close"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::slotCloseProject);
     a->setText(i18n("Close Project"));
     a->setIcon(QIcon::fromTheme(QStringLiteral(PROJECTCLOSEICON)));
-    m_gotoSymbolActionAppMenu = a = actionCollection()->addAction(KStandardAction::Goto, QStringLiteral("projects_goto_symbol"), this, SLOT(slotGotoSymbol()));
+
+    m_projectCloseAllAction = a = actionCollection()->addAction(QStringLiteral("projects_close_all"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::slotCloseAllProjects);
+    a->setText(i18n("Close All Projects"));
+    a->setIcon(QIcon::fromTheme(QStringLiteral(PROJECTCLOSEICON)));
+
+    m_projectCloseWithoutDocumentsAction = a = actionCollection()->addAction(QStringLiteral("projects_close_without_open_documents"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::slotCloseAllProjectsWithoutDocuments);
+    a->setText(i18n("Close Orphaned Projects"));
+    a->setIcon(QIcon::fromTheme(QStringLiteral(PROJECTCLOSEICON)));
+
+    m_projectReloadAction = a = actionCollection()->addAction(QStringLiteral("project_reload"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::slotProjectReload);
+    a->setText(i18n("Reload Project"));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
+
+    m_gotoSymbolActionAppMenu = a = actionCollection()->addAction(KStandardAction::Goto, QStringLiteral("projects_goto_symbol"));
+    connect(a, &QAction::triggered, this, &KateProjectPluginView::slotGotoSymbol);
+
+    auto chckbrAct = actionCollection()->addAction(QStringLiteral("checkout_branch"), this, [this] {
+        auto *bd = new BranchCheckoutDialog(mainWindow()->window(), projectBaseDir());
+        bd->openDialog();
+    });
+    chckbrAct->setIcon(QIcon::fromTheme(QStringLiteral("vcs-branch")));
+    chckbrAct->setText(i18n("Checkout Git Branch"));
 
     // popup menu
     auto popup = new KActionMenu(i18n("Project"), this);
@@ -217,6 +240,17 @@ KateProjectPluginView::KateProjectPluginView(KateProjectPlugin *plugin, KTextEdi
      * align to current config
      */
     slotConfigUpdated();
+
+    /**
+     * trigger once view change, to highlight right document
+     */
+    slotViewChanged();
+
+    /**
+     * ensure proper action update, to enable/disable stuff
+     */
+    connect(this, &KateProjectPluginView::projectMapChanged, this, &KateProjectPluginView::updateActions);
+    updateActions();
 }
 
 KateProjectPluginView::~KateProjectPluginView()
@@ -224,10 +258,10 @@ KateProjectPluginView::~KateProjectPluginView()
     /**
      * cleanup for all views
      */
-    for (QObject *view : qAsConst(m_textViews)) {
-        KTextEditor::CodeCompletionInterface *cci = qobject_cast<KTextEditor::CodeCompletionInterface *>(view);
-        if (cci) {
-            cci->unregisterCompletionModel(m_plugin->completion());
+    for (QObject *view : std::as_const(m_textViews)) {
+        auto *v = qobject_cast<KTextEditor::View *>(view);
+        if (v) {
+            v->unregisterCompletionModel(m_plugin->completion());
         }
     }
 
@@ -245,6 +279,11 @@ KateProjectPluginView::~KateProjectPluginView()
      * cu gui client
      */
     m_mainWindow->guiFactory()->removeClient(this);
+
+    // Don't watch what nobody use, the old project...
+    if (!m_gitChangedWatcherFile.isEmpty()) {
+        m_plugin->fileWatcher().removePath(m_gitChangedWatcherFile);
+    }
 }
 
 void KateProjectPluginView::slotConfigUpdated()
@@ -263,8 +302,7 @@ void KateProjectPluginView::slotConfigUpdated()
     }
 
     // update action state
-    m_gotoSymbolActionAppMenu->setEnabled(m_toolMultiView);
-    m_gotoSymbolAction->setEnabled(m_toolMultiView);
+    updateActions();
 }
 
 QPair<KateProjectView *, KateProjectInfoView *> KateProjectPluginView::viewForProject(KateProject *project)
@@ -284,9 +322,8 @@ QPair<KateProjectView *, KateProjectInfoView *> KateProjectPluginView::viewForPr
     /**
      * create new views
      */
-    KateProjectView *view = new KateProjectView(this, project, m_mainWindow);
-    KateProjectInfoView *infoView = new KateProjectInfoView(this, project);
-    GitWidget *gitView = new GitWidget(project, m_mainWindow, this);
+    auto *view = new KateProjectView(this, project);
+    auto *infoView = new KateProjectInfoView(this, project);
 
     /**
      * attach to toolboxes
@@ -294,9 +331,20 @@ QPair<KateProjectView *, KateProjectInfoView *> KateProjectPluginView::viewForPr
      */
     m_stackedProjectViews->addWidget(view);
     m_stackedProjectInfoViews->addWidget(infoView);
-    m_stackedgitViews->addWidget(gitView);
     m_projectsCombo->addItem(QIcon::fromTheme(QStringLiteral("project-open")), project->name(), project->fileName());
-    m_projectsComboGit->addItem(QIcon::fromTheme(QStringLiteral("project-open")), project->name(), project->fileName());
+    connect(project, &KateProject::projectMapChanged, this, [this] {
+        auto widget = m_stackedProjectViews->currentWidget();
+        auto project = static_cast<KateProjectView *>(widget)->project();
+        if (widget && project == sender()) {
+            Q_EMIT projectMapEdited();
+
+            int index = m_projectsCombo->findData(project->fileName());
+            Q_ASSERT(index == m_projectsCombo->currentIndex());
+            if (index != -1) {
+                m_projectsCombo->setItemText(index, project->name());
+            }
+        }
+    });
 
     /*
      * inform onward
@@ -349,9 +397,21 @@ QVariantMap KateProjectPluginView::projectMap() const
     return static_cast<KateProjectView *>(active)->project()->projectMap();
 }
 
+QVariantMap KateProjectPluginView::projectMapFor(const QString &baseDir) const
+{
+    const auto projects = m_plugin->projects();
+
+    for (const auto proj : projects) {
+        if (proj->baseDir() == baseDir) {
+            return proj->projectMap();
+        }
+    }
+    return QVariantMap();
+}
+
 QStringList KateProjectPluginView::projectFiles() const
 {
-    KateProjectView *active = static_cast<KateProjectView *>(m_stackedProjectViews->currentWidget());
+    auto *active = static_cast<KateProjectView *>(m_stackedProjectViews->currentWidget());
     if (!active) {
         return QStringList();
     }
@@ -403,6 +463,16 @@ QMap<QString, QString> KateProjectPluginView::allProjects() const
     return projectMap;
 }
 
+ProjectNamesDirAndMap KateProjectPluginView::allProjectMaps() const
+{
+    ProjectNamesDirAndMap ret;
+    const QList<KateProject *> projectList = m_plugin->projects();
+    for (KateProject *project : projectList) {
+        ret.push_back({project->name(), project->baseDir(), project->projectMap()});
+    }
+    return ret;
+}
+
 void KateProjectPluginView::slotViewChanged()
 {
     /**
@@ -414,7 +484,8 @@ void KateProjectPluginView::slotViewChanged()
      * update pointer, maybe disconnect before
      */
     if (m_activeTextEditorView) {
-        m_activeTextEditorView->document()->disconnect(this);
+        // but only url changed
+        disconnect(m_activeTextEditorView->document(), &KTextEditor::Document::documentUrlChanged, this, &KateProjectPluginView::slotDocumentUrlChanged);
     }
     m_activeTextEditorView = activeView;
 
@@ -431,9 +502,23 @@ void KateProjectPluginView::slotViewChanged()
     connect(m_activeTextEditorView->document(), &KTextEditor::Document::documentUrlChanged, this, &KateProjectPluginView::slotDocumentUrlChanged);
 
     /**
+     * Watch any document, as long as we live, if it's saved
+     */
+    connect(m_activeTextEditorView->document(),
+            &KTextEditor::Document::documentSavedOrUploaded,
+            this,
+            &KateProjectPluginView::slotDocumentSaved,
+            Qt::UniqueConnection);
+
+    /**
      * trigger slot once
      */
     slotDocumentUrlChanged(m_activeTextEditorView->document());
+}
+
+void KateProjectPluginView::slotDocumentSaved()
+{
+    slotUpdateStatus(true);
 }
 
 void KateProjectPluginView::slotCurrentChanged(int index)
@@ -441,12 +526,6 @@ void KateProjectPluginView::slotCurrentChanged(int index)
     // trigger change of stacked widgets
     m_stackedProjectViews->setCurrentIndex(index);
     m_stackedProjectInfoViews->setCurrentIndex(index);
-    m_stackedgitViews->setCurrentIndex(index);
-
-    {
-        const QSignalBlocker blocker(m_projectsComboGit);
-        m_projectsComboGit->setCurrentIndex(index);
-    }
 
     // update focus proxy + open currently selected document
     if (QWidget *current = m_stackedProjectViews->currentWidget()) {
@@ -459,15 +538,22 @@ void KateProjectPluginView::slotCurrentChanged(int index)
         m_stackedProjectInfoViews->setFocusProxy(current);
     }
 
-    // update git focus proxy + update status
-    if (QWidget *current = m_stackedgitViews->currentWidget()) {
-        m_stackedgitViews->setFocusProxy(current);
-        static_cast<GitWidget *>(current)->getStatus();
+    // Don't watch what nobody use, the old project...
+    if (!m_gitChangedWatcherFile.isEmpty()) {
+        m_plugin->fileWatcher().removePath(m_gitChangedWatcherFile);
+        m_gitChangedWatcherFile.clear();
     }
+
+    // ...and start watching the new one
+    slotUpdateStatus(true);
 
     // project file name might have changed
     Q_EMIT projectFileNameChanged();
     Q_EMIT projectMapChanged();
+
+    if (auto widget = gitWidget()) {
+        widget->updateGitProjectFolder();
+    }
 }
 
 void KateProjectPluginView::slotDocumentUrlChanged(KTextEditor::Document *document)
@@ -496,7 +582,7 @@ void KateProjectPluginView::slotDocumentUrlChanged(KTextEditor::Document *docume
      * get active project view and switch it, if it is for a different project
      * do this AFTER file selection
      */
-    KateProjectView *active = static_cast<KateProjectView *>(m_stackedProjectViews->currentWidget());
+    auto *active = static_cast<KateProjectView *>(m_stackedProjectViews->currentWidget());
     if (active != m_project2View.value(project).first) {
         int index = m_projectsCombo->findData(project->fileName());
         if (index >= 0) {
@@ -519,7 +605,7 @@ void KateProjectPluginView::switchToProject(const QDir &dir)
      * get active project view and switch it, if it is for a different project
      * do this AFTER file selection
      */
-    KateProjectView *active = static_cast<KateProjectView *>(m_stackedProjectViews->currentWidget());
+    auto *active = static_cast<KateProjectView *>(m_stackedProjectViews->currentWidget());
     if (active != m_project2View.value(project).first) {
         int index = m_projectsCombo->findData(project->fileName());
         if (index >= 0) {
@@ -538,10 +624,7 @@ void KateProjectPluginView::slotViewCreated(KTextEditor::View *view)
     /**
      * add completion model if possible
      */
-    KTextEditor::CodeCompletionInterface *cci = qobject_cast<KTextEditor::CodeCompletionInterface *>(view);
-    if (cci) {
-        cci->registerCompletionModel(m_plugin->completion());
-    }
+    view->registerCompletionModel(m_plugin->completion());
 
     /**
      * remember for this view we need to cleanup!
@@ -594,40 +677,68 @@ void KateProjectPluginView::slotProjectReload()
     /**
      * Refresh git status
      */
-    if (auto widget = m_stackedgitViews->currentWidget()) {
-        qobject_cast<GitWidget *>(widget)->getStatus();
+    if (auto widget = gitWidget()) {
+        widget->updateStatus();
     }
 }
 
-void KateProjectPluginView::slotProjectAboutToClose()
+void KateProjectPluginView::slotCloseProject()
 {
     if (QWidget *current = m_stackedProjectViews->currentWidget()) {
         m_plugin->closeProject(static_cast<KateProjectView *>(current)->project());
     }
 }
 
-void KateProjectPluginView::slotProjectClose(KateProject *project)
+void KateProjectPluginView::slotCloseAllProjects()
 {
-    const int index = m_plugin->projects().indexOf(project);
-    m_project2View.erase(m_project2View.find(project));
+    // we must close project after project
+    // project closing might activate a different one and then would load the files of that project again
+    const auto copiedProjects = m_plugin->projects();
+    for (auto project : copiedProjects) {
+        m_plugin->closeProject(project);
+    }
+}
 
-    QWidget *stackedProjectViewsWidget = m_stackedProjectViews->widget(index);
-    m_stackedProjectViews->removeWidget(stackedProjectViewsWidget);
-    delete stackedProjectViewsWidget;
+void KateProjectPluginView::slotCloseAllProjectsWithoutDocuments()
+{
+    // we must close project after project
+    // project closing might activate a different one and then would load the files of that project again
+    const auto copiedProjects = m_plugin->projects();
+    for (auto project : copiedProjects) {
+        if (!m_plugin->projectHasOpenDocuments(project)) {
+            m_plugin->closeProject(project);
+        }
+    }
+}
 
-    QWidget *stackedProjectInfoViewsWidget = m_stackedProjectInfoViews->widget(index);
-    m_stackedProjectInfoViews->removeWidget(stackedProjectInfoViewsWidget);
-    delete stackedProjectInfoViewsWidget;
+void KateProjectPluginView::slotHandleProjectClosing(KateProject *project)
+{
+    const auto viewIt = m_project2View.find(project);
+    Q_ASSERT(viewIt != m_project2View.end());
 
-    QWidget *stackedgitViewsWidget = m_stackedgitViews->widget(index);
-    m_stackedgitViews->removeWidget(stackedgitViewsWidget);
-    delete stackedgitViewsWidget;
+    const int index = m_stackedProjectViews->indexOf(viewIt->first);
+
+    m_stackedProjectViews->removeWidget(viewIt->first);
+    delete viewIt->first;
+
+    m_stackedProjectInfoViews->removeWidget(viewIt->second);
+    delete viewIt->second;
+
+    m_project2View.erase(viewIt);
 
     m_projectsCombo->removeItem(index);
-    m_projectsComboGit->removeItem(index);
+
+    // Stop watching what no one is interesting anymore
+    if (!m_gitChangedWatcherFile.isEmpty()) {
+        m_plugin->fileWatcher().removePath(m_gitChangedWatcherFile);
+        m_gitChangedWatcherFile.clear();
+    }
 
     // inform onward
     Q_EMIT pluginProjectRemoved(project->baseDir(), project->name());
+
+    // update actions, e.g. the close all stuff needs this
+    updateActions();
 }
 
 QString KateProjectPluginView::currentWord() const
@@ -693,7 +804,7 @@ void KateProjectPluginView::handleEsc(QEvent *e)
         return;
     }
 
-    QKeyEvent *k = static_cast<QKeyEvent *>(e);
+    auto *k = static_cast<QKeyEvent *>(e);
     if (k->key() == Qt::Key_Escape && k->modifiers() == Qt::NoModifier) {
         const auto infoView = qobject_cast<const KateProjectInfoView *>(m_stackedProjectInfoViews->currentWidget());
         if (m_toolInfoView->isVisible() && (!infoView || !infoView->ignoreEsc())) {
@@ -708,20 +819,60 @@ void KateProjectPluginView::slotUpdateStatus(bool visible)
         return;
     }
 
-    if (auto widget = m_stackedgitViews->currentWidget()) {
-        static_cast<GitWidget *>(widget)->getStatus();
+    if (auto widget = gitWidget()) {
+        // To support separate-git-dir always use dotGitPath
+        // We need to add the path every time again because it's always a different file
+        if (!m_gitChangedWatcherFile.isEmpty()) {
+            m_plugin->fileWatcher().removePath(m_gitChangedWatcherFile);
+        }
+        m_gitChangedWatcherFile = widget->indexPath();
+        if (!m_gitChangedWatcherFile.isEmpty()) {
+            m_plugin->fileWatcher().addPath(m_gitChangedWatcherFile);
+        }
+        widget->updateStatus();
     }
 }
 
 void KateProjectPluginView::openDirectoryOrProject()
 {
-    const QString dir = QFileDialog::getExistingDirectory(nullptr, i18n("Choose a directory"), QDir::currentPath());
-    auto project = m_plugin->projectForDir(dir, true);
-    // switch to this project
-    if (project) {
-        int index = m_projectsCombo->findData(project->fileName());
-        if (index >= 0) {
-            m_projectsCombo->setCurrentIndex(index);
+    // get dir or do nothing
+    QFileDialog::Options opts;
+    opts.setFlag(QFileDialog::ShowDirsOnly);
+    opts.setFlag(QFileDialog::ReadOnly);
+    const QString dir = QFileDialog::getExistingDirectory(m_mainWindow->window(), i18n("Choose a directory"), QDir::currentPath(), opts);
+    if (dir.isEmpty()) {
+        return;
+    }
+
+    openDirectoryOrProject(dir);
+}
+
+void KateProjectPluginView::openDirectoryOrProject(const QDir &dir)
+{
+    // switch to this project if there
+    if (auto project = m_plugin->projectForDir(dir, true)) {
+        openProject(project);
+    }
+}
+
+void KateProjectPluginView::openProject(KateProject *project)
+{
+    // just activate the right plugin in the toolview
+    slotActivateProject(project);
+
+    // this is a user action, ensure the toolview is visible
+    mainWindow()->showToolView(m_toolView);
+
+    // add the project to the recently opened items list
+    if (auto *parentClient = qobject_cast<KXmlGuiWindow *>(m_mainWindow->window())) {
+        if (auto *openRecentAction = parentClient->action(KStandardAction::name(KStandardAction::StandardAction::OpenRecent))) {
+            if (auto *recentFilesAction = qobject_cast<KRecentFilesAction *>(openRecentAction)) {
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(6, 9, 0)
+                recentFilesAction->addUrl(QUrl::fromLocalFile(project->baseDir()), QString(), QStringLiteral("inode/directory"));
+#else
+                recentFilesAction->addUrl(QUrl::fromLocalFile(project->baseDir()));
+#endif
+            }
         }
     }
 }
@@ -736,30 +887,75 @@ void KateProjectPluginView::showProjectTodos()
     pgrep->exec(nullptr, QStringLiteral("preg (TODO|FIXME)\\b"), msg);
 }
 
-void KateProjectPluginView::showDiffInFixedView(const QByteArray &contents)
-{
-    if (!m_fixedView.view) {
-        m_fixedView.view = mainWindow()->openUrl(QUrl());
-        m_fixedView.defaultMenu = m_fixedView.view->contextMenu();
-    }
-
-    m_fixedView.view->document()->setText(QString::fromUtf8(contents));
-    m_fixedView.view->document()->setHighlightingMode(QStringLiteral("Diff"));
-    /** We don't want save dialog on close */
-    m_fixedView.view->document()->setModified(false);
-    m_fixedView.view->setCursorPosition({0, 0});
-    m_fixedView.restoreMenu();
-    /** Activate this view */
-    m_mainWindow->activateView(m_fixedView.view->document());
-}
-
 void KateProjectPluginView::openTerminal(const QString &dirPath, KateProject *project)
 {
     m_mainWindow->showToolView(m_toolInfoView);
 
-    if (m_project2View.contains(project)) {
-        m_project2View.find(project)->second->resetTerminal(dirPath);
+    auto it = m_project2View.constFind(project);
+    if (it != m_project2View.cend()) {
+        it->second->resetTerminal(dirPath);
+    }
+}
+
+void KateProjectPluginView::updateActions()
+{
+    const bool hasMultipleProjects = m_projectsCombo->count() > 1;
+    // currently some project active?
+    const bool projectActive = !projectBaseDir().isEmpty();
+    m_projectsCombo->setEnabled(projectActive);
+    m_reloadButton->setEnabled(projectActive);
+    m_closeProjectButton->setEnabled(projectActive);
+    m_projectTodosAction->setEnabled(projectActive);
+    m_projectPrevAction->setEnabled(projectActive && hasMultipleProjects);
+    m_projectNextAction->setEnabled(projectActive && hasMultipleProjects);
+    m_projectCloseAction->setEnabled(projectActive);
+    m_projectCloseAllAction->setEnabled(hasMultipleProjects);
+    m_projectCloseWithoutDocumentsAction->setEnabled(m_projectsCombo->count() > 0);
+
+    const bool hasIndex = projectActive && m_plugin->getIndexEnabled();
+    m_lookupAction->setVisible(hasIndex);
+    m_gotoSymbolAction->setVisible(hasIndex);
+    m_projectGotoIndexAction->setVisible(hasIndex);
+    m_gotoSymbolActionAppMenu->setVisible(hasIndex);
+    actionCollection()->action(QStringLiteral("popup_project"))->setVisible(hasIndex);
+}
+
+void KateProjectPluginView::slotActivateProject(KateProject *project)
+{
+    const int index = m_projectsCombo->findData(project->fileName());
+    if (index >= 0) {
+        m_projectsCombo->setCurrentIndex(index);
+    }
+}
+
+void KateProjectPluginView::updateGitBranchButton(KateProject *project)
+{
+    if (!m_branchBtn) {
+        m_branchBtn.reset(new CurrentGitBranchButton(mainWindow(), this, nullptr));
+        auto a = actionCollection()->action(QStringLiteral("checkout_branch"));
+        Q_ASSERT(a);
+        m_branchBtn->setDefaultAction(a);
+        Utils::insertWidgetInStatusbar(m_branchBtn.get(), mainWindow());
+    }
+
+    if (!project || project->baseDir() != projectBaseDir()) {
+        return;
+    }
+
+    static_cast<CurrentGitBranchButton *>(m_branchBtn.get())->refresh();
+}
+
+GitWidget *KateProjectPluginView::gitWidget()
+{
+    return m_gitWidget;
+}
+
+void KateProjectPluginView::runCmdInTerminal(const QString &cmd)
+{
+    if (auto widget = qobject_cast<KateProjectInfoView *>(m_stackedProjectInfoViews->currentWidget())) {
+        widget->runCmdInTerminal(cmd);
     }
 }
 
 #include "kateprojectpluginview.moc"
+#include "moc_kateprojectpluginview.cpp"

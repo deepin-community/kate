@@ -5,8 +5,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef SearchDiskFiles_h
-#define SearchDiskFiles_h
+#pragma once
 
 // Qt
 #include <QMutex>
@@ -166,21 +165,20 @@ class SearchDiskFiles : public QObject, public QRunnable
     Q_OBJECT
 
 public:
-    SearchDiskFiles(SearchDiskFilesWorkList &worklist, const QRegularExpression &regexp, const bool includeBinaryFiles);
+    SearchDiskFiles(SearchDiskFilesWorkList &worklist, const QRegularExpression &regexp, const bool includeBinaryFiles, const int sizeLimit);
 
     void run() override;
 
 Q_SIGNALS:
-    void matchesFound(const QUrl &url, const QVector<KateSearchMatch> &searchMatches);
+    void matchesFound(const QUrl &url, const QList<KateSearchMatch> &searchMatches, KTextEditor::Document *doc = nullptr);
 
 private:
-    QVector<KateSearchMatch> searchSingleLineRegExp(QFile &file);
-    QVector<KateSearchMatch> searchMultiLineRegExp(QFile &file);
+    QList<KateSearchMatch> searchSingleLineRegExp(QFile &file);
+    QList<KateSearchMatch> searchMultiLineRegExp(QFile &file);
 
 private:
     SearchDiskFilesWorkList &m_worklist;
     const QRegularExpression m_regExp;
-    bool m_includeBinaryFiles = false;
+    const bool m_includeBinaryFiles;
+    const int m_sizeLimit;
 };
-
-#endif

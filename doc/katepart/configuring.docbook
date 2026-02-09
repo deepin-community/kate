@@ -30,8 +30,13 @@ by changing them per document during an editing session.</para>
 <sect2 id="appearance">
 <title>Appearance</title>
 
-<sect3 id="prefcolors-fonts">
-<title>Font</title>
+<sect3 id="appearance-general">
+<title>General</title>
+
+<variablelist>
+<varlistentry>
+<term><guilabel>Editor font</guilabel></term>
+<listitem>
 <para>
 Here you can choose the font of the editor text.  You can choose from
 any font available on your system, and set a default size. A sample text
@@ -40,98 +45,79 @@ is displayed at the bottom of the dialog, so you can see the effect of your choi
 <para>For more information about selecting a font, see the
 <ulink url="help:/fundamentals/fonts.html"><emphasis>Choosing Fonts</emphasis>
 section of the <emphasis>&kde; Fundamentals</emphasis> documentation</ulink>.</para>
-</sect3>
-
-<sect3 id="appearance-general">
-<title>General</title>
-
-<variablelist>
-<varlistentry>
-<term><guilabel>Dynamic Word Wrap</guilabel></term>
-<listitem>
-<para>If this option is checked, the text lines
-will be wrapped at the view border on the screen.</para>
-<variablelist>
-<varlistentry>
-<term><guilabel>Dynamic word wrap indicators (if applicable)</guilabel></term>
-<listitem><para>Choose when the Dynamic word wrap indicators
-should be displayed, either <guilabel>Off</guilabel>, <guilabel>Follow Line
-Numbers</guilabel> or <guilabel>Always on</guilabel>.
-</para></listitem></varlistentry>
-<varlistentry>
-<term><guilabel>Align dynamically wrapped lines
-to indentation depth:
-</guilabel></term>
-<listitem><para>Enables the start of dynamically wrapped
-lines to be aligned  vertically to the indentation level of the first
-line.  This can help to make code and markup more
-readable.</para><para>Additionally, this allows you to
-set a maximum width of the screen, as a percentage,
-after which dynamically wrapped lines will no longer be vertically aligned.
-For example, at 50%, lines whose indentation levels are deeper than 50% of the
-width of the screen will not have vertical alignment applied to subsequent
-wrapped lines.</para></listitem>
-</varlistentry>
-</variablelist>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Whitespace Highlighting</guilabel></term>
+<term><guilabel>Show whitespace indicators</guilabel></term>
 <listitem>
 <variablelist>
 <varlistentry>
-<term><guilabel>Highlight tabulators</guilabel></term>
-<listitem><para>The editor will display a &raquo; symbol to indicate the presence
-  of a tab in the text.</para></listitem>
+<term><guilabel>Never</guilabel></term>
+<listitem><para>The editor will never display dots to indicate the presence of whitespace.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Highlight trailing spaces</guilabel></term>
+<term><guilabel>At the end of a line</guilabel></term>
 <listitem><para>The editor will display dots to indicate the presence of extra
 whitespace at the end of lines.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Highlight marker size</guilabel></term>
-<listitem><para>Use the slider to change the size of the visible highlight marker.</para></listitem>
+<term><guilabel>Always</guilabel></term>
+<listitem><para>The editor will always display dots to indicate the presence of whitespace.</para></listitem>
 </varlistentry>
 </variablelist>
 </listitem>
 </varlistentry>
+<varlistentry>
+<term><guilabel>Whitespace indicator size</guilabel></term>
+<listitem><para>Use the slider to change the size of the visible indicator marker.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Show tab indicators</guilabel></term>
+<listitem><para>When checked the editor will display a &raquo; symbol to indicate the presence
+  of a tab in the text.</para></listitem>
+</varlistentry>
 
 <varlistentry>
-<term><guilabel>Advanced
+<term><guilabel>Bracket matching
 </guilabel></term>
 <listitem><para>
 <variablelist>
+<varlistentry>
+<term><guilabel>Highlight range between selected brackets
+</guilabel></term>
+<listitem><para>If this is enabled, the range between the selected matching brackets will be highlighted.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Show preview of matching open bracket
+</guilabel></term>
+<listitem><para>When enabled, the editor will show a tooltip of the matching open bracket.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Flash matching bracket when cursor moves to other bracket in pair
+</guilabel></term>
+<listitem><para>If enabled, moving on the brackets (<keycap>{</keycap>, <keycap>[</keycap>,  
+<keycap>]</keycap>, <keycap>}</keycap>,<keycap>(</keycap> or <keycap>)</keycap>) will
+quickly flash the matching bracket.</para></listitem>
+</varlistentry>
+</variablelist>
+</para></listitem>
+</varlistentry>
+
 <varlistentry>
 <term><guilabel>Show indentation lines
 </guilabel></term>
 <listitem><para>If this is checked, the editor will display
 vertical lines to help identifying indent lines.</para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><guilabel>Highlight range between selected brackets
+<term><guilabel>Counts
 </guilabel></term>
-<listitem><para>If this is enabled, the range between the selected matching brackets will be highlighted.</para></listitem>
-</varlistentry>
-</variablelist>
-</para></listitem>
-</varlistentry>
+<listitem><para>
+<variablelist>
 <varlistentry>
-<term><guilabel>Animate bracket matching
-</guilabel></term>
-<listitem><para>If enabled, moving on the brackets (<keycap>{</keycap>, <keycap>[</keycap>,  
-<keycap>]</keycap>, <keycap>}</keycap>,<keycap>(</keycap> or <keycap>)</keycap>) will
-quickly animate the matching bracket.</para></listitem>
-</varlistentry>
-<varlistentry>
-<term><guilabel>Fold first line
-</guilabel></term>
-<listitem><para>If enabled, the first line is folded, if possible. This is useful, 
-if the file starts with a comment, such as a copyright</para></listitem>
-</varlistentry>
-<varlistentry>
-<term><guilabel>Show Word Count
+<term><guilabel>Show word count
 </guilabel></term>
 <listitem><para>Displays the number of words and characters in the document and
 in the current selection in the status bar.
@@ -144,6 +130,60 @@ This option is also available in the status bar context menu.</para></listitem>
 This option is also available in the status bar context menu.</para></listitem>
 </varlistentry>
 </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Fold first line
+</guilabel></term>
+<listitem><para>If enabled, the first line is folded, if possible. This is useful, 
+if the file starts with a comment, such as a copyright</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Dynamic Word Wrap</guilabel></term>
+<listitem>
+<para>If this option is checked, the text lines
+will be wrapped at the view border on the screen.</para>
+<para>
+<variablelist>
+<varlistentry>
+<term><guilabel>Wrap dynamically at static word wrap marker
+</guilabel></term>
+<listitem><para>When checked, editor wraps lines dynamically at the <link linkend="pref-word-wrap">static word wrap position</link>.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Disregard word boundaries for dynamic wrapping
+</guilabel></term>
+<listitem><para>When checked, the editor does not take into account word boundaries when wrapping text lines.</para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Dynamic word wrap indicators</guilabel></term>
+<listitem><para>Choose when the Dynamic word wrap indicators
+should be displayed, either <guilabel>Off</guilabel>, <guilabel>Follow Line
+Numbers</guilabel> or <guilabel>Always on</guilabel>.
+</para></listitem></varlistentry>
+<varlistentry>
+<term><guilabel>Indent wrapped lines
+</guilabel></term>
+<listitem><para>Additionally, this allows you to
+set a maximum width of the screen, as a percentage,
+after which dynamically wrapped lines will no longer be vertically aligned.
+For example, at 50%, lines whose indentation levels are deeper than 50% of the
+width of the screen will not have vertical alignment applied to subsequent
+wrapped lines.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Line Height Multiplier
+</guilabel></term>
+<listitem><para>This value will be multiplied by the font's default line height. A value 
+of 1.0 means that the default height will be used.</para></listitem></varlistentry>
+</variablelist>
 </sect3>
 
 <sect3 id="appearance-borders">
@@ -151,23 +191,42 @@ This option is also available in the status bar context menu.</para></listitem>
 
 <variablelist>
 <varlistentry>
-<term><guilabel>Borders</guilabel></term>
+<term><guilabel>Code block folding</guilabel></term>
 <listitem>
 <variablelist>
 <varlistentry>
-<term><guilabel>Show folding markers
+<term><guilabel>Show arrows to collapse code blocks
 </guilabel></term>
 <listitem><para>If this option is checked, the current view will display marks
 for code folding, if code folding is available.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Show preview of folded code
+<term><guilabel>Show preview of folded blocks on hover
 </guilabel></term>
 <listitem><para>If checked, hovering over a folded region shows a preview of the folded text
 in a popup.</para></listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
-<term><guilabel>Show icon border
+<term><guilabel>Folding arrows visibility</guilabel></term>
+<listitem><para>Switch the folding arrows between <guimenuitem>Show on Hover</guimenuitem>
+and <guimenuitem>Show Always</guimenuitem>.
+</para></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term><guilabel>Left side</guilabel></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term><guilabel>Show marks
 </guilabel></term>
 <listitem><para>If this is checked, you will see an icon border on the left
 hand side. The icon border shows bookmark signs for instance.</para></listitem>
@@ -179,29 +238,49 @@ hand side. The icon border shows bookmark signs for instance.</para></listitem>
 hand side.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Show line modification markers
+<term><guilabel>Highlight changed and unsaved lines
 </guilabel></term>
 <listitem><para>If this is checked, line modification markers will be visible.
 For more information, see <xref linkend="kate-part-line-modification"/>.
 </para></listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
-<term><guilabel>Show scrollbar marks
+<term><guilabel>Scrollbars</guilabel></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term><guilabel>Show marks
 </guilabel></term>
 <listitem><para>If this option is checked the current view
 will show marks on the vertical scrollbar. These marks will
 for instance show bookmarks.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Show text preview on scrollbar</guilabel></term>
+<term><guilabel>Show preview when hovering over scrollbar</guilabel></term>
 <listitem><para>If this option is checked, and you hover the scrollbar with the mouse cursor
 a small text preview with several lines of the current document around the cursor position will be displayed.
 This allows you to quickly switch to another part of the document.</para>
 </listitem>
 </varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
 <varlistentry>
-<term><guilabel>Show scrollbar mini-map</guilabel></term>
-<listitem><para>If this option is checked, every new view will show a mini map of the 
+<term><guilabel>Minimap</guilabel></term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term><guilabel>Show minimap</guilabel></term>
+<listitem><para>If this option is checked, every new view will show a minimap of the 
 document on the vertical scrollbar.</para>
 <para>For more information on the scrollbar minimap, see
 <xref linkend="kate-part-scrollbar-minimap"/>.</para></listitem>
@@ -221,20 +300,21 @@ Keep the &LMB; pressed outside the blue rectangle to automatically scroll throug
 </variablelist>
 </listitem>
 </varlistentry>
+</variablelist>
 
+<variablelist>
 <varlistentry>
-<term><guilabel>Sort Bookmarks Menu
-</guilabel></term>
+<term><guilabel>Sort bookmarks menu</guilabel></term>
 <listitem>
 <variablelist>
 <varlistentry>
-<term><guilabel>By creation
+<term><guilabel>By date created
 </guilabel></term>
 <listitem><para>Each new bookmark will be added to the bottom,
 independently from where it is placed in the document.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>By position
+<term><guilabel>By line number
 </guilabel></term>
 <listitem><para>The bookmarks will be ordered by the line
 numbers they are placed at.</para></listitem>
@@ -251,17 +331,16 @@ numbers they are placed at.</para></listitem>
 <title>Color Themes</title>
 
 <para>This section of the dialog lets you configure all colors in
-any color theme you have, and create new themes or delete existing
-ones. Each scheme has settings for colors and normal and highlighted text
+any color theme you have, and create new themes, delete existing
+ones or just <guilabel>Follow System Color Scheme</guilabel>.
+Each scheme has settings for colors and normal and highlighted text
 styles.
 </para>
 
 <para>&kappname; will preselect the currently active theme for you, if you want to
 work on a different theme start by selecting that from the
-<guilabel>Theme</guilabel> combobox. With the <guibutton>Copy</guibutton> and <guibutton>Delete</guibutton>
+<guilabel>Select theme</guilabel> combobox. With the <guibutton>Copy</guibutton> and <guibutton>Delete</guibutton>
  buttons you can create a new theme (copying an existing one) or delete existing ones.</para>
-<para>At the bottom of the page you can select the
-<guilabel>Default theme for <replaceable>Application</replaceable></guilabel>.</para>
 
 <para>This is described in detail in <xref linkend="color-themes-gui"/>.</para>
 
@@ -275,23 +354,22 @@ work on a different theme start by selecting that from the
 <variablelist>
 
 <varlistentry>
-<term id="pref-word-wrap"><guilabel>Static Word Wrap</guilabel></term>
+<term id="pref-word-wrap"><guilabel>Word wrap</guilabel></term>
 <listitem><para>
 Word wrap is a feature that causes the editor to automatically start a new line
 of text and move (wrap) the cursor to the beginning of that new line.  &kappname;
 will automatically start a new line of text when  the current line reaches the
-length specified by the <link linkend="pref-wrap-words-at">Wrap Words
-At:</link> option.</para>
+length specified by the <link linkend="pref-wrap-words-at">Wrap words
+at:</link> option.</para>
 <variablelist>
 <varlistentry>
-<term><guilabel>Enable static word wrap</guilabel></term>
+<term><guilabel>Wrap words at a fixed column</guilabel></term>
 <listitem>
 <para>Turns static word wrap on or off.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Show static word wrap marker
-(if applicable)</guilabel></term>
+<term><guilabel>Draw vertical line at the word wrap column</guilabel></term>
 <listitem>
 <para>If this option is checked, a vertical line will be drawn at the word wrap
 column as defined in the <menuchoice> <guimenu>Settings</guimenu>
@@ -303,7 +381,7 @@ font.</para>
 <varlistentry>
 <term id="pref-wrap-words-at"><guilabel>Wrap words at:</guilabel></term>
 <listitem>
-<para>If the <link linkend="pref-word-wrap">Enable static word wrap</link> option is selected
+<para>If the <link linkend="pref-word-wrap">Wrap words at a fixed column</link> option is selected
 this entry  determines the length (in characters) at which the editor will
 automatically start a new line.</para>
 </listitem>
@@ -312,31 +390,47 @@ automatically start a new line.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Input Mode</guilabel></term> <listitem><para>
+<term><guilabel>Default input mode</guilabel></term> <listitem><para>
 The selected input mode will be enabled when opening a new view.
 You can still toggle the vi input mode on/off for a particular view in the
 <guimenu>Edit</guimenu> menu.
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
-<term><guilabel>Auto brackets</guilabel></term> <listitem><para>When
+<term><guilabel>Brackets</guilabel></term> <listitem>
+<para>If the <guilabel>Automatically close brackets when opening bracket is typed</guilabel> option is selected when
 the user types a left bracket (<keycap>[</keycap>, <keycap>(</keycap>, or <keycap>{</keycap>)
 &kappname; automatically enters the right bracket (<keycap>}</keycap>, <keycap>)</keycap>, 
 or <keycap>]</keycap>) to the right of the cursor.</para>
-<para>When text is selected, typing one of the characters wraps the selected text.</para>
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term><guilabel>Enclosing characters</guilabel></term> <listitem>
+<para>It is possible to select the enclosing characters using the corresponding drop-down list.</para>
+<para>When text is selected, typing one of these characters wraps the selected text.</para>
+</listitem>
+</varlistentry>
 
 <varlistentry>
-<term ><guilabel>Copy and Paste</guilabel></term>
+<term ><guilabel>Copy and paste</guilabel></term>
 <listitem>
 <variablelist>
 <varlistentry>
-<term><guilabel>Copy/Cut the current line if no selection</guilabel></term> <listitem>
+<term><guilabel>Move selected text when dragged</guilabel></term> <listitem>
+<para>This option enables drag-and-drop of the selected text inside the editor window.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Copy/cut the current line if invoked without any text selected</guilabel></term> <listitem>
 <para>If this option is enabled and the text selection is empty, copy and cut
 action are performed for the line of text at the actual cursor position.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Don't move the text cursor when pasting by mouse</guilabel></term> <listitem>
+<para>If this option is enabled and you paste some text in the editor window with the &MMB; clicking, &kappname;
+will not move the text cursor into the clicked position.</para></listitem>
 </varlistentry>
 </variablelist>
 </listitem>
@@ -423,6 +517,13 @@ of only removing the base character. This is useful for Indic locales.</para></l
 </varlistentry>
 
 </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry id="multicursor-modifier-configure">
+<term><guilabel>Multicursor modifier</guilabel></term>
+<listitem>
+<para>This option lets you set the modifier that will be used to create multiple cursors with &LMB; click. You need to press the modifiers and click &LMB; to create a cursor at the desired location. See <link linkend="kate-part-create-multiple-cursors">Creating multiple cursors</link> to discover other ways to create multiple cursors.</para>
 </listitem>
 </varlistentry>
 
@@ -529,7 +630,7 @@ if the cursor is located in the leading blank space of a line.</para>
 <listitem>
 <para>
 If you want &Tab; to align the current line in the current code block
-like in &Emacs;, make &Tab; a shortcut to the action <guimenuitem>Align</guimenuitem>.
+like in &Emacs;, make &Tab; a shortcut to the action <guimenuitem>Format Indentation</guimenuitem>.
 </para>
 <variablelist>
 <varlistentry>
@@ -793,6 +894,32 @@ one is not already present upon saving the file.</para>
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term><guilabel>Enable Auto Save (local files only)</guilabel></term>
+<listitem>
+<para>
+Check this if you want the editor to autosave documents while you are working on them.
+</para>
+<variablelist>
+
+<varlistentry>
+<term><guilabel>Auto save document when focus leaves the editor</guilabel></term>
+<listitem>
+<para>The editor will automatically save documents when you switch to something outside the editor, &eg;, the terminal panel in &kate;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Auto save interval</guilabel></term>
+<listitem>
+<para>You can determine the autosave interval in seconds here. If the interval is 0, the document will not be autosaved after intervals.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect3>
 
@@ -801,11 +928,13 @@ one is not already present upon saving the file.</para>
 <variablelist>
 
 <varlistentry>
-<term><guilabel>Backup on Save</guilabel></term>
-<listitem><para>Backing up on save will cause &kappname; to copy the disk file to
-&lt;prefix&gt;&lt;filename&gt;&lt;suffix&gt; before saving changes.
-The suffix defaults to <emphasis role="bold">~</emphasis> and prefix is empty by
-default. </para>
+<term><guilabel>Write a backup file on save for</guilabel></term>
+<listitem><para>Backing up on save will cause &kappname; to copy the disk file
+(the previously saved version of the file) to &lt;prefix&gt;&lt;filename&gt;&lt;suffix&gt;
+before saving the new changes. A backup file can help you recover work if
+something goes wrong while saving or if you later want to recover the previous
+version of the file.  The suffix defaults to <emphasis role="bold">~</emphasis>
+and prefix is empty by default. </para>
 <variablelist>
 <varlistentry>
 <term><guilabel>Local files</guilabel></term>
@@ -821,23 +950,23 @@ saving.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Prefix</guilabel></term>
+<term><guilabel>Prefix for backup files</guilabel></term>
 <listitem>
 <para>Enter the prefix to prepend to the backup file names.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Suffix</guilabel></term>
+<term><guilabel>Suffix for backup files</guilabel></term>
 <listitem>
 <para>Enter the suffix to add to the backup file names.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Swap file options</guilabel></term>
+<term><guilabel>Swap file mode</guilabel></term>
 <listitem>
-<para>&kappname; is able to recover (most of) what was written after last save in case
-of a crash or power failure. A swap file (.swp.&lt;filename&gt;) is created
-after the first editing action on a document. If the user doesn’t save the
+<para>&kappname; is able to recover (most) unsaved work in the case of a
+crash or power failure. A swap file (.&lt;filename&gt;.kate-swp) is created
+when a document is edited. If the user doesn’t save the
 changes and &kappname; crashes, the swap file remains on the disk. When opening a
 file, &kappname; checks if there is a swap file for the document and if it is, it asks
 the user whether he wants to recover the lost data or not. The user has the
@@ -847,10 +976,21 @@ one, too. The swap file is deleted after every save and on normal exit.</para>
 have changed since the last sync. The user can disable the swap files syncing if
 he wants, by selecting <guilabel>Disable</guilabel>,
 but this can lead to more data loss.</para>
-<para>When enabled, the swap files are saved in the same folder as the file. 
-When <guilabel>Alternative Directory</guilabel> is chosen, swap files are created in the specified folder.
+<para>When the swap file is enabled, it is possible to switch between two modes, namely <guilabel>Enabled, Store in Default Directory</guilabel> and <guilabel>Enabled, Store in Custom Directory</guilabel>.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Store swap files in</guilabel></term>
+<listitem><para>By default, the swap files are saved in the same folder as the file. 
+When <guilabel>Enabled, Store in Custom Directory</guilabel> is chosen for the swap file mode, swap files are created in the specified folder.
 This is useful for network file systems to avoid unnecessary network traffic.</para>
 </listitem>
+</varlistentry>
+<varlistentry>
+<term><guilabel>Save swap files every</guilabel></term>
+<listitem><para>&kappname; syncs the swap files on the disk every 15 seconds, but only if they
+have changed since the last sync. You can change the sync interval as you like.</para></listitem>
 </varlistentry>
 
 </variablelist>

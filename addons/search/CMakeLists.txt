@@ -1,39 +1,40 @@
-find_package(Qt5Concurrent ${QT_MIN_VERSION} QUIET)
-find_package(KF5ItemViews ${KF5_DEP_VERSION} QUIET)
-set_package_properties(KF5ItemViews PROPERTIES PURPOSE "Required to build the search addon")
+find_package(Qt6Concurrent ${QT_MIN_VERSION} QUIET)
 
-if(NOT KF5ItemViews_FOUND OR NOT Qt5Concurrent_FOUND)
+if(NOT Qt6Concurrent_FOUND)
   return()
 endif()
 
-add_library(katesearchplugin MODULE "")
+kate_add_plugin(katesearchplugin)
 target_compile_definitions(katesearchplugin PRIVATE TRANSLATION_DOMAIN="katesearch")
 
 target_link_libraries(
   katesearchplugin
   PRIVATE
-    Qt5::Concurrent
-    KF5::I18n
-    KF5::ItemViews
-    KF5::TextEditor
+    Qt::Concurrent
+    KF6::I18n
+    KF6::TextEditor
+    kateprivate
 )
 
-ki18n_wrap_ui(UI_SOURCES search.ui results.ui)
-target_sources(katesearchplugin PRIVATE ${UI_SOURCES})
+ki18n_wrap_ui(katesearchplugin search.ui results.ui MatchExportDialog.ui)
 
 target_sources(
   katesearchplugin
   PRIVATE
     FolderFilesList.cpp
     KateSearchCommand.cpp
+    MatchExportDialog.cpp
     MatchModel.cpp
+    MatchProxyModel.cpp
     SearchDiskFiles.cpp
-    htmldelegate.cpp
+    SearchResultsDelegate.cpp
     plugin.qrc
-    plugin_search.cpp
-    search_open_files.cpp
+    SearchPlugin.cpp
+    SearchOpenFiles.cpp
+    Results.cpp
+    ResultsTreeView.cpp
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(katesearchplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS katesearchplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(katesearchplugin REUSE_FROM katepch)
+endif()

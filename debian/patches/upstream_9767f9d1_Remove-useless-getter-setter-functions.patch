@@ -1,0 +1,119 @@
+From 9767f9d18b4e0b22d13eeb7124d710f0f2a368e4 Mon Sep 17 00:00:00 2001
+From: Waqar Ahmed <waqar.17a@gmail.com>
+Date: Thu, 20 Mar 2025 17:02:32 +0500
+Subject: [PATCH] Remove useless getter/setter functions
+
+---
+ apps/lib/kateconfigdialog.cpp |  8 ++++----
+ apps/lib/katemainwindow.cpp   |  4 ++--
+ apps/lib/katestashmanager.cpp |  4 ++--
+ apps/lib/katestashmanager.h   | 25 ++-----------------------
+ 4 files changed, 10 insertions(+), 31 deletions(-)
+
+diff --git a/apps/lib/kateconfigdialog.cpp b/apps/lib/kateconfigdialog.cpp
+index 8a7db11790..4d775fea61 100644
+--- a/apps/lib/kateconfigdialog.cpp
++++ b/apps/lib/kateconfigdialog.cpp
+@@ -458,8 +458,8 @@ void KateConfigDialog::addSessionPage()
+     connect(sessionConfigUi.modCloseAfterLast, &QCheckBox::toggled, this, &KateConfigDialog::slotChanged);
+ 
+     // stash unsave changes
+-    sessionConfigUi.stashNewUnsavedFiles->setChecked(KateApp::self()->stashManager()->stashNewUnsavedFiles());
+-    sessionConfigUi.stashUnsavedFilesChanges->setChecked(KateApp::self()->stashManager()->stashUnsavedChanges());
++    sessionConfigUi.stashNewUnsavedFiles->setChecked(KateApp::self()->stashManager()->stashNewUnsavedFiles);
++    sessionConfigUi.stashUnsavedFilesChanges->setChecked(KateApp::self()->stashManager()->stashUnsavedChanges);
+     connect(sessionConfigUi.stashNewUnsavedFiles, &QRadioButton::toggled, this, &KateConfigDialog::slotChanged);
+     connect(sessionConfigUi.stashUnsavedFilesChanges, &QRadioButton::toggled, this, &KateConfigDialog::slotChanged);
+ 
+@@ -636,9 +636,9 @@ void KateConfigDialog::slotApply()
+         cg.writeEntry("Mouse forward button action", m_mouseForwardActions->currentIndex());
+ 
+         cg.writeEntry("Stash unsaved file changes", sessionConfigUi.stashUnsavedFilesChanges->isChecked());
+-        KateApp::self()->stashManager()->setStashUnsavedChanges(sessionConfigUi.stashUnsavedFilesChanges->isChecked());
++        KateApp::self()->stashManager()->stashUnsavedChanges = sessionConfigUi.stashUnsavedFilesChanges->isChecked();
+         cg.writeEntry("Stash new unsaved files", sessionConfigUi.stashNewUnsavedFiles->isChecked());
+-        KateApp::self()->stashManager()->setStashNewUnsavedFiles(sessionConfigUi.stashNewUnsavedFiles->isChecked());
++        KateApp::self()->stashManager()->stashNewUnsavedFiles = sessionConfigUi.stashNewUnsavedFiles->isChecked();
+ 
+         cg.writeEntry("Modified Notification", m_modNotifications->isChecked());
+         m_mainWindow->setModNotificationEnabled(m_modNotifications->isChecked());
+diff --git a/apps/lib/katemainwindow.cpp b/apps/lib/katemainwindow.cpp
+index 09a25520bf..f96c49b5f1 100644
+--- a/apps/lib/katemainwindow.cpp
++++ b/apps/lib/katemainwindow.cpp
+@@ -836,8 +836,8 @@ void KateMainWindow::readOptions()
+     KateApp::self()->documentManager()->setSaveMetaInfos(generalGroup.readEntry("Save Meta Infos", true));
+     KateApp::self()->documentManager()->setDaysMetaInfos(generalGroup.readEntry("Days Meta Infos", 30));
+ 
+-    KateApp::self()->stashManager()->setStashUnsavedChanges(generalGroup.readEntry("Stash unsaved file changes", false));
+-    KateApp::self()->stashManager()->setStashNewUnsavedFiles(generalGroup.readEntry("Stash new unsaved files", true));
++    KateApp::self()->stashManager()->stashUnsavedChanges = generalGroup.readEntry("Stash unsaved file changes", false);
++    KateApp::self()->stashManager()->stashNewUnsavedFiles = generalGroup.readEntry("Stash new unsaved files", true);
+ 
+     m_paShowPath->setChecked(generalGroup.readEntry("Show Full Path in Title", false));
+     m_paShowStatusBar->setChecked(generalGroup.readEntry("Show Status Bar", true));
+diff --git a/apps/lib/katestashmanager.cpp b/apps/lib/katestashmanager.cpp
+index f28bc9c454..e33bf6bc0f 100644
+--- a/apps/lib/katestashmanager.cpp
++++ b/apps/lib/katestashmanager.cpp
+@@ -73,14 +73,14 @@ bool KateStashManager::willStashDoc(KTextEditor::Document *doc) const
+         return false;
+     }
+     if (doc->url().isEmpty()) {
+-        return m_stashNewUnsavedFiles;
++        return stashNewUnsavedFiles;
+     }
+     if (doc->isModified() && doc->url().isLocalFile()) {
+         const QString path = doc->url().toLocalFile();
+         if (path.startsWith(QDir::tempPath())) {
+             return false; // inside tmp resource, do not stash
+         }
+-        return m_stashUnsavedChanges;
++        return stashUnsavedChanges;
+     }
+     return false;
+ }
+diff --git a/apps/lib/katestashmanager.h b/apps/lib/katestashmanager.h
+index 0173f75294..d6153fb1c6 100644
+--- a/apps/lib/katestashmanager.h
++++ b/apps/lib/katestashmanager.h
+@@ -23,25 +23,8 @@ class KateStashManager
+ public:
+     KateStashManager() = default;
+ 
+-    bool stashUnsavedChanges() const
+-    {
+-        return m_stashUnsavedChanges;
+-    }
+-
+-    void setStashUnsavedChanges(bool stashUnsavedChanges)
+-    {
+-        m_stashUnsavedChanges = stashUnsavedChanges;
+-    }
+-
+-    bool stashNewUnsavedFiles() const
+-    {
+-        return m_stashNewUnsavedFiles;
+-    }
+-
+-    void setStashNewUnsavedFiles(bool stashNewUnsavedFiles)
+-    {
+-        m_stashNewUnsavedFiles = stashNewUnsavedFiles;
+-    }
++    bool stashUnsavedChanges = false;
++    bool stashNewUnsavedFiles = true;
+ 
+     bool canStash() const;
+ 
+@@ -53,8 +36,4 @@ public:
+     static void popDocument(KTextEditor::Document *doc, const KConfigGroup &kconfig);
+ 
+     static void clearStashForSession(const KateSession::Ptr &session);
+-
+-private:
+-    bool m_stashUnsavedChanges = false;
+-    bool m_stashNewUnsavedFiles = true;
+ };
+-- 
+GitLab
+

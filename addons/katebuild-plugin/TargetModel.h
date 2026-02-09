@@ -1,74 +1,96 @@
 /***************************************************************************
  *   This file is part of Kate build plugin                                *
- *   SPDX-FileCopyrightText: 2014 Kåre Särs <kare.sars@iki.fi>                           *
+ *   SPDX-FileCopyrightText: 2014 Kåre Särs <kare.sars@iki.fi>             *
  *                                                                         *
- *   SPDX-License-Identifier: LGPL-2.0-or-later
+ *   SPDX-License-Identifier: LGPL-2.0-or-later                            *
  ***************************************************************************/
 
-#ifndef TargetModel_h
-#define TargetModel_h
+#pragma once
 
 #include <QAbstractItemModel>
 #include <QByteArray>
+
+#include <limits>
+
+class QJsonObject;
 
 class TargetModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    struct TargetSet {
-        TargetSet(const QString &_name, const QString &_workDir);
-        QString name;
-        QString workDir;
-        QString defaultCmd;
-        QList<QPair<QString, QString>> commands;
+    enum RowType {
+        RootRow,
+        TargetSetRow,
+        CommandRow,
     };
+    Q_ENUM(RowType)
 
-    TargetModel(QObject *parent = nullptr);
+    enum TargetRoles {
+        CommandRole = Qt::UserRole,
+        CommandNameRole,
+        WorkDirRole,
+        SearchPathsRole,
+        TargetSetNameRole,
+        RowTypeRole,
+        IsProjectTargetRole,
+    };
+    Q_ENUM(TargetRoles)
+
+    explicit TargetModel(QObject *parent = nullptr);
     ~TargetModel() override;
 
-    /** This function sets the default command for a target set */
-    void setDefaultCmd(int rootRow, const QString &defCmd);
+    /** This function clears all the target-sets */
+    void clear(bool setSessionFirst);
+
+    /** This function returns the root item for the Session TargetSets */
+    QModelIndex sessionRootIndex() const;
+
+    /** This function returns the root item for the Project TargetSets */
+    QModelIndex projectRootIndex() const;
+
+    bool validTargetsJson(const QString &jsonStr) const;
+
+    /** This function returns the menu node as a Json object */
+    QJsonObject indexToJsonObj(const QModelIndex &modelIndex) const;
+    /** This function returns the TargetSet node for the given projectBaseDir **/
+    QJsonObject projectTargetsToJsonObj(const QString &projectBaseDir) const;
+    QString indexToJson(const QModelIndex &modelIndex) const;
+
+    QModelIndex insertAfter(const QModelIndex &modelIndex, const QString &jsonStr, const QString &projectBaseDir);
+    QModelIndex insertAfter(const QModelIndex &modelIndex, const QJsonObject &jsonObj, const QString &projectBaseDir);
 
 public Q_SLOTS:
 
-    /** This function clears all the target-sets */
-    void clear();
-
-    /** This function adds a target set and returns the row number of the newly
-     * inserted row */
-    int addTargetSet(const QString &setName, const QString &workDir);
+    /** This function insert a target set and returns the model-index of the newly
+     * inserted target-set */
+    QModelIndex insertTargetSetAfter(const QModelIndex &beforeIndex,
+                                     const QString &setName,
+                                     const QString &workDir,
+                                     bool loadedViaCMake = false,
+                                     const QString &cmakeConfig = QString(),
+                                     const QString &projectBaseDir = QString());
 
     /** This function adds a new command to a target-set and returns the model index */
-    QModelIndex addCommand(int rootRow, const QString &cmdName, const QString &command);
-
-    /** This function copies the target(-set) the model index points to and returns
-     * the model index of the copy. */
-    QModelIndex copyTargetOrSet(const QModelIndex &index);
-
-    /** This function returns the model index of the default command of the target-set */
-    QModelIndex defaultTarget(int targetSet);
+    QModelIndex addCommandAfter(const QModelIndex &beforeIndex, const QString &cmdName, const QString &buildCmd, const QString &runCmd);
 
     /** This function deletes the index */
     void deleteItem(const QModelIndex &index);
 
-    /** This function deletes the target-set with the same name */
-    void deleteTargetSet(const QString &targetSet);
+    /** This function deletes the project target-sets except the keep-list
+     * @param keep is a list of the baseDirs to keep
+     */
+    void deleteProjectTargetsExcept(const QStringList &keep = QStringList());
 
-    const QList<TargetSet> targetSets() const
-    {
-        return m_targets;
-    }
+    void deleteProjectTargets(const QString &baseDir);
 
-    const QString command(const QModelIndex &itemIndex) const;
-    const QString cmdName(const QModelIndex &itemIndex) const;
-    const QString workDir(const QModelIndex &itemIndex) const;
-    const QString targetName(const QModelIndex &itemIndex) const;
-    int getDefaultCmdIndex(int rootRow) const;
+    void moveRowUp(const QModelIndex &index);
+    void moveRowDown(const QModelIndex &index);
 
 Q_SIGNALS:
+    void projectTargetChanged(const QString &projectBaseDir);
 
 public:
-    static const quint32 InvalidIndex = 0xFFFFFFFF;
+    static constexpr quintptr InvalidIndex = std::numeric_limits<quintptr>::max();
     // Model-View model functions
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -79,8 +101,36 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
-private:
-    QList<TargetSet> m_targets;
-};
+    struct Command {
+        QString name;
+        QString buildCmd;
+        QString runCmd;
+    };
 
-#endif
+    struct TargetSet {
+        TargetSet(const QString &_name, const QString &_workDir, bool _loadedViaCMake, const QString &_cmakeConfigName = QString());
+        /** The name of this target set */
+        QString name;
+        /** The working directory */
+        QString workDir;
+        /** The list of commands in this TargetSet */
+        QList<Command> commands;
+        /** Was this TargetSet loaded via cmake */
+        bool loadedViaCMake = false;
+        /** CMake build config name */
+        QString cmakeConfigName;
+        /** If the TargetSet belongs to a project, this field will contain the project base dir */
+        QString projectBaseDir;
+    };
+
+    struct RootNode {
+        /** Is this the Project root node? We have two root nodes, Projects and Session */
+        bool isProject = false;
+        /** The TargetSet in this root node */
+        QList<TargetSet> targetSets;
+    };
+
+private:
+    // TODO: Make this a c array of size 2
+    QList<RootNode> m_rootNodes;
+};

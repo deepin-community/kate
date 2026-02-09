@@ -5,8 +5,7 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_INFO_VIEW_NOTES_H
-#define KATE_PROJECT_INFO_VIEW_NOTES_H
+#pragma once
 
 #include <QPlainTextEdit>
 
@@ -19,15 +18,13 @@ class KateProject;
  */
 class KateProjectInfoViewNotes : public QWidget
 {
-    Q_OBJECT
-
 public:
     /**
      * construct project info view for given project
      * @param pluginView our plugin view
      * @param project project this view is for
      */
-    KateProjectInfoViewNotes(KateProjectPluginView *pluginView, KateProject *project);
+    KateProjectInfoViewNotes(KateProject *project);
 
     /**
      * our project.
@@ -40,11 +37,6 @@ public:
 
 private:
     /**
-     * our plugin view
-     */
-    KateProjectPluginView *m_pluginView;
-
-    /**
      * our project
      */
     KateProject *m_project;
@@ -54,5 +46,3 @@ private:
      */
     QPlainTextEdit *m_edit;
 };
-
-#endif

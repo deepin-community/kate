@@ -16,9 +16,7 @@
 >Mode d'entrada del Vi</title>
 
 <para
->L'objectiu del mode VI no és substituir-lo completament per Vim, sí que dóna suport a totes les característiques de Vim. El seu objectiu és fer que la <quote
->forma Vim</quote
-> d'editar el text -i els hàbits apresos a Vim- estiguin disponibles per als programes utilitzant l'editor de text &kappname; com al seu editor intern.</para>
+>L'objectiu del mode VI no és substituir-lo completament per Vim, sí que dona suport a totes les característiques de Vim. El seu objectiu és fer que la «forma Vim» d'editar el text -i els hàbits apresos a Vim- estiguin disponibles per als programes utilitzant l'editor de text &kappname; com al seu editor intern.</para>
 
 <para
 >El mode VI té com a finalitat integrar-se molt bé amb el programa i desviar-se del comportament de Vim, on prengui sentit. Per exemple, <userinput
@@ -52,7 +50,7 @@
 
 <note>
 <para
->En el Mode Vi moltes ordres de teclat són sensibles a majúscules i minúscules, a diferència de la majoria de les dreceres de teclat del &kde;. Això vol dir que <userinput
+>En el Mode Vi moltes ordres de teclat distingeixen les majúscules i minúscules, a diferència de la majoria de les dreceres de teclat del &kde;. Això vol dir que <userinput
 >i</userinput
 > i <userinput
 >I</userinput
@@ -73,16 +71,14 @@
 <para
 >Això no s'aplica a les ordres que utilitzen la tecla &Ctrl;, ja que es poden introduir independentment del mode <keycap
 >Bloq Maj</keycap
-> i sense necessitat de prémer &Maj;. No obstant això, algunes ordres requereixen l'ús de la tecla &Ctrl; seguida d'una altra tecla que distingeix entre majúscules i minúscules. Per exemple, per a introduir <quote
-><keycombo action="simul"
+> i sense necessitat de prémer &Maj;. No obstant això, algunes ordres requereixen l'ús de la tecla &Ctrl; seguida d'una altra tecla que distingeix entre majúscules i minúscules. Per exemple, per a introduir «<keycombo action="simul"
 >&Ctrl;<keycap
 >W</keycap
 ></keycombo
 >, <userinput
 >h</userinput
-></quote
-> (canviar a la vista dividida de la dreta) assegureu-vos que <keycap
->Bloq Majús.</keycap
+>» (canviar a la vista dividida de la dreta) assegureu-vos que <keycap
+>Bloq Maj</keycap
 > està inhabilitada, premeu <keycombo action="simul"
 >&Ctrl;<keycap
 >W</keycap
@@ -133,9 +129,7 @@
 ><guimenuitem
 >Mode d'entrada del Vi</guimenuitem
 ></menuchoice
->), per tant, una acció de refer necessita estar disponible com a tecla <quote
->normal</quote
->. A més, el comportament de l'ordre <userinput
+>), per tant, una acció de refer necessita estar disponible com a tecla «normal». A més, el comportament de l'ordre <userinput
 >U</userinput
 > en Vim no es correlaciona bé amb el sistema intern de desfer de &kappname;, de manera que no seria trivial donar-ne suport.</para>
 </listitem>
@@ -159,9 +153,7 @@
 ><command
 >:print</command
 ></userinput
-> estan disponibles no només en el mode de VI, però també per als usuaris que utilitzen <quote
->regularment</quote
-> &kappname; -per tant, l'ordre <userinput
+> estan disponibles no només en el mode de VI, però també per als usuaris que utilitzen «regularment» &kappname; -per tant, l'ordre <userinput
 ><command
 >:print</command
 ></userinput
@@ -203,9 +195,7 @@
 >Y</userinput
 > copien la línia actual. En mode VI de &kappname; <userinput
 >Y</userinput
-> copiarà al final de la línia. Això es descriu <quote
->més lògicament</quote
-> en la <ulink url="http://vimdoc.sourceforge.net/htmldoc/change.html#Y"
+> copiarà al final de la línia. Això es descriu «més lògicament» en la <ulink url="http://vimdoc.sourceforge.net/htmldoc/change.html#Y"
 >documentació</ulink
 > de Vim. </para>
 </listitem>
@@ -223,11 +213,11 @@
 >O</userinput
 > i <userinput
 >O</userinput
-> obre una nova línia i insereix text [<replaceable
+> obre una línia nova i insereix text [<replaceable
 >compte</replaceable
 >] vegades deixant el mode d'inserció.</para>
 <para
->Això es fa principalment com a conseqüència de trobar que molta gent es confon per aquest comportament en un canal d'&irc; sobre vim (#vim a Libera Chat).</para>
+>Això es fa principalment a conseqüència de trobar que molta gent es confon per aquest comportament en un canal d'&irc; sobre vim (#vim a Libera Chat).</para>
 </listitem>
 </itemizedlist>
 
@@ -448,7 +438,7 @@
 ></entry>
 <entry
 ><para
->Obre una nova línia sota la línia actual</para
+>Obre una línia nova sota la línia actual</para
 ></entry>
 </row>
 <row
@@ -460,7 +450,7 @@
 ></entry>
 <entry
 ><para
->Obre una nova línia sobre la línia actual</para
+>Obre una línia nova sobre la línia actual</para
 ></entry>
 </row>
 <row
@@ -484,7 +474,7 @@
 ></entry>
 <entry
 ><para
->Canvi: Segueix un moviment per a eliminar i entrar en el mode d'inserció</para
+>Canvi: Segueix un moviment per a suprimir i entrar en el mode d'inserció</para
 ></entry>
 </row>
 <row
@@ -496,7 +486,7 @@
 ></entry>
 <entry
 ><para
->Canvi al final de la línia: Elimina al final de la línia i entrar en el mode d'inserció</para
+>Canvi al final de la línia: Suprimeix al final de la línia i entrar en el mode d'inserció</para
 ></entry>
 </row>
 <row
@@ -556,7 +546,7 @@
 ></entry>
 <entry
 ><para
->Segueix un moviment per a eliminar</para
+>Segueix un moviment per a suprimir</para
 ></entry>
 </row>
 <row
@@ -662,9 +652,7 @@
 ></entry>
 <entry
 ><para
->Segueix un moviment per a <quote
->tirar</quote
-> (copia)</para
+>Segueix un moviment per a «tirar» (copia)</para
 ></entry>
 </row>
 <row
@@ -1685,7 +1673,7 @@
 ></entry>
 <entry
 ><para
->Va cap a avall una línia visual (quan s'usa l'ajust de línia dinàmic).</para
+>Va cap avall una línia visual (quan s'usa l'ajust de línia dinàmic).</para
 ></entry
 ></row>
 <row
@@ -1860,11 +1848,11 @@
 ></entry>
 <entry
 ><para
->Claudàtor d'obertura anterior [<userinput
->(</userinput
->] al següent claudàtor de tancament [<userinput
->)</userinput
->], incloent-hi els claudàtors</para
+>Claudàtor d'obertura anterior (<userinput
+>[</userinput
+>) al següent claudàtor de tancament (<userinput
+>]</userinput
+>), incloent-hi els claudàtors</para
 ></entry>
 </row>
 <row
@@ -1876,11 +1864,11 @@
 ></entry>
 <entry
 ><para
->Claudàtor d'obertura anterior [<userinput
->(</userinput
->] al següent claudàtor de tancament [<userinput
->)</userinput
->], excloent els claudàtors</para
+>Claudàtor d'obertura anterior (<userinput
+>[</userinput
+>) al claudàtor de tancament següent (<userinput
+>]</userinput
+>), excloent els claudàtors</para
 ></entry>
 </row>
 <row
@@ -1892,11 +1880,11 @@
 ></entry>
 <entry
 ><para
->Claudàtor d'obertura anterior [<userinput
+>Clau d'obertura anterior (<userinput
 >{</userinput
->] al següent claudàtor de tancament [<userinput
+>) a la clau de tancament següent (<userinput
 >}</userinput
->], incloent-hi els claudàtors</para
+>), incloent-hi les claus</para
 ></entry>
 </row>
 <row
@@ -1908,11 +1896,11 @@
 ></entry>
 <entry
 ><para
->Claudàtor d'obertura anterior [<userinput
+>Clau d'obertura anterior (<userinput
 >{</userinput
->] al següent claudàtor de tancament [<userinput
+>) a la clau de tancament següent (<userinput
 >}</userinput
->], excloent els claudàtors</para
+>), excloent les claus</para
 ></entry>
 </row>
 <row
@@ -1924,11 +1912,11 @@
 ></entry>
 <entry
 ><para
->Abraçadora d'obertura anterior [<userinput
+>Clau angular d'obertura anterior (<userinput
 >&lt;</userinput
->] a la següent abraçadora de tancament [<userinput
+>) a la clau angular de tancament següent (<userinput
 >&gt;</userinput
->], incloent-hi les abraçadores</para
+>), incloent-hi les claus</para
 ></entry>
 </row>
 <row
@@ -1940,11 +1928,11 @@
 ></entry>
 <entry
 ><para
->Abraçadora d'obertura anterior [<userinput
+>Clau angular d'obertura anterior (<userinput
 >&lt;</userinput
->] a la següent abraçadora de tancament [<userinput
+>) a la clau angular de tancament següent (<userinput
 >&gt;</userinput
->], excloent les abraçadores</para
+>), excloent les claus</para
 ></entry>
 </row>
 <row
@@ -1956,9 +1944,9 @@
 ></entry>
 <entry
 ><para
->Accent anterior (<userinput
+>Accent greu anterior (<userinput
 >`</userinput
->) al següent accent, inclosos els accents oberts</para
+>) a l'accent greu següent, inclosos els accents greus</para
 ></entry>
 </row>
 <row
@@ -1970,9 +1958,9 @@
 ></entry>
 <entry
 ><para
->Accent anterior (<userinput
+>Accent greu anterior (<userinput
 >`</userinput
->) al següent accent, excloent els accents oberts</para
+>) a l'accent greu següent, excloent els accents greus</para
 ></entry>
 </row>
 </tbody>
@@ -2211,9 +2199,7 @@
 >arg2</replaceable
 >, prement <userinput
 >ci</userinput
->, (<quote
->canvi de coma interior</quote
->) que elimina <replaceable
+>, («canvi de coma interior») que suprimeix <replaceable
 >arg2 doble</replaceable
 > i situa el cursor entre les dues comes en el mode d'inserció. Una manera molt còmoda per a canviar els paràmetres d'una funció.</para
 ></caption>

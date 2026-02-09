@@ -1,23 +1,24 @@
-find_package(KF5Wallet ${KF5_DEP_VERSION} QUIET)
-set_package_properties(KF5Wallet PROPERTIES PURPOSE "Required to build the katesql addon")
+find_package(Qt6Sql ${QT_MIN_VERSION} QUIET)
+set_package_properties(Qt6Sql PROPERTIES PURPOSE "Required to build the katesql addon")
 
-find_package(Qt5Sql ${QT_MIN_VERSION} QUIET)
-set_package_properties(Qt5Sql PROPERTIES PURPOSE "Required to build the katesql addon")
+find_package(Qt6Keychain QUIET)
+set_package_properties(Qt6Keychain PROPERTIES PURPOSE "Required to build the katesql addon")
 
-if(NOT KF5Wallet_FOUND OR NOT Qt5Sql_FOUND)
+if(NOT Qt6Sql_FOUND OR NOT Qt6Keychain_FOUND)
   return()
 endif()
 
-add_library(katesqlplugin MODULE "")
+kate_add_plugin(katesqlplugin)
 target_compile_definitions(katesqlplugin PRIVATE TRANSLATION_DOMAIN="katesql")
 
 target_link_libraries(
   katesqlplugin 
   PRIVATE
-    KF5::I18n
-    KF5::TextEditor
-    KF5::Wallet
-    Qt5::Sql
+    KF6::I18n
+    KF6::TextEditor
+    KF6::KIOWidgets
+    Qt::Sql
+    qt6keychain
 )
 
 target_sources(
@@ -42,6 +43,6 @@ target_sources(
     plugin.qrc
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(katesqlplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS katesqlplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(katesqlplugin REUSE_FROM katepch)
+endif()

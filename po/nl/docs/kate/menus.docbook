@@ -898,7 +898,7 @@
 > <guisubmenu
 >Ga naar</guisubmenu
 > <guimenuitem
->Naar overeenkomend haakje verplaatsen</guimenuitem
+>Ga naar overeenkomend haakje</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -938,7 +938,7 @@
 > <guisubmenu
 >Ga naar</guisubmenu
 > <guimenuitem
->Naar vorige gewijzigde regel springen</guimenuitem
+>Ga naar vorige gewijzigde regel</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -955,7 +955,7 @@
 > <guisubmenu
 >Ga naar</guisubmenu
 > <guimenuitem
->Naar volgende gewijzigde regel springen</guimenuitem
+>Ga naar volgende gewijzigde regel</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -1052,6 +1052,27 @@
 </listitem>
 </varlistentry>
 
+<varlistentry id="reopen-latest-closed-document">
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Laatst gesloten document heropenen</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Heropent het laatst gesloten document of documenten.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry id="view-quick-open">
 <term
 ><menuchoice
@@ -1073,7 +1094,7 @@
 <para
 >Deze actie is ook beschikbaar via het pictogram <inlinemediaobject
 ><imageobject
-><imagedata fileref="tab-duplicate-22.png" format="PNG"/></imageobject
+><imagedata fileref="quickopen-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > rechtsboven het bewerkingsvenster.</para>
 </listitem>
@@ -1120,6 +1141,74 @@
 ><listitem>
 <para
 >De focus naar het volgende document brengen, als u het bewerkingsgebied hebt gesplitst in meerdere weergaven.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-left">
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Beeld splitsen</guisubmenu
+> <guimenuitem
+>Linker gesplitst beeld</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Het gesplitste beeld intuïtief links focus geven, met gebruik van de cursorpositie, indien nodig, om het niet dubbelzinnig te maken.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-right">
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Beeld splitsen</guisubmenu
+> <guimenuitem
+>Rechter gesplitst beeld</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Het gesplitste beeld intuïtief rechts focus geven, met gebruik van de cursorpositie, indien nodig, om het niet dubbelzinnig te maken.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-upward">
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Beeld splitsen</guisubmenu
+> <guimenuitem
+>Bovenaan gesplitst beeld</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Het gesplitste beeld intuïtief bovenaan focus geven, met gebruik van de cursorpositie, indien nodig, om het niet dubbelzinnig te maken.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-downward">
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Beeld splitsen</guisubmenu
+> <guimenuitem
+>Onderaan gesplitst beeld</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Het gesplitste beeld intuïtief onderaan focus geven, met gebruik van de cursorpositie, indien nodig, om het niet dubbelzinnig te maken.</para>
 </listitem>
 </varlistentry>
 
@@ -1170,6 +1259,48 @@
 <listitem>
 <para
 >Splitst het frame (of het editor-gedeelte) in twee even grote frames, Het nieuwe frame wordt onder het huidige frame geplaatst en krijgt de focus. In het nieuwe frame wordt hetzelfde document weergegeven als in het eerste frame.</para>
+<para
+>Zie ook <link linkend="kate-mdi"
+>Werken met de MDI van &kate;</link
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="move-document-to-new-vertical-split">
+<term>
+<menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Beeld splitsen</guisubmenu
+> <guimenuitem
+>Document naar nieuwe verticale splitsing verplaatsen</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+>Dit zal het huidige actieve deelvenster verticaal opsplitsen in twee deelvensters en verplaats het huidige actieve document naar de rechter weergave.</para>
+<para
+>Zie ook <link linkend="kate-mdi"
+>Werken met de MDI van &kate;</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="move-document-to-new-horizontal-split">
+<term>
+<menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Beeld splitsen</guisubmenu
+> <guimenuitem
+>Document naar nieuwe horizontale splitsing verplaatsen</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+>Dit zal het huidige actieve deelvenster horizontaal opsplitsen in twee deelvensters en verplaats het huidige actieve document naar de onderste weergave.</para>
 <para
 >Zie ook <link linkend="kate-mdi"
 >Werken met de MDI van &kate;</link
@@ -2322,184 +2453,236 @@ depends on the <link linkend="pref-edit-indent"
 </listitem>
 </varlistentry>
 -->
+
+<!-- <Pablo
+> These are in the selection menu now, and are documented in doc/katepart/menus.docbook -->
+<!--
 <varlistentry id="tools-cleanindent">
 <term
-><menuchoice
-><guimenu
->Hulpmiddelen</guimenu
-> <guimenuitem
->Inspringen opschonen</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Clean Indentation</guimenuitem>
+</menuchoice
 ></term>
 <listitem>
 <para
->Dit schoont het inspringen voor de huidige selectie of voor de regel waarin zich de cursor bevindt op. Inspringen opschonen maakt dat alle geselecteerde tekst de inspringmethode van uw keuze krijgt.</para>
+>This cleans the indentation for the current selection or for the
+line the cursor is currently in. Cleaning the indentation ensures that
+all your selected text follows the indentation mode you choose.</para>
 </listitem>
 </varlistentry>
 
-<varlistentry id="tools-align">
+<varlistentry id="tools-formatindent">
 <term
-><menuchoice
-><guimenu
->Hulpmiddelen</guimenu
-><guimenuitem
->Uitlijnen</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Format Indent</guimenuitem>
+</menuchoice
 ></term>
 <listitem>
 <para
->De huidige regel of geselecteerde regels worden opnieuw uitgelijnd, waarbij gebruik gemaakt wordt van de inspringmethode en inspring-instellingen in het document.</para>
+>Causes a realign of the current line or selected lines using the
+indentation mode and indentation settings in the document.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="tools-alignon">
+<term
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Align On...</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>This command aligns lines in the selected block or whole document on the column given by a regular expression that you will be prompted for.</para>
+<para
+>If you give an empty pattern it will align on the first non-blank character by default.</para>
+<para
+>If the pattern has a capture it will indent on the captured match.</para>
+<para
+><emphasis
+>Examples:</emphasis
+></para>
+<para
+>With '<userinput
+>-</userinput
+>' it will insert spaces before the first '-' of each lines to align them all on the same column.</para>
+<para
+>With '<userinput
+>alignon :\\s+(.)</userinput
+>' it will insert spaces before the first non-blank character that occurs after a colon to align them all on the same column.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry id="tools-comment">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >D</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Hulpmiddelen</guimenu
-> <guimenuitem
->Commentaar</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Comment</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Dit voegt één spatie toe aan het begin van de regel waar de tekstcursor zich bevindt of aan het begin van geselecteerde regels.</para>
+>This adds one space to the beginning of the line
+where the text cursor is located or to the beginning of any
+selected lines.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry id="tools-uncomment">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;&Shift;<keycap
 >D</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Hulpmiddelen</guimenu
-> <guimenuitem
->Commentaar verwijderen</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Uncomment</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Dit verwijdert één spatie (indien aanwezig) aan het begin van de regel waar de tekstcursor zich bevindt of aan het begin van geselecteerde regels.</para
+>This removes one space (if any exist) from the beginning of the
+line where the text cursor is located or from the beginning of any
+selected lines.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-uppercase">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Hulpmiddelen</guimenu
-> <guimenuitem
->Omzetten naar hoofdletters</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Uppercase</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Zet de geselecteerde tekst of de letter na de cursor om in hoofdletters.</para
+>Put the selected text or the letter after the cursor in
+uppercase.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-lowercase">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;&Shift;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Hulpmiddelen</guimenu
-> <guimenuitem
->Omzetten naar kleine letters</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Lowercase</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Zet de geselecteerde tekst of de letter na de cursor om in kleine letters.</para
+>Put the selected text or the letter after the cursor in
+lowercase.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-capitalize">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;&Alt;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Hulpmiddelen</guimenu
-> <guimenuitem
-> Elk woord met hoofdletter laten beginnen</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Capitalize</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Laat de geselecteerde tekst of het huidige woord met een hoofdletter beginnen.</para
+>Capitalize the selected text or the current
+word.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-join-lines">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >J</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Hulpmiddelen</guimenu
-> <guimenuitem
->Regels samenvoegen</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Join Lines</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Voegt de geselecteerde regels samen, of de huidige regel en de regel eronder, met één spatie als scheidingsteken. Overtollige witruimte in de samengevoegde regels wordt verwijderd.</para
+>Joins the selected lines, or the current line and the line below
+with one white space character as a separator. Leading/trailing white space on
+joined lines is removed in the affected ends.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-word-wrap-document">
 <term
-><menuchoice
-><guimenu
->Hulpmiddelen</guimenu
-><guimenuitem
->Regelafbreking toepassen</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Apply Word Wrap</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Pas statische regelafbreking toe voor het hele document. Dat betekent dat er automatisch een nieuwe tekstregel gestart wordt wanneer de huidige regel de lengte overschrijdt die opgegeven is bij de optie <guilabel
->Regels afbreken op:</guilabel
-> op het tabblad Bewerken bij de <menuchoice
-> <guimenu
->Instellingen</guimenu
+>Apply static word wrapping on all the document. That means that
+a new line of text will automatically start when the current
+line exceeds the length specified by the <guilabel
+>Wrap words at</guilabel
+> option
+in the Editing tab in <menuchoice>
+<guimenu
+>Settings</guimenu
 ><guimenuitem
-> Editor instellen...</guimenuitem
+>Configure
+Editor...</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
 </varlistentry>
+-->
 
 </variablelist>
 </sect1>
@@ -2551,7 +2734,7 @@ depends on the <link linkend="pref-edit-indent"
 ><para
 >Tabbladen zijn verplaatsbaar met de &LMB; en hebben acties in het contextmenu om documenten te sluiten, het pad te kopiëren naar het klembord of de map van het document in de bestandsbeheerder te openen. Met de knop <inlinemediaobject
 ><imageobject
-><imagedata fileref="tab-duplicate-22.png" format="PNG"/></imageobject
+><imagedata fileref="quickopen-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > <link linkend="view-quick-open"
 ><guibutton

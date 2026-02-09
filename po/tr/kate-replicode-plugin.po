@@ -1,79 +1,70 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Volkan Gezer <volkangezer@gmail.com>, 2022.
+# SPDX-FileCopyrightText: 2022, 2023 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kate-replicode-plugin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2017-10-23 09:48+0000\n"
-"Last-Translator: Kaan <kaanozdincer@gmail.com>\n"
-"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2022-09-27 00:48+0000\n"
+"PO-Revision-Date: 2023-11-25 14:31+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Kaan Özdinçer"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "kaanozdincer@gmail.com"
+"X-Generator: Lokalize 23.08.3\n"
 
 #. i18n: ectx: attribute (title), widget (QWidget, run)
 #: config.ui:18
 #, kde-format
 msgid "Run"
-msgstr ""
+msgstr "Çalıştır"
 
 #. i18n: ectx: property (text), widget (QLabel, label_34)
 #: config.ui:24
 #, kde-format
 msgid "Run time (milliseconds):"
-msgstr ""
+msgstr "Çalıştırma süresi (milisaniye):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_35)
 #: config.ui:41
 #, kde-format
 msgid "Probe level:"
-msgstr ""
+msgstr "Tarama düzeyi:"
 
 #. i18n: ectx: property (text), widget (QLabel, userOpsLabel)
 #: config.ui:58
 #, kde-format
 msgid "User operations layout module:"
-msgstr ""
+msgstr "Kullanıcı işlemleri dizilim modülü:"
 
 #. i18n: ectx: property (text), widget (QLabel, userClassLabel)
 #: config.ui:71
 #, kde-format
 msgid "User classes file:"
-msgstr ""
+msgstr "Kullanıcı sınıfları dosyası:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: config.ui:84
 #, kde-format
 msgid "Base period:"
-msgstr ""
+msgstr "Taban dönem:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: config.ui:101
 #, kde-format
 msgid "Reduction core count:"
-msgstr ""
+msgstr "Azaltma çekirdeği sayısı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: config.ui:118
 #, kde-format
 msgid "Time core count:"
-msgstr ""
+msgstr "Zaman çekirdeği sayısı:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, system)
 #: config.ui:136
@@ -85,85 +76,85 @@ msgstr "Sistem"
 #: config.ui:142
 #, kde-format
 msgid "Model inertia success rate threshold:"
-msgstr ""
+msgstr "Model eylemsizlik başarı oranı eşiği:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: config.ui:159
 #, kde-format
 msgid "Model inertia count threshold:"
-msgstr ""
+msgstr "Model eylemsizlik sayımı eşiği:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: config.ui:176
 #, kde-format
 msgid "Targeted pattern extractor delta success rate threshold:"
-msgstr ""
+msgstr "Hedeflenen dizgi çıkarıcısı fark başarı oranı eşiği:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: config.ui:193
 #, kde-format
 msgid "Minimum simulation time horizon:"
-msgstr ""
+msgstr "En düşük simülasyon zamanı ufuğu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: config.ui:210
 #, kde-format
 msgid "Maximum simulation time horizon:"
-msgstr ""
+msgstr "En yüksek simülasyın zaman ufuğu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: config.ui:227
 #, kde-format
 msgid "Simulation time horizon:"
-msgstr ""
+msgstr "Simülasyon zaman ufuğu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: config.ui:247
 #, kde-format
 msgid "Targeted pattern extractor time horizon:"
-msgstr ""
+msgstr "Hedeflenen dizgi çıkarıcısı zaman ufuğu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: config.ui:264
 #, kde-format
 msgid "Perf sampling period:"
-msgstr ""
+msgstr "Başarım örnekleme periyodu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: config.ui:281
 #, kde-format
 msgid "Float tolerance:"
-msgstr ""
+msgstr "Kayan noktalı değer toleransı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: config.ui:298
 #, kde-format
 msgid "Timer tolerance:"
-msgstr ""
+msgstr "Sayaç toleransı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: config.ui:318
 #, kde-format
 msgid "Primary time horizon:"
-msgstr ""
+msgstr "Birincil zaman ufuğu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: config.ui:335
 #, kde-format
 msgid "Secondary time horizon:"
-msgstr ""
+msgstr "İkincil zaman ufuğu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: config.ui:352
 #, kde-format
 msgid "Notification marker resilience:"
-msgstr ""
+msgstr "Bildirim imleyici direnci:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: config.ui:369
 #, kde-format
 msgid "Goal prediction success resilience:"
-msgstr ""
+msgstr "Hedef tahmin başarı direnci:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, debugtab)
 #: config.ui:387
@@ -175,7 +166,7 @@ msgstr "Hata Ayıklama"
 #: config.ui:396
 #, kde-format
 msgid "Debug:"
-msgstr "Hata Ayıklama:"
+msgstr "Hata ayıkla:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: config.ui:413
@@ -187,222 +178,229 @@ msgstr "Hata ayıklama penceresi:"
 #: config.ui:426
 #, kde-format
 msgid "Traces:"
-msgstr ""
+msgstr "İzler:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, traceCompInputs)
 #: config.ui:433
 #, kde-format
 msgid "Composite inputs"
-msgstr ""
+msgstr "Bileşik girdiler"
 
 #. i18n: ectx: property (text), widget (QCheckBox, traceCompOutputs)
 #: config.ui:440
 #, kde-format
 msgid "Composite outputs"
-msgstr ""
+msgstr "Bileşik çıktılar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, traceModelIn)
 #: config.ui:447
 #, kde-format
 msgid "Model inputs"
-msgstr ""
+msgstr "Model girdileri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, traceModelOut)
 #: config.ui:454
 #, kde-format
 msgid "Model outputs"
-msgstr ""
+msgstr "Model çıktıları"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tracePredMon)
 #: config.ui:461
 #, kde-format
 msgid "Prediction monitoring"
-msgstr ""
+msgstr "Tahmin izleme"
 
 #. i18n: ectx: property (text), widget (QCheckBox, traceGoalMon)
 #: config.ui:468
 #, kde-format
 msgid "Goal monitoring"
-msgstr ""
+msgstr "Hedef izleme"
 
 #. i18n: ectx: property (text), widget (QCheckBox, traceModelRev)
 #: config.ui:475
 #, kde-format
 msgid "Model revision"
-msgstr ""
+msgstr "Model revizyonu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, traceModComInj)
 #: config.ui:482
 #, kde-format
 msgid "Model/composite injections"
-msgstr ""
+msgstr "Model/bileşik enjeksiyoları"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: config.ui:489
 #, kde-format
 msgid "Decompile objects:"
-msgstr ""
+msgstr "Nesneleri geri derle:"
 
 #. i18n: ectx: property (text), widget (QLabel, decompileFileLabel)
 #: config.ui:506
 #, kde-format
 msgid "Decompile to file:"
-msgstr ""
+msgstr "Dosyaya geri derle:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: config.ui:516
 #, kde-format
 msgid "Ignore named objects:"
-msgstr ""
+msgstr "Adlı nesneleri yok say:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: config.ui:533
 #, kde-format
 msgid "Dump objects to file:"
-msgstr ""
+msgstr "Nesneleri dosyaya boşalt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: config.ui:543
 #, kde-format
 msgid "Test objects:"
-msgstr ""
+msgstr "Nesneleri sına:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: config.ui:560
 #, kde-format
 msgid "Decompile models:"
-msgstr ""
+msgstr "Modelleri geri derle:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: config.ui:577
 #, kde-format
 msgid "Ignore named models:"
-msgstr ""
+msgstr "Adlı modelleri yok say:"
 
 #. i18n: ectx: property (text), widget (QLabel, dumpFileLabel)
 #: config.ui:594
 #, kde-format
 msgid "Dump models to file:"
-msgstr ""
+msgstr "Modelleri dosyaya boşalt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: config.ui:604
 #, kde-format
 msgid "Test models:"
-msgstr ""
+msgstr "Modelleri sına:"
 
-#: replicodeconfigpage.cpp:26
+#: replicodeconfigpage.cpp:24
 #, kde-format
 msgid "Path to replicode executor:"
-msgstr ""
+msgstr "Replicode çalıştırıcı yolu:"
 
-#: replicodeconfigpage.cpp:41
+#: replicodeconfigpage.cpp:39 replicodeview.cpp:51
 #, kde-format
 msgid "Replicode"
-msgstr ""
+msgstr "Replicode"
 
-#: replicodeconfigpage.cpp:46
+#: replicodeconfigpage.cpp:44
 #, kde-format
 msgid "Replicode configuration"
-msgstr ""
+msgstr "Replicode yapılandırması"
 
-#: replicodeview.cpp:40
+#: replicodeview.cpp:38
 #, kde-format
 msgid "Run replicode"
-msgstr ""
+msgstr "Replicode çalıştır"
 
-#: replicodeview.cpp:44
+#: replicodeview.cpp:42
 #, kde-format
 msgid "Stop replicode"
-msgstr ""
+msgstr "Replicode durdur"
 
-#: replicodeview.cpp:53
-#, kde-format
-msgid "Replicode Output"
-msgstr ""
-
-#: replicodeview.cpp:63
+#: replicodeview.cpp:61
 #, kde-format
 msgid "Replicode Config"
-msgstr ""
+msgstr "Replicode Yapılandırması"
 
-#: replicodeview.cpp:66
+#: replicodeview.cpp:64
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Run (%1)"
 msgstr "Çalıştır (%1)"
 
-#: replicodeview.cpp:67
+#: replicodeview.cpp:65
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Stop (%1)"
 msgstr "Durdur (%1)"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgctxt "@title:window"
 msgid "Active Document Not Found"
 msgstr "Etkin Belge Bulunamadı"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgid "Could not find an active document to run."
 msgstr "Çalıştırılacak bir etkin belge bulunamadı."
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgctxt "@title:window"
 msgid "Empty Document"
 msgstr "Boş Belge"
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgid "Cannot execute an empty document."
 msgstr "Boş belge çalıştırılamıyor."
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgctxt "@title:window"
 msgid "File Not Found"
 msgstr "Dosya Bulunamadı"
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgid "Unable to open source file for reading."
 msgstr "Okumak için kaynak dosya açılamıyor."
 
-#: replicodeview.cpp:122
+#: replicodeview.cpp:127
 #, kde-format
 msgctxt "@title:window"
 msgid "Replicode Executable Not Found"
-msgstr ""
+msgstr "Replicode Çalıştırılabiliri Bulunamadı"
 
-#: replicodeview.cpp:123
+#: replicodeview.cpp:128
 #, kde-format
 msgid ""
 "Unable to find replicode executor.\n"
 "Please go to settings and set the path to the Replicode executable."
 msgstr ""
+"Replicode çalıştırıcısı bulunamadı.\n"
+"Ayarlara gidir ve Replicode çalıştırıcısı yolunu ayarlayın."
 
-#: replicodeview.cpp:130
+#: replicodeview.cpp:135
 #, kde-format
 msgctxt "@title:window"
 msgid "User Operator Library Not Found"
-msgstr ""
+msgstr "Kullanıcı İşletici Kitaplığı Bulunamadı"
 
-#: replicodeview.cpp:131
+#: replicodeview.cpp:136
 #, kde-format
 msgid ""
 "Unable to find user operator library.\n"
 "Please go to settings and set the path to the library."
 msgstr ""
+"Kullanıcı işletici kitaplığı bulunamadı.\n"
+"Ayarlara gidin ve kitaplık yolunu ayarlayın."
 
-#: replicodeview.cpp:196
+#: replicodeview.cpp:201
 #, kde-format
 msgid "Replicode execution failed: %1"
-msgstr ""
+msgstr "Replicode çalıştırması başarısız: %1"
 
-#: replicodeview.cpp:206
+#: replicodeview.cpp:211
 #, kde-format
 msgid "Replicode execution finished."
-msgstr ""
+msgstr "Replicode çalıştırması bitti."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kaan Özdinçer, Emir SARI"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "kaanozdincer@gmail.com, emir_sari@icloud.com"

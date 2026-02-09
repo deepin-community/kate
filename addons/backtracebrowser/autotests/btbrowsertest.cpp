@@ -8,8 +8,6 @@
 #include "btbrowsertest.h"
 #include "btparser.h"
 
-#include <QFileInfo>
-#include <QTemporaryFile>
 #include <QtTestWidgets>
 
 QTEST_MAIN(KateBtBrowserTest)
@@ -80,5 +78,7 @@ void KateBtBrowserTest::testParser()
     info = KateBtParser::parseBacktrace(bt);
     QVERIFY(info.empty());
 }
+
+#include "moc_btbrowsertest.cpp"
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

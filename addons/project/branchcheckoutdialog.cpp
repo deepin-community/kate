@@ -9,8 +9,8 @@
 #include <KLocalizedString>
 #include <QtConcurrentRun>
 
-BranchCheckoutDialog::BranchCheckoutDialog(QWidget *mainWindow, KateProjectPluginView *pluginView, QString projectPath)
-    : BranchesDialog(mainWindow, pluginView, projectPath)
+BranchCheckoutDialog::BranchCheckoutDialog(QWidget *mainWindow, const QString &projectPath)
+    : BranchesDialog(mainWindow, projectPath)
 {
     connect(&m_checkoutWatcher, &QFutureWatcher<GitUtils::CheckoutResult>::finished, this, &BranchCheckoutDialog::onCheckoutDone);
 }
@@ -24,7 +24,7 @@ BranchCheckoutDialog::~BranchCheckoutDialog()
 
 void BranchCheckoutDialog::resetValues()
 {
-    m_checkoutBranchName.clear();
+    m_checkoutFromBranchName.clear();
     m_checkingOutFromBranch = false;
     m_lineEdit.setPlaceholderText(i18n("Select branch to checkout. Press 'Esc' to cancel."));
 }
@@ -36,14 +36,15 @@ void BranchCheckoutDialog::openDialog()
     newBranch.name = i18n("Create New Branch");
     GitUtils::Branch newBranchFrom;
     newBranchFrom.name = i18n("Create New Branch From...");
-    QVector<GitUtils::Branch> branches{newBranch, newBranchFrom};
+    QList<GitUtils::Branch> branches{newBranch, newBranchFrom};
     branches << GitUtils::getAllBranches(m_projectPath);
     m_model->refresh(branches, /*checkingOut:*/ true);
 
     reselectFirst();
     updateViewGeometry();
     setFocus();
-    exec();
+    raise();
+    show();
 }
 
 void BranchCheckoutDialog::onCheckoutDone()
@@ -59,27 +60,34 @@ void BranchCheckoutDialog::onCheckoutDone()
     sendMessage(msgStr, warn);
 }
 
-void BranchCheckoutDialog::slotReturnPressed()
+void BranchCheckoutDialog::slotReturnPressed(const QModelIndex &index)
 {
     // we cleared the model to checkout new branch
     if (m_model->rowCount() == 0) {
-        createNewBranch(m_lineEdit.text(), m_checkoutBranchName);
+        createNewBranch(m_lineEdit.text(), m_checkoutFromBranchName);
+        return;
+    }
+
+    if (!index.isValid()) {
+        deleteLater();
+        clearLineEdit();
+        hide();
         return;
     }
 
     // branch is selected, do actual checkout
     if (m_checkingOutFromBranch) {
         m_checkingOutFromBranch = false;
-        const auto fromBranch = m_proxyModel->data(m_treeView.currentIndex(), BranchesDialogModel::CheckoutName).toString();
-        m_checkoutBranchName = fromBranch;
+        const auto fromBranch = index.data(BranchesDialogModel::CheckoutName).toString();
+        m_checkoutFromBranchName = fromBranch;
         m_model->clear();
         clearLineEdit();
         m_lineEdit.setPlaceholderText(i18n("Enter new branch name. Press 'Esc' to cancel."));
         return;
     }
 
-    const auto branch = m_proxyModel->data(m_treeView.currentIndex(), BranchesDialogModel::CheckoutName).toString();
-    const auto itemType = (BranchesDialogModel::ItemType)m_proxyModel->data(m_treeView.currentIndex(), BranchesDialogModel::ItemTypeRole).toInt();
+    const auto branch = index.data(BranchesDialogModel::CheckoutName).toString();
+    const auto itemType = (BranchesDialogModel::ItemType)index.data(BranchesDialogModel::ItemTypeRole).toInt();
 
     if (itemType == BranchesDialogModel::BranchItem) {
         QFuture<GitUtils::CheckoutResult> future = QtConcurrent::run(&GitUtils::checkoutBranch, m_projectPath, branch);
@@ -96,18 +104,14 @@ void BranchCheckoutDialog::slotReturnPressed()
         return;
     }
 
+    deleteLater();
     clearLineEdit();
     hide();
 }
 
-void BranchCheckoutDialog::reselectFirst()
-{
-    QModelIndex index = m_proxyModel->index(0, 0);
-    m_treeView.setCurrentIndex(index);
-}
-
 void BranchCheckoutDialog::createNewBranch(const QString &branch, const QString &fromBranch)
 {
+    deleteLater();
     if (branch.isEmpty()) {
         clearLineEdit();
         hide();

@@ -1,19 +1,15 @@
-find_package(KF5KIO ${KF5_DEP_VERSION} QUIET)
-set_package_properties(KF5KIO PROPERTIES PURPOSE "Required to build the filebrowser addon")
-
-if(NOT KF5KIO_FOUND)
-  return()
-endif()
-
-add_library(katefilebrowserplugin MODULE "")
+kate_add_plugin(katefilebrowserplugin)
 target_compile_definitions(katefilebrowserplugin PRIVATE TRANSLATION_DOMAIN="katefilebrowserplugin")
 
 target_link_libraries(
   katefilebrowserplugin 
   PRIVATE
-    KF5::I18n
-    KF5::TextEditor 
-    KF5::KIOFileWidgets
+    kateprivate
+    KF6::I18n
+    KF6::TextEditor 
+    KF6::KIOFileWidgets
+    KF6::Bookmarks
+    KF6::BookmarksWidgets
 )
 
 target_sources(
@@ -26,6 +22,6 @@ target_sources(
     katefilebrowseropenwithmenu.cpp
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(katefilebrowserplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS katefilebrowserplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(katefilebrowserplugin REUSE_FROM katepch)
+endif()

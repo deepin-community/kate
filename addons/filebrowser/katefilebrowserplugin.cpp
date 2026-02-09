@@ -23,14 +23,14 @@
 K_PLUGIN_FACTORY_WITH_JSON(KateFileBrowserPluginFactory, "katefilebrowserplugin.json", registerPlugin<KateFileBrowserPlugin>();)
 
 // BEGIN KateFileBrowserPlugin
-KateFileBrowserPlugin::KateFileBrowserPlugin(QObject *parent, const QList<QVariant> &)
+KateFileBrowserPlugin::KateFileBrowserPlugin(QObject *parent, const QVariantList &)
     : KTextEditor::Plugin(parent)
 {
 }
 
 QObject *KateFileBrowserPlugin::createView(KTextEditor::MainWindow *mainWindow)
 {
-    KateFileBrowserPluginView *view = new KateFileBrowserPluginView(this, mainWindow);
+    auto *view = new KateFileBrowserPluginView(this, mainWindow);
     connect(view, &KateFileBrowserPluginView::destroyed, this, &KateFileBrowserPlugin::viewDestroyed);
     m_views.append(view);
     return view;
@@ -39,7 +39,7 @@ QObject *KateFileBrowserPlugin::createView(KTextEditor::MainWindow *mainWindow)
 void KateFileBrowserPlugin::viewDestroyed(QObject *view)
 {
     // do not access the view pointer, since it is partially destroyed already
-    m_views.removeAll(static_cast<KateFileBrowserPluginView *>(view));
+    m_views.removeAll(view);
 }
 
 int KateFileBrowserPlugin::configPages() const
@@ -62,8 +62,8 @@ KateFileBrowserPluginView::KateFileBrowserPluginView(KTextEditor::Plugin *plugin
     , m_toolView(mainWindow->createToolView(plugin,
                                             QStringLiteral("kate_private_plugin_katefileselectorplugin"),
                                             KTextEditor::MainWindow::Left,
-                                            QIcon::fromTheme(QStringLiteral("document-open")),
-                                            i18n("Filesystem Browser")))
+                                            QIcon::fromTheme(QStringLiteral("document-open-folder")),
+                                            i18n("Filesystem")))
     , m_fileBrowser(new KateFileBrowser(mainWindow, m_toolView))
     , m_mainWindow(mainWindow)
 {
@@ -73,7 +73,7 @@ KateFileBrowserPluginView::KateFileBrowserPluginView(KTextEditor::Plugin *plugin
 KateFileBrowserPluginView::~KateFileBrowserPluginView()
 {
     // cleanup, kill toolview + console
-    delete m_fileBrowser->parentWidget();
+    delete m_fileBrowser->parent();
 }
 
 void KateFileBrowserPluginView::readSessionConfig(const KConfigGroup &config)
@@ -89,7 +89,7 @@ void KateFileBrowserPluginView::writeSessionConfig(KConfigGroup &config)
 bool KateFileBrowserPluginView::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
+        auto *ke = static_cast<QKeyEvent *>(event);
         if ((obj == m_toolView) && (ke->key() == Qt::Key_Escape)) {
             m_mainWindow->hideToolView(m_toolView);
             event->accept();
@@ -101,5 +101,4 @@ bool KateFileBrowserPluginView::eventFilter(QObject *obj, QEvent *event)
 // ENDKateFileBrowserPluginView
 
 #include "katefilebrowserplugin.moc"
-
-// kate: space-indent on; indent-width 2; replace-tabs on;
+#include "moc_katefilebrowserplugin.cpp"

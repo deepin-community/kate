@@ -1,0 +1,584 @@
+From 2650a5e6b02f9524e9c17c77fe7d7832f5acbb21 Mon Sep 17 00:00:00 2001
+From: Yuri Timenkov <s.kde@timenkov.pro>
+Date: Sat, 5 Jul 2025 08:21:13 +0000
+Subject: [PATCH] Automatically highlight symbol under cursor
+
+Instead of explicit command to get all highlights of the symbol under
+the cursor this send these requests to LSP automatically in background.
+
+Added Next/Previous actions simplify researching the code by allowing
+quickly jump around symbol usages.
+
+BUG: 503414
+---
+ addons/lspclient/CMakeLists.txt               |   1 +
+ addons/lspclient/lspclientconfigpage.cpp      |   3 +
+ addons/lspclient/lspclientplugin.cpp          |   3 +
+ addons/lspclient/lspclientplugin.h            |   1 +
+ addons/lspclient/lspclientpluginview.cpp      |  10 +-
+ .../lspclient/lspclientsymbolhighlighter.cpp  | 157 ++++++++++++++++++
+ addons/lspclient/lspclientsymbolhighlighter.h |  60 +++++++
+ addons/lspclient/lspconfigwidget.ui           |  53 +++---
+ 8 files changed, 264 insertions(+), 24 deletions(-)
+ create mode 100644 addons/lspclient/lspclientsymbolhighlighter.cpp
+ create mode 100644 addons/lspclient/lspclientsymbolhighlighter.h
+
+diff --git a/addons/lspclient/CMakeLists.txt b/addons/lspclient/CMakeLists.txt
+index fcb26731fd..98ad02db99 100644
+--- a/addons/lspclient/CMakeLists.txt
++++ b/addons/lspclient/CMakeLists.txt
+@@ -27,6 +27,7 @@ target_sources(
+     lspclientpluginview.cpp
+     lspclientserver.cpp
+     lspclientservermanager.cpp
++    lspclientsymbolhighlighter.cpp
+     lspclientsymbolview.cpp
+     lspclientutils.cpp
+     lspsemantichighlighting.cpp
+diff --git a/addons/lspclient/lspclientconfigpage.cpp b/addons/lspclient/lspclientconfigpage.cpp
+index 83fa669dd3..6f90c5ebae 100644
+--- a/addons/lspclient/lspclientconfigpage.cpp
++++ b/addons/lspclient/lspclientconfigpage.cpp
+@@ -68,6 +68,7 @@ LSPClientConfigPage::LSPClientConfigPage(QWidget *parent, LSPClientPlugin *plugi
+              ui->chkFmtOnSave,
+              ui->chkInlayHint,
+              ui->chkShowCompl,
++             ui->chkHighlightSymbol,
+          }) {
+         connect(cb, &QCheckBox::toggled, this, &LSPClientConfigPage::changed);
+     }
+@@ -133,6 +134,7 @@ void LSPClientConfigPage::apply()
+     m_plugin->m_autoImport = ui->chkAutoImport->isChecked();
+     m_plugin->m_fmtOnSave = ui->chkFmtOnSave->isChecked();
+     m_plugin->m_inlayHints = ui->chkInlayHint->isChecked();
++    m_plugin->m_highLightSymbol = ui->chkHighlightSymbol->isChecked();
+ 
+     m_plugin->m_diagnostics = ui->chkDiagnostics->isChecked();
+     m_plugin->m_messages = ui->chkMessages->isChecked();
+@@ -178,6 +180,7 @@ void LSPClientConfigPage::resetUiTo(const LSPClientPluginOptions &options)
+     ui->chkAutoImport->setChecked(options.m_autoImport);
+     ui->chkFmtOnSave->setChecked(options.m_fmtOnSave);
+     ui->chkInlayHint->setChecked(options.m_inlayHints);
++    ui->chkHighlightSymbol->setChecked(options.m_highLightSymbol);
+ 
+     ui->chkDiagnostics->setChecked(options.m_diagnostics);
+     ui->chkMessages->setChecked(options.m_messages);
+diff --git a/addons/lspclient/lspclientplugin.cpp b/addons/lspclient/lspclientplugin.cpp
+index d1becb8dc1..3d608a569c 100644
+--- a/addons/lspclient/lspclientplugin.cpp
++++ b/addons/lspclient/lspclientplugin.cpp
+@@ -45,6 +45,7 @@ static constexpr char CONFIG_BLOCKED_COMMANDS[] = "BlockedServerCommandLines";
+ static constexpr char CONFIG_FORMAT_ON_SAVE[] = "FormatOnSave";
+ static constexpr char CONFIG_INLAY_HINT[] = "InlayHints";
+ static constexpr char CONFIG_SHOW_COMPL[] = "ShowCompletions";
++static constexpr char CONFIG_HIGHLIGHT_SYMBOL[] = "HighlightSymbol";
+ 
+ K_PLUGIN_FACTORY_WITH_JSON(LSPClientPluginFactory, "lspclientplugin.json", registerPlugin<LSPClientPlugin>();)
+ 
+@@ -135,6 +136,7 @@ void LSPClientPlugin::readConfig()
+     m_autoImport = config.readEntry(CONFIG_AUTO_IMPORT, defaults.m_autoImport);
+     m_fmtOnSave = config.readEntry(CONFIG_FORMAT_ON_SAVE, defaults.m_fmtOnSave);
+     m_inlayHints = config.readEntry(CONFIG_INLAY_HINT, defaults.m_inlayHints);
++    m_highLightSymbol = config.readEntry(CONFIG_HIGHLIGHT_SYMBOL, true);
+ 
+     m_diagnostics = config.readEntry(CONFIG_DIAGNOSTICS, defaults.m_diagnostics);
+     m_messages = config.readEntry(CONFIG_MESSAGES, defaults.m_messages);
+@@ -178,6 +180,7 @@ void LSPClientPlugin::writeConfig() const
+     config.writeEntry(CONFIG_FORMAT_ON_SAVE, m_fmtOnSave);
+     config.writeEntry(CONFIG_INLAY_HINT, m_inlayHints);
+     config.writeEntry(CONFIG_SHOW_COMPL, m_showCompl);
++    config.writeEntry(CONFIG_HIGHLIGHT_SYMBOL, m_highLightSymbol);
+ 
+     // write allow + block lists as two separate keys
+     QStringList allowed, blocked;
+diff --git a/addons/lspclient/lspclientplugin.h b/addons/lspclient/lspclientplugin.h
+index 8ede057f1f..6240bf2572 100644
+--- a/addons/lspclient/lspclientplugin.h
++++ b/addons/lspclient/lspclientplugin.h
+@@ -43,6 +43,7 @@ struct LSPClientPluginOptions {
+     bool m_autoImport = true;
+     bool m_fmtOnSave = false;
+     bool m_inlayHints = false;
++    bool m_highLightSymbol = true;
+ 
+     bool m_diagnostics = true;
+     bool m_messages = true;
+diff --git a/addons/lspclient/lspclientpluginview.cpp b/addons/lspclient/lspclientpluginview.cpp
+index 72186e981a..0418559b70 100644
+--- a/addons/lspclient/lspclientpluginview.cpp
++++ b/addons/lspclient/lspclientpluginview.cpp
+@@ -12,6 +12,7 @@
+ #include "lspclienthover.h"
+ #include "lspclientplugin.h"
+ #include "lspclientservermanager.h"
++#include "lspclientsymbolhighlighter.h"
+ #include "lspclientsymbolview.h"
+ #include "lspclientutils.h"
+ #include "texthint/KateTextHintManager.h"
+@@ -454,6 +455,7 @@ class LSPClientPluginViewImpl : public QObject, public KXMLGUIClient
+     };
+ 
+     LSPDiagnosticProvider m_diagnosticProvider;
++    LSPClientSymbolHighlighter m_symbolHighlighter;
+ 
+ public:
+     LSPClientPluginViewImpl(LSPClientPlugin *plugin, KTextEditor::MainWindow *mainWin, std::shared_ptr<LSPClientServerManager> serverManager)
+@@ -468,6 +470,7 @@ public:
+         , m_semHighlightingManager(m_serverManager)
+         , m_inlayHintsHandler(m_serverManager, this)
+         , m_diagnosticProvider(mainWin, this)
++        , m_symbolHighlighter(actionCollection())
+     {
+         KXMLGUIClient::setComponentName(QStringLiteral("lspclient"), i18n("LSP Client"));
+         setXMLFile(QStringLiteral("ui.rc"));
+@@ -661,7 +664,6 @@ public:
+         connect(this, &self_type::ctrlClickDefRecieved, this, &self_type::onCtrlMouseMove);
+ 
+         configUpdated();
+-        updateState();
+ 
+         m_mainWindow->guiFactory()->addClient(this);
+     }
+@@ -2297,6 +2299,12 @@ public:
+         actionCollection()->action(QStringLiteral("lspclient_rename"))->setVisible(server != nullptr);
+         actionCollection()->action(QStringLiteral("lspclient_other_menu"))->setVisible(server != nullptr);
+ 
++        if (m_plugin->m_highLightSymbol) {
++            m_symbolHighlighter.attach(activeView, server);
++        } else {
++            m_symbolHighlighter.attach(nullptr, nullptr);
++        }
++
+         if (m_findDef) {
+             m_findDef->setEnabled(defEnabled);
+         }
+diff --git a/addons/lspclient/lspclientsymbolhighlighter.cpp b/addons/lspclient/lspclientsymbolhighlighter.cpp
+new file mode 100644
+index 0000000000..0176675b68
+--- /dev/null
++++ b/addons/lspclient/lspclientsymbolhighlighter.cpp
+@@ -0,0 +1,157 @@
++/*
++ *    SPDX-FileCopyrightText: 2025 Yuri Timenkov <yuri@timenkov.pro>
++ *
++ *    SPDX-License-Identifier: MIT
++ */
++
++#include "lspclientsymbolhighlighter.h"
++
++#include "lspclientservermanager.h"
++
++#include <KActionCollection>
++#include <KLocalizedString>
++#include <KTextEditor/Document>
++#include <KTextEditor/Editor>
++#include <KTextEditor/MainWindow>
++#include <KTextEditor/View>
++
++LSPClientSymbolHighlighter::LSPClientSymbolHighlighter(KActionCollection *actions)
++    : m_highlightAttribute(new KTextEditor::Attribute())
++{
++    m_highlightDelayTimer.setSingleShot(true);
++    m_highlightDelayTimer.setInterval(100);
++    connect(&m_highlightDelayTimer, &QTimer::timeout, this, &LSPClientSymbolHighlighter::highlight);
++
++    m_requestTimeout.setSingleShot(true);
++    m_requestTimeout.setInterval(1000);
++    connect(&m_requestTimeout, &QTimer::timeout, this, &LSPClientSymbolHighlighter::cancelRequest);
++
++    m_nextSymbolHighlight = actions->addAction(QStringLiteral("lspclient_next_symbol_highlight"), this, &LSPClientSymbolHighlighter::gotoNextHighlight);
++    m_nextSymbolHighlight->setText(i18n("Go to next symbol highlight"));
++    m_prevSymbolHighlight = actions->addAction(QStringLiteral("lspclient_prev_symbol_highlight"), this, &LSPClientSymbolHighlighter::gotoPrevHighlight);
++    m_prevSymbolHighlight->setText(i18n("Go to previous symbol highlight"));
++
++    connect(KTextEditor::Editor::instance(), &KTextEditor::Editor::configChanged, this, &LSPClientSymbolHighlighter::themeChange);
++    themeChange(KTextEditor::Editor::instance());
++}
++
++void LSPClientSymbolHighlighter::attach(KTextEditor::View *view, std::shared_ptr<LSPClientServer> server)
++{
++    bool actionsEnabled;
++    if (!view || !server) {
++        m_currentView = nullptr;
++        m_currentServer = nullptr;
++        actionsEnabled = false;
++    } else {
++        m_currentView = view;
++        m_currentServer = std::move(server);
++        actionsEnabled = true;
++        connect(view, &KTextEditor::View::cursorPositionChanged, this, &LSPClientSymbolHighlighter::cursorPositionChanged, Qt::UniqueConnection);
++        connect(view, &KTextEditor::View::selectionChanged, this, &LSPClientSymbolHighlighter::rangesInvalidated, Qt::UniqueConnection);
++    }
++    m_nextSymbolHighlight->setEnabled(actionsEnabled);
++    m_prevSymbolHighlight->setEnabled(actionsEnabled);
++
++    rangesInvalidated();
++}
++
++void LSPClientSymbolHighlighter::cursorPositionChanged(KTextEditor::View *, const KTextEditor::Cursor &newPosition)
++{
++    if (!m_currentWord.contains(newPosition)) {
++        rangesInvalidated();
++    }
++}
++
++void LSPClientSymbolHighlighter::rangesInvalidated()
++{
++    m_ranges.clear();
++    m_currentWord = KTextEditor::Range::invalid();
++    cancelRequest();
++
++    if (m_currentView && !m_currentView->selection())
++        m_highlightDelayTimer.start();
++    else
++        m_highlightDelayTimer.stop();
++}
++
++void LSPClientSymbolHighlighter::themeChange(KTextEditor::Editor *e)
++{
++    const auto theme = e->theme();
++    m_highlightAttribute->setBackground(QBrush(theme.editorColor(KSyntaxHighlighting::Theme::SearchHighlight)));
++}
++
++void LSPClientSymbolHighlighter::cancelRequest()
++{
++    m_requestHandle.cancel() = {};
++}
++
++void LSPClientSymbolHighlighter::highlight()
++{
++    if (!m_currentView || !m_currentServer)
++        return;
++
++    m_requestTimeout.start();
++    m_requestHandle.cancel() = m_currentServer->documentHighlight(
++        m_currentView->document()->url(),
++        m_currentView->cursorPosition(),
++        this,
++        [this](const QList<LSPDocumentHighlight> &locations) {
++            // By the time we get response view may change.
++            if (!m_currentView)
++                return;
++
++            m_ranges.resize(locations.length());
++
++            std::ranges::transform(locations, m_ranges.begin(), [attr = m_highlightAttribute, document = m_currentView->document()](auto &loc) {
++                auto mr = std::unique_ptr<KTextEditor::MovingRange>(document->newMovingRange(loc.range));
++                mr->setZDepth(-90000.0); // Set the z-depth to slightly worse than the selection
++                mr->setAttribute(attr);
++                mr->setAttributeOnlyForViews(true);
++                return mr;
++            });
++
++            if (auto it = findRange(m_currentView->cursorPosition()); it != m_ranges.end()) {
++                m_currentWord = **it;
++            }
++        });
++}
++
++LSPClientSymbolHighlighter::MovingRangeList::iterator LSPClientSymbolHighlighter::findRange(const KTextEditor::Cursor &position)
++{
++    return std::find_if(m_ranges.begin(), m_ranges.end(), [&position](auto &range) {
++        return range->contains(position);
++    });
++}
++
++void LSPClientSymbolHighlighter::gotoNextHighlight()
++{
++    if (auto it = findRange(m_currentWord.start()); it != m_ranges.end()) {
++        if (++it == m_ranges.end()) {
++            it = m_ranges.begin();
++        }
++        goToRange(**it);
++    }
++}
++
++void LSPClientSymbolHighlighter::gotoPrevHighlight()
++{
++    if (auto it = findRange(m_currentWord.start()); it != m_ranges.end()) {
++        if (it == m_ranges.begin()) {
++            it = m_ranges.end();
++        }
++        --it;
++
++        goToRange(**it);
++    }
++}
++
++void LSPClientSymbolHighlighter::goToRange(const KTextEditor::MovingRange &range)
++{
++    if (!m_currentView)
++        return;
++
++    // Update the current word position to skip new query to LSP
++    // when signal is received.
++    m_currentWord = range;
++    m_currentView->setCursorPosition(range.start().toCursor());
++}
+diff --git a/addons/lspclient/lspclientsymbolhighlighter.h b/addons/lspclient/lspclientsymbolhighlighter.h
+new file mode 100644
+index 0000000000..b426daefe8
+--- /dev/null
++++ b/addons/lspclient/lspclientsymbolhighlighter.h
+@@ -0,0 +1,60 @@
++/*
++ *    SPDX-FileCopyrightText: 2025 Yuri Timenkov <yuri@timenkov.pro>
++ *
++ *    SPDX-License-Identifier: MIT
++ */
++
++#pragma once
++
++#include "lspclientserver.h"
++
++#include <KTextEditor/Attribute>
++
++namespace KTextEditor
++{
++class Cursor;
++class Editor;
++class MovingRange;
++class View;
++}
++class KActionCollection;
++
++// Highlights all occurrences of symbol under the cursor
++class LSPClientSymbolHighlighter : public QObject
++{
++public:
++    explicit LSPClientSymbolHighlighter(KActionCollection *actions);
++
++    void attach(KTextEditor::View *view, std::shared_ptr<LSPClientServer> server);
++
++private:
++    using MovingRangeList = std::vector<std::unique_ptr<KTextEditor::MovingRange>>;
++
++    void cursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
++    void themeChange(KTextEditor::Editor *e);
++
++    void highlight();
++    void rangesInvalidated();
++    void cancelRequest();
++
++    void gotoNextHighlight();
++    void gotoPrevHighlight();
++
++    MovingRangeList::iterator findRange(const KTextEditor::Cursor &position);
++    void goToRange(const KTextEditor::MovingRange &range);
++
++private:
++    KTextEditor::Attribute::Ptr m_highlightAttribute;
++    QAction *m_nextSymbolHighlight;
++    QAction *m_prevSymbolHighlight;
++
++    QPointer<KTextEditor::View> m_currentView;
++    std::shared_ptr<LSPClientServer> m_currentServer;
++
++    KTextEditor::Range m_currentWord;
++    MovingRangeList m_ranges;
++
++    QTimer m_highlightDelayTimer;
++    QTimer m_requestTimeout;
++    LSPClientServer::RequestHandle m_requestHandle;
++};
+diff --git a/addons/lspclient/lspconfigwidget.ui b/addons/lspclient/lspconfigwidget.ui
+index 12f0a3a05c..ea5fa54917 100644
+--- a/addons/lspclient/lspconfigwidget.ui
++++ b/addons/lspclient/lspconfigwidget.ui
+@@ -36,7 +36,7 @@
+        <item>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="formAlignment">
+-          <set>Qt::AlignHCenter|Qt::AlignTop</set>
++          <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+@@ -69,133 +69,133 @@
+            </property>
+           </widget>
+          </item>
+-         <item row="4" column="0">
++         <item row="5" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Completions:</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="4" column="1">
++         <item row="5" column="1">
+           <widget class="QCheckBox" name="chkShowCompl">
+            <property name="text">
+             <string>Show completions</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="5" column="1">
++         <item row="6" column="1">
+           <widget class="QCheckBox" name="chkComplDoc">
+            <property name="text">
+             <string>Show inline docs for selected completion</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="6" column="1">
++         <item row="7" column="1">
+           <widget class="QCheckBox" name="chkSignatureHelp">
+            <property name="text">
+             <string>Show function signature when typing a function call</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="7" column="1">
++         <item row="8" column="1">
+           <widget class="QCheckBox" name="chkComplParens">
+            <property name="text">
+             <string>Add parentheses upon function completion</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="8" column="1">
++         <item row="9" column="1">
+           <widget class="QCheckBox" name="chkAutoImport">
+            <property name="text">
+             <string>Add imports automatically if needed upon completion</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="9" column="0">
++         <item row="10" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Navigation:</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="9" column="1">
++         <item row="10" column="1">
+           <widget class="QCheckBox" name="chkRefDeclaration">
+            <property name="text">
+             <string>Count declarations when searching for references to a symbol</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="10" column="1">
++         <item row="11" column="1">
+           <widget class="QCheckBox" name="chkAutoHover">
+            <property name="text">
+             <string>Show information about currently hovered symbol</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="11" column="1">
++         <item row="12" column="1">
+           <widget class="QCheckBox" name="chkHighlightGoto">
+            <property name="text">
+             <string>Highlight target line when hopping to it</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="12" column="0">
++         <item row="14" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Server:</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="12" column="1">
++         <item row="14" column="1">
+           <widget class="QCheckBox" name="chkDiagnostics">
+            <property name="text">
+             <string>Show program diagnostics</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="13" column="1">
++         <item row="15" column="1">
+           <widget class="QCheckBox" name="chkMessages">
+            <property name="text">
+             <string>Show notifications from the LSP server</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="14" column="1">
++         <item row="16" column="1">
+           <widget class="QCheckBox" name="chkIncrementalSync">
+            <property name="text">
+             <string>Incrementally synchronize documents with the LSP server</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="15" column="0">
++         <item row="17" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Document outline:</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="15" column="1">
++         <item row="17" column="1">
+           <widget class="QCheckBox" name="chkSymbolSort">
+            <property name="text">
+             <string>Sort symbols alphabetically</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="16" column="1">
++         <item row="18" column="1">
+           <widget class="QCheckBox" name="chkSymbolDetails">
+            <property name="text">
+             <string>Display additional details for symbols</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="17" column="1">
++         <item row="19" column="1">
+           <widget class="QCheckBox" name="chkSymbolTree">
+            <property name="text">
+             <string>Present symbols in a hierarchy instead of a flat list</string>
+            </property>
+           </widget>
+          </item>
+-         <item row="18" column="1">
++         <item row="20" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="leftMargin">
+             <number>20</number>
+@@ -212,12 +212,19 @@
+            </item>
+           </layout>
+          </item>
++         <item row="13" column="1">
++          <widget class="QCheckBox" name="chkHighlightSymbol">
++           <property name="text">
++            <string>Highlight symbol under cursor</string>
++           </property>
++          </widget>
++         </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+-          <enum>Qt::Vertical</enum>
++          <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+@@ -254,8 +261,8 @@
+           </widget>
+          </item>
+          <item>
+-          <widget class="KUrlRequester" name="edtConfigPath">
+-           <property name="text">
++          <widget class="KUrlRequester" name="edtConfigPath" native="true">
++           <property name="text" stdset="0">
+             <string/>
+            </property>
+           </widget>
+-- 
+GitLab
+

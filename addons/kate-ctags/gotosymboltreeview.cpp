@@ -8,7 +8,6 @@
 #include <KTextEditor/Cursor>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
-#include <QHeaderView>
 
 GotoSymbolTreeView::GotoSymbolTreeView(KTextEditor::MainWindow *mainWindow, QWidget *parent)
     : QTreeView(parent)
@@ -31,7 +30,8 @@ int GotoSymbolTreeView::sizeHintWidth() const
 void GotoSymbolTreeView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     if (globalMode) {
-        return QTreeView::currentChanged(current, previous);
+        QTreeView::currentChanged(current, previous);
+        return;
     }
 
     int line = current.data(Qt::UserRole).toInt();
@@ -43,5 +43,5 @@ void GotoSymbolTreeView::currentChanged(const QModelIndex &current, const QModel
         }
     }
 
-    return QTreeView::currentChanged(current, previous);
+    QTreeView::currentChanged(current, previous);
 }

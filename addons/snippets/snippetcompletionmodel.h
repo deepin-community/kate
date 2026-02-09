@@ -7,13 +7,10 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef SNIPPETCOMPLETIONMODEL_H
-#define SNIPPETCOMPLETIONMODEL_H
+#pragma once
 
 #include <ktexteditor/codecompletionmodel.h>
 #include <ktexteditor/codecompletionmodelcontrollerinterface.h>
-
-#include <QPointer>
 
 namespace KTextEditor
 {
@@ -37,13 +34,10 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex &index) const override;
-
-    KTextEditor::Range completionRange(KTextEditor::View *view, const KTextEditor::Cursor &position) override;
+    bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText, bool userInsertion, const KTextEditor::Cursor &position) override;
     bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range, const QString &currentCompletion) override;
 
 private:
     void initData(KTextEditor::View *view);
     QList<SnippetCompletionItem *> m_snippets;
 };
-
-#endif

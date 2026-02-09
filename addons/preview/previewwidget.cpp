@@ -16,9 +16,7 @@
 #include <KGuiItem>
 #include <KLocalizedString>
 #include <KParts/PartLoader>
-#include <KParts/ReadOnlyPart>
 #include <KPluginMetaData>
-#include <KService>
 #include <KSharedConfig>
 #include <KTextEditor/Document>
 #include <KTextEditor/MainWindow>
@@ -37,10 +35,9 @@
 
 using namespace KTextEditorPreview;
 
-PreviewWidget::PreviewWidget(KTextEditorPreviewPlugin *core, KTextEditor::MainWindow *mainWindow, QWidget *parent)
+PreviewWidget::PreviewWidget(KTextEditor::MainWindow *mainWindow, QWidget *parent)
     : QStackedWidget(parent)
     , KXMLGUIBuilder(this)
-    , m_core(core)
     , m_mainWindow(mainWindow)
     , m_xmlGuiFactory(new KXMLGUIFactory(this, this))
 {
@@ -78,7 +75,7 @@ PreviewWidget::PreviewWidget(KTextEditorPreviewPlugin *core, KTextEditor::MainWi
     // see KXMLGUIBuilder::createContainer => tagName == d->tagMenu
     m_kPartMenu = new QMenu;
 
-    QToolButton *toolButton = new QToolButton();
+    auto *toolButton = new QToolButton();
     toolButton->setMenu(m_kPartMenu);
     toolButton->setIcon(kPartMenuIcon);
     toolButton->setText(kPartMenuText);
@@ -137,16 +134,16 @@ void PreviewWidget::setTextEditorView(KTextEditor::View *view)
     resetTextEditorView(m_previewedTextEditorDocument);
 }
 
-std::optional<KPluginMetaData> KTextEditorPreview::PreviewWidget::findPreviewPart(const QStringList mimeTypes)
+std::optional<KPluginMetaData> KTextEditorPreview::PreviewWidget::findPreviewPart(const QStringList &mimeTypes)
 {
-    for (const auto &mimeType : qAsConst(mimeTypes)) {
+    for (const auto &mimeType : std::as_const(mimeTypes)) {
         const auto offers = KParts::PartLoader::partsForMimeType(mimeType);
 
         if (offers.isEmpty()) {
             continue;
         }
 
-        const KPluginMetaData service = offers.first();
+        const KPluginMetaData &service = offers.first();
         qCDebug(KTEPREVIEW) << "Found preferred kpart named" << service.name() << "with library" << service.fileName() << "for mimetype" << mimeType;
 
         // no interest in kparts which also just display the text (like katepart itself)
@@ -180,6 +177,11 @@ void PreviewWidget::resetTextEditorView(KTextEditor::Document *document)
 
         // Get mimetypes assigned to the currently set mode.
         auto mimeTypes = KConfigGroup(KSharedConfig::openConfig(QStringLiteral("katemoderc")), m_currentMode).readXdgListEntry("Mimetypes");
+        // For markdown manually add text/markdown if above fails e.g., if the file is untitled
+        if (mimeTypes.isEmpty() && m_currentMode == QStringLiteral("Markdown")) {
+            mimeTypes << QStringLiteral("text/markdown");
+        }
+
         // Also try to guess from the content, if the above fails.
         mimeTypes << m_previewedTextEditorDocument->mimeType();
 

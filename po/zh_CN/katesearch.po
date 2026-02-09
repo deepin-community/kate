@@ -1,17 +1,9 @@
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
-# Feng Chao <chaofeng111@gmail.com>, 2011, 2012, 2013, 2014, 2016.
-# Ni Hui <shuizhuyuanluo@126.com>, 2012.
-# Weng Xuetian <wengxt@gmail.com>, 2012, 2015.
-# Xuetian Weng <xweng@cs.stonybrook.edu>, 2014.
-# Guo Yunhe <guoyunhebrave@gmail.com>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-29 00:20+0000\n"
-"PO-Revision-Date: 2021-09-27 13:11\n"
+"POT-Creation-Date: 2025-03-02 00:43+0000\n"
+"PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -22,460 +14,214 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kate/katesearch.pot\n"
-"X-Crowdin-File-ID: 4145\n"
+"X-Crowdin-File: /kf6-stable/messages/kate/katesearch.pot\n"
+"X-Crowdin-File-ID: 52626\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "KDE China, Guo Yunhe, Tyson Tan"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "kde-china@kde.org, i@guoyunhe.me, tysontan@tysontan.com"
-
-#: KateSearchCommand.cpp:83
+#: KateSearchCommand.cpp:80
 #, kde-format
 msgid "Usage: grep [pattern to search for in folder]"
 msgstr "用法： grep [在文件夹中查找的模式]"
 
-#: KateSearchCommand.cpp:85
+#: KateSearchCommand.cpp:82
 #, kde-format
 msgid "Usage: newGrep [pattern to search for in folder]"
 msgstr "用法： newgrep [在文件夹中查找的模式]"
 
-#: KateSearchCommand.cpp:89 KateSearchCommand.cpp:91
+#: KateSearchCommand.cpp:86 KateSearchCommand.cpp:88
 #, kde-format
 msgid "Usage: search [pattern to search for in open files]"
 msgstr "用法： search [在打开文件中查找的模式]"
 
-#: KateSearchCommand.cpp:95
+#: KateSearchCommand.cpp:92
 #, kde-format
 msgid "Usage: pgrep [pattern to search for in current project]"
-msgstr "用法： pgrep [在当前工程中查找的模式]"
+msgstr "用法：pgrep [要在当前项目中查找的模式字符串]"
 
-#: KateSearchCommand.cpp:97
+#: KateSearchCommand.cpp:94
 #, kde-format
 msgid "Usage: newPGrep [pattern to search for in current project]"
-msgstr "用法： newPGrep [在当前工程中查找的模式]"
+msgstr "用法：newPGrep  [要在当前项目中查找的模式字符串]"
 
-#: KateSearchCommand.cpp:101
+#: KateSearchCommand.cpp:98
 #, kde-format
 msgid "Usage: preg [regex pattern to search for in current project]"
-msgstr "用法：preg [要在当前工程中查找的 regex 模式字串]"
+msgstr "用法：preg [要在当前项目中查找的 regex 模式字符串]"
 
-#: MatchModel.cpp:487 MatchModel.cpp:489
+#: MatchExportDialog.cpp:20
+#, kde-format
+msgid "Export Search Result Matches"
+msgstr "导出搜索结果匹配项"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, exportPatternText)
+#: MatchExportDialog.ui:31
+#, kde-format
+msgid "Export Pattern"
+msgstr "导出搜索条件"
+
+#. i18n: ectx: property (text), widget (QPushButton, pushButton)
+#: MatchExportDialog.ui:38
+#, kde-format
+msgid "Generate"
+msgstr "生成"
+
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, exportResultText)
+#: MatchExportDialog.ui:50
+#, kde-format
+msgid "Result"
+msgstr "结果"
+
+#: MatchModel.cpp:563 MatchModel.cpp:565
 #, kde-format
 msgid "<b><i>Generating file list: ...%1</i></b>"
 msgstr "<b><i>正在生成文件列表：...%1</i></b>"
 
-#: MatchModel.cpp:497
+#: MatchModel.cpp:573
 #, kde-format
 msgid "<b><i>One match found, searching: ...%2</i></b>"
 msgid_plural "<b><i>%1 matches found, searching: ...%2</i></b>"
 msgstr[0] "<b><i>找到 %1 个匹配项，正在搜索：...%2</i></b>"
 
-#: MatchModel.cpp:502
+#: MatchModel.cpp:578
 #, kde-format
 msgid "<b><i>One match found, searching: %2</i></b>"
 msgid_plural "<b><i>%1 matches found, searching: %2</i></b>"
 msgstr[0] "<b><i>找到 %1 个匹配项，正在搜索：%2</i></b>"
 
-#: MatchModel.cpp:506 MatchModel.cpp:632
+#: MatchModel.cpp:585 MatchModel.cpp:740
 #, kde-format
 msgid "One checked"
 msgid_plural "%1 checked"
 msgstr[0] "选中了 %1 个"
 
-#: MatchModel.cpp:510
+#: MatchModel.cpp:589
 #, kde-format
 msgid "<b><i>One match (%2) found in file</i></b>"
 msgid_plural "<b><i>%1 matches (%2) found in current file</i></b>"
 msgstr[0] "<b><i>在文件中找到 %1 个匹配 (%2)</i></b>"
 
-#: MatchModel.cpp:512
+#: MatchModel.cpp:591
 #, kde-format
 msgid "<b><i>One match (%2) found in open files</i></b>"
 msgid_plural "<b><i>%1 matches (%2) found in open files</i></b>"
 msgstr[0] "<b><i>在打开的文件中找到 %1 个匹配 (%2)</i></b>"
 
-#: MatchModel.cpp:515
+#: MatchModel.cpp:594
 #, kde-format
 msgid "<b><i>One match (%3) found in folder %2</i></b>"
 msgid_plural "<b><i>%1 matches (%3) found in folder %2</i></b>"
 msgstr[0] "<b><i>在文件夹“%2”中找到 %1 个匹配 (%3)</i></b>"
 
-#: MatchModel.cpp:522
+#: MatchModel.cpp:601
 #, kde-format
 msgid "<b><i>One match (%4) found in project %2 (%3)</i></b>"
 msgid_plural "<b><i>%1 matches (%4) found in project %2 (%3)</i></b>"
-msgstr[0] "<b><i>在项目 %2 (%3) 中找到 %1 个匹配 (%4)</i></b>"
+msgstr[0] "<b><i>在项目 %2 (%3) 中找到 %1 个匹配项 (%4)</i></b>"
 
-#: MatchModel.cpp:531
+#: MatchModel.cpp:610
 #, kde-format
 msgid ""
 "<b><i>One match (%3) found in all open projects (common parent: %2)</i></b>"
 msgid_plural ""
 "<b><i>%1 matches (%3) found in all open projects (common parent: %2)</i></b>"
-msgstr[0] "<b><i>所有打开的项目中找到 %1 个匹配 (%3) (共同父目录：%2)</i></b>"
+msgstr[0] ""
+"<b><i>在所有打开的项目中找到 %1 个匹配项 (%3) (共同父目录：%2)</i></b>"
 
-#: MatchModel.cpp:616 MatchModel.cpp:618
+#: MatchModel.cpp:724 MatchModel.cpp:726
 #, kde-format
 msgid "Generating file list: ...%1"
 msgstr "正在生成文件列表：...%1"
 
-#: MatchModel.cpp:626
+#: MatchModel.cpp:734
 #, kde-format
 msgid "One match found, searching: ...%2"
 msgid_plural "%1 matches found, searching: ...%2"
 msgstr[0] "找到 %1 个匹配项，正在搜索：...%2"
 
-#: MatchModel.cpp:628
+#: MatchModel.cpp:736
 #, kde-format
 msgid "One match found, searching: %2"
 msgid_plural "%1 matches found, searching: %2"
 msgstr[0] "找到 %1 个匹配项，正在搜索：...%2"
 
-#: MatchModel.cpp:636
+#: MatchModel.cpp:744
 #, kde-format
 msgid "One match (%2) found in file"
 msgid_plural "%1 matches (%2) found in current file"
 msgstr[0] "在当前文件中找到 %1 个匹配 (%2)"
 
-#: MatchModel.cpp:638
+#: MatchModel.cpp:746
 #, kde-format
 msgid "One match (%2) found in open files"
 msgid_plural "%1 matches (%2) found in open files"
 msgstr[0] "在打开的文件中找到 %1 个匹配 (%2)"
 
-#: MatchModel.cpp:641
+#: MatchModel.cpp:749
 #, kde-format
 msgid "One match (%3) found in folder %2"
 msgid_plural "%1 matches (%3) found in folder %2"
 msgstr[0] "在文件夹“%2”中找到 %1 个匹配 (%3)"
 
-#: MatchModel.cpp:644
+#: MatchModel.cpp:752
 #, kde-format
 msgid "One match (%4) found in project %2 (%3)"
 msgid_plural "%1 matches (%4) found in project %2 (%3)"
-msgstr[0] "在项目 %2 (%3) 中找到 %1 个匹配 (%4)"
+msgstr[0] "在项目 %2 (%3) 中找到 %1 个匹配项 (%4)"
 
-#: MatchModel.cpp:653
+#: MatchModel.cpp:761
 #, kde-format
 msgid "One match (%3) found in all open projects (common parent: %2)"
 msgid_plural "%1 matches (%3) found in all open projects (common parent: %2)"
-msgstr[0] "所有打开的项目中找到 %1 个匹配 (%3) (共同父目录：%2)"
+msgstr[0] "在所有打开的项目中找到 %1 个匹配项 (%3) (共同父目录：%2)"
 
-#: plugin_search.cpp:85 plugin_search.cpp:118
+#: Results.cpp:32
 #, kde-format
-msgid "Line break"
-msgstr "换行符"
-
-#: plugin_search.cpp:86 plugin_search.cpp:119
-#, kde-format
-msgid "Tab"
-msgstr "Tab"
-
-#: plugin_search.cpp:97
-#, kde-format
-msgid "Beginning of line"
-msgstr "行首"
-
-#: plugin_search.cpp:98
-#, kde-format
-msgid "End of line"
-msgstr "行尾"
-
-#: plugin_search.cpp:100
-#, kde-format
-msgid "Any single character (excluding line breaks)"
-msgstr "任意单个字符(不包括换行符)"
-
-#: plugin_search.cpp:101
-#, kde-format
-msgid "Literal dot"
-msgstr "文字点"
-
-#: plugin_search.cpp:103
-#, kde-format
-msgid "One or more occurrences"
-msgstr "一次或者多次出现"
-
-#: plugin_search.cpp:104
-#, kde-format
-msgid "Zero or more occurrences"
-msgstr "零次或者多次出现"
-
-#: plugin_search.cpp:105
-#, kde-format
-msgid "Zero or one occurrences"
-msgstr "零次或者一次出现"
-
-#: plugin_search.cpp:107
-#, kde-format
-msgid "<a> through <b> occurrences"
-msgstr "<a> 到 <b> 次出现"
-
-#: plugin_search.cpp:109
-#, kde-format
-msgid "Group, capturing"
-msgstr "组，正在捕获"
-
-#: plugin_search.cpp:110
-#, kde-format
-msgid "Or"
-msgstr "或"
-
-#: plugin_search.cpp:111
-#, kde-format
-msgid "Set of characters"
-msgstr "一组字符"
-
-#: plugin_search.cpp:112
-#, kde-format
-msgid "Negative set of characters"
-msgstr "一组字符之外"
-
-#: plugin_search.cpp:113
-#, kde-format
-msgid "Group, non-capturing"
-msgstr "组，非捕获"
-
-#: plugin_search.cpp:114
-#, kde-format
-msgid "Lookahead"
-msgstr "向前"
-
-#: plugin_search.cpp:115
-#, kde-format
-msgid "Negative lookahead"
-msgstr "向后"
-
-#: plugin_search.cpp:120
-#, kde-format
-msgid "Word boundary"
-msgstr "词边界"
-
-#: plugin_search.cpp:121
-#, kde-format
-msgid "Not word boundary"
-msgstr "非词边界"
-
-#: plugin_search.cpp:122
-#, kde-format
-msgid "Digit"
-msgstr "数字"
-
-#: plugin_search.cpp:123
-#, kde-format
-msgid "Non-digit"
-msgstr "非数字"
-
-#: plugin_search.cpp:124
-#, kde-format
-msgid "Whitespace (excluding line breaks)"
-msgstr "空白(不包括换行符)"
-
-#: plugin_search.cpp:125
-#, kde-format
-msgid "Non-whitespace (excluding line breaks)"
-msgstr "非空白(不包括换行符)"
-
-#: plugin_search.cpp:126
-#, kde-format
-msgid "Word character (alphanumerics plus '_')"
-msgstr "词字符(字母数字以及“_”)"
-
-#: plugin_search.cpp:127
-#, kde-format
-msgid "Non-word character"
-msgstr "非词字符"
-
-#: plugin_search.cpp:139
-#, kde-format
-msgid "Regular expression capture 0 (whole match)"
-msgstr "正则表达式捕捉 0 (完整匹配)"
-
-#: plugin_search.cpp:140
-#, kde-format
-msgid "Regular expression capture 1-9"
-msgstr "正则表达式捕捉 1-9"
-
-#: plugin_search.cpp:141
-#, kde-format
-msgid "Regular expression capture 0-999"
-msgstr "正则表达式捕捉 0-999"
-
-#: plugin_search.cpp:143
-#, kde-format
-msgid "Upper-cased capture 0-9"
-msgstr "大写捕捉 0-9"
-
-#: plugin_search.cpp:144
-#, kde-format
-msgid "Upper-cased capture 0-999"
-msgstr "大写捕捉 0-999"
-
-#: plugin_search.cpp:145
-#, kde-format
-msgid "Lower-cased capture 0-9"
-msgstr "小写捕捉 0-9"
-
-#: plugin_search.cpp:146
-#, kde-format
-msgid "Lower-cased capture 0-999"
-msgstr "小写捕捉 0-999"
-
-#: plugin_search.cpp:331
-#, kde-format
-msgid "Kate Search & Replace"
-msgstr "Kate 搜索和替换"
-
-#: plugin_search.cpp:338
-#, kde-format
-msgid "Search and Replace"
-msgstr "搜索和替换"
-
-#: plugin_search.cpp:347
-#, kde-format
-msgid "Search in Files"
-msgstr "多文件查找"
-
-#: plugin_search.cpp:351
-#, kde-format
-msgid "Search in Files (in new tab)"
-msgstr "多文件查找(在新标签中)"
-
-#: plugin_search.cpp:357
-#, kde-format
-msgid "Go to Next Match"
-msgstr "跳到下一个匹配"
-
-#: plugin_search.cpp:362
-#, kde-format
-msgid "Go to Previous Match"
-msgstr "跳到上一个匹配"
-
-#: plugin_search.cpp:391
-#, kde-format
-msgid ""
-"Comma separated list of file types to search in. Example: \"*.cpp,*.h\"\n"
-msgstr "逗号分割的要搜索的文件类型列表。例如：“*.cpp,*.h”\n"
-
-#: plugin_search.cpp:392
-#, kde-format
-msgid ""
-"Comma separated list of files and directories to exclude from the search. "
-"Example: \"build*\""
-msgstr "用于排除在搜索外的逗号分割的文件和目录列表。例如：“build*”"
-
-#: plugin_search.cpp:481
-#, kde-format
-msgid "Find"
-msgstr "查找"
-
-#. i18n: ectx: property (text), widget (QPushButton, replaceButton)
-#: plugin_search.cpp:501 search.ui:170
-#, kde-format
-msgid "Replace"
-msgstr "替换"
-
-#: plugin_search.cpp:1223
-#, kde-format
-msgid "Searching while you type was interrupted. It would have taken too long."
-msgstr "输入时搜索已中断。因为耗时过长。"
-
-#: plugin_search.cpp:1546
-#, kde-format
-msgid "Search Match"
-msgstr "选择匹配"
-
-#: plugin_search.cpp:1716 plugin_search.cpp:1793
-#, kde-format
-msgid "Next from cursor"
-msgstr "从光标处的下一个"
-
-#: plugin_search.cpp:1733
-#, kde-format
-msgid "Starting from first match"
-msgstr "从第一个匹配开始"
-
-#: plugin_search.cpp:1753
-#, kde-format
-msgid "Continuing from first match"
-msgstr "从第一个匹配继续"
-
-#: plugin_search.cpp:1810
-#, kde-format
-msgid "Starting from last match"
-msgstr "从最后一个匹配开始"
-
-#: plugin_search.cpp:1830
-#, kde-format
-msgid "Continuing from last match"
-msgstr "从最后一个匹配继续"
-
-#: plugin_search.cpp:2076
-#, kde-format
-msgid "Copy all"
-msgstr "复制全部"
-
-#: plugin_search.cpp:2081
-#, kde-format
-msgid "Copy expanded"
-msgstr "复制展开内容"
-
-#: plugin_search.cpp:2172 plugin_search.cpp:2194
-#, kde-format
-msgid "Add..."
-msgstr "添加..."
-
-#: plugin_search.cpp:2243
-#, kde-format
-msgid "In Current Project"
-msgstr "当前工程"
-
-#: plugin_search.cpp:2245
-#, kde-format
-msgid "In All Open Projects"
-msgstr "全部打开的工程"
+msgid "Filter…"
+msgstr "过滤…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchButton)
+#: search.ui:37
+#, kde-format
+msgid "Search in current tab; press and hold Ctrl to search in a new tab."
+msgstr "在当前标签页中查找；按住 Ctrl 键点击以在新建标签页中查找。"
+
 #. i18n: ectx: property (text), widget (QPushButton, searchButton)
-#: search.ui:22 search.ui:25
+#: search.ui:40 SearchPlugin.cpp:294
 #, kde-format
 msgid "Search"
 msgstr "搜索"
 
 #. i18n: ectx: property (text), widget (QPushButton, replaceCheckedBtn)
-#: search.ui:35
+#: search.ui:50
 #, kde-format
+msgctxt ""
+"Checked here refers to the items  on the list below that can have a "
+"checkmark or not. It's not about any verification or similar, plainly about "
+"user interface"
 msgid "Replace Checked"
 msgstr "替换选中项"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextButton)
 #. i18n: ectx: property (text), widget (QPushButton, nextButton)
-#: search.ui:55 search.ui:58
+#: search.ui:70 search.ui:73
 #, kde-format
 msgid "Next"
 msgstr "下一个"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopButton)
 #. i18n: ectx: property (text), widget (QPushButton, stopButton)
-#: search.ui:63 search.ui:66
+#: search.ui:78 search.ui:81
 #, kde-format
 msgid "Stop"
 msgstr "停止"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, matchCase)
-#: search.ui:103
+#: search.ui:118
 #, kde-format
 msgid "Match case"
 msgstr "区分大小写"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, useRegExp)
-#: search.ui:119
+#: search.ui:134
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable regular expressions. Find help for regex syntax "
@@ -485,107 +231,448 @@ msgstr ""
 "正则表达式。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, expandResults)
-#: search.ui:148
+#: search.ui:163
 #, kde-format
 msgid "Expand results"
 msgstr "展开结果"
 
+#. i18n: ectx: property (text), widget (QToolButton, filterBtn)
+#. i18n: ectx: property (text), widget (QToolButton, displayOptions)
+#. i18n: ectx: property (text), widget (QToolButton, newTabButton)
+#: search.ui:179 search.ui:249 search.ui:262
+#, kde-format
+msgid "..."
+msgstr "..."
+
+#. i18n: ectx: property (text), widget (QPushButton, replaceButton)
+#: search.ui:195 SearchPlugin.cpp:507
+#, kde-format
+msgid "Replace"
+msgstr "替换"
+
 #. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:193
+#: search.ui:218
 #, kde-format
 msgid "In Current File"
 msgstr "当前文件"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:198
+#: search.ui:223
 #, kde-format
 msgid "In Open Files"
 msgstr "在打开的文件中"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, searchPlaceCombo)
-#: search.ui:203
+#: search.ui:228
 #, kde-format
 msgid "In Folder"
 msgstr "在文件夹中"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, currentFolderButton)
-#: search.ui:211
+#: search.ui:236
 #, kde-format
 msgid "Use the current document's path."
 msgstr "使用当前文档的路径。"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, displayOptions)
-#: search.ui:221
+#: search.ui:246
 #, kde-format
 msgid "Show more search options"
 msgstr "显示更多搜索选项"
 
-#. i18n: ectx: property (text), widget (QToolButton, displayOptions)
-#. i18n: ectx: property (text), widget (QToolButton, newTabButton)
-#: search.ui:224 search.ui:237
-#, kde-format
-msgid "..."
-msgstr "..."
-
 #. i18n: ectx: property (toolTip), widget (QToolButton, newTabButton)
-#: search.ui:234
+#: search.ui:259
 #, kde-format
 msgid "Add new search tab"
 msgstr "添加新搜索标签页"
 
 #. i18n: ectx: property (text), widget (QLabel, folderLabel)
-#: search.ui:338
+#: search.ui:350
 #, kde-format
 msgid "Folder:"
 msgstr "文件夹："
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, folderUpButton)
-#: search.ui:356
+#: search.ui:368
 #, kde-format
 msgid "Go one folder up."
 msgstr "进入上层目录。"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
-#: search.ui:365
+#: search.ui:377
 #, kde-format
 msgid "Filter:"
 msgstr "过滤："
 
 #. i18n: ectx: property (text), item, widget (KComboBox, filterCombo)
-#: search.ui:387
+#: search.ui:399
 #, kde-format
 msgid "*"
 msgstr "*"
 
 #. i18n: ectx: property (text), widget (QLabel, excludeLabel)
-#: search.ui:395
+#: search.ui:407
 #, kde-format
 msgid "Exclude:"
 msgstr "排除："
 
 #. i18n: ectx: property (text), widget (QCheckBox, recursiveCheckBox)
-#: search.ui:416
+#: search.ui:428
 #, kde-format
 msgid "Recursive"
 msgstr "递归"
 
 #. i18n: ectx: property (text), widget (QCheckBox, hiddenCheckBox)
-#: search.ui:426
+#: search.ui:438
 #, kde-format
 msgid "Include hidden"
 msgstr "包含隐藏文件"
 
 #. i18n: ectx: property (text), widget (QCheckBox, symLinkCheckBox)
-#: search.ui:433
+#: search.ui:445
 #, kde-format
 msgid "Follow symbolic links"
 msgstr "跟随符号链接"
 
 #. i18n: ectx: property (text), widget (QCheckBox, binaryCheckBox)
-#: search.ui:440
+#: search.ui:452
 #, kde-format
 msgid "Include binary files"
 msgstr "包含二进制文件"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, sizeLimitSpinBox)
+#: search.ui:459
+#, kde-format
+msgid "MB"
+msgstr "MB"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: search.ui:472
+#, kde-format
+msgid "Size limit"
+msgstr "大小限制"
+
+#: SearchPlugin.cpp:81 SearchPlugin.cpp:114
+#, kde-format
+msgid "Line break"
+msgstr "换行符"
+
+#: SearchPlugin.cpp:82 SearchPlugin.cpp:115
+#, kde-format
+msgid "Tab"
+msgstr "Tab"
+
+#: SearchPlugin.cpp:93
+#, kde-format
+msgid "Beginning of line"
+msgstr "行首"
+
+#: SearchPlugin.cpp:94
+#, kde-format
+msgid "End of line"
+msgstr "行尾"
+
+#: SearchPlugin.cpp:96
+#, kde-format
+msgid "Any single character (excluding line breaks)"
+msgstr "任意单个字符(不包括换行符)"
+
+#: SearchPlugin.cpp:97
+#, kde-format
+msgid "Literal dot"
+msgstr "文字点"
+
+#: SearchPlugin.cpp:99
+#, kde-format
+msgid "One or more occurrences"
+msgstr "一次或者多次出现"
+
+#: SearchPlugin.cpp:100
+#, kde-format
+msgid "Zero or more occurrences"
+msgstr "零次或者多次出现"
+
+#: SearchPlugin.cpp:101
+#, kde-format
+msgid "Zero or one occurrences"
+msgstr "零次或者一次出现"
+
+#: SearchPlugin.cpp:103
+#, kde-format
+msgid "<a> through <b> occurrences"
+msgstr "<a> 到 <b> 次出现"
+
+#: SearchPlugin.cpp:105
+#, kde-format
+msgid "Group, capturing"
+msgstr "组，正在捕获"
+
+#: SearchPlugin.cpp:106
+#, kde-format
+msgid "Or"
+msgstr "或"
+
+#: SearchPlugin.cpp:107
+#, kde-format
+msgid "Set of characters"
+msgstr "一组字符"
+
+#: SearchPlugin.cpp:108
+#, kde-format
+msgid "Negative set of characters"
+msgstr "一组字符之外"
+
+#: SearchPlugin.cpp:109
+#, kde-format
+msgid "Group, non-capturing"
+msgstr "组，非捕获"
+
+#: SearchPlugin.cpp:110
+#, kde-format
+msgid "Lookahead"
+msgstr "向前"
+
+#: SearchPlugin.cpp:111
+#, kde-format
+msgid "Negative lookahead"
+msgstr "向后"
+
+#: SearchPlugin.cpp:116
+#, kde-format
+msgid "Word boundary"
+msgstr "词边界"
+
+#: SearchPlugin.cpp:117
+#, kde-format
+msgid "Not word boundary"
+msgstr "非词边界"
+
+#: SearchPlugin.cpp:118
+#, kde-format
+msgid "Digit"
+msgstr "数字"
+
+#: SearchPlugin.cpp:119
+#, kde-format
+msgid "Non-digit"
+msgstr "非数字"
+
+#: SearchPlugin.cpp:120
+#, kde-format
+msgid "Whitespace (excluding line breaks)"
+msgstr "空白(不包括换行符)"
+
+#: SearchPlugin.cpp:121
+#, kde-format
+msgid "Non-whitespace (excluding line breaks)"
+msgstr "非空白(不包括换行符)"
+
+#: SearchPlugin.cpp:122
+#, kde-format
+msgid "Word character (alphanumerics plus '_')"
+msgstr "词字符(字母数字以及“_”)"
+
+#: SearchPlugin.cpp:123
+#, kde-format
+msgid "Non-word character"
+msgstr "非词字符"
+
+#: SearchPlugin.cpp:135
+#, kde-format
+msgid "Regular expression capture 0 (whole match)"
+msgstr "正则表达式捕捉 0 (完整匹配)"
+
+#: SearchPlugin.cpp:136
+#, kde-format
+msgid "Regular expression capture 1-9"
+msgstr "正则表达式捕捉 1-9"
+
+#: SearchPlugin.cpp:137
+#, kde-format
+msgid "Regular expression capture 0-999"
+msgstr "正则表达式捕捉 0-999"
+
+#: SearchPlugin.cpp:139
+#, kde-format
+msgid "Upper-cased capture 0-9"
+msgstr "大写捕捉 0-9"
+
+#: SearchPlugin.cpp:140
+#, kde-format
+msgid "Upper-cased capture 0-999"
+msgstr "大写捕捉 0-999"
+
+#: SearchPlugin.cpp:141
+#, kde-format
+msgid "Lower-cased capture 0-9"
+msgstr "小写捕捉 0-9"
+
+#: SearchPlugin.cpp:142
+#, kde-format
+msgid "Lower-cased capture 0-999"
+msgstr "小写捕捉 0-999"
+
+#: SearchPlugin.cpp:287
+#, kde-format
+msgid "Search & Replace"
+msgstr "搜索和替换"
+
+#: SearchPlugin.cpp:328
+#, kde-format
+msgid "Find in Files"
+msgstr "在文件中查找"
+
+#: SearchPlugin.cpp:334
+#, kde-format
+msgid "Find in Files (in a New Tab)"
+msgstr "在文件中查找(在新标签页中)"
+
+#: SearchPlugin.cpp:340
+#, kde-format
+msgid "Go to Next Match"
+msgstr "跳到下一个匹配"
+
+#: SearchPlugin.cpp:346
+#, kde-format
+msgid "Go to Previous Match"
+msgstr "跳到上一个匹配"
+
+#: SearchPlugin.cpp:352
+#, kde-format
+msgid "Cut Matching Lines"
+msgstr "剪切匹配的行"
+
+#: SearchPlugin.cpp:354
+#, kde-format
+msgid ""
+"This will cut all highlighted search match lines from the current document "
+"to the clipboard"
+msgstr "这将剪切所有高亮的搜索匹配行，从当前文档到剪贴板"
+
+#: SearchPlugin.cpp:359
+#, kde-format
+msgid "Copy Matching Lines"
+msgstr "复制匹配的行"
+
+#: SearchPlugin.cpp:361
+#, kde-format
+msgid ""
+"This will copy all highlighted search match lines in the current document to "
+"the clipboard"
+msgstr "这将复制所有高亮的搜索匹配行，从当前文档到剪贴板"
+
+#: SearchPlugin.cpp:394
+#, kde-format
+msgid ""
+"Comma separated list of file types to search in. Example: \"*.cpp,*.h\"\n"
+msgstr "逗号分割的要搜索的文件类型列表。例如：“*.cpp,*.h”\n"
+
+#: SearchPlugin.cpp:395
+#, kde-format
+msgid ""
+"Comma separated list of files and directories to exclude from the search. "
+"Example: \"build*\""
+msgstr "用于排除在搜索外的逗号分割的文件和目录列表。例如：“build*”"
+
+#: SearchPlugin.cpp:397
+#, kde-format
+msgid "Click to filter through results"
+msgstr "点击过滤结果"
+
+#: SearchPlugin.cpp:487
+#, kde-format
+msgid "Find"
+msgstr "查找"
+
+#: SearchPlugin.cpp:1169
+#, kde-format
+msgid "Search was not started as directory '%1' to search in doesn't exist."
+msgstr "搜索没有开始，因为要搜索的目录“%1”不存在。"
+
+#: SearchPlugin.cpp:1342
+#, kde-format
+msgid "Searching while you type was interrupted. It would have taken too long."
+msgstr "输入时搜索已中断。因为耗时过长。"
+
+#: SearchPlugin.cpp:1675
+#, kde-format
+msgid "Search Match"
+msgstr "选择匹配"
+
+#: SearchPlugin.cpp:1852 SearchPlugin.cpp:1928
+#, kde-format
+msgid "Next from cursor"
+msgstr "从光标处的下一个"
+
+#: SearchPlugin.cpp:1869
+#, kde-format
+msgid "Starting from first match"
+msgstr "从第一个匹配开始"
+
+#: SearchPlugin.cpp:1889
+#, kde-format
+msgid "Continuing from first match"
+msgstr "从第一个匹配继续"
+
+#: SearchPlugin.cpp:1945
+#, kde-format
+msgid "Starting from last match"
+msgstr "从最后一个匹配开始"
+
+#: SearchPlugin.cpp:1965
+#, kde-format
+msgid "Continuing from last match"
+msgstr "从最后一个匹配继续"
+
+#: SearchPlugin.cpp:2126
+#, kde-format
+msgid "Search: %1"
+msgstr "搜索：%1"
+
+#: SearchPlugin.cpp:2269
+#, kde-format
+msgid "Copy all"
+msgstr "复制全部"
+
+#: SearchPlugin.cpp:2274
+#, kde-format
+msgid "Copy expanded"
+msgstr "复制展开内容"
+
+#: SearchPlugin.cpp:2277
+#, kde-format
+msgid "Export matches"
+msgstr "导出匹配项"
+
+#: SearchPlugin.cpp:2282
+#, kde-format
+msgid "Open as Editor Tab"
+msgstr "打开为编辑器标签页"
+
+#: SearchPlugin.cpp:2290
+#, kde-format
+msgid "Clear"
+msgstr "清除"
+
+#: SearchPlugin.cpp:2400 SearchPlugin.cpp:2434
+#, kde-format
+msgid "Add..."
+msgstr "添加..."
+
+#: SearchPlugin.cpp:2412
+#, kde-format
+msgid "Search As You Type"
+msgstr "即输即搜"
+
+#: SearchPlugin.cpp:2483
+#, kde-format
+msgid "In Current Project"
+msgstr "当前项目"
+
+#: SearchPlugin.cpp:2485
+#, kde-format
+msgid "In All Open Projects"
+msgstr "所有打开的项目"
 
 #. i18n: ectx: Menu (edit)
 #: ui.rc:6
@@ -596,5 +683,5 @@ msgstr "编辑(&E)"
 #. i18n: ectx: Menu (search_more)
 #: ui.rc:9
 #, kde-format
-msgid "Search More"
-msgstr "搜索更多"
+msgid "Find in Files Variants"
+msgstr "在文件变体中查找"

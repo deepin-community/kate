@@ -17,7 +17,7 @@
 <para
 >Igual que qualsevol editor de text avançat, la &katepart; ofereix una varietat de maneres d'estendre la seva funcionalitat. Podeu <link linkend="dev-scripting"
 >escriure scripts senzills per a afegir funcionalitat amb &javascript;</link
->. Finalment, un cop esteneu la &katepart;, sereu benvinguts/des a <ulink url="https://kate-editor.org/join-us/"
+>. Finalment, un cop esteneu la &katepart;, us donarem la benvinguda per <ulink url="https://kate-editor.org/join-us/"
 >unir-vos</ulink
 > amb nosaltres i compartir les vostres millores amb el món!</para>
 
@@ -33,7 +33,7 @@
 >Vista general</title>
 
 <para
->El ressaltat de la sintaxi és el que fa que l'editor mostri automàticament text en diferents estils/colors, depenent de la funció de la cadena en relació a la finalitat del fitxer. En el codi font d'un programa, perexemple, les sentències de control es poden presentar en negreta, mentre que els tipus de dades i els comentaris poden tenir diferents colors que la resta del text. Això millora considerablement la llegibilitat del text, i ajuda a l'autor a ser més eficient i productiu.</para>
+>El ressaltat de la sintaxi és el que fa que l'editor mostri automàticament text en diferents estils/colors, depenent de la funció de la cadena en relació amb la finalitat del fitxer. En el codi font d'un programa, per exemple, les sentències de control es poden presentar en negreta, mentre que els tipus de dades i els comentaris poden tenir diferents colors que la resta del text. Això millora considerablement la llegibilitat del text, i ajuda l'autor a ser més eficient i productiu.</para>
 
 <mediaobject>
 <imageobject
@@ -129,7 +129,7 @@
 </para>
 
 <para
->Quan s'analitza el text, les regles de detecció són avaluades en l'ordre en el que estan definides, i si el començament de la cadena actual coincideix amb la regla, s'utilitzarà el context relacionat. El punt d'inici del text es mou al punt final en el que la regla coincideix i comença un nou cicle de regles, començant en el context establert per la regla coincident.</para>
+>Quan s'analitza el text, les regles de detecció són avaluades en l'ordre en el qual estan definides, i si el començament de la cadena actual coincideix amb la regla, s'utilitzarà el context relacionat. El punt d'inici del text es mou al punt final en el qual la regla coincideix i comença un nou cicle de regles, començant en el context establert per la regla coincident.</para>
 
 </sect3>
 
@@ -140,7 +140,7 @@
 <para
 >Les regles de la detecció són el nucli del sistema de detecció del ressaltat. Una regla és una cadena, un caràcter o una <link linkend="regular-expressions"
 >expressió regular</link
-> contra la que haurà de coincidir el text que s'està analitzant. Conté informació sobre l'estil a emprar per a la part coincident del text. Es pot canviar el context de treball del sistema, ja sigui cap a un context mencionat explícitament o cap a l'anterior context emprat pel text.</para>
+> contra què haurà de coincidir el text que s'està analitzant. Conté informació sobre l'estil a emprar per a la part coincident del text. Es pot canviar el context de treball del sistema, ja sigui cap a un context mencionat explícitament o cap a l'anterior context emprat pel text.</para>
 
 <para
 >Les regles s'organitzen en grups de context. Un grup de context s'utilitza per als conceptes del text principal dins del format, per exemple, les cadenes de text entre cometes o els blocs de comentaris en el codi font d'un programa. Això garanteix que el sistema de ressaltat no necessita realitzar un cicle per a totes les regles quan no és necessari, i que algunes seqüències de caràcters del text es poden tractar de forma diferent depenent del context actual. </para>
@@ -158,10 +158,10 @@
 >En alguns llenguatges de programació, els nombres enters són tractats pel compilador (el programa que converteix el codi font en un executable binari) d'una forma diferent dels de coma flotant, i poden haver-hi caràcters que tinguin un significat especial dins d'una cadena entre cometes. En aquests casos, té sentit processar-los de diferent manera que el text adjacent, perquè resultin fàcils d'identificar. De manera que si no representen contexts especials, poden ser vistos com a tals pel sistema de ressaltat de la sintaxi, així que són marcats per a un processat diferent.</para>
 
 <para
->Una definició de la sintaxi pot contenir tants estils com siguin requerits per a cobrir tots els conceptes del format per al que s'utilitza.</para>
+>Una definició de la sintaxi pot contenir tants estils com siguin requerits per a cobrir tots els conceptes del format per què s'utilitza.</para>
 
 <para
->En molts formats hi ha llistes de paraules que representen un concepte específic. Per exemple, en els llenguatges de programació, les sentències de control són un concepte, els noms de tipus de dades un altre, i les funcions incloses en el llenguatge són un tercer. El sistema de ressaltat de la sintaxi de la &kappname; pot utilitzar aquestes llistes per a detectar i marcar paraules en el text per a emfatitzar conceptes dels formats del text.</para>
+>En molts formats hi ha llistes de paraules que representen un concepte específic. Per exemple, en els llenguatges de programació, les sentències de control són un concepte, els noms de tipus de dades un altre, i les funcions integrades en el llenguatge són un tercer. El sistema de ressaltat de la sintaxi de la &kappname; pot utilitzar aquestes llistes per a detectar i marcar paraules en el text per a emfatitzar conceptes dels formats del text.</para>
 
 </sect3>
 
@@ -170,7 +170,7 @@
 >Estils per omissió</title>
 
 <para
->Si obriu un fitxer de codi font en C++, un fitxer de codi font en &Java; i un document en &HTML; a la &kappname;, podreu comprovar que tot i que els formats són diferents, i per tant les paraules que reben un tractament especial també són diferents, els colors emprats són els mateixos. Això és perquè la &kappname; té una llista predefinida d'estils predeterminats, els quals s'empren en les definicions individuals de la sintaxi.</para>
+>Si obriu un fitxer de codi font en C++, un fitxer de codi font en &Java; i un document en &HTML; a la &kappname;, podreu comprovar que tot i que els formats són diferents i, per tant, les paraules que reben un tractament especial també són diferents, els colors emprats són els mateixos. Això és perquè la &kappname; té una llista predefinida d'estils predeterminats, els quals s'empren en les definicions individuals de la sintaxi.</para>
 
 <para
 >Això facilita reconèixer conceptes similars en diferents formats de text. Per exemple, els comentaris estan presents en pràcticament qualsevol llenguatge de programació, creació de scripts o de marques, i si es presenten utilitzant el mateix estil en tots els llenguatges, no haureu de parar-vos a pensar i identificar la seva posició en el text.</para>
@@ -229,7 +229,7 @@
 >. </para>
 
 <para
->En els paquets Flatpak i Snap, la carpeta anterior no funcionarà ja que la ubicació de les dades és diferent per a cada aplicació. En una aplicació de Flatpak, la ubicació dels fitxers &XML; generalment és <filename class="directory"
+>En els paquets Flatpak i Snap, la carpeta anterior no funcionarà, ja que la ubicació de les dades és diferent per a cada aplicació. En una aplicació de Flatpak, la ubicació dels fitxers &XML; generalment és <filename class="directory"
 ><envar
 >$HOME</envar
 >/.var/app/<replaceable
@@ -304,10 +304,20 @@
 </row>
 <row>
 <entry
->A &Windows;</entry>
+>Al &Windows;</entry>
 <entry
-><filename
+><filename class="directory"
 >%USERPROFILE%&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;syntax</filename
+></entry>
+</row>
+<row>
+<entry
+>Al &macOS;</entry>
+<entry
+><filename class="directory"
+><envar
+>$HOME</envar
+>/Library/Application Support/org.kde.syntax-highlighting/syntax/</filename
 ></entry>
 </row>
 </tbody>
@@ -374,7 +384,7 @@
 <para
 ><userinput
 >casesensitive</userinput
-> defineix quan les paraules clau són o no sensibles a majúscules i minúscules.</para>
+> defineix quan les paraules clau distingeixen o no les majúscules i minúscules.</para>
 <para
 ><userinput
 >priority</userinput
@@ -448,7 +458,7 @@
 > i totes les paraules clau de la llista <emphasis
 >types</emphasis
 >, la qual pertany al llenguatge <emphasis
->C++ de la ISO</emphasis
+>C++ de l'ISO</emphasis
 >.</para>
 <para
 >L'element <userinput
@@ -463,7 +473,7 @@
 <para
 >La tercera part és l'element <userinput
 >itemDatas</userinput
->. Conté tots els colors i tipus de lletra que necessiten els contexts i les regles. En aquest exemple, s'utilitzen <userinput
+>. Conté tots els colors i estils de lletra que necessiten els contexts i les regles. En aquest exemple, s'utilitzen <userinput
 >itemData</userinput
 > <emphasis
 >text_normal</emphasis
@@ -522,7 +532,7 @@
 <para
 >La secció <userinput
 >keywords</userinput
-> defineix si les llistes de paraules clau són sensibles a majúscules i minúscules o no. Més endavant s'explicaran altres atributs.</para>
+> defineix si les llistes de paraules clau distingeixen les majúscules i minúscules o no. Més endavant s'explicaran altres atributs.</para>
 <para
 >Les altres seccions, <userinput
 >folding</userinput
@@ -578,12 +588,21 @@
 <para
 ><userinput
 >name</userinput
-> estableix el nom del context. Les regles utilitzaran el nom per a especificar el context al que canviar si les regles coincideixen.</para>
+> estableix el nom del context. Les regles utilitzaran el nom per a especificar el context al qual canviar si les regles coincideixen.</para>
+
+<para
+><userinput
+>attribute</userinput
+> identifica l'estil a utilitzar per a un caràcter quan no coincideix cap regla o quan una regla no especifica cap atribut. En aquest últim cas, s'utilitzarà <emphasis
+>attribute</emphasis
+> del context especificat a la regla <emphasis
+>context</emphasis
+>.</para>
 
 <para
 ><userinput
 >lineEndContext</userinput
-> defineix el context al que canviarà el sistema de ressaltat si abasta el final de la línia. Pot ser un nom o un altre context, <userinput
+> defineix el context al qual canviarà el sistema de ressaltat si abasta el final de la línia. Pot ser un nom o un altre context, <userinput
 >#stay</userinput
 > permetrà que no es canviï el context (&pex;, no fer res) o <userinput
 >#pop</userinput
@@ -597,11 +616,7 @@
 >IncludeRules</userinput
 >, &pex;, <userinput
 >AlgunContext##JavaScript</userinput
->. Cal tenir en compte que no és possible utilitzar aquest canvi de context en combinació amb <userinput
->#pop</userinput
->, &pex;, <userinput
->#pop!AlgunContext##JavaScript</userinput
-> no és vàlid. Els canvis de context també es descriuen a <xref linkend="kate-highlight-rules-detailled"/>.</para>
+>. Els canvis de context també es descriuen a <xref linkend="kate-highlight-rules-detailled"/>. De manera predeterminada: #stay.</para>
 <para
 ><userinput
 >lineEmptyContext</userinput
@@ -611,7 +626,7 @@
 <para
 ><userinput
 >fallthroughContext</userinput
-> especifica el context següent al que canviar si no coincideix cap regla. La nomenclatura dels commutadors de context és la mateixa que s'ha descrit anteriorment a <emphasis
+> especifica el context següent al qual canviar si no coincideix cap regla. La nomenclatura dels commutadors de context és la mateixa que s'ha descrit anteriorment a <emphasis
 >lineEndContext</emphasis
 >. De manera predeterminada: #stay.</para>
 <para
@@ -648,7 +663,7 @@
 >itemData</userinput
 > es troba en el grup <userinput
 >itemDatas</userinput
->. Defineix l'estil i els colors dels tipus de lletra. Per tant és possible definir els vostres propis estils i colors. Encara que recomanem utilitzar els estils predeterminats, atès que així l'usuari veurà colors homogenis per als diferents llenguatges. Si bé, algunes vegades no hi ha altres possibilitats i és necessari canviar el color i els atributs dels tipus de lletra. Els atributs «name» i «defStyleNum» són necessaris, els altres són opcionals. Els atributs disponibles són:</term>
+>. Defineix l'estil i els colors de les lletres. Per tant, és possible definir els vostres propis estils i colors. Encara que recomanem utilitzar els estils predeterminats, atès que així l'usuari veurà colors homogenis per als diferents llenguatges. Si bé, algunes vegades no hi ha altres possibilitats i és necessari canviar el color i els atributs de la lletra. Els atributs «name» i «defStyleNum» són necessaris, els altres són opcionals. Els atributs disponibles són:</term>
 
 <listitem>
 <para
@@ -689,7 +704,7 @@
 >, el text es mostrarà subratllat.</para>
 <para
 ><userinput
->strikeout</userinput
+>strikeOut</userinput
 > si està a <emphasis
 >true</emphasis
 >, el text es mostrarà taxat.</para>
@@ -721,7 +736,7 @@
 >false</emphasis
 >. Si està a <emphasis
 >true</emphasis
->, totes les paraules clau seran sensibles a majúscules i minúscules.</para>
+>, totes les paraules clau distingiran les majúscules i minúscules.</para>
 <para
 ><userinput
 >weakDeliminator</userinput
@@ -812,7 +827,7 @@
 <para
 ><userinput
 >region</userinput
-> serà el nom amb el que es desarà el comentari multilínia. Si assumim que tenim una regió <emphasis
+> serà el nom amb el qual es desarà el comentari multilínia. Si assumim que tenim una regió <emphasis
 >beginRegion="Comentari"</emphasis
 > ... <emphasis
 >endRegion="Comentari"</emphasis
@@ -849,7 +864,7 @@
 >indentationsensitive</userinput
 > si està a <emphasis
 >true</emphasis
->, els marcadors de plegat del codi seran afegits al sagnat, com en el llenguatge per a la creació de scripts en Python. Normalment no caldrà establir-lo, pel que de manera predeterminada és <emphasis
+>, els marcadors de plegat del codi seran afegits al sagnat, com en el llenguatge per a la creació de scripts en Python. Normalment no caldrà establir-lo, ja que de manera predeterminada és <emphasis
 >false</emphasis
 >.</para>
 </listitem>
@@ -915,7 +930,7 @@
 <para
 >Els estils predeterminats <link linkend="kate-highlight-system-default-styles"
 >ja s'han explicat</link
->, a manera de resum: Els estils predeterminats són tipus de lletra i estils de colors predefinits.</para>
+>, a manera de resum: Els estils predeterminats són la lletra i els estils de colors predefinits.</para>
 <variablelist>
 <varlistentry>
 <term
@@ -928,7 +943,7 @@
 <para
 ><userinput
 >dsKeyword</userinput
->, paraules clau incloses.</para>
+>, paraules clau integrades.</para>
 <para
 ><userinput
 >dsFunction</userinput
@@ -948,7 +963,7 @@
 <para
 ><userinput
 >dsBuiltIn</userinput
->, funcions, classes i objectes inclosos.</para>
+>, funcions, classes i objectes integrats.</para>
 <para
 ><userinput
 >dsExtension</userinput
@@ -1002,7 +1017,7 @@
 <para
 ><userinput
 >dsDataType</userinput
->, tipus de dades incloses com «int», «void», «u64».</para>
+>, tipus de dades integrats com «int», «void», «u64».</para>
 <para
 ><userinput
 >dsDecVal</userinput
@@ -1018,7 +1033,7 @@
 <para
 ><userinput
 >dsConstant</userinput
->, definicions incloses i definides per l'usuari com PI.</para>
+>, definicions integrades i definides per l'usuari com PI.</para>
 </listitem>
 </varlistentry>
 
@@ -1089,9 +1104,9 @@
 >Aquesta secció descriu les regles de detecció del ressaltat.</para>
 
 <para
->Cada regla pot coincidir en cap o amb diversos caràcters al començament de la cadena amb la que es comparen. Si la regla coincideix, als caràcters coincidents se'ls assigna l'estil o <emphasis
+>Cada regla pot coincidir en cap o amb diversos caràcters al començament de la cadena amb què es comparen. Si la regla coincideix, als caràcters coincidents se'ls assigna l'estil o <emphasis
 >attribute</emphasis
-> definit per la regla, tanmateix una regla pot demanar que es canviï el context actual.</para>
+> definit per la regla, tanmateix, una regla pot demanar que es canviï el context actual.</para>
 
 <para
 >Una regla té aquest aspecte:</para>
@@ -1126,7 +1141,9 @@
 >#stay</userinput
 >), o que salti al context anterior (<userinput
 >#pop</userinput
->).</para>
+>). Un context buit o absent és equivalent a <userinput
+>#stay</userinput
+>.</para>
 <para
 >Per a retrocedir més passos, es pot repetir la paraula clau #pop: <userinput
 >#pop#pop#pop</userinput
@@ -1156,11 +1173,7 @@
 >IncludeRules</userinput
 > i permet canviar a un context que pertany a una altra definició de ressaltat de la sintaxi, &pex;, <userinput
 >AlgunContext##JavaScript</userinput
->. Cal tenir en compte que no és possible utilitzar aquest canvi de context en combinació amb <userinput
->#pop</userinput
->, &pex;, <userinput
->#pop!AlgunContext##JavaScript</userinput
-> no és vàlid.</para>
+>. </para>
 </listitem>
 </itemizedlist>
 
@@ -1173,25 +1186,25 @@
 <para
 >Totes les regles tenen els següents atributs comuns i estan disponibles sempre que apareixen <userinput
 >(atributs comuns)</userinput
->. <emphasis
->attribute</emphasis
-> i <emphasis
->context</emphasis
-> són atributs requerits, els altres són opcionals. </para>
+>. Tots els atributs són opcionals. </para>
 
 <listitem>
 <para
 ><emphasis
 >attribute</emphasis
->: Un mapa d'atributs d'un <emphasis
+>: Un atribut es correspon a un <emphasis
 >itemData</emphasis
-> definit.</para>
+> definit. De manera predeterminada: <emphasis
+>attribute</emphasis
+> del context especificat en l'atribut <emphasis
+>context</emphasis
+>.</para>
 </listitem>
 <listitem>
 <para
 ><emphasis
 >context</emphasis
->: Especifica el context al que canviarà el sistema de ressaltat si les regles coincideixen.</para>
+>: Especifica el context al qual canviarà el sistema de ressaltat si les regles coincideixen. De manera predeterminada: #stay.</para>
 </listitem>
 <listitem>
 <para
@@ -1351,7 +1364,7 @@
 <para
 >En aquest senzill exemple, el text que coincideix amb l'expressió regular <userinput
 >=*</userinput
-> serà capturat i inserit din de <replaceable
+> serà capturat i inserit dins de <replaceable
 >%1</replaceable
 > a la regla dinàmica. Això permet que el comentari acabi amb la mateixa quantitat de <userinput
 >=</userinput
@@ -1497,6 +1510,10 @@
 > defineix el primer caràcter a comparar, <userinput
 >char1</userinput
 > el segon.</para>
+<para
+>Aquesta regla és present per raons històriques i per llegibilitat és preferible utilitzar <userinput
+>StringDetect</userinput
+>.</para>
 </listitem>
 </varlistentry>
 
@@ -1532,7 +1549,7 @@
 >false</userinput
 > i es passa a la funció de comparació de la cadena. Si el valor és <userinput
 >true</userinput
-> la comparació no serà sensible a majúscules i minúscules.</para>
+> la comparació no distingirà les majúscules i minúscules.</para>
 </listitem>
 </varlistentry>
 
@@ -1559,7 +1576,7 @@
 >false</userinput
 > i es passa a la funció de comparació de la cadena. Si el valor és <userinput
 >true</userinput
-> la comparació no serà sensible a majúscules i minúscules.</para>
+> la comparació no distingirà les majúscules i minúscules.</para>
 <para
 >Des del: &kate; 3.5 (&kde; 4.5)</para>
 </listitem>
@@ -1878,17 +1895,7 @@
 
 <listitem>
 <para
->Si només heu de localitzar dos caràcters, utilitzeu <userinput
->Detect2Chars</userinput
-> en comptes de <userinput
->StringDetect</userinput
->. El mateix s'aplica a <userinput
->DetectChar</userinput
->.</para>
-</listitem>
-<listitem>
-<para
->Les expressions regulars són fàcils d'emprar però a vegades hi ha formes molt més ràpides d'obtenir el mateix resultat. Imagineu que només desitgeu localitzar el caràcter <userinput
+>Les expressions regulars són fàcils d'emprar, però a vegades hi ha formes molt més ràpides d'obtenir el mateix resultat. Imagineu que només desitgeu localitzar el caràcter <userinput
 >«#»</userinput
 > si aquest és el primer caràcter de la línia. Una solució basada en una expressió regular seria quelcom semblant a això: <programlisting
 >&lt;RegExpr attribute=&quot;Macro&quot; context=&quot;macro&quot; String=&quot;^\s*#&quot; /&gt;</programlisting
@@ -1902,7 +1909,7 @@
 >column=&quot;0&quot;</userinput
 >. L'atribut <userinput
 >column</userinput
-> compta els caràcters, per tant el tabulador és només un caràcter. </para>
+> compta els caràcters, per tant, el tabulador és només un caràcter. </para>
 </listitem>
 <listitem>
 <para
@@ -1929,7 +1936,7 @@
 >, però cal processar aquesta cadena en el següent context. La regla de sota coincidirà, i l'atribut <userinput
 >lookAhead</userinput
 > farà que es desi la cadena coincident per al següent context. <programlisting
->&lt;Detect2Chars attribute=&quot;Comment&quot; context=&quot;#pop&quot; char=&quot;*&quot; char1=&quot;/&quot; lookAhead=&quot;true&quot; /&gt;</programlisting>
+>&lt;StringDetect attribute=&quot;Comment&quot; context=&quot;#pop&quot; String=&quot;*/&quot; lookAhead=&quot;true&quot; /&gt;</programlisting>
 </para>
 </listitem>
 <listitem>
@@ -1957,12 +1964,12 @@
 <listitem>
 <para
 >Podeu validar tots els fitxers &XML; utilitzant l'ordre <command
->validatehl.sh language.xsd mySyntax.xml</command
->. Els fitxers <filename
+>validatehl.sh mySyntax.xml</command
+>. El fitxer <filename
 >validatehl.sh</filename
-> i <filename
+> usa el <filename
 >language.xsd</filename
-> estan disponibles al <ulink url="https://commits.kde.org/syntax-highlighting?path=data/schema"
+>, els quals estan disponibles al <ulink url="https://commits.kde.org/syntax-highlighting?path=data/schema"
 >repositori del ressaltat de la sintaxi</ulink
 >. </para>
 </listitem>
@@ -1973,7 +1980,7 @@
 >. Exemple:</para>
 <programlisting
 >&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!DOCTYPE language SYSTEM "language.dtd"
+&lt;!DOCTYPE language
 [
         &lt;!ENTITY la_meva_ref    "[A-Za-z_:][\w.:_-]*"&gt;
 ]&gt;
@@ -1982,6 +1989,44 @@
 >Ara podeu utilitzar <emphasis
 >&amp;la_meva_ref;</emphasis
 > en comptes de l'expressió regular.</para>
+</listitem>
+<listitem>
+<para
+>A l'editor del Kate, podeu tornar a carregar les sintaxis utilitzant la línia d'ordres integrada (drecera predeterminada <userinput
+>F7</userinput
+>) i l'ordre <command
+>reload-highlighting</command
+>.</para>
+</listitem>
+<listitem>
+<para
+>Podeu utilitzar la utilitat de línia d'ordres anomenada <userinput
+>ksyntaxhighlighter6</userinput
+> (<userinput
+>kate-syntax-highlighter</userinput
+> en versions anteriors) per a provar una sintaxi i mostrar l'estil i les regions associades amb cada part d'un text.</para>
+
+<mediaobject>
+<imageobject
+><imagedata format="PNG" fileref="ksyntaxhighlighter6-trace-format.png"/></imageobject>
+<textobject
+><phrase
+>Resultat de <command
+>ksyntaxhighlighter6 --output-format=ansi --syntax-trace=format test.cpp</command
+>.</phrase
+></textobject>
+<caption
+><para
+>Resultat de <command
+>ksyntaxhighlighter6 --output-format=ansi --syntax-trace=format test.cpp</command
+>.</para>
+</caption>
+</mediaobject>
+
+<para
+>Useu <command
+>ksyntaxhighlighter6 -h</command
+> per a més opcions.</para>
 </listitem>
 </itemizedlist>
 </sect3>
@@ -2032,7 +2077,7 @@
 </para>
 
 <para
->Per evitar confusions, el següent queda fora d'abast: <itemizedlist>
+>Per a evitar confusions, el següent queda fora de l'àmbit: <itemizedlist>
 <listitem
 ><para
 >El tipus i mida de la lletra.</para
@@ -2042,10 +2087,8 @@
 >Els colors de l'aplicació d'edició de text, com el mapa de la barra de desplaçament, els menús, la barra de pestanyes, el color de la finestra, &etc; En les aplicacions &kde;, com el &kate; o el &kdevelop;, aquests colors es defineixen mitjançant l'<userinput
 >esquema de color global del &plasma;</userinput
 >, el qual s'estableix en el mòdul <ulink url="help:/kcontrol/colors/"
-><quote
->Colors</quote
-></ulink
-> a l'&systemsettings; o des de la pròpia aplicació en el menú <menuchoice
+>«Colors»</ulink
+> a l'&systemsettings; o des de la mateixa aplicació en el menú <menuchoice
 ><guimenu
 >Arranjament</guimenu
 ><guisubmenu
@@ -2061,23 +2104,11 @@
 ><imagedata format="PNG" fileref="breeze-color-theme-preview.png"/></imageobject>
 <textobject
 ><phrase
->Temes de color <quote
->Brisa clara</quote
-> i <quote
->Brisa fosca</quote
-> amb ressaltat de la sintaxi del <quote
->C++</quote
->.</phrase>
+>Temes de color «Brisa clara» i «Brisa fosca» amb ressaltat de la sintaxi del «C++».</phrase>
 </textobject>
 <caption
 ><para
->Temes de color <quote
->Brisa clara</quote
-> i <quote
->Brisa fosca</quote
-> amb ressaltat de la sintaxi del <quote
->C++</quote
->.</para>
+>Temes de color «Brisa clara» i «Brisa fosca» amb ressaltat de la sintaxi del «C++».</para>
 </caption>
 </mediaobject>
 
@@ -2120,18 +2151,14 @@
 
 <para
 >El marc de treball KSyntaxHighlighting inclou una varietat de temes integrats que es mostren a la pàgina <ulink url="https://kate-editor.org/themes/"
-><quote
->Temes de color</quote
-></ulink
+>«Temes de color»</ulink
 > del lloc web de l'editor &kate;.</para>
 
 <para
 >El marc de treball <ulink url="https://api.kde.org/frameworks/ktexteditor/html/"
 >KTextEditor</ulink
 >, el qual és el motor d'edició de text, proporciona una interfície d'usuari per a crear i editar els temes de color, inclosa una eina per a importar i exportar els temes. Aquesta és la forma més senzilla de crear-los i editar-los, podeu accedir-hi des del <link linkend="config-dialog"
->diàleg <quote
->Configura</quote
-></link
+>diàleg «Configura»</link
 > de l'editor de text. Hi ha més detalls a <xref linkend="color-themes-gui"/>.</para>
 
 <mediaobject>
@@ -2202,7 +2229,7 @@
 >. </para>
 
 <para
->En els paquets Flatpak i Snap, la carpeta anterior no funcionarà ja que la ubicació de les dades és diferent per a cada aplicació. En una aplicació de Flatpak, aquesta ubicació generalment és <filename class="directory"
+>En els paquets Flatpak i Snap, la carpeta anterior no funcionarà, ja que la ubicació de les dades és diferent per a cada aplicació. En una aplicació de Flatpak, aquesta ubicació generalment és <filename class="directory"
 ><envar
 >$HOME</envar
 >/.var/app/<replaceable
@@ -2277,10 +2304,20 @@
 </row>
 <row>
 <entry
->A &Windows;</entry>
+>Al &Windows;</entry>
 <entry
-><filename
+><filename class="directory"
 >%USERPROFILE%&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;themes</filename
+></entry>
+</row>
+<row>
+<entry
+>Al &macOS;</entry>
+<entry
+><filename class="directory"
+><envar
+>$HOME</envar
+>/Library/Application Support/org.kde.syntax-highlighting/themes/</filename
 ></entry>
 </row>
 </tbody>
@@ -2307,31 +2344,19 @@
 ><para
 >Col·leccions de parells clau/valor, separats per comes i agrupats en <userinput
 >{}</userinput
->, els quals anomenarem <quote
->objectes</quote
->.</para
+>, els quals anomenarem «objectes».</para
 ></listitem>
 <listitem
 ><para
 >Llistes ordenades de valors, separats per comes i agrupats en <userinput
 >[]</userinput
->, a les quals anomenarem <quote
->matriu</quote
->.</para
+>, a les quals anomenarem «matriu».</para
 ></listitem
 ></itemizedlist>
 </para>
 
 <para
->En aquest article s'utilitzaran les nomenclatures <quote
->clau</quote
->, <quote
->valor</quote
->, <quote
->objecte</quote
-> i <quote
->matriu</quote
->. Si és la primera vegada que treballeu amb fitxers &JSON;, comprendre'ls és tan senzill com mirar els exemples que hi ha a continuació. </para>
+>En aquest article s'utilitzaran les nomenclatures «clau», «valor», «objecte» i «matriu». Si és la primera vegada que treballeu amb fitxers &JSON;, comprendre'ls és tan senzill com mirar els exemples que hi ha a continuació. </para>
 
 </sect3>
 
@@ -2405,16 +2430,12 @@
 > en l'objecte arrel per a escriure els comentaris, per exemple, si esteu adaptant un tema existent, podeu posar l'&URL; del repositori original. La forma més pràctica és utilitzar una matriu de cadenes. </para>
 
 <para
->A continuació es mostra un fitxer d'exemple per al tema <quote
->Breeze Light</quote
->. Podeu observar que, per a evitar que l'exemple sigui massa gran, els objectes <userinput
+>A continuació es mostra un fitxer d'exemple per al tema «Breeze Light». Podeu observar que, per a evitar que l'exemple sigui massa gran, els objectes <userinput
 >editor-colors</userinput
 > i <userinput
 >text-styles</userinput
 > no contenen totes les claus requerides. Podeu veure tot el fitxer <ulink url="https://invent.kde.org/frameworks/syntax-highlighting/-/blob/master/data/themes/breeze-light.theme"
->del tema <quote
->Breeze Light</quote
-> al repositori de KSyntaxHighlighting</ulink
+>del tema «Breeze Light» al repositori de KSyntaxHighlighting</ulink
 >. </para>
 
 <programlisting
@@ -2600,9 +2621,7 @@
 >totes les claus disponibles són obligatòries</userinput
 >, els seus valors són <userinput
 >cadenes</userinput
-> amb codis de color en hexadecimal, com <quote
->#00B5CF</quote
->. </para>
+> amb codis de color en hexadecimal, com «#00B5CF». </para>
 
 <para
 >A <link linkend="color-themes-gui"
@@ -2783,9 +2802,7 @@
 >)</term>
 <listitem
 ><para
->Aquest color s'utilitza per a dibuixar el número de línia de la línia actual, quan es mostra, a la banda esquerra de la vista. Establir això una mica diferent de <quote
->LineNumbers</quote
-> ajudarà a mantenir l'enfocament sobre la línia actual. </para
+>Aquest color s'utilitza per a dibuixar el número de línia de la línia actual, quan es mostra, a la banda esquerra de la vista. Establir això una mica diferent de «LineNumbers» ajudarà a mantenir l'enfocament sobre la línia actual. </para
 ></listitem>
 </varlistentry>
 
@@ -3219,15 +3236,7 @@
 >estils predeterminats</userinput
 > utilitzats en els fitxers &XML; de definició per al <link linkend="highlight"
 >ressaltat de la sintaxi</link
->, per exemple, l'atribut <quote
->Normal</quote
-> és equivalent a <quote
->dsNormal</quote
-> en els fitxers &XML; i <quote
->DataType</quote
-> és equivalent a <quote
->dsDataType</quote
->. Vegeu <xref linkend="kate-highlight-default-styles"/> a la documentació del ressaltat de la sintaxi. </para>
+>, per exemple, l'atribut «Normal» és equivalent a «dsNormal» en els fitxers &XML; i «DataType» és equivalent a «dsDataType». Vegeu <xref linkend="kate-highlight-default-styles"/> a la documentació del ressaltat de la sintaxi. </para>
 </note>
 
 <tip>
@@ -3300,11 +3309,9 @@
 <para
 ><userinput
 >selected-text-color</userinput
->: El color del text quan se selecciona generalment és el mateix valor que <quote
->text-color</quote
->. Quan se selecciona el text, el fons és definit pel valor de <link linkend="variable-pref-colors-selected-text"
+>: El color del text quan se selecciona generalment és el mateix valor que «text-color». Quan se selecciona el text, el fons és definit pel valor de <link linkend="variable-pref-colors-selected-text"
 >TextSelection</link
-> a els <link linkend="color-themes-editor-colors"
+> als <link linkend="color-themes-editor-colors"
 >Colors de l'editor</link
 >, de manera que haureu d'assegurar-vos que el text tingui un bon contrast i sigui llegible amb aquest fons. El valor és una cadena amb un codi de color hexadecimal. Aquesta clau/valor és obligatòria.</para>
 
@@ -3451,7 +3458,7 @@
 ><userinput
 >BuiltIn</userinput
 > (<guilabel
->Incorporat</guilabel
+>Integrat</guilabel
 >): Estil de text per a classes de llenguatges, funcions i objectes integrats.</para>
 
 <para
@@ -3558,20 +3565,16 @@
 >SpecialChar</userinput
 > (<guilabel
 >Caràcter especial</guilabel
->): Estil de text per als caràcters d'escapament en les cadenes, p. ex. <quote
-><userinput
+>): Estil de text per als caràcters d'escapament en les cadenes, p. ex. «<userinput
 >hola\n</userinput
-></quote
-> i altres caràcters amb un significat especial en les cadenes, com les substitucions o operadors d'expressió regular.</para>
+>» i altres caràcters amb un significat especial en les cadenes, com les substitucions o operadors d'expressió regular.</para>
 
 <para
 ><userinput
 >String</userinput
->: Estil de text per a les cadenes com <quote
-><userinput
+>: Estil de text per a les cadenes com «<userinput
 >hola món</userinput
-></quote
->.</para>
+>».</para>
 
 <para
 ><userinput
@@ -3634,11 +3637,9 @@
 >Variable de comentari</guilabel
 >): Estil de text que es refereix als noms de les variables utilitzades en les ordres anteriors en un comentari, com <userinput
 >foobar</userinput
-> a <quote
-><userinput
+> a «<userinput
 >@param foobar</userinput
-></quote
->, en Doxygen o JavaDoc.</para>
+>», en Doxygen o JavaDoc.</para>
 
 <para
 ><userinput
@@ -3707,7 +3708,7 @@
 >Estils personalitzats per al text ressaltat</title>
 
 <para
->Aquí podreu establir els estils de text per a una definició especifica del ressaltat de la sintaxi, superposant l'<userinput
+>Aquí podreu establir els estils de text per a una definició específica del ressaltat de la sintaxi, superposant l'<userinput
 >estil de text predeterminat</userinput
 > descrit a <link linkend="color-themes-text-styles"
 >la secció anterior</link
@@ -3753,25 +3754,13 @@
 >. </para>
 
 <para
->Per exemple, en aquest fragment de codi, la definició de ressaltat de la sintaxi <quote
->ISO C++</quote
-> té un estil de text especial per als atributs <quote
->Modificadors de tipus</quote
-> i <quote
->Classes estàndard</quote
->. En el fitxer &XML; corresponent <quote
->isocpp.xml</quote
->, l'atribut definit <quote
->Classes estàndard</quote
-> utilitza l'estil predeterminat <userinput
+>Per exemple, en aquest fragment de codi, la definició de ressaltat de la sintaxi «ISO C++» té un estil de text especial per als atributs «Modificadors de tipus» i «Classes estàndard». En el fitxer &XML; corresponent «isocpp.xml», l'atribut definit «Classes estàndard» utilitza l'estil predeterminat <userinput
 >BuiltIn</userinput
 > (o <userinput
 >dsBuiltIn</userinput
 >). En aquest atribut, només se sobreescriurà el valor de <userinput
 >text-color</userinput
-> amb el nou color <quote
->#6431b3</quote
->. </para>
+> amb el nou color «#6431b3». </para>
 
 <programlisting
 >"custom-styles": {
@@ -3798,11 +3787,7 @@
 
 <listitem>
 <para
->Les definicions del ressaltat de la sintaxi sovint inclouen altres definicions. Per exemple, el ressaltador de <quote
->QML</quote
-> inclou el ressaltador de <quote
->JavaScript</quote
->, ja que comparteixen la funcionalitat en el ressaltat.</para>
+>Les definicions del ressaltat de la sintaxi sovint inclouen altres definicions. Per exemple, el ressaltador de «QML» inclou el ressaltador de «JavaScript», ja que comparteixen la funcionalitat en el ressaltat.</para>
 </listitem>
 
 </itemizedlist>
@@ -3815,11 +3800,7 @@
 ><guilabel
 >Estils del text ressaltat</guilabel
 ></userinput
->. De manera predeterminada, l'editor preselecciona el ressaltat del document actual. Notareu que molts ressaltats contenen altres ressaltats representats per grups en la llista d'estils. Per exemple, la majoria dels ressaltats importen el ressaltat <quote
->Alert</quote
->, i molts formats de codi font importen el ressaltat <quote
->Doxygen</quote
->. </para>
+>. De manera predeterminada, l'editor preselecciona el ressaltat del document actual. Notareu que molts ressaltats contenen altres ressaltats representats per grups en la llista d'estils. Per exemple, la majoria dels ressaltats importen el ressaltat «Alert», i molts formats de codi font importen el ressaltat «Doxygen». </para>
 
 </sect3>
 
@@ -3832,9 +3813,7 @@
 
 <para
 >La forma més senzilla de crear i editar temes de color és mitjançant la &IGU; dins del diàleg <link linkend="config-dialog"
-><quote
->Configura</quote
-></link
+>«Configura»</link
 > proporcionat per <ulink url="https://api.kde.org/frameworks/ktexteditor/html/"
 >KTextEditor</ulink
 >. Per a accedir-hi, seleccioneu <menuchoice
@@ -3867,7 +3846,7 @@
 <para
 >En aquest <link linkend="config-dialog"
 >diàleg</link
-> podreu configurar tots els colors en qualsevol tema que tingueu, així com crear/copiar temes nous, eliminar-los, exportar-los a un fitxer <userinput
+> podreu configurar tots els colors en qualsevol tema que tingueu, així com crear/copiar temes nous, suprimir-los, exportar-los a un fitxer <userinput
 >.theme</userinput
 > amb <link linkend="color-themes-json"
 >format &JSON;</link
@@ -3893,18 +3872,12 @@
 ></userinput
 > està activada, la qual triarà un tema de color més apropiat d'acord amb l'<emphasis
 >esquema de color del &plasma;</emphasis
-> utilitzat en l'aplicació d'edició de text; normalment es tria <quote
->Brisa clara</quote
-> i <quote
->Brisa fosca</quote
-> si l'esquema és clar o fosc, respectivament. </para>
+> utilitzat en l'aplicació d'edició de text; normalment es tria «Brisa clara» i «Brisa fosca» si l'esquema és clar o fosc, respectivament. </para>
 
 <tip>
 <para
 >Podeu ajustar l'esquema de color global del &kde; en el mòdul <ulink url="help:/kcontrol/colors/"
-><quote
->Colors</quote
-> a l'&systemsettings;</ulink
+>«Colors» a l'&systemsettings;</ulink
 >. També el podreu canviar individualment en algunes aplicacions com el &kate; o el &kdevelop;, des del menú <menuchoice
 ><guimenu
 >Arranjament</guimenu
@@ -3920,16 +3893,12 @@
 >Crea un tema nou</title>
 
 <para
->Per a crear un tema nou, primer cal copiar-ne un d'existent. Seleccioneu un tema existent que voleu utilitzar com a base, com el <quote
->Brisa clar</quote
-> o <quote
->Brisa fosca</quote
-> i feu clic a <guibutton
+>Per a crear un tema nou, primer cal copiar-ne un d'existent. Seleccioneu un tema existent que voleu utilitzar com a base, com el «Brisa clar» o «Brisa fosca» i feu clic a <guibutton
 >Copia</guibutton
 >. Després escriviu un nom per al tema nou. </para>
 
 <para
->Si voleu modificar un tema integrat o només de lectura, primer l'haureu copiar amb un nom diferent.</para>
+>Si voleu modificar un tema integrat o només de lectura, primer l'haureu de copiar amb un nom diferent.</para>
 
 </sect3>
 
@@ -3969,7 +3938,7 @@
 
 <listitem>
 <para
->Si voleu publicar un tema creat per vos, és fonamental comprovar l'objecte <link linkend="color-themes-json-metadata"
+>Si voleu publicar un tema creat per vós, és fonamental comprovar l'objecte <link linkend="color-themes-json-metadata"
 >metadata</link
 > del <link linkend="color-themes-json"
 >fitxer &JSON;</link
@@ -4068,6 +4037,11 @@
 >el paquet Flatpak a Flathub</ulink
 > (només en GNU/Linux).</para>
 
+<para
+>Un script en Python al <ulink url="https://invent.kde.org/frameworks/syntax-highlighting/-/blob/master/utils/theme_contrast_checker.py?ref_type=heads"
+>repositori de ressaltat de la sintaxi</ulink
+> us permet visualitzar tots els colors d'un tema, així com el contrast amb els diversos fons configurats.</para>
+
 </sect3>
 
 <sect3 id="color-themes-tips-and-tricks-consistency">
@@ -4078,56 +4052,34 @@
 <para
 >El KSyntaxHighlighting inclou <ulink url="https://kate-editor.org/syntax/"
 >més de 300 definicions de ressaltat de la sintaxi</ulink
->, de manera que és ideal assegurar-vos que el nou tema es vegi bé en totes les definicions de ressaltat de la sintaxi. Els temes de color incorporats tenen les següents similituds que es recomana (però no és obligatori) seguir per a aconseguir una visualització correcta de totes les definicions de ressaltat de la sintaxi:</para>
+>, de manera que és ideal assegurar-vos que el nou tema es vegi bé en totes les definicions de ressaltat de la sintaxi. Els temes de color integrats tenen les següents similituds que es recomana (però no és obligatori) seguir per a aconseguir una visualització correcta de totes les definicions de ressaltat de la sintaxi:</para>
 
 <itemizedlist>
 <listitem
 ><para
 >Utilitzeu negreta per als <link linkend="color-themes-text-styles"
 >estils de text</link
-> <quote
->Keyword</quote
-> i <quote
->ControlFlow</quote
->.</para
+> «Keyword» i «ControlFlow».</para
 ></listitem>
 
 <listitem
 ><para
 >No utilitzeu el color de fons en cap <link linkend="color-themes-text-styles"
 >estil de text</link
->, excepte <quote
->Alert</quote
-> i <quote
->RegionMarker</quote
->.</para
+>, excepte «Alert» i «RegionMarker».</para
 ></listitem>
 </itemizedlist>
 
 <para
->La majoria dels ressaltadors de la sintaxi estan pensats per a que es vegi bé en els temes predeterminats <quote
->Brisa clara</quote
-> i <quote
->Brisa fosca</quote
->, per tant, una altra forma de mantenir la coherència és utilitzar colors similars en els <link linkend="color-themes-text-styles"
+>La majoria dels ressaltadors de la sintaxi estan pensats perquè es vegi bé en els temes predeterminats «Brisa clara» i «Brisa fosca», per tant, una altra forma de mantenir la coherència és utilitzar colors similars en els <link linkend="color-themes-text-styles"
 >estils de text</link
 >, com el <emphasis
 >green</emphasis
-> per a <quote
->Preprocessor</quote
-> i <quote
->Others</quote
->, <emphasis
+> per a «Preprocessor» i «Others», <emphasis
 >blue</emphasis
-> per a <quote
->DataType</quote
-> i <quote
->Attribute</quote
->, o <emphasis
+> per a «DataType» i «Attribute», o <emphasis
 >purple</emphasis
-> per a <quote
->Function</quote
->.</para>
+> per a «Function».</para>
 
 <para
 >Recordeu que aquestes recomanacions no són obligatòries quan es crea i publica un tema.</para>
@@ -4171,7 +4123,7 @@
 >. </para>
 <para
 >Al &Windows; aquests fitxers es troben a <filename
->%USERPROFILE%\AppData\Local\katepart5\indentation</filename
+>%USERPROFILE%\AppData\Local\katepart5\script\indentation</filename
 >. <replaceable
 >%USERPROFILE%</replaceable
 > que generalment s'expandeix a <filename
@@ -4241,9 +4193,7 @@ var katescript = {
 >required-syntax-style</literal
 > [opcional]: L'estil de la sintaxi requerida, el qual coincideix amb <literal
 >style</literal
-> especificat als fitxers de ressaltat de la sintaxi. Això és important per als sagnats que es basen en la informació de ressaltat específica en el document. Si s'especifica un estil de la sintaxi requerit, el sagnat només estarà disponible amb el ressaltat actiu apropiat. Això evita <quote
->comportament sense definir</quote
-> causat per l'ús del sagnat sense l'esquema del ressaltat esperat. Per exemple, el sagnat de Ruby en fa ús en els fitxers <filename
+> especificat als fitxers de ressaltat de la sintaxi. Això és important per als sagnats que es basen en la informació de ressaltat específica en el document. Si s'especifica un estil de la sintaxi requerit, el sagnat només estarà disponible amb el ressaltat actiu apropiat. Això evita «comportament sense definir» causat per l'ús del sagnat sense l'esquema del ressaltat esperat. Per exemple, el sagnat de Ruby en fa ús en els fitxers <filename
 >ruby.js</filename
 > i <filename
 >ruby.xml</filename
@@ -4285,7 +4235,7 @@ function indent(line, indentWidth, ch)
 ><guimenu
 >Eines</guimenu
 ><guimenuitem
->Alinea</guimenuitem
+>Format del sagnat</guimenuitem
 ></menuchoice>
     // la variable ch és buidada, &ead;, ch == «».
     //
@@ -4327,7 +4277,7 @@ function indent(line, indentWidth, ch)
 > </itemizedlist
 > El valor retornat de la funció <function
 >indent()</function
-> especifica com se sagna la línia. Si el valor retornat és un nombre enter simple, aquest s'interpreta de la següent manera: <itemizedlist
+> especifica com se sagna la línia. Si el valor retornat és un nombre enter simple, aquest s'interpreta de la manera següent: <itemizedlist
 > <listitem
 ><para
 >El valor retornat <literal
@@ -4355,11 +4305,7 @@ function indent(line, indentWidth, ch)
 ></para
 ></listitem
 > </itemizedlist
-> En aquest cas, el primer element és la profunditat de sagnat com anteriorment amb el mateix significat dels valors especials. No obstant això, el segon element és un valor absolut que representa una columna d'<quote
->alineació</quote
->. Si aquest valor és major que el valor de sagnat, la diferència representa un nombre d'espais a afegir després del sagnat del primer paràmetre. En cas contrari, el segon nombre serà ignorat. L'ús de tabulacions i espais per al sagnat sovint és referit com <quote
->mode mixt</quote
->. </para>
+> En aquest cas, el primer element és la profunditat de sagnat com anteriorment amb el mateix significat dels valors especials. No obstant això, el segon element és un valor absolut que representa una columna d'«alineació». Si aquest valor és major que el valor de sagnat, la diferència representa un nombre d'espais a afegir després del sagnat del primer paràmetre. En cas contrari, el segon nombre serà ignorat. L'ús de tabulacions i espais per al sagnat sovint és referit com «mode mixt». </para>
 
 <para
 >Considerem el següent exemple: Suposem que s'utilitzen tabulacions per a sagnar, i l'amplada de la tabulació és 4. Aquí, &lt;tab&gt; representa una tabulació i «.» un espai: <programlisting>
@@ -4371,14 +4317,14 @@ function indent(line, indentWidth, ch)
 > retorna [8, 15]. Com a resultat, s'insereixen dues tabulacions per a sagnar fins a la columna 8, i s'afegeixen 7 espais per a alinear el segon paràmetre a la primera, de manera que quedi alineat si el fitxer es veu amb una amplada de tabulació diferent. </para>
 
 <para
->Una instal·lació predeterminada del &kde; ens dóna la &kappname; amb diversos sagnats. El corresponent codi font de &javascript; d'origen pot trobar-se en <filename
+>Una instal·lació predeterminada del &kde; ens dona la &kappname; amb diversos sagnats. El corresponent codi font de &javascript; d'origen pot trobar-se en <filename
 >$<envar
 >XDG_DATA_DIRS</envar
 >/katepart5/script/indentation</filename
 >.</para>
 <para
 >Al &Windows; aquests fitxers es troben a <filename
->%USERPROFILE%\AppData\Local\katepart5\indentation</filename
+>%USERPROFILE%\AppData\Local\katepart5\script\indentation</filename
 >. <replaceable
 >%USERPROFILE%</replaceable
 > que generalment s'expandeix a <filename
@@ -4406,7 +4352,7 @@ function indent(line, indentWidth, ch)
 
 <para
 >Com és difícil satisfer les necessitats de tothom, la &kappname; suporta unes quantes eines d'ajuda per a la manipulació ràpida de text a través de la <link linkend="advanced-editing-tools-commandline"
->línia d'ordres inclosa</link
+>línia d'ordres integrada</link
 >. Per exemple, l'ordre <command
 >sort</command
 > s'implementa com un script. En aquesta secció s'explica com crear fitxers <filename
@@ -4431,7 +4377,7 @@ function indent(line, indentWidth, ch)
 >.</para>
 <para
 >Al &Windows; aquests fitxers es troben a <filename
->%USERPROFILE%\AppData\Local\katepart5\commands</filename
+>%USERPROFILE%\AppData\Local\katepart5\script\commands</filename
 >. <replaceable
 >%USERPROFILE%</replaceable
 > que generalment s'expandeix a <filename
@@ -4544,7 +4490,7 @@ function &lt;nom&gt;(arg1, arg2...)
 >arg2</parameter
 >, &etc; Per tal de proveir documentació per a cada ordre, simplement implementeu la funció «<function
 >help</function
->» de la següent manera: <programlisting>
+>» de la manera següent: <programlisting>
 {
     if (cmd == "sort") {
         return i18n("Ordena el text seleccionat.");
@@ -4643,7 +4589,7 @@ var katescript = {
 >interactive</literal
 > [opcional]: Si l'script necessita utilitzar l'entrada a la línia d'ordres, establiu-ho a <literal
 >true</literal
-> (vertader).</para
+> (cert).</para
 ></listitem>
 </itemizedlist>
 </para>
@@ -4939,7 +4885,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si aquest cursor i el cursor <replaceable
+> (cert), si aquest cursor i el cursor <replaceable
 >altra</replaceable
 > són iguals, en cas contrari retornarà <literal
 >false</literal
@@ -4956,11 +4902,9 @@ require ("range.js");
 ></term>
 <listitem
 ><para
->Retorna el cursor com una cadena de la forma <quote
-><literal
+>Retorna el cursor com una cadena de la forma «<literal
 >Cursor(line, column)</literal
-></quote
->. </para
+>». </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -5112,7 +5056,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si inici i final del cursor són iguals. </para>
+> (cert), si inici i final del cursor són iguals. </para>
 <para
 >Exemple: <function
 >var empty = range.isEmpty();</function
@@ -5133,7 +5077,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si inici i final del cursor són vàlids, en cas contrari retornarà <literal
+> (cert), si inici i final del cursor són vàlids, en cas contrari retornarà <literal
 >false</literal
 > (fals). </para>
 <para
@@ -5171,7 +5115,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader) si aquest interval conté la posició de cursor, en cas contrari retornarà <literal
+> (cert) si aquest interval conté la posició de cursor, en cas contrari retornarà <literal
 >false</literal
 > (fals). </para
 ></listitem>
@@ -5192,7 +5136,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si aquest interval conté l'interval <replaceable
+> (cert), si aquest interval conté l'interval <replaceable
 >altra</replaceable
 >, en cas contrari retornarà <literal
 >false</literal
@@ -5215,7 +5159,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si <replaceable
+> (cert), si <replaceable
 >columna</replaceable
 > està en l'interval obert mig <literal
 >[start.column, end.column)</literal
@@ -5240,7 +5184,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si <replaceable
+> (cert), si <replaceable
 >línia</replaceable
 > està en l'interval obert mig <literal
 >[start.line, end.line)</literal
@@ -5265,7 +5209,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si aquest interval i l'interval <replaceable
+> (cert), si aquest interval i l'interval <replaceable
 >altre</replaceable
 > comparteixen una regió comuna, en cas contrari retornarà <literal
 >false</literal
@@ -5288,7 +5232,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si <replaceable
+> (cert), si <replaceable
 >línia</replaceable
 > està en l'interval <literal
 >[start.line, end.line]</literal
@@ -5313,7 +5257,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si <replaceable
+> (cert), si <replaceable
 >columna</replaceable
 > està en l'interval <literal
 >[start.column, end.column]</literal
@@ -5334,7 +5278,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si l'interval comença i finalitza a la mateixa línia, &ead; si <replaceable
+> (cert), si l'interval comença i finalitza a la mateixa línia, &ead; si <replaceable
 >Línia.comença.interval == Línia.finalitza.interval</replaceable
 >. </para>
 <para
@@ -5357,7 +5301,7 @@ require ("range.js");
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si aquest interval i l'interval <replaceable
+> (cert), si aquest interval i l'interval <replaceable
 >altra</replaceable
 > són iguals, en cas contrari retornarà <literal
 >false</literal
@@ -5374,11 +5318,9 @@ require ("range.js");
 ></term>
 <listitem
 ><para
->Retorna l'interval com una cadena de la forma <quote
-><literal
+>Retorna l'interval com una cadena de la forma «<literal
 >Rang(Cursor(line, column), Cursor(line, column))</literal
-></quote
->. </para
+>». </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -5412,8 +5354,8 @@ require ("range.js");
 ><para
 >Cercarà el <replaceable
 >fitxer</replaceable
-> donat en relació al directori <literal
->katepart/script/files</literal
+> donat en relació amb el directori <literal
+>katepart5/script/files</literal
 > i retorna el seu contingut com una cadena. </para
 ></listitem>
 </varlistentry
@@ -5434,8 +5376,8 @@ require ("range.js");
 ><para
 >Cercarà el <replaceable
 >fitxer</replaceable
-> donat en relació al directori <literal
->katepart/script/libraries</literal
+> donat en relació amb el directori <literal
+>katepart5/script/libraries</literal
 > i l'avaluarà. <literal
 >require</literal
 > està internament protegit contra inclusions múltiples del mateix <replaceable
@@ -5495,7 +5437,7 @@ require ("range.js");
 >. </para>
 
 <para
->Les funcions de traducció tradueixen les cadenes embolcallades a través del sistema de traducció del &kde; per a l'idioma utilitzat en l'aplicació. Les cadenes als scripts es desenvolupen a les fonts oficials de la &kappname; i s'extrauen de forma automàtica i traduïble. En altres paraules, com a desenvolupador de la &kappname; no haureu de preocupar-vos per l'extracció dels missatges i la traducció. Cal assenyalar però, que la traducció només funciona dins de la infraestructura del &kde;, &ead;, les cadenes noves als scripts de terceres parts desenvolupats fora del &kde; no seran traduïbles. Per tant, considereu en contribuir els vostres scripts al &kate;, de tal manera que sigui possible una traducció apropiada. </para>
+>Les funcions de traducció tradueixen les cadenes embolcallades a través del sistema de traducció del &kde; per a l'idioma utilitzat en l'aplicació. Les cadenes als scripts es desenvolupen a les fonts oficials de la &kappname; i s'extrauen de forma automàtica i traduïble. En altres paraules, com a desenvolupador de la &kappname; no haureu de preocupar-vos per l'extracció dels missatges i la traducció. Però cal assenyalar que la traducció només funciona dins de la infraestructura del &kde;, &ead;, les cadenes noves als scripts de terceres parts desenvolupats fora del &kde; no seran traduïbles. Per tant, considereu en contribuir els vostres scripts al &kate;, de tal manera que sigui possible una traducció apropiada. </para>
 
 <variablelist
 ><varlistentry>
@@ -5646,11 +5588,9 @@ require ("range.js");
 <title
 >L'API de «View»</title>
 <para
->Cada vegada que s'executa un script, si hi ha una variable global <quote
-><literal
+>Cada vegada que s'executa un script, si hi ha una variable global «<literal
 >view</literal
-></quote
-> que representa la vista actual de l'editor actiu. La següent és una llista de totes les funcions «View» disponibles. <variablelist>
+>» que representa la vista actual de l'editor actiu. La següent és una llista de totes les funcions «View» disponibles. <variablelist>
 
 <varlistentry>
 <term
@@ -5810,7 +5750,7 @@ void view.setVirtualCursorPosition(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si la vista conté el text seleccionat, en cas contrari retornarà <literal
+> (cert), si la vista conté el text seleccionat, en cas contrari retornarà <literal
 >false</literal
 > (fals). </para
 ></listitem>
@@ -5885,6 +5825,95 @@ void view.setVirtualCursorPosition(<parameter
 ></listitem>
 </varlistentry>
 
+
+<varlistentry>
+<term
+><synopsis
+>void view.setBlockSelection(bool on);
+</synopsis
+></term>
+<listitem
+><para
+>Activa o desactiva el mode de selecció de blocs («on» o «off»). </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><synopsis
+>bool view.blockSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (cert), si el mode de selecció de blocs està activat, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term
+><synopsis
+>void view.align(<parameter
+>Range <replaceable
+>interval</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Torna a sagnar correctament les línies dins de l'<replaceable
+>interval</replaceable
+> segons els paràmetres actuals del sagnat. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><synopsis
+>void view.alignOn(<parameter
+>Range <replaceable
+>interval</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>patró</replaceable
+> = &quot;&quot;</parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Alinea les línies de l'<replaceable
+>interval</replaceable
+> a la columna indicada pel <replaceable
+>patró</replaceable
+> de l'expressió regular. Amb un <replaceable
+>patró</replaceable
+> buit s'alinearà amb el primer caràcter no blanc de manera predeterminada. Si el patró té una captura, se sagnarà a la coincidència capturada. </para>
+<para
+><emphasis
+>Exemples:</emphasis
+></para>
+<para
+><literal
+>view.alignOn(document.documentRange(), '-');</literal
+> inserirà espais abans del primer <literal
+>-</literal
+> de cada línia per a alinear-les totes a la mateixa columna.</para>
+<para
+>
+><literal
+>view.alignOn(document.documentRange(), ':\\s+(.)');</literal
+> inserirà espais abans del primer caràcter no blanc que hi hagi després de dos punts (:) per a alinear-les totes a la mateixa columna.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry>
 <term
 ><synopsis
@@ -5929,6 +5958,48 @@ void view.setVirtualCursorPosition(<parameter
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term
+><synopsis
+>Range view.searchText(<parameter
+>Range <replaceable
+>interval</replaceable
+></parameter
+>,
+                      <parameter
+>String <replaceable
+>patró</replaceable
+></parameter
+>,
+                      <parameter
+>bool <replaceable
+>enrere</replaceable
+> = false</parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Cerca la primera ocurrència de <replaceable
+>patró</replaceable
+> a l'<replaceable
+>interval</replaceable
+> i retorna l'interval coincident. La cerca es porta a terme cap enrere si el paràmetre booleà opcional <replaceable
+>enrere</replaceable
+> s'estableix a <literal
+>cert</literal
+>. </para>
+<para
+>L'interval retornat no és vàlid (vegeu Range.isValid()) si el <replaceable
+>patró</replaceable
+> no s'ha trobat en l'<replaceable
+>interval</replaceable
+>. </para>
+<para
+>Des del: &kde-frameworks; 5.97</para>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </para>
 </sect3>
@@ -5937,11 +6008,9 @@ void view.setVirtualCursorPosition(<parameter
 <title
 >L'API de «Document»</title>
 <para
->Cada vegada que s'executa un script, si hi ha una variable global <quote
-><literal
+>Cada vegada que s'executa un script, si hi ha una variable global «<literal
 >document</literal
-></quote
-> que representa el document actiu actual. La següent és una llista de totes les funcions de «Document» disponibles. <variablelist>
+>» que representa el document actiu actual. La següent és una llista de totes les funcions de «Document» disponibles. <variablelist>
 
 <varlistentry>
 <term
@@ -6046,7 +6115,7 @@ void view.setVirtualCursorPosition(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si el document conté canvis sense desar (modificat), en cas contrari retornarà <literal
+> (cert), si el document conté canvis sense desar (modificat), en cas contrari retornarà <literal
 >false</literal
 > (fals). </para
 ></listitem>
@@ -6061,11 +6130,9 @@ void view.setVirtualCursorPosition(<parameter
 ></term>
 <listitem
 ><para
->Retorna el contingut complet del document en una cadena de text única. Els salts de línia estan marcats amb el caràcter de nova línia <quote
-><literal
+>Retorna el contingut complet del document en una cadena de text única. Els salts de línia estan marcats amb el caràcter de nova línia «<literal
 >\n</literal
-></quote
->. </para
+>». </para
 ></listitem>
 </varlistentry>
 
@@ -6271,7 +6338,7 @@ bool document.isSpace(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si el caràcter a la posició del cursor donada és un espai en blanc, en cas contrari retornarà <literal
+> (cert), si el caràcter a la posició del cursor donada és un espai en blanc, en cas contrari retornarà <literal
 >false</literal
 > (fals). </para
 ></listitem>
@@ -6309,7 +6376,7 @@ bool document.matchesAt(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si el <replaceable
+> (cert), si el <replaceable
 >text</replaceable
 > donat coincideix a la posició del cursor corresponent, en cas contrari retornarà <literal
 >false</literal
@@ -6340,7 +6407,7 @@ bool document.matchesAt(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si la línia comença amb <replaceable
+> (cert), si la línia comença amb <replaceable
 >text</replaceable
 >, en cas contrari retornarà <literal
 >false</literal
@@ -6373,7 +6440,7 @@ bool document.matchesAt(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si la línia acaba amb <replaceable
+> (cert), si la línia acaba amb <replaceable
 >text</replaceable
 >, en cas contrari retornarà <literal
 >false</literal
@@ -6437,7 +6504,7 @@ bool document.truncate(<parameter
 ><para
 >Trunca la línia donada a la columna o la posició donada del cursor. Retorna <literal
 >true</literal
-> (vertader) en cas d'èxit, o <literal
+> (cert) en cas d'èxit, o <literal
 >false</literal
 > (fals) si la línia donada no forma part de l'interval del document. </para
 ></listitem>
@@ -6477,7 +6544,7 @@ bool document.insertText(<parameter
 >text</replaceable
 > a la posició donada del cursor. Retorna <literal
 >true</literal
-> (vertader) en cas d'èxit, o <literal
+> (cert) en cas d'èxit, o <literal
 >false</literal
 > (fals), si el document està en el mode de només lectura. </para
 ></listitem>
@@ -6524,7 +6591,7 @@ bool document.removeText(<parameter
 ><para
 >Elimina el text dins de l'interval donat. Retorna <literal
 >true</literal
-> (vertader) en cas d'èxit, o <literal
+> (cert) en cas d'èxit, o <literal
 >false</literal
 > (fals), si el document està en el mode de només lectura. </para
 ></listitem>
@@ -6549,7 +6616,7 @@ bool document.removeText(<parameter
 ><para
 >Insereix text en la línia donada. Retorna <literal
 >true</literal
-> (vertader) en cas d'èxit, o <literal
+> (cert) en cas d'èxit, o <literal
 >false</literal
 > (fals), si el document està en el mode de només lectura o la línia no està en l'interval del document. </para
 ></listitem>
@@ -6570,7 +6637,7 @@ bool document.removeText(<parameter
 ><para
 >Elimina la línia de text donada. Retorna <literal
 >true</literal
-> (vertader) en cas d'èxit, o <literal
+> (cert) en cas d'èxit, o <literal
 >false</literal
 > (fals), si el document està en el mode de només lectura o la línia no està en l'interval del document. </para
 ></listitem>
@@ -6600,7 +6667,7 @@ bool document.wrapLine(<parameter
 ><para
 >Ajusta la línia a la posició del cursor donada. Retorna <literal
 >true</literal
-> (vertader) en cas d'èxit, o <literal
+> (cert) en cas d'èxit, o <literal
 >false</literal
 > (fals), &pex; si la línia &lt; 0. </para>
 <para
@@ -6661,7 +6728,7 @@ bool document.wrapLine(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si la <replaceable
+> (cert), si la <replaceable
 >línia</replaceable
 > actual conté dades sense desar. </para>
 <para
@@ -6684,7 +6751,7 @@ bool document.wrapLine(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si la <replaceable
+> (cert), si la <replaceable
 >línia</replaceable
 > ha canviat, però el document ha estat desat. Per tant, la línia actual no conté cap dada sense desar. </para>
 <para
@@ -6707,7 +6774,7 @@ bool document.wrapLine(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si la <replaceable
+> (cert), si la <replaceable
 >línia</replaceable
 > actual conté dades sense desar o que s'han canviat abans. </para>
 <para
@@ -6734,7 +6801,7 @@ bool document.wrapLine(<parameter
 ><para
 >Cerca la següent línia tocada començant per la <replaceable
 >línia</replaceable
->. La cerca es realitza amunt o avall depenent de la direcció especificada a <replaceable
+>. La cerca es realitza amunt o avall depenent de la direcció especificada en <replaceable
 >avall</replaceable
 >. </para>
 <para
@@ -6957,7 +7024,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si el <replaceable
+> (cert), si el <replaceable
 >caràcter</replaceable
 > donat amb l'<replaceable
 >atribut</replaceable
@@ -6986,7 +7053,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si el <replaceable
+> (cert), si el <replaceable
 >caràcter</replaceable
 > donat amb l'<replaceable
 >atribut</replaceable
@@ -7015,7 +7082,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si un interval inicial i final amb els atributs donats es presten a ser descomentats, en cas contrari retornarà <literal
+> (cert), si un interval inicial i final amb els atributs donats es presten a ser descomentats, en cas contrari retornarà <literal
 >false</literal
 > (fals). </para
 ></listitem>
@@ -7128,7 +7195,7 @@ bool isValidTextPosition(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si la posició indicada del cursor està situada a una posició vàlida del text. Una posició de text només és vàlida si es localitza al començament, al mig o al final d'una línia vàlida. A més, una posició de text no serà vàlida si es troba en un substitut Unicode. </para
+> (cert), si la posició indicada del cursor està situada a una posició vàlida del text. Una posició de text només és vàlida si es localitza al començament, al mig o al final d'una línia vàlida. A més, una posició de text no serà vàlida si es troba en un substitut Unicode. </para
 ><para
 >Des del: &kde; 5.0 </para
 ></listitem>
@@ -7192,7 +7259,7 @@ bool document.isAttribute(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si l'atribut a la posició del cursor és igual que l'<replaceable
+> (cert), si l'atribut a la posició del cursor és igual que l'<replaceable
 >atribut</replaceable
 >, en cas contrari retornarà <literal
 >false</literal
@@ -7260,7 +7327,7 @@ bool document.isAttributeName(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si el nom de l'atribut en una posició determinada del cursor coincideix amb el <replaceable
+> (cert), si el nom de l'atribut en una posició determinada del cursor coincideix amb el <replaceable
 >nom</replaceable
 > donat, en cas contrari retornarà <literal
 >false</literal
@@ -7381,9 +7448,7 @@ Cursor document.toVirtualCursor(<parameter
 ></term>
 <listitem
 ><para
->Converteix la posició <quote
->real</quote
-> donada del cursor a una posició virtual del cursor, d'altra manera retorna un «int» o un objecte «Cursor». </para
+>Converteix la posició «real» donada del cursor a una posició virtual del cursor, d'altra manera retorna un «int» o un objecte «Cursor». </para
 ></listitem>
 </varlistentry>
 
@@ -7414,9 +7479,7 @@ Cursor document.fromVirtualCursor(<parameter
 ></term>
 <listitem
 ><para
->Converteix la posició virtual donada del cursor a una posició <quote
->real</quote
-> del cursor, d'altra manera retorna un «int» o un objecte «Cursor». </para
+>Converteix la posició virtual donada del cursor a una posició «real» del cursor, d'altra manera retorna un «int» o un objecte «Cursor». </para
 ></listitem>
 </varlistentry>
 
@@ -7552,7 +7615,7 @@ bool document.isCode(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si l'atribut a la posició donada del cursor no és igual per a tots els següents estils: <literal
+> (cert), si l'atribut a la posició donada del cursor no és igual per a tots els següents estils: <literal
 >dsComment</literal
 >, <literal
 >dsString</literal
@@ -7591,7 +7654,7 @@ bool document.isComment(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si l'atribut del caràcter a la posició del cursor és <literal
+> (cert), si l'atribut del caràcter a la posició del cursor és <literal
 >dsComment</literal
 >, en cas contrari retornarà <literal
 >false</literal
@@ -7623,7 +7686,7 @@ bool document.isString(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si l'atribut del caràcter a la posició del cursor és <literal
+> (cert), si l'atribut del caràcter a la posició del cursor és <literal
 >dsString</literal
 >, en cas contrari retornarà <literal
 >false</literal
@@ -7655,7 +7718,7 @@ bool document.isRegionMarker(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si l'atribut del caràcter a la posició del cursor és <literal
+> (cert), si l'atribut del caràcter a la posició del cursor és <literal
 >dsRegionMarker</literal
 >, en cas contrari retornarà <literal
 >false</literal
@@ -7687,7 +7750,7 @@ bool document.isChar(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si l'atribut del caràcter a la posició del cursor és <literal
+> (cert), si l'atribut del caràcter a la posició del cursor és <literal
 >dsChar</literal
 >, en cas contrari retornarà <literal
 >false</literal
@@ -7719,11 +7782,41 @@ bool document.isOthers(<parameter
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si l'atribut del caràcter a la posició del cursor és <literal
+> (cert), si l'atribut del caràcter a la posició del cursor és <literal
 >dsOthers</literal
 >, en cas contrari retornarà <literal
 >false</literal
 > (fals). </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><synopsis
+>void document.indent(<parameter
+>Range <replaceable
+>interval</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>canvi</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Sagna totes les línies de l'<replaceable
+>interval</replaceable
+> <replaceable
+>canviant</replaceable
+> les tabulacions o <replaceable
+>canviant</replaceable
+> <literal
+>tabSize</literal
+> vegades els espais depenent de les preferències dels usuaris. El paràmetre <replaceable
+>canvi</replaceable
+> pot ser negatiu. </para
 ></listitem>
 </varlistentry>
 

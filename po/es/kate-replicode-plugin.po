@@ -1,16 +1,16 @@
 # Spanish translations for kate-replicode-plugin.po package.
-# Copyright (C) 2015 This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Copyright (C) 2015-2025 This file is copyright:
+# This file is distributed under the same license as the kate package.
 # Automatically generated, 2015.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2015, 2018, 2020.
-# Rocio Gallego <traducciones@rociogallego.com>, 2015.
+#
+# SPDX-FileCopyrightText: 2015, 2018, 2020, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2015 Rocio Gallego <traducciones@rociogallego.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kate-replicode-plugin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2020-11-21 09:30+0100\n"
+"POT-Creation-Date: 2022-09-27 00:48+0000\n"
+"PO-Revision-Date: 2025-05-11 21:35+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,16 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 20.08.3\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Eloy Cuadra,Rocío Gallego"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "ecuadra@eloihr.net,traducciones@rociogallego.com"
 
 #. i18n: ectx: attribute (title), widget (QWidget, run)
 #: config.ui:18
@@ -295,93 +285,88 @@ msgstr "Volcar modelos en archivo:"
 msgid "Test models:"
 msgstr "Probar modelos:"
 
-#: replicodeconfigpage.cpp:26
+#: replicodeconfigpage.cpp:24
 #, kde-format
 msgid "Path to replicode executor:"
 msgstr "Ruta al lanzador de Replicode:"
 
-#: replicodeconfigpage.cpp:41
+#: replicodeconfigpage.cpp:39 replicodeview.cpp:51
 #, kde-format
 msgid "Replicode"
 msgstr "Replicode"
 
-#: replicodeconfigpage.cpp:46
+#: replicodeconfigpage.cpp:44
 #, kde-format
 msgid "Replicode configuration"
 msgstr "Configuración de Replicode"
 
-#: replicodeview.cpp:40
+#: replicodeview.cpp:38
 #, kde-format
 msgid "Run replicode"
 msgstr "Ejecutar Replicode"
 
-#: replicodeview.cpp:44
+#: replicodeview.cpp:42
 #, kde-format
 msgid "Stop replicode"
 msgstr "Detener Replicode"
 
-#: replicodeview.cpp:53
-#, kde-format
-msgid "Replicode Output"
-msgstr "Salida de Replicode"
-
-#: replicodeview.cpp:63
+#: replicodeview.cpp:61
 #, kde-format
 msgid "Replicode Config"
 msgstr "Configuración de Replicode"
 
-#: replicodeview.cpp:66
+#: replicodeview.cpp:64
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Run (%1)"
 msgstr "Ejecutar (%1)"
 
-#: replicodeview.cpp:67
+#: replicodeview.cpp:65
 #, kde-format
 msgctxt "shortcut for action"
 msgid "Stop (%1)"
 msgstr "Detener (%1)"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgctxt "@title:window"
 msgid "Active Document Not Found"
 msgstr "No se ha encontrado el documento activo"
 
-#: replicodeview.cpp:102
+#: replicodeview.cpp:100
 #, kde-format
 msgid "Could not find an active document to run."
 msgstr "No se puede encontrar un archivo activo que ejecutar"
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgctxt "@title:window"
 msgid "Empty Document"
 msgstr "Documento vacío"
 
-#: replicodeview.cpp:107
+#: replicodeview.cpp:105
 #, kde-format
 msgid "Cannot execute an empty document."
 msgstr "No se puede ejecutar un documento vacío."
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgctxt "@title:window"
 msgid "File Not Found"
 msgstr "No se ha encontrado el archivo"
 
-#: replicodeview.cpp:114
+#: replicodeview.cpp:112
 #, kde-format
 msgid "Unable to open source file for reading."
 msgstr "No ha sido posible abrir el archivo de origen para lectura."
 
-#: replicodeview.cpp:122
+#: replicodeview.cpp:127
 #, kde-format
 msgctxt "@title:window"
 msgid "Replicode Executable Not Found"
 msgstr "No se puede encontrar el ejecutable de Replicode"
 
-#: replicodeview.cpp:123
+#: replicodeview.cpp:128
 #, kde-format
 msgid ""
 "Unable to find replicode executor.\n"
@@ -390,13 +375,13 @@ msgstr ""
 "No ha sido posible encontrar el lanzador de Replicode.\n"
 "Ajuste la ruta del ejecutable de Replicode en Preferencias."
 
-#: replicodeview.cpp:130
+#: replicodeview.cpp:135
 #, kde-format
 msgctxt "@title:window"
 msgid "User Operator Library Not Found"
 msgstr "No se ha encontrado la biblioteca de operadores del usuario"
 
-#: replicodeview.cpp:131
+#: replicodeview.cpp:136
 #, kde-format
 msgid ""
 "Unable to find user operator library.\n"
@@ -405,24 +390,12 @@ msgstr ""
 "No se puede encontrar la biblioteca de operadores del usuario.\n"
 "Ajuste la ruta de la biblioteca en Preferencias."
 
-#: replicodeview.cpp:196
+#: replicodeview.cpp:201
 #, kde-format
 msgid "Replicode execution failed: %1"
 msgstr "La ejecución de Replicode ha fallado: %1"
 
-#: replicodeview.cpp:206
+#: replicodeview.cpp:211
 #, kde-format
 msgid "Replicode execution finished."
 msgstr "La ejecución de Replicode ha terminado."
-
-#~ msgid "Unable to find active file"
-#~ msgstr "No ha sido posible encontrar el archivo activo"
-
-#~ msgid "No file"
-#~ msgstr "Ningún archivo"
-
-#~ msgid "Can't find replicode executor"
-#~ msgstr "No ha sido posible encontrar el lanzador de replicode"
-
-#~ msgid "Can't find user operator library"
-#~ msgstr "No se puede encontrar la biblioteca de operadores del usuario"

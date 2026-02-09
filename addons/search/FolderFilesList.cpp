@@ -10,7 +10,7 @@
 #include <QDir>
 #include <QElapsedTimer>
 #include <QFileInfoList>
-#include <QtConcurrent>
+#include <QtConcurrentMap>
 
 #include <unordered_set>
 #include <vector>
@@ -36,7 +36,8 @@ void FolderFilesList::run()
      * iterative algorithm, in each round, we put in X directories to traverse
      * we will get as output X times: new directories + found files
      */
-    std::vector<DirectoryWithResults> directoriesWithResults{DirectoryWithResults{m_folder, QStringList(), QStringList()}};
+    std::vector<DirectoryWithResults> directoriesWithResults{
+        DirectoryWithResults{.directory = m_folder, .newDirectories = QStringList(), .newFiles = QStringList()}};
     std::unordered_set<QString> directoryGuard{m_folder};
     QElapsedTimer time;
     time.start();
@@ -68,7 +69,7 @@ void FolderFilesList::run()
              */
             for (const auto &newDirectory : result.newDirectories) {
                 if (directoryGuard.insert(newDirectory).second) {
-                    nextRound.push_back(DirectoryWithResults{newDirectory, QStringList(), QStringList()});
+                    nextRound.push_back(DirectoryWithResults{.directory = newDirectory, .newDirectories = QStringList(), .newFiles = QStringList()});
                 }
             }
 
@@ -102,11 +103,7 @@ void FolderFilesList::generateList(const QString &folder, bool recursive, bool h
     m_symlinks = symlinks;
 
     m_types.clear();
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    const auto typesList = types.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
     const auto typesList = types.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
     for (const QString &type : typesList) {
         m_types << type.trimmed();
     }
@@ -170,11 +167,7 @@ void FolderFilesList::checkNextItem(DirectoryWithResults &handleOnFolder) const
     for (const auto &entry : entries) {
         const QString absFilePath = entry.absoluteFilePath();
         bool skip{false};
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        const QStringList pathSplit = absFilePath.split(QLatin1Char('/'), QString::SkipEmptyParts);
-#else
         const QStringList pathSplit = absFilePath.split(QLatin1Char('/'), Qt::SkipEmptyParts);
-#endif
         for (const auto &regex : m_excludes) {
             for (const auto &part : pathSplit) {
                 QRegularExpressionMatch match = regex.match(part);
@@ -197,3 +190,5 @@ void FolderFilesList::checkNextItem(DirectoryWithResults &handleOnFolder) const
         }
     }
 }
+
+#include "moc_FolderFilesList.cpp"

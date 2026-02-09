@@ -4,23 +4,17 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef DATAOUTPUTMODEL_H
-#define DATAOUTPUTMODEL_H
+#pragma once
 
 struct OutputStyle;
 
 #include "cachedsqlquerymodel.h"
 
-#include <QColor>
-#include <QFont>
-
 /// provide colors and styles
 class DataOutputModel : public CachedSqlQueryModel
 {
-    Q_OBJECT
-
 public:
-    DataOutputModel(QObject *parent = nullptr);
+    explicit DataOutputModel(QObject *parent = nullptr);
     ~DataOutputModel() override;
 
     bool useSystemLocale() const;
@@ -35,5 +29,3 @@ private:
     QHash<QString, OutputStyle *> m_styles;
     bool m_useSystemLocale;
 };
-
-#endif // DATAOUTPUTMODEL_H

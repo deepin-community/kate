@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef BTFILEINDEXER_H
-#define BTFILEINDEXER_H
+#pragma once
 
 #include <QString>
 #include <QStringList>
@@ -17,7 +16,7 @@ class BtFileIndexer : public QThread
 {
     Q_OBJECT
 public:
-    BtFileIndexer(KateBtDatabase *db);
+    explicit BtFileIndexer(KateBtDatabase *db);
     ~BtFileIndexer() override;
     void setSearchPaths(const QStringList &urls);
 
@@ -36,7 +35,5 @@ private:
 
     KateBtDatabase *db;
 };
-
-#endif
 
 // kate: space-indent on; indent-width 4; replace-tabs on;

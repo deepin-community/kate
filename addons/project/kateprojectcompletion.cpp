@@ -8,11 +8,22 @@
 
 #include "kateprojectcompletion.h"
 #include "kateproject.h"
+#include "kateprojectindex.h"
 #include "kateprojectplugin.h"
 
 #include <KLocalizedString>
 
 #include <QIcon>
+
+// get KTextEditor config if feasible
+static int minimalCompletionLength(KTextEditor::View *view)
+{
+    bool valueFound = false;
+    const int length = view->configValue(QStringLiteral("word-completion-minimal-word-length")).toInt(&valueFound);
+
+    // handle bogus values or old versions that don't export that setting
+    return valueFound ? length : 3;
+}
 
 KateProjectCompletion::KateProjectCompletion(KateProjectPlugin *plugin)
     : KTextEditor::CodeCompletionModel(nullptr)
@@ -109,8 +120,7 @@ bool KateProjectCompletion::shouldStartCompletion(KTextEditor::View *view, const
 
     QString text = view->document()->line(position.line()).left(position.column());
 
-    uint check = 3; // v->config()->wordCompletionMinimalWordLength();
-
+    const int check = minimalCompletionLength(view);
     if (check <= 0) {
         return true;
     }
@@ -132,7 +142,7 @@ bool KateProjectCompletion::shouldStartCompletion(KTextEditor::View *view, const
 bool KateProjectCompletion::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range, const QString &currentCompletion)
 {
     if (m_automatic) {
-        if (currentCompletion.length() < 3 /*v->config()->wordCompletionMinimalWordLength()*/) {
+        if (currentCompletion.length() < minimalCompletionLength(view)) {
             return true;
         }
     }
@@ -149,7 +159,7 @@ void KateProjectCompletion::completionInvoked(KTextEditor::View *view, const KTe
     if (it == AutomaticInvocation) {
         m_automatic = true;
 
-        if (range.columnWidth() >= 3 /*v->config()->wordCompletionMinimalWordLength()*/) {
+        if (range.columnWidth() >= minimalCompletionLength(view)) {
             saveMatches(view, range);
         } else {
             m_matches.clear();
@@ -183,7 +193,7 @@ void KateProjectCompletion::allMatches(QStandardItemModel &model, KTextEditor::V
     /**
      * let project index fill the completion for this document
      */
-    for (const auto &project : projects) {
+    for (const auto project : std::as_const(projects)) {
         if (project->projectIndex()) {
             project->projectIndex()->findMatches(model, view->document()->text(range), KateProjectIndex::CompletionMatches);
         }
@@ -214,3 +224,5 @@ KTextEditor::Range KateProjectCompletion::completionRange(KTextEditor::View *vie
 
     return KTextEditor::Range(KTextEditor::Cursor(line, col), position);
 }
+
+#include "moc_kateprojectcompletion.cpp"

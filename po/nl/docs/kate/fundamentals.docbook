@@ -107,9 +107,9 @@
 
 <sect3 id="command-line-options">
 <title
->Commandoregel-opties</title>
+>Opdrachtregel-opties</title>
 <para
->&kate; accepteert de volgende commandoregel-opties:</para>
+>&kate; accepteert de volgende opdrachtregel-opties:</para>
 
 <variablelist>
 <varlistentry>
@@ -397,7 +397,7 @@
 
 <sect2 id="drag-and-drop">
 <title
->Drag and Drop (slepen en neerzetten)</title>
+>Slepen en loslaten</title>
 <para
 >&kate; gebruikt het Drag and Drop-protocol van &kde;. Bestanden kunnen naar &kate; worden gesleept en losgelaten vanaf het bureaublad, vanuit &dolphin; of vanaf een &FTP;-server op afstand in één van de vensters van &dolphin;. </para>
 </sect2>
@@ -731,6 +731,20 @@ action="simul"
 >Vorig tabblad</para
 ></entry>
 </row>
+<row>
+<entry
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+></para
+></entry>
+<entry
+><para
+>Laatst gesloten document(en) heropenen</para
+></entry>
+</row>
 
 </tbody>
 </tgroup>
@@ -881,13 +895,83 @@ action="simul"
 > met een lege tekenreeks: <replaceable
 >''</replaceable
 >.</para>
-<!--FIXME still valid for kf5 -->
+
 <para
 >Sinds &kate; 2.5.1 wordt de <acronym
 >PID</acronym
 > van het huidige exemplaar geëxporteerd naar de omgevingsvariabele <envar
 >KATE_PID</envar
 >. Bij het openen van bestanden met de ingebouwde terminal zal Kate automatisch het huidige exemplaar kiezen als er verder niets hierover op de commandoregel staat.</para>
+
+</sect1>
+
+<sect1 id="fundamentals-quick-open">
+<title
+>Snel openen</title>
+
+<para
+>Om snel bestanden te openen of tussen te schakelen, komt Kate met een ingebouwde dialoog voor snel openen. U kunt het openen met <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>O</keycap
+></keycombo
+>. </para>
+
+<para
+>Snel openen kan alle open documenten in Kate tonen evenals alle bestanden in open projecten. Om projectbestanden te kunnen zien moet u <link linkend="kate-application-plugin-projects"
+>Projectplug-in</link
+> inschakelen. </para>
+
+<sect2>
+<title
+>Snel openen gebruiken</title>
+
+<para
+>Snel openen gebruiken is erg eenvoudig. Nadat u het opent typt u gewoon de naam of gedeelte van de naam van het bestand dat u wilt openen in en snel openen zal de lijst gebaseerd op wat u typt filteren. Op &Enter; drukken opent het geselecteerde bestand, terwijl &Esc; de snel openen verbergt. </para>
+<para
+>Standaard wordt alleen de bestandsnaam gezocht bij filteren. Als u het pad wilt zoeken moet u een "/" in de getypte tekst hebben. Bijvoorbeeld: "doc/index" zal alle bestanden zoeken die "index" bevatten in de map "doc". </para>
+<para
+>De documenten die al geopend zijn zijn geaccentueerd in vet en worden bovenaan de lijst gezet wanneer de dialoog opent. Ook, wanneer snel openen verschijnt is het eerdere open document al geselecteerd zodat u &Enter; kunt indrukken en het neemt u naar dat document. </para>
+
+</sect2>
+
+<sect2>
+<title
+>Snel openen configureren</title>
+<screenshot id="screenshot-project-quickopen">
+<screeninfo
+>Snel openen</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="project-quickopen.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+<para
+>Snel openen biedt een paar configuratie-opties. Voor toegang tot deze opties, klik rechts in de invoerregel. </para>
+<variablelist>
+<varlistentry>
+<term
+>Nu beschikbare opties zijn:</term>
+<listitem>
+<para
+><userinput
+>Huidige project</userinput
+> - bestanden alleen uit het huidige project tonen</para>
+<para
+><userinput
+>Alle projecten</userinput
+> - bestanden uit alle open projecten tonen</para>
+<para
+><userinput
+>Vage filtering</userinput
+> - algoritme voor vage filtering gebruiken om bestanden te zoeken</para>
+<para
+><userinput
+>Filtering met jokers</userinput
+> - jokers bij filtering van bestanden gebruiken</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
 
 </sect1>
 

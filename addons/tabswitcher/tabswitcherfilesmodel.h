@@ -5,12 +5,13 @@
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KTEXTEDITOR_TAB_SWITCHER_FILES_MODEL_H
-#define KTEXTEDITOR_TAB_SWITCHER_FILES_MODEL_H
+#pragma once
 
 #include <QAbstractTableModel>
 #include <QIcon>
 #include <QString>
+
+#include <doc_or_widget.h>
 
 namespace KTextEditor
 {
@@ -25,9 +26,9 @@ namespace detail
 class FilenameListItem
 {
 public:
-    FilenameListItem(KTextEditor::Document *doc);
+    explicit FilenameListItem(DocOrWidget doc);
 
-    KTextEditor::Document *document;
+    DocOrWidget document;
     QIcon icon() const;
     QString documentName() const;
     QString fullPath() const;
@@ -41,13 +42,11 @@ using FilenameList = std::vector<FilenameListItem>;
 
 class TabswitcherFilesModel : public QAbstractTableModel
 {
-    Q_OBJECT
-
 public:
     explicit TabswitcherFilesModel(QObject *parent = nullptr);
     ~TabswitcherFilesModel() override = default;
-    bool insertDocument(int row, KTextEditor::Document *document);
-    bool removeDocument(KTextEditor::Document *document);
+    bool insertDocuments(int row, const QList<DocOrWidget> &document);
+    bool removeDocument(DocOrWidget document);
 
     /**
      * Clears all data from the model
@@ -57,12 +56,12 @@ public:
     /**
      * NOTE: The returned pointer will become invalid as soon as the underlying vector changes.
      */
-    KTextEditor::Document *item(int row) const;
+    DocOrWidget item(int row) const;
 
     /**
      * Move the document to row 0.
      */
-    void raiseDocument(KTextEditor::Document *document);
+    void raiseDocument(DocOrWidget document);
 
     /*
      * Use this method to update all items.
@@ -99,5 +98,3 @@ private:
 QString longestCommonPrefix(std::vector<QString> const &strs);
 
 }
-
-#endif // KTEXTEDITOR_TAB_SWITCHER_FILES_MODEL_H

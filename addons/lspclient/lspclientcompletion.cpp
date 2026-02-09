@@ -6,54 +6,22 @@
 
 #include "lspclientcompletion.h"
 #include "lspclientplugin.h"
+#include "lspclientprotocol.h"
+#include "lspclientutils.h"
 
 #include "lspclient_debug.h"
 
 #include <KTextEditor/Cursor>
 #include <KTextEditor/Document>
+#include <KTextEditor/Editor>
 #include <KTextEditor/View>
 
 #include <QIcon>
-#include <QUrl>
 
 #include <algorithm>
 #include <utility>
 
-// clang-format off
-#define RETURN_CACHED_ICON(name) \
-    { \
-        static QIcon icon(QIcon::fromTheme(QStringLiteral(name))); \
-        return icon; \
-    }
-// clang-format on
-
-static QIcon kind_icon(LSPCompletionItemKind kind)
-{
-    switch (kind) {
-    case LSPCompletionItemKind::Method:
-    case LSPCompletionItemKind::Function:
-    case LSPCompletionItemKind::Constructor:
-        RETURN_CACHED_ICON("code-function")
-    case LSPCompletionItemKind::Variable:
-        RETURN_CACHED_ICON("code-variable")
-    case LSPCompletionItemKind::Class:
-    case LSPCompletionItemKind::Interface:
-    case LSPCompletionItemKind::Struct:
-        RETURN_CACHED_ICON("code-class");
-    case LSPCompletionItemKind::Module:
-        RETURN_CACHED_ICON("code-block");
-    case LSPCompletionItemKind::Field:
-    case LSPCompletionItemKind::Property:
-        // align with symbolview
-        RETURN_CACHED_ICON("code-variable");
-    case LSPCompletionItemKind::Enum:
-    case LSPCompletionItemKind::EnumMember:
-        RETURN_CACHED_ICON("enum");
-    default:
-        break;
-    }
-    return QIcon();
-}
+#include <drawing_utils.h>
 
 static KTextEditor::CodeCompletionModel::CompletionProperty kind_property(LSPCompletionItemKind kind)
 {
@@ -95,6 +63,7 @@ struct LSPClientCompletionItem : public LSPCompletionItem {
     QString postfix;
     int start = 0;
     int len = 0;
+    bool m_docResolved = false;
 
     LSPClientCompletionItem(const LSPCompletionItem &item)
         : LSPCompletionItem(item)
@@ -126,6 +95,84 @@ struct LSPClientCompletionItem : public LSPCompletionItem {
     }
 };
 
+/**
+ * Helper class that caches the completion icons
+ */
+class CompletionIcons : public QObject
+{
+public:
+    CompletionIcons()
+        : QObject(KTextEditor::Editor::instance())
+        , classIcon(QIcon::fromTheme(QStringLiteral("code-class")))
+        , blockIcon(QIcon::fromTheme(QStringLiteral("code-block")))
+        , funcIcon(QIcon::fromTheme(QStringLiteral("code-function")))
+        , varIcon(QIcon::fromTheme(QStringLiteral("code-variable")))
+        , enumIcon(QIcon::fromTheme(QStringLiteral("enum")))
+    {
+        auto e = KTextEditor::Editor::instance();
+        QObject::connect(e, &KTextEditor::Editor::configChanged, this, [this](KTextEditor::Editor *e) {
+            colorIcons(e);
+        });
+        colorIcons(e);
+    }
+
+    QIcon iconForKind(LSPCompletionItemKind kind) const
+    {
+        switch (kind) {
+        case LSPCompletionItemKind::Method:
+        case LSPCompletionItemKind::Function:
+        case LSPCompletionItemKind::Constructor:
+            return funcIcon;
+        case LSPCompletionItemKind::Variable:
+            return varIcon;
+        case LSPCompletionItemKind::Class:
+        case LSPCompletionItemKind::Interface:
+        case LSPCompletionItemKind::Struct:
+            return classIcon;
+        case LSPCompletionItemKind::Module:
+            return blockIcon;
+        case LSPCompletionItemKind::Field:
+        case LSPCompletionItemKind::Property:
+            // align with symbolview
+            return varIcon;
+        case LSPCompletionItemKind::Enum:
+        case LSPCompletionItemKind::EnumMember:
+            return enumIcon;
+        default:
+            break;
+        }
+        return QIcon();
+    }
+
+private:
+    void colorIcons(KTextEditor::Editor *e)
+    {
+        using KSyntaxHighlighting::Theme;
+        auto theme = e->theme();
+        auto varColor = QColor::fromRgba(theme.textColor(Theme::Variable));
+        varIcon = Utils::colorIcon(varIcon, varColor);
+
+        auto typeColor = QColor::fromRgba(theme.textColor(Theme::DataType));
+        classIcon = Utils::colorIcon(classIcon, typeColor);
+
+        auto enColor = QColor::fromRgba(theme.textColor(Theme::Constant));
+        enumIcon = Utils::colorIcon(enumIcon, enColor);
+
+        auto funcColor = QColor::fromRgba(theme.textColor(Theme::Function));
+        funcIcon = Utils::colorIcon(funcIcon, funcColor);
+
+        auto blockColor = QColor::fromRgba(theme.textColor(Theme::Import));
+        blockIcon = Utils::colorIcon(blockIcon, blockColor);
+    }
+
+private:
+    QIcon classIcon;
+    QIcon blockIcon;
+    QIcon funcIcon;
+    QIcon varIcon;
+    QIcon enumIcon;
+};
+
 static bool compare_match(const LSPCompletionItem &a, const LSPCompletionItem &b)
 {
     return a.sortText < b.sortText;
@@ -133,32 +180,33 @@ static bool compare_match(const LSPCompletionItem &a, const LSPCompletionItem &b
 
 class LSPClientCompletionImpl : public LSPClientCompletion
 {
-    Q_OBJECT
-
     typedef LSPClientCompletionImpl self_type;
 
-    QSharedPointer<LSPClientServerManager> m_manager;
-    QSharedPointer<LSPClientServer> m_server;
+    std::shared_ptr<LSPClientServerManager> m_manager;
+    std::shared_ptr<LSPClientServer> m_server;
     bool m_selectedDocumentation = false;
     bool m_signatureHelp = true;
     bool m_complParens = true;
+    bool m_autoImport = true;
+    bool m_showCompletion = true;
 
-    QVector<QChar> m_triggersCompletion;
-    QVector<QChar> m_triggersSignature;
+    QList<QChar> m_triggersCompletion;
+    QList<QChar> m_triggersSignature;
     bool m_triggerSignature = false;
+    bool m_triggerCompletion = false;
 
     QList<LSPClientCompletionItem> m_matches;
     LSPClientServer::RequestHandle m_handle, m_handleSig;
 
 public:
-    LSPClientCompletionImpl(QSharedPointer<LSPClientServerManager> manager)
+    LSPClientCompletionImpl(std::shared_ptr<LSPClientServerManager> manager)
         : LSPClientCompletion(nullptr)
         , m_manager(std::move(manager))
         , m_server(nullptr)
     {
     }
 
-    void setServer(QSharedPointer<LSPClientServer> server) override
+    void setServer(std::shared_ptr<LSPClientServer> server) override
     {
         m_server = server;
         if (m_server) {
@@ -186,6 +234,16 @@ public:
         m_complParens = s;
     }
 
+    void setAutoImport(bool s) override
+    {
+        m_autoImport = s;
+    }
+
+    void setShowCompletion(bool s) override
+    {
+        m_showCompletion = s;
+    }
+
     QVariant data(const QModelIndex &index, int role) const override
     {
         if (!index.isValid() || index.row() >= m_matches.size()) {
@@ -193,6 +251,7 @@ public:
         }
 
         const auto &match = m_matches.at(index.row());
+        static auto *icons = new CompletionIcons;
 
         if (role == Qt::DisplayRole) {
             if (index.column() == KTextEditor::CodeCompletionModel::Name) {
@@ -203,7 +262,7 @@ public:
                 return match.postfix;
             }
         } else if (role == Qt::DecorationRole && index.column() == KTextEditor::CodeCompletionModel::Icon) {
-            return kind_icon(match.kind);
+            return icons->iconForKind(match.kind);
         } else if (role == KTextEditor::CodeCompletionModel::CompletionRole) {
             return kind_property(match.kind);
         } else if (role == KTextEditor::CodeCompletionModel::ArgumentHintDepth) {
@@ -214,6 +273,26 @@ public:
         } else if (role == KTextEditor::CodeCompletionModel::IsExpandable) {
             return !match.documentation.value.isEmpty();
         } else if (role == KTextEditor::CodeCompletionModel::ExpandingWidget && !match.documentation.value.isEmpty()) {
+            if (m_server->capabilities().completionProvider.resolveProvider && !match.m_docResolved && !match.data.isNull()) {
+                QPersistentModelIndex pIndex = QPersistentModelIndex(index);
+                auto h = [this, pIndex](const LSPCompletionItem &c) {
+                    if (pIndex.isValid()) {
+                        auto self = const_cast<LSPClientCompletionImpl *>(this);
+                        auto i = QModelIndex(pIndex);
+                        // we only support resolving additionalTextEdits and documentation so only
+                        // update those fields
+                        self->m_matches[i.row()].documentation.value += c.documentation.value;
+                        self->m_matches[i.row()].additionalTextEdits = c.additionalTextEdits;
+                        self->m_matches[i.row()].m_docResolved = true;
+                        self->dataChanged(i, i, {KTextEditor::CodeCompletionModel::ExpandingWidget});
+                    }
+                };
+
+                m_server->documentCompletionResolve(match, this, h);
+                auto self = const_cast<LSPClientCompletionImpl *>(this);
+                self->m_matches[index.row()].m_docResolved = true;
+            }
+
             // probably plaintext, but let's show markdown as-is for now
             // FIXME better presentation of markdown
             return match.documentation.value;
@@ -225,7 +304,7 @@ public:
                 return {};
             QTextCharFormat boldFormat;
             boldFormat.setFontWeight(QFont::Bold);
-            const QList<QVariant> highlighting{
+            const QVariantList highlighting{
                 QVariant(0),
                 QVariant(match.len),
                 boldFormat,
@@ -240,23 +319,30 @@ public:
 
     bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText, bool userInsertion, const KTextEditor::Cursor &position) override
     {
-        qCInfo(LSPCLIENT) << "should start " << userInsertion << insertedText;
+        if (!m_showCompletion) {
+            return false;
+        }
 
+        qCInfo(LSPCLIENT) << "should start " << userInsertion << insertedText;
         if (!userInsertion || !m_server || insertedText.isEmpty()) {
+            if (!insertedText.isEmpty() && m_triggersSignature.contains(insertedText.back())) {
+                m_triggerSignature = true;
+                return true;
+            }
             return false;
         }
 
         // covers most already ...
         bool complete = CodeCompletionModelControllerInterface::shouldStartCompletion(view, insertedText, userInsertion, position);
-        QChar lastChar = insertedText.at(insertedText.count() - 1);
+        QChar lastChar = insertedText.at(insertedText.size() - 1);
 
         m_triggerSignature = false;
         complete = complete || m_triggersCompletion.contains(lastChar);
+        m_triggerCompletion = complete;
         if (m_triggersSignature.contains(lastChar)) {
             complete = true;
             m_triggerSignature = true;
         }
-
         return complete;
     }
 
@@ -264,13 +350,28 @@ public:
     {
         Q_UNUSED(it)
 
-        qCInfo(LSPCLIENT) << "completion invoked" << m_server;
+        qCInfo(LSPCLIENT) << "completion invoked" << m_server.get();
+
+        const bool userInvocation = it == UserInvocation;
+        if (userInvocation && range.isEmpty() && m_signatureHelp) {
+            // If this is a user invocation (ctrl-space), check the last non-space char for sig help trigger
+            QChar c;
+            int i = range.start().column() - 1;
+            int ln = range.start().line();
+            for (; i >= 0; --i) {
+                c = view->document()->characterAt(KTextEditor::Cursor(ln, i));
+                if (!c.isSpace()) {
+                    break;
+                }
+            }
+            m_triggerSignature = m_triggersSignature.contains(c);
+        }
 
         // maybe use WaitForReset ??
         // but more complex and already looks good anyway
-        auto handler = [this](const QList<LSPCompletionItem> & compl ) {
+        auto handler = [this](const QList<LSPCompletionItem> &completion) {
             beginResetModel();
-            qCInfo(LSPCLIENT) << "adding completions " << compl .size();
+            qCInfo(LSPCLIENT) << "adding completions " << completion.size();
             // purge all existing completion items
             m_matches.erase(std::remove_if(m_matches.begin(),
                                            m_matches.end(),
@@ -278,7 +379,7 @@ public:
                                                return ci.argumentHintDepth == 0;
                                            }),
                             m_matches.end());
-            for (const auto &item : compl ) {
+            for (const auto &item : completion) {
                 m_matches.push_back(item);
             }
             std::stable_sort(m_matches.begin(), m_matches.end(), compare_match);
@@ -322,10 +423,12 @@ public:
             auto position = view->cursorPosition();
             auto cursor = qMax(range.start(), qMin(range.end(), position));
             m_manager->update(document, false);
-            if (!m_triggerSignature) {
+
+            if (m_triggerCompletion || userInvocation) {
                 m_handle = m_server->documentCompletion(document->url(), {cursor.line(), cursor.column()}, this, handler);
             }
-            if (m_signatureHelp) {
+
+            if (m_signatureHelp && m_triggerSignature) {
                 m_handleSig = m_server->signatureHelp(document->url(), {cursor.line(), cursor.column()}, this, sigHandler);
             }
         }
@@ -341,9 +444,54 @@ public:
         return doc->characterAt(KTextEditor::Cursor(range.end().line(), range.end().column()));
     }
 
-    static bool isFunctionKind(LSPCompletionItemKind k)
+    // parses lsp snippets
+    // returns the column where cursor should be after completion and the text to insert
+    std::pair<int, QString> stripSnippetMarkers(const QString &snip) const
     {
-        return k == LSPCompletionItemKind::Function || k == LSPCompletionItemKind::Method;
+#define C(c) QLatin1Char(c)
+        QString ret;
+        ret.reserve(snip.size());
+        int bracket = 0;
+        int lastSnippetMarkerPos = -1;
+        for (auto i = snip.begin(), end = snip.end(); i != end; ++i) {
+            const bool prevSlash = i > snip.begin() && *(i - 1) == C('\\');
+            if (!prevSlash && *i == C('$') && i + 1 != end && *(i + 1) == C('{')) {
+                if (i + 2 != end && (i + 2)->isDigit()) {
+                    // its ${1:
+                    auto j = i + 2;
+                    // eat through digits
+                    while (j->isDigit()) {
+                        ++j;
+                    }
+                    if (*j == C(':')) {
+                        bracket++;
+                        // skip forward
+                        i = j;
+                    }
+                } else {
+                    // simple "${"
+                    ++i;
+                    bracket++;
+                }
+            } else if (!prevSlash && *i == C('$') && i + 1 != end && (i + 1)->isDigit()) { // $0, $1 => we dont support multiple cursor pos
+                ++i;
+                // eat through the digits
+                while (i->isDigit()) {
+                    ++i;
+                }
+                --i; // one step back to the last valid char
+            } else if (bracket > 0 && *i == C('}')) {
+                bracket--;
+                if (bracket == 0 && lastSnippetMarkerPos == -1) {
+                    lastSnippetMarkerPos = ret.size();
+                }
+            } else if (bracket == 0) { // if we are in "real text", add it
+                ret += *i;
+            }
+        }
+
+#undef C
+        return {lastSnippetMarkerPos, ret};
     }
 
     void executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range &word, const QModelIndex &index) const override
@@ -353,28 +501,74 @@ public:
         }
 
         QChar next = peekNextChar(view->document(), word);
-
+        const auto item = m_matches.at(index.row());
         QString matching = m_matches.at(index.row()).insertText;
         // if there is already a '"' or >, remove it, this happens with #include "xx.h"
         if ((next == QLatin1Char('"') && matching.endsWith(QLatin1Char('"'))) || (next == QLatin1Char('>') && matching.endsWith(QLatin1Char('>')))) {
             matching.chop(1);
         }
 
-        const LSPCompletionItemKind kind = m_matches.at(index.row()).kind;
-        // Is this a function?
-        // add parentheses if function and guestimated meaningful for language in question
-        // this covers at least the common cases such as clangd, python, etc
-        // also no need to add one if the next char is already
-        bool addParens = m_complParens && next != QLatin1Char('(') && isFunctionKind(kind) && m_triggersSignature.contains(QLatin1Char('('));
-        if (addParens) {
-            matching += QStringLiteral("()");
+        // If the server sent a CompletionItem.textEdit.range and that range's start
+        // is different than what we have, perfer the server. This leads to better
+        // completion because the server might be supplying items for a bigger range than
+        // just the current word under cursor.
+        const auto textEditRange = item.textEdit.range;
+        auto rangeToReplace = word;
+        if (textEditRange.isValid()
+            && textEditRange.start() < word.start()
+            // only do this if the text to insert is the same as TextEdit.newText
+            && m_matches.at(index.row()).insertText == m_matches.at(index.row()).textEdit.newText) {
+            rangeToReplace.setStart(textEditRange.start());
         }
 
-        view->document()->replaceText(word, matching);
+        // NOTE: view->setCursorPosition() will invalidate the matches, so we save the
+        // additionalTextEdits before setting cursor-possition
+        const auto additionalTextEdits = m_matches.at(index.row()).additionalTextEdits;
+        if (m_complParens) {
+            const auto [col, textToInsert] = stripSnippetMarkers(matching);
+            qCInfo(LSPCLIENT) << "original text: " << matching << ", snippet markers removed; " << textToInsert;
+            view->document()->replaceText(rangeToReplace, textToInsert);
+            // if the text is same, don't do any work
+            if (col >= 0 && textToInsert != matching) {
+                KTextEditor::Cursor p{rangeToReplace.start()};
+                int column = p.column();
+                int count = 0;
+                // can be multiline text
+                for (auto c : textToInsert) {
+                    if (count == col) {
+                        break;
+                    }
+                    if (c == QLatin1Char('\n')) {
+                        p.setLine(p.line() + 1);
+                        // line changed reset column
+                        column = 0;
+                        count++;
+                        continue;
+                    }
+                    count++;
+                    column++;
+                }
+                p.setColumn(column);
+                view->setCursorPosition(p);
+            }
+        } else {
+            view->document()->replaceText(rangeToReplace, matching);
+        }
 
-        if (addParens) {
-            // place the cursor in between (|)
-            view->setCursorPosition({view->cursorPosition().line(), view->cursorPosition().column() - 1});
+        if (m_autoImport) {
+            // re-use util to apply edits
+            // (which takes care to use moving range, etc)
+            if (!additionalTextEdits.isEmpty()) {
+                applyEdits(view->document(), nullptr, additionalTextEdits);
+            } else if (!item.m_docResolved && !item.data.isNull() && m_server->capabilities().completionProvider.resolveProvider) {
+                QPointer<KTextEditor::Document> doc = view->document();
+                auto h = [doc](const LSPCompletionItem &c) {
+                    if (doc && !c.additionalTextEdits.isEmpty()) {
+                        applyEdits(doc, nullptr, c.additionalTextEdits);
+                    }
+                };
+                m_server->documentCompletionResolve(item, this, h);
+            }
         }
     }
 
@@ -390,9 +584,7 @@ public:
     }
 };
 
-LSPClientCompletion *LSPClientCompletion::new_(QSharedPointer<LSPClientServerManager> manager)
+LSPClientCompletion *LSPClientCompletion::new_(std::shared_ptr<LSPClientServerManager> manager)
 {
     return new LSPClientCompletionImpl(std::move(manager));
 }
-
-#include "lspclientcompletion.moc"

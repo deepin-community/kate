@@ -1,12 +1,11 @@
 /***************************************************************************
  *   This file is part of Kate build plugin                                *
- *   SPDX-FileCopyrightText: 2014 Kåre Särs <kare.sars@iki.fi>                           *
+ *   SPDX-FileCopyrightText: 2014 Kåre Särs <kare.sars@iki.fi>             *
  *                                                                         *
- *   SPDX-License-Identifier: LGPL-2.0-or-later
+ *   SPDX-License-Identifier: LGPL-2.0-or-later                            *
  ***************************************************************************/
 
-#ifndef TargetHtmlDelegate_H
-#define TargetHtmlDelegate_H
+#pragma once
 
 #include <QStyledItemDelegate>
 
@@ -14,7 +13,7 @@ class TargetHtmlDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    TargetHtmlDelegate(QObject *parent);
+    explicit TargetHtmlDelegate(QObject *parent);
     ~TargetHtmlDelegate() override;
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -38,5 +37,3 @@ Q_SIGNALS:
 private:
     bool m_isEditing;
 };
-
-#endif

@@ -8,8 +8,7 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef __SNIPPETSTORE_H__
-#define __SNIPPETSTORE_H__
+#pragma once
 
 #include <KConfigGroup>
 #include <QStandardItemModel>
@@ -29,20 +28,18 @@ namespace KTextEditor
  */
 class SnippetStore : public QStandardItemModel
 {
-    Q_OBJECT
-
 public:
     /**
      * Initialize the SnippetStore.
      */
-    static void init(KateSnippetGlobal *plugin);
+    static void init();
     /**
      * Returns the SnippetStore. Call init() to set it up first.
      */
     static SnippetStore *self();
 
     ~SnippetStore() override;
-    KConfigGroup getConfig();
+    static KConfigGroup getConfig();
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     /**
      * Returns the repository for the given @p file if there is any.
@@ -50,12 +47,9 @@ public:
     SnippetRepository *repositoryForFile(const QString &file);
 
 private:
-    SnippetStore(KateSnippetGlobal *plugin);
+    SnippetStore();
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     static SnippetStore *m_self;
-    KateSnippetGlobal *m_plugin;
 };
-
-#endif

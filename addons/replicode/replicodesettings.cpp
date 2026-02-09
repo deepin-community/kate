@@ -5,10 +5,8 @@
 */
 
 #include "replicodesettings.h"
-#include <QDebug>
 #include <QSettings>
 #include <QString>
-#include <QXmlStreamWriter>
 
 ReplicodeSettings::ReplicodeSettings(QObject *parent)
     : QObject(parent)
@@ -80,7 +78,7 @@ void ReplicodeSettings::load()
     settings.endGroup();
 }
 
-void ReplicodeSettings::save()
+void ReplicodeSettings::save() const
 {
     QSettings settings(QStringLiteral("replicode"), QStringLiteral("replicode"));
 
@@ -196,3 +194,5 @@ void ReplicodeSettings::setDefaults()
     modelsPath = QString();
     testModels = false;
 }
+
+#include "moc_replicodesettings.cpp"

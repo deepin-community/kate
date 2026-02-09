@@ -16,8 +16,7 @@
    Boston, MA 02110-1301, USA
 */
 
-#ifndef KATESQLVIEW_H
-#define KATESQLVIEW_H
+#pragma once
 
 class KateSQLOutputWidget;
 class SchemaBrowserWidget;
@@ -32,29 +31,30 @@ class QActionGroup;
 #include <KXMLGUIClient>
 
 #include <ktexteditor/mainwindow.h>
+#include <ktexteditor/sessionconfiginterface.h>
 
-class KateSQLView : public QObject, public KXMLGUIClient
+class KateSQLView : public QObject, public KXMLGUIClient, public KTextEditor::SessionConfigInterface
 {
     Q_OBJECT
-
+    Q_INTERFACES(KTextEditor::SessionConfigInterface)
 public:
     KateSQLView(KTextEditor::Plugin *plugin, KTextEditor::MainWindow *mw);
     ~KateSQLView() override;
 
-    void readSessionConfig(KConfigBase *config, const QString &groupPrefix);
-    void writeSessionConfig(KConfigBase *config, const QString &groupPrefix);
+    void readSessionConfig(const KConfigGroup &group) override;
+    void writeSessionConfig(KConfigGroup &group) override;
 
     SchemaBrowserWidget *schemaBrowserWidget() const
     {
         return m_schemaBrowserWidget;
     }
 
-public Q_SLOTS:
+public:
     void slotConnectionCreate();
     void slotConnectionEdit();
     void slotConnectionRemove();
     void slotConnectionReconnect();
-    void slotConnectionChanged(const QString &connection);
+    void slotConnectionChanged(int currentIndex);
     void slotRunQuery();
     void slotError(const QString &message);
     void slotSuccess(const QString &message);
@@ -85,5 +85,3 @@ private:
 
     KTextEditor::MainWindow *m_mainWindow;
 };
-
-#endif // KATESQLVIEW_H

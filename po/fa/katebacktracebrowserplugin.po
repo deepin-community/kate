@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
+"POT-Creation-Date: 2023-07-08 01:19+0000\n"
 "PO-Revision-Date: 2014-06-17 15:35+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -14,18 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Lokalize 1.5\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "محمدرضا میردامادی"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "mohi@ubuntu.ir"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, lstBacktrace)
 #: btbrowserwidget.ui:27
@@ -135,52 +125,55 @@ msgstr ""
 msgid "Indexing files..."
 msgstr ""
 
-#: katebacktracebrowser.cpp:117
-#, kde-format
-msgid "Backtrace Browser"
-msgstr ""
-
-#: katebacktracebrowser.cpp:151
-#, kde-format
-msgid "Load Backtrace"
-msgstr ""
-
-#: katebacktracebrowser.cpp:193
-#, kde-format
-msgid "Loading backtrace succeeded"
-msgstr ""
-
-#: katebacktracebrowser.cpp:195
-#, kde-format
-msgid "Loading backtrace failed"
-msgstr ""
-
-#: katebacktracebrowser.cpp:229
-#, kde-format
-msgid "File not found: %1"
-msgstr "پرونده یافت نشد: %1"
-
-#: katebacktracebrowser.cpp:240
-#, kde-format
-msgid "Opened file: %1"
-msgstr ""
-
-#: katebacktracebrowser.cpp:243
-#, kde-format
-msgid "No debugging information available"
-msgstr ""
-
-#: katebacktracebrowser.cpp:280
+#: katebacktracebrowser.cpp:116 katebacktracebrowser.cpp:279
 #, kde-format
 msgid "Backtrace"
 msgstr ""
 
-#: katebacktracebrowser.cpp:285
+#: katebacktracebrowser.cpp:150
+#, kde-format
+msgid "Load Backtrace"
+msgstr ""
+
+#: katebacktracebrowser.cpp:192
+#, kde-format
+msgid "Loading backtrace succeeded"
+msgstr ""
+
+#: katebacktracebrowser.cpp:194
+#, kde-format
+msgid "Loading backtrace failed"
+msgstr ""
+
+#: katebacktracebrowser.cpp:228
+#, kde-format
+msgid "File not found: %1"
+msgstr "پرونده یافت نشد: %1"
+
+#: katebacktracebrowser.cpp:239
+#, kde-format
+msgid "Opened file: %1"
+msgstr ""
+
+#: katebacktracebrowser.cpp:242
+#, kde-format
+msgid "No debugging information available"
+msgstr ""
+
+#: katebacktracebrowser.cpp:284
 #, kde-format
 msgid "Backtrace Settings"
 msgstr ""
 
-#: katebacktracebrowser.cpp:363
+#: katebacktracebrowser.cpp:358
 #, kde-format
 msgid "Backtrace Browser Settings"
 msgstr ""
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "محمدرضا میردامادی"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "mohi@ubuntu.ir"

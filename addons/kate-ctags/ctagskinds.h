@@ -6,8 +6,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CTAGSKINDS_H
-#define CTAGSKINDS_H
+#pragma once
 
 #include <QString>
 
@@ -15,7 +14,5 @@ class CTagsKinds
 {
 public:
     static QString findKind(const char *kindChar, const QString &extension);
-    static QString findKindNoi18n(const char *kindChar, const QStringRef &extension);
+    static QString findKindNoi18n(const char *kindChar, const QStringView &extension);
 };
-
-#endif

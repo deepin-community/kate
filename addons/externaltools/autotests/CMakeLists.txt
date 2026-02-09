@@ -1,21 +1,15 @@
 include(ECMMarkAsTest)
 
-find_package(KF5Config ${KF5_DEP_VERSION} QUIET) # KConfig, KConfigGroup
-if(NOT KF5Config_FOUND)
-  return()
-endif()
-
-find_package(KF5CoreAddons ${KF5_DEP_VERSION} QUIET) # KShell
-if(NOT KF5CoreAddons_FOUND)
-  return()
-endif()
-
 # Project Plugin
 add_executable(externaltools_test
     externaltooltest.cpp
     ../kateexternaltool.cpp
     ../katetoolrunner.cpp
 )
-add_test(NAME plugin-externaltools_test COMMAND externaltools_test)
-target_link_libraries(externaltools_test PRIVATE Qt5::Test KF5::I18n KF5::ConfigCore KF5::CoreAddons KF5::TextEditor)
+add_test(NAME plugin-externaltools_test COMMAND externaltools_test ${OFFSCREEN_QPA})
+target_link_libraries(externaltools_test PRIVATE kateprivate Qt::Test KF6::I18n KF6::ConfigCore KF6::CoreAddons KF6::TextEditor)
 ecm_mark_as_test(externaltools_test)
+
+if(ENABLE_PCH)
+    target_precompile_headers(externaltools_test REUSE_FROM katepch_tests)
+endif()

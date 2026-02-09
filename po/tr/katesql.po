@@ -4,32 +4,23 @@
 # Translators:
 # H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2011.
 # obsoleteman <tulliana@gmail.com>, 2012.
-# Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
+# Volkan Gezer <volkangezer@gmail.com>, 2013-2014, 2022.
 # Kaan Ozdincer <kaanozdincer@gmail.com>, 2014.
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: applications-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-02 00:21+0000\n"
-"PO-Revision-Date: 2015-07-25 12:34+0000\n"
-"Last-Translator: Necdet <necdetyucel@gmail.com>\n"
+"POT-Creation-Date: 2025-01-17 00:44+0000\n"
+"PO-Revision-Date: 2025-01-17 14:25+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.4\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Serdar Soytetir"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "tulliana@gmail.com"
+"X-Generator: Lokalize 25.03.70\n"
 
 #: connectionwizard.cpp:27
 #, kde-format
@@ -95,7 +86,7 @@ msgstr "Parola:"
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Port:"
-msgstr "Bağlantı Noktası:"
+msgstr "Kapı:"
 
 #: connectionwizard.cpp:99
 #, kde-format
@@ -103,7 +94,7 @@ msgctxt "@label:textbox"
 msgid "Database name:"
 msgstr "Veritabanı adı:"
 
-#: connectionwizard.cpp:100 connectionwizard.cpp:180
+#: connectionwizard.cpp:100 connectionwizard.cpp:179
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Connection options:"
@@ -129,36 +120,36 @@ msgstr ""
 msgid "Database files"
 msgstr "Veritabanı dosyaları"
 
-#: connectionwizard.cpp:177
+#: connectionwizard.cpp:177 exportwizard.cpp:54
 #, kde-format
 msgid "All files"
 msgstr "Tüm dosyalar"
 
-#: connectionwizard.cpp:179
+#: connectionwizard.cpp:178
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Path:"
 msgstr "Yol:"
 
-#: connectionwizard.cpp:212
+#: connectionwizard.cpp:211
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Unable to connect to database.<nl/><message>%1</message>"
 msgstr "Veritabanına bağlanılamadı.<nl/><message>%1</message>"
 
-#: connectionwizard.cpp:227
+#: connectionwizard.cpp:226
 #, kde-format
 msgctxt "@title Wizard page title"
 msgid "Connection Name"
 msgstr "Bağlantı Adı"
 
-#: connectionwizard.cpp:228
+#: connectionwizard.cpp:227
 #, kde-format
 msgctxt "@title Wizard page subtitle"
 msgid "Enter a unique connection name"
-msgstr "Biricik bir bağlantı adı girin"
+msgstr "Benzersiz bir bağlantı adı girin"
 
-#: connectionwizard.cpp:234
+#: connectionwizard.cpp:233
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Connection name:"
@@ -186,9 +177,9 @@ msgstr "Kopyala"
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Export..."
-msgstr "Dışarıya Aktar..."
+msgstr "Dışa Aktar…"
 
-#: dataoutputwidget.cpp:80 textoutputwidget.cpp:48
+#: dataoutputwidget.cpp:80 textoutputwidget.cpp:47
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Clear"
@@ -206,58 +197,54 @@ msgctxt "@info"
 msgid "Unable to open file <filename>%1</filename>"
 msgstr "<filename>%1</filename> dosyası açılamadı"
 
-#: exportwizard.cpp:26
+#: exportwizard.cpp:25
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Wizard"
-msgstr "Dışarı Aktarma Sihirbazı"
+msgstr "Dışa Aktarma Sihirbazı"
 
-#: exportwizard.cpp:41
+#: exportwizard.cpp:40
 #, kde-format
 msgctxt "@title Wizard page title"
 msgid "Output Target"
 msgstr "Çıktı Hedefi"
 
-#: exportwizard.cpp:42
+#: exportwizard.cpp:41
 #, kde-format
 msgctxt "@title Wizard page subtitle"
 msgid "Select the output target."
 msgstr "Çıktı hedefini seçin."
 
-#: exportwizard.cpp:46
+#: exportwizard.cpp:45
 #, kde-format
 msgctxt "@option:radio Output target"
 msgid "Current document"
 msgstr "Geçerli belge"
 
-#: exportwizard.cpp:47
+#: exportwizard.cpp:46
 #, kde-format
 msgctxt "@option:radio Output target"
 msgid "Clipboard"
 msgstr "Pano"
 
-#: exportwizard.cpp:48
+#: exportwizard.cpp:47
 #, kde-format
 msgctxt "@option:radio Output target"
 msgid "File"
 msgstr "Dosya"
 
-#: exportwizard.cpp:55
+#: exportwizard.cpp:54
 #, kde-format
-msgid ""
-"*.csv|Comma Separated Values\n"
-"*|All files"
-msgstr ""
-"*.csv|Virgül ile Ayrılmış Değerler\n"
-"*|Tüm dosyalar"
+msgid "Comma Separated Values"
+msgstr "Virgülle Ayrılmış Değerler"
 
-#: exportwizard.cpp:97
+#: exportwizard.cpp:96
 #, kde-format
 msgctxt "@title Wizard page title"
 msgid "Fields Format"
 msgstr "Alan Biçimleri"
 
-#: exportwizard.cpp:98
+#: exportwizard.cpp:97
 #, kde-format
 msgctxt "@title Wizard page subtitle"
 msgid ""
@@ -265,61 +252,61 @@ msgid ""
 "Click on \"Finish\" button to export data."
 msgstr ""
 "Alan biçimlerini seçin.\n"
-"Veriyi dışarıya aktarmak için \"Bitir\" düğmesine tıklayın."
+"Veriyi dışa aktarmak için “Bitir” düğmesine tıklayın."
 
-#: exportwizard.cpp:102
+#: exportwizard.cpp:101
 #, kde-format
 msgctxt "@title:group"
 msgid "Headers"
-msgstr "Başlıklar"
+msgstr "Üstbilgi"
+
+#: exportwizard.cpp:104
+#, kde-format
+msgctxt "@option:check"
+msgid "Export column names"
+msgstr "Sütün adlarını dışa aktar"
 
 #: exportwizard.cpp:105
 #, kde-format
 msgctxt "@option:check"
-msgid "Export column names"
-msgstr "Sütün adlarını dışarıya aktar"
-
-#: exportwizard.cpp:106
-#, kde-format
-msgctxt "@option:check"
 msgid "Export line numbers"
-msgstr "Satır numaralarını dışarıya aktar"
+msgstr "Satır numaralarını dışa aktar"
 
-#: exportwizard.cpp:113
+#: exportwizard.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Quotes"
 msgstr "Tırnaklar"
 
-#: exportwizard.cpp:116
+#: exportwizard.cpp:115
 #, kde-format
 msgctxt "@option:check"
 msgid "Quote strings"
-msgstr "Dizgeleri tırnak içine al"
+msgstr "Dizileri tırnak içine al"
 
-#: exportwizard.cpp:117
+#: exportwizard.cpp:116
 #, kde-format
 msgctxt "@option:check"
 msgid "Quote numbers"
 msgstr "Sayıları tırnak içine al"
 
-#: exportwizard.cpp:125 exportwizard.cpp:128
+#: exportwizard.cpp:124 exportwizard.cpp:127
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Character:"
 msgstr "Karakter:"
 
-#: exportwizard.cpp:134
+#: exportwizard.cpp:133
 #, kde-format
 msgctxt "@title:group"
 msgid "Delimiters"
 msgstr "Sınırlandırıcılar"
 
-#: exportwizard.cpp:140
+#: exportwizard.cpp:139
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Field delimiter:"
-msgstr "Alan sınırlandırıcı:"
+msgstr "Alan sınırlandırıcısı:"
 
 #: katesqlconfigpage.cpp:23
 #, kde-format
@@ -333,124 +320,124 @@ msgctxt "@title:group"
 msgid "Output Customization"
 msgstr "Çıktı Özelleştirmeleri"
 
-#: katesqlconfigpage.cpp:49
+#: katesqlconfigpage.cpp:53
 #, kde-format
 msgctxt "@title"
 msgid "SQL"
 msgstr "SQL"
 
-#: katesqlconfigpage.cpp:54
+#: katesqlconfigpage.cpp:58
 #, kde-format
 msgctxt "@title:window"
 msgid "SQL ConfigPage Settings"
 msgstr "SQL Yapılandırma Sayfası Ayarları"
 
-#: katesqlview.cpp:46
+#: katesqlview.cpp:43
 #, kde-format
-msgid "Kate SQL Plugin"
-msgstr "Kate SQL Eklentisi"
+msgid "SQL"
+msgstr "SQL"
 
-#: katesqlview.cpp:53
-#, kde-format
-msgctxt "@title:window"
-msgid "SQL Results"
-msgstr "SQL Sonuçları"
-
-#: katesqlview.cpp:59
+#: katesqlview.cpp:50
 #, kde-format
 msgctxt "@title:window"
-msgid "SQL Schema Browser"
-msgstr "SQL Şema Tarayıcısı"
+msgid "SQL"
+msgstr "SQL"
 
-#: katesqlview.cpp:107
+#: katesqlview.cpp:56
+#, kde-format
+msgctxt "@title:window"
+msgid "SQL Schema"
+msgstr "SQL Şeması"
+
+#: katesqlview.cpp:104
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Add connection..."
-msgstr "Bağlantı ekle..."
+msgid "Add Connection..."
+msgstr "Bağlantı Ekle…"
 
-#: katesqlview.cpp:112
+#: katesqlview.cpp:109
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Remove connection"
-msgstr "Bağlantıyı kaldır"
+msgid "Remove Connection"
+msgstr "Bağlantıyı Kaldır"
 
-#: katesqlview.cpp:117
+#: katesqlview.cpp:114
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Edit connection..."
-msgstr "Bağlantıyı düzenle..."
+msgid "Edit Connection..."
+msgstr "Bağlantıyı Düzenle…"
 
-#: katesqlview.cpp:122
+#: katesqlview.cpp:119
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Reconnect"
 msgstr "Yeniden Bağlan"
 
-#: katesqlview.cpp:128
+#: katesqlview.cpp:125
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Connection"
 msgstr "Bağlantı"
 
-#: katesqlview.cpp:132
+#: katesqlview.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Run query"
-msgstr "Sorgu çalıştır"
+msgid "Run Query"
+msgstr "Sorgu Çalıştır"
 
-#: outputstylewidget.cpp:31
+#: outputstylewidget.cpp:29
 #, kde-format
 msgctxt "@title:column"
 msgid "Context"
 msgstr "Bağlam"
 
-#: outputstylewidget.cpp:31
+#: outputstylewidget.cpp:29
 #, kde-format
 msgctxt "@title:column"
 msgid "Text Color"
 msgstr "Metin Rengi"
 
-#: outputstylewidget.cpp:32
+#: outputstylewidget.cpp:30
 #, kde-format
 msgctxt "@title:column"
 msgid "Background Color"
-msgstr "Arkaplan Rengi"
+msgstr "Arka Plan Rengi"
 
-#: outputstylewidget.cpp:41
+#: outputstylewidget.cpp:39
 #, kde-format
 msgctxt "@item:intable"
 msgid "Text"
 msgstr "Metin"
 
-#: outputstylewidget.cpp:42
+#: outputstylewidget.cpp:40
 #, kde-format
 msgctxt "@item:intable"
 msgid "Number"
 msgstr "Sayı"
 
-#: outputstylewidget.cpp:43
+#: outputstylewidget.cpp:41
 #, kde-format
 msgctxt "@item:intable"
 msgid "Bool"
-msgstr "Bool"
+msgstr "Boole"
 
-#: outputstylewidget.cpp:44
+#: outputstylewidget.cpp:42
 #, kde-format
 msgctxt "@item:intable"
 msgid "Date & Time"
 msgstr "Tarih ve Saat"
 
-#: outputstylewidget.cpp:45
+#: outputstylewidget.cpp:43
 #, kde-format
 msgctxt "@item:intable"
 msgid "NULL"
 msgstr "NULL"
 
-#: outputstylewidget.cpp:46
+#: outputstylewidget.cpp:44
 #, kde-format
 msgctxt "@item:intable"
 msgid "BLOB"
-msgstr "BLOB"
+msgstr "Geniş İkili Öge"
 
 #: outputwidget.cpp:17
 #, kde-format
@@ -464,69 +451,89 @@ msgctxt "@title:window"
 msgid "SQL Data Output"
 msgstr "SQL Veri Çıktısı"
 
-#: schemawidget.cpp:36
+#: schemawidget.cpp:34
 #, kde-format
 msgctxt "@title:column"
 msgid "Database schema"
 msgstr "Veritabanı şeması"
 
-#: schemawidget.cpp:93
+#: schemawidget.cpp:91
 #, kde-format
 msgctxt "@title Folder name"
 msgid "Tables"
 msgstr "Tablolar"
 
-#: schemawidget.cpp:98
+#: schemawidget.cpp:96
 #, kde-format
 msgctxt "@title Folder name"
 msgid "Views"
 msgstr "Görünümler"
 
-#: schemawidget.cpp:112
+#: schemawidget.cpp:110
 #, kde-format
 msgctxt "@title Folder name"
 msgid "System Tables"
 msgstr "Sistem Tabloları"
 
-#: schemawidget.cpp:267
+#: schemawidget.cpp:270
 #, kde-format
 msgctxt "@action:inmenu Context menu"
-msgid "Refresh"
-msgstr "Tazele"
+msgid "Select Data"
+msgstr "Veri Seç"
 
-#: schemawidget.cpp:275
+#: schemawidget.cpp:273
 #, kde-format
 msgctxt "@action:inmenu Submenu title"
 msgid "Generate"
 msgstr "Oluştur"
 
-#: schemawidget.cpp:277
+#: schemawidget.cpp:275
 #, kde-format
 msgid "SELECT"
 msgstr "SELECT"
 
-#: schemawidget.cpp:278
+#: schemawidget.cpp:276
 #, kde-format
 msgid "UPDATE"
 msgstr "UPDATE"
 
-#: schemawidget.cpp:279
+#: schemawidget.cpp:277
 #, kde-format
 msgid "INSERT"
 msgstr "INSERT"
 
-#: schemawidget.cpp:280
+#: schemawidget.cpp:278
 #, kde-format
 msgid "DELETE"
 msgstr "DELETE"
 
-#: sqlmanager.cpp:346
+#: schemawidget.cpp:282
+#, kde-format
+msgctxt "@action:inmenu Context menu"
+msgid "Refresh"
+msgstr "Yenile"
+
+#: sqlmanager.cpp:314
+#, kde-format
+msgid "Prepare Statement Failure"
+msgstr "Hazırlık İfadesi Sorunu"
+
+#: sqlmanager.cpp:315
+#, kde-format
+msgid ""
+"<p>Preparing the query failed with the following error: %1</p><p>Do you want "
+"to continue without preparing the query?</p>"
+msgstr ""
+"<p>Sorguyu hazırlama, şu hata ile başarısız oldu: %1</p><p>Sorguyu "
+"hazırlamadan sürdürmek istiyor musunuz?</p>"
+
+#: sqlmanager.cpp:345
 #, kde-format
 msgctxt "@info"
 msgid "Query completed successfully"
 msgstr "Sorgu başarılı bir şekilde tamamlandı"
 
-#: sqlmanager.cpp:349
+#: sqlmanager.cpp:348
 #, kde-format
 msgctxt "@info"
 msgid "%1 record selected"
@@ -534,7 +541,7 @@ msgid_plural "%1 records selected"
 msgstr[0] "%1 kayıt seçildi"
 msgstr[1] "%1 kayıt seçildi"
 
-#: sqlmanager.cpp:353
+#: sqlmanager.cpp:352
 #, kde-format
 msgctxt "@info"
 msgid "%1 row affected"
@@ -559,6 +566,21 @@ msgstr "SQL Bağlantıları Araç Çubuğu"
 #, kde-format
 msgid "SQL Toolbar"
 msgstr "SQL Araç Çubuğu"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Serdar Soytetir, Emir SARI"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "tulliana@gmail.com, emir_sari@icloud.com"
+
+#~ msgid "Kate SQL Plugin"
+#~ msgstr "Kate SQL Eklentisi"
+
+#~ msgctxt "@title:window"
+#~ msgid "SQL Results"
+#~ msgstr "SQL Sonuçları"
 
 #~ msgid "Execute query on SQL databases"
 #~ msgstr "SQL veritabanları üzerinde sorgu çalıştır"

@@ -132,6 +132,18 @@
 
 <varlistentry>
 <term
+><anchor id="config-dialog-general-open-each-document"/>
+<guilabel
+>Відкривати кожен документ у власному вікні</guilabel
+></term>
+<listitem
+><para
+>Якщо позначено, кожне документ буде відкрито у власному вікні. Якщо не позначено, кожен документ буде відкрито у новій вкладці поточного вікна.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><anchor id="config-dialog-general-switch-to-output"/>
 <guilabel
 >Перемикання на панель виведення, якщо маємо повідомлення типу</guilabel
@@ -245,6 +257,18 @@
 
 <varlistentry>
 <term
+><anchor id="config-general-auto-hide-tabs"/>
+<guilabel
+>Автоприховування вкладок</guilabel
+></term>
+<listitem
+><para
+>Якщо позначено, панель вкладок буде автоматично приховано, якщо відкрито лише один документ.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><anchor id="config-general-show-close-button"/>
 <guilabel
 >Показувати кнопку закриття</guilabel
@@ -290,11 +314,81 @@
 >Якщо позначено, клацання середньою закриває документ.</para
 ></listitem>
 </varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-tab-scrolling"/>
+<guilabel
+>Дозволити гортання вкладок</guilabel
+></term>
+<listitem
+><para
+>Якщо позначено, уможливлює гортання на смужці вкладок, якщо кількість вкладок стає великою.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-elide-tab-text"/>
+<guilabel
+>Обривати текст вкладок трьома крапками</guilabel
+></term>
+<listitem
+><para
+>Якщо позначено, текст заголовка вкладки може бути обірвано трьома крапками, якщо він є надто довгим.</para
+></listitem>
+</varlistentry>
 </variablelist>
 
 </listitem>
 </varlistentry
 ><!-- /tabs group -->
+
+<varlistentry>
+<term
+><anchor id="config-general-mouse"/>
+<guilabel
+>Вкладки</guilabel
+></term>
+ <listitem>
+
+<variablelist>
+<varlistentry>
+<term
+><anchor id="config-general-backward-button-pressed"/>
+<guilabel
+>Натиснуто кнопку назад</guilabel
+></term>
+<listitem
+><para
+>Надає змогу вибрати дію у відповідь на натискання кнопки «Назад» миші: <guimenuitem
+>Попередня вкладка</guimenuitem
+> і <guimenuitem
+>Назад у журналі</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><anchor id="config-general-forward-button-pressed"/>
+<guilabel
+>Натиснуто кнопку вперед</guilabel
+></term>
+<listitem
+><para
+>Надає змогу вибрати дію у відповідь на натискання кнопки «Вперед» миші: <guimenuitem
+>Наступна вкладка</guimenuitem
+> і <guimenuitem
+>Вперед у журналі</guimenuitem
+>.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</listitem>
+</varlistentry
+><!-- /mouse group -->
 </variablelist>
 </sect2>
 
@@ -360,7 +454,7 @@
 <term
 ><anchor id="config-dialog-sessions-shutdown-behavior"/>
 <guilabel
->Параметри завершення програми</guilabel
+>Параметри запуску/завершення програми</guilabel
 ></term>
 <listitem>
 <para

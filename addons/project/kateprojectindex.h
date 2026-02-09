@@ -5,10 +5,9 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_INDEX_H
-#define KATE_PROJECT_INDEX_H
+#pragma once
 
-#include <ktexteditor/document.h>
+#include <KTextEditor/Document>
 #include <ktexteditor/view.h>
 
 #include <QStandardItemModel>
@@ -95,12 +94,10 @@ private:
     /**
      * ctags index file
      */
-    QScopedPointer<QFile> m_ctagsIndexFile;
+    std::unique_ptr<QFile> m_ctagsIndexFile;
 
     /**
      * handle to ctags file for querying, if possible
      */
     tagFile *m_ctagsIndexHandle;
 };
-
-#endif

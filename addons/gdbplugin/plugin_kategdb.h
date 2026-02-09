@@ -7,29 +7,36 @@
 //
 //  SPDX-License-Identifier: LGPL-2.0-only
 
-#ifndef PLUGIN_KATEGDB_H
-#define PLUGIN_KATEGDB_H
+#pragma once
 
 #include <QPointer>
 
 #include <KActionMenu>
+#include <KTerminalLauncherJob>
 #include <KTextEditor/Application>
+#include <KTextEditor/Document>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/Message>
 #include <KTextEditor/Plugin>
 #include <KTextEditor/SessionConfigInterface>
 #include <KXMLGUIClient>
+#include <QTimer>
+#include <optional>
 
+#include "backend.h"
 #include "configview.h"
-#include "debugview.h"
+#include "dap/entities.h"
 #include "ioview.h"
 #include "localsview.h"
+#include "sessionconfig.h"
 
 class KHistoryComboBox;
 class QTextEdit;
 class QTreeWidget;
+class QTreeView;
+class QSplitter;
 
-typedef QList<QVariant> VariantList;
+typedef QVariantList VariantList;
 
 class KatePluginGDB : public KTextEditor::Plugin
 {
@@ -40,6 +47,21 @@ public:
     ~KatePluginGDB() override;
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
+    int configPages() const override;
+    KTextEditor::ConfigPage *configPage(int number = 0, QWidget *parent = nullptr) override;
+    void readConfig();
+    void writeConfig() const;
+
+    const QString m_settingsPath;
+    const QUrl m_defaultConfigPath;
+    QUrl m_configPath;
+    QUrl configPath() const
+    {
+        return m_configPath.isEmpty() ? m_defaultConfigPath : m_configPath;
+    }
+Q_SIGNALS:
+    // Update for config
+    void update() const;
 };
 
 class KatePluginGDBView : public QObject, public KXMLGUIClient, public KTextEditor::SessionConfigInterface
@@ -48,7 +70,7 @@ class KatePluginGDBView : public QObject, public KXMLGUIClient, public KTextEdit
     Q_INTERFACES(KTextEditor::SessionConfigInterface)
 
 public:
-    KatePluginGDBView(KTextEditor::Plugin *plugin, KTextEditor::MainWindow *mainWin);
+    KatePluginGDBView(KatePluginGDB *plugin, KTextEditor::MainWindow *mainWin);
     ~KatePluginGDBView() override;
 
     // reimplemented: read and write session config
@@ -70,29 +92,45 @@ private Q_SLOTS:
     void slotSendCommand();
     void enableDebugActions(bool enable);
     void programEnded();
-    void gdbEnded();
 
-    void insertStackFrame(QString const &level, QString const &info);
+    void insertStackFrame(const QList<dap::StackFrame> &frames);
     void stackFrameChanged(int level);
     void stackFrameSelected();
 
-    void insertThread(int number, bool active);
+    void onThreads(const QList<dap::Thread> &threads);
+    void updateThread(const dap::Thread &thread, Backend::ThreadState, bool isActive);
     void threadSelected(int thread);
 
+    void insertScopes(const QList<dap::Scope> &scopes, std::optional<int> activeId);
+    void scopeSelected(int scope);
+
     void showIO(bool show);
+    void addOutput(const dap::Output &output);
     void addOutputText(QString const &text);
     void addErrorText(QString const &text);
     void clearMarks();
     void handleEsc(QEvent *e);
+    void enableBreakpointMarks(KTextEditor::Document *document) const;
+    void prepareDocumentBreakpoints(KTextEditor::Document *document);
+    void updateBreakpoints(const KTextEditor::Document *document, const KTextEditor::Mark mark);
+    void requestRunInTerminal(const dap::RunInTerminalRequestArguments &args, const dap::Client::ProcessInTerminal &notifyCreation);
+
+    void onToolViewMoved(QWidget *toolview, KTextEditor::MainWindow::ToolViewPosition);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;
 
 private:
     QString currentWord();
+    void initDebugToolview();
 
     void displayMessage(const QString &message, KTextEditor::Message::MessageType level);
+    void enableHotReloadOnSave(KTextEditor::View *view);
+    QToolButton *createDebugButton(QAction *action);
+    void onStackTreeContextMenuRequest(QPoint pos);
+    KTextEditor::MainWindow::ToolViewPosition toolviewPosition(QWidget *toolview) const;
 
+    KatePluginGDB *const m_plugin;
     KTextEditor::Application *m_kateApplication;
     KTextEditor::MainWindow *m_mainWin;
     std::unique_ptr<QWidget> m_toolView;
@@ -101,21 +139,30 @@ private:
     QTextEdit *m_outputArea;
     KHistoryComboBox *m_inputArea;
     QWidget *m_gdbPage;
+    QComboBox *m_scopeCombo;
     QComboBox *m_threadCombo;
     int m_activeThread;
-    QTreeWidget *m_stackTree;
+    QTreeView *m_stackTree;
     QString m_lastCommand;
-    DebugView *m_debugView;
-    ConfigView *m_configView;
+    Backend *m_backend;
+    ConfigView *m_configView = nullptr;
     std::unique_ptr<IOView> m_ioView;
     LocalsView *m_localsView;
     QPointer<KActionMenu> m_menu;
     QAction *m_breakpoint;
     QUrl m_lastExecUrl;
     int m_lastExecLine;
-    int m_lastExecFrame;
     bool m_focusOnInput;
     QPointer<KTextEditor::Message> m_infoMessage;
-};
+    KSelectAction *m_targetSelectAction = nullptr;
+    QSplitter *m_localsStackSplitter;
 
-#endif
+    QAction *m_hotReloadOnSaveAction;
+    QTimer m_hotReloadTimer;
+    QMetaObject::Connection m_hotReloadOnSaveConnection;
+
+    // Debug buttons
+    QWidget *m_buttonWidget;
+    QToolButton *m_continueButton;
+    DebugPluginSessionConfig::ConfigData m_sessionConfig;
+};

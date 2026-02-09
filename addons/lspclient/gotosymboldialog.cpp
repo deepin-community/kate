@@ -8,18 +8,17 @@
 
 #include <KLocalizedString>
 #include <KSyntaxHighlighting/Theme>
-#include <KTextEditor/ConfigInterface>
 #include <KTextEditor/Editor>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
 
-#include <QBitmap>
 #include <QFileInfo>
 #include <QPainter>
 #include <QStandardItemModel>
 #include <QStyledItemDelegate>
 
-#include <kfts_fuzzy_match.h>
+#include <drawing_utils.h>
+#include <ktexteditor_utils.h>
 
 static constexpr int SymbolInfoRole = Qt::UserRole + 1;
 
@@ -58,13 +57,9 @@ public:
     {
         QStyleOptionViewItem options = option;
         initStyleOption(&options, index);
+        options.icon = Utils::colorIcon(options.icon, normalColor);
 
         auto style = options.widget->style();
-        auto iconRect = style->subElementRect(QStyle::SE_ItemViewItemDecoration, &options, options.widget);
-
-        auto icon = options.icon;
-        options.icon = QIcon();
-        auto pm = createPixmap(icon, iconRect.size());
 
         painter->save();
 
@@ -72,24 +67,20 @@ public:
         options.text = QString();
         style->drawControl(QStyle::CE_ItemViewItem, &options, painter, options.widget);
 
-        style->drawItemPixmap(painter, iconRect, Qt::AlignCenter, pm);
-
-        auto textRectX = options.widget->style()->subElementRect(QStyle::SE_ItemViewItemText, &options, options.widget).x();
-        auto width = textRectX - options.rect.x();
-        painter->translate(width, 0);
+        const auto textRect = options.widget->style()->subElementRect(QStyle::SE_ItemViewItemText, &options, options.widget);
 
         auto symbol = index.data(SymbolInfoRole).value<GotoSymbolItem>();
         auto kind = symbol.kind;
 
-        QVector<QTextLayout::FormatRange> fmts;
-        auto colons = text.indexOf(QStringLiteral("::"));
+        QList<QTextLayout::FormatRange> fmts;
+        int colons = text.indexOf(QStringLiteral("::"));
         int i = 0;
         // container name
         if (colons != -1) {
             QTextCharFormat fmt;
             fmt.setForeground(keywordColor);
             fmt.setFont(monoFont);
-            fmts.append({0, colons, fmt});
+            fmts.append({.start = 0, .length = colons, .format = fmt});
             i = colons + 2;
         }
         // symbol name
@@ -97,36 +88,28 @@ public:
             QTextCharFormat f;
             f.setForeground(colorForSymbolKind(kind));
             f.setFont(monoFont);
-            fmts.append({i, text.length() - i, f});
+            fmts.append({.start = i, .length = int(text.length() - i), .format = f});
         }
 
         // add file name to the text we are going to display
         auto file = QFileInfo(symbol.fileUrl.toLocalFile()).fileName();
-        auto textLength = text.length();
+        int textLength = text.length();
         text += QStringLiteral(" ") + file;
 
         // file name
         {
             QTextCharFormat f;
             f.setForeground(Qt::gray);
-            fmts.append({textLength, text.length() - textLength, f});
+            fmts.append({.start = textLength, .length = int(text.length() - textLength), .format = f});
         }
 
-        kfts::paintItemViewText(painter, text, options, fmts);
+        options.rect = textRect;
+        Utils::paintItemViewText(painter, text, options, fmts);
 
         painter->restore();
     }
 
 private:
-    QPixmap createPixmap(const QIcon &icon, QSize iconSize) const
-    {
-        auto pm = icon.pixmap(iconSize);
-        auto mask = pm.createMaskFromColor(Qt::transparent, Qt::MaskInColor);
-        pm.fill(normalColor);
-        pm.setMask(mask);
-        return pm;
-    }
-
     QColor colorForSymbolKind(LSPSymbolKind kind) const
     {
         switch (kind) {
@@ -165,31 +148,21 @@ private:
     QFont monoFont;
 };
 
-static QFont getViewFont(KTextEditor::MainWindow *mainWindow)
-{
-    auto view = mainWindow->activeView();
-    auto ciface = qobject_cast<KTextEditor::ConfigInterface *>(view);
-    Q_ASSERT(ciface);
-    return ciface->configValue(QStringLiteral("font")).value<QFont>();
-}
-
-GotoSymbolHUDDialog::GotoSymbolHUDDialog(KTextEditor::MainWindow *mainWindow, QSharedPointer<LSPClientServer> server)
-    : QuickDialog(nullptr, mainWindow->window())
+GotoSymbolHUDDialog::GotoSymbolHUDDialog(KTextEditor::MainWindow *mainWindow, std::shared_ptr<LSPClientServer> server)
+    : HUDDialog(mainWindow->window())
     , model(new QStandardItemModel(this))
     , mainWindow(mainWindow)
     , server(std::move(server))
 {
-    setPaletteToEditorColors();
-
-    m_lineEdit.setPlaceholderText(i18n("Type to filter through symbols in your project..."));
+    m_lineEdit.setPlaceholderText(i18n("Filter…"));
 
     m_treeView.setModel(model);
     auto delegate = new GotoSymbolHUDStyleDelegate(this);
-    delegate->setColors();
-    delegate->setFont(getViewFont(mainWindow));
     m_treeView.setItemDelegate(delegate);
+    setPaletteToEditorColors();
 
     connect(&m_lineEdit, &QLineEdit::textChanged, this, &GotoSymbolHUDDialog::slotTextChanged);
+    connect(KTextEditor::Editor::instance(), &KTextEditor::Editor::configChanged, this, &GotoSymbolHUDDialog::setPaletteToEditorColors);
 }
 
 void GotoSymbolHUDDialog::setPaletteToEditorColors()
@@ -203,11 +176,15 @@ void GotoSymbolHUDDialog::setPaletteToEditorColors()
     pal.setColor(QPalette::Text, fg);
     pal.setColor(QPalette::Highlight, hl);
     m_treeView.setPalette(pal);
+
+    auto *delegate = static_cast<GotoSymbolHUDStyleDelegate *>(m_treeView.itemDelegate());
+    delegate->setColors();
+    delegate->setFont(Utils::editorFont());
 }
 
-void GotoSymbolHUDDialog::slotReturnPressed()
+void GotoSymbolHUDDialog::slotReturnPressed(const QModelIndex &index)
 {
-    auto symbol = m_treeView.currentIndex().data(SymbolInfoRole).value<GotoSymbolItem>();
+    auto symbol = index.data(SymbolInfoRole).value<GotoSymbolItem>();
     if (!symbol.fileUrl.isValid() || symbol.fileUrl.isEmpty()) {
         return;
     }
@@ -216,12 +193,8 @@ void GotoSymbolHUDDialog::slotReturnPressed()
     if (v) {
         v->setCursorPosition(symbol.pos);
     }
-    close();
-}
-
-void GotoSymbolHUDDialog::openDialog()
-{
-    exec();
+    deleteLater();
+    hide();
 }
 
 QIcon GotoSymbolHUDDialog::iconForSymbolKind(LSPSymbolKind kind) const
@@ -270,7 +243,7 @@ void GotoSymbolHUDDialog::slotTextChanged(const QString &text)
         model->clear();
         for (const auto &sym : symbols) {
             auto item = new QStandardItem(iconForSymbolKind(sym.kind), sym.name);
-            item->setData(QVariant::fromValue(GotoSymbolItem{sym.url, sym.range.start(), sym.kind}), SymbolInfoRole);
+            item->setData(QVariant::fromValue(GotoSymbolItem{.fileUrl = sym.url, .pos = sym.range.start(), .kind = sym.kind}), SymbolInfoRole);
             model->appendRow(item);
         }
         m_treeView.setCurrentIndex(model->index(0, 0));

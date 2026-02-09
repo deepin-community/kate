@@ -4,19 +4,20 @@
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Alexander Potashev <aspotashev@gmail.com>, 2015.
 # Alexander Yavorsky <kekcuha@gmail.com>, 2020.
+# SPDX-FileCopyrightText: 2022, 2024 Olesya Gerasimenko <translation-team@basealt.ru>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2020-01-20 10:26+0300\n"
-"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"POT-Creation-Date: 2024-06-09 00:41+0000\n"
+"PO-Revision-Date: 2024-12-09 14:59+0300\n"
+"Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
+"Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.12.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -26,24 +27,24 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Александр Поташев,Алексей Морозов"
+msgstr "Александр Поташев,Алексей Морозов,Олеся Герасименко"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "aspotashev@gmail.com,morozov@gmail.com"
+msgstr "aspotashev@gmail.com,morozov@gmail.com,translation-team@basealt.ru"
 
-#: editrepository.cpp:77 editrepository.cpp:115
+#: editrepository.cpp:81 editrepository.cpp:126
 #, kde-format
 msgid "Edit Snippet Repository %1"
 msgstr "Комплект фрагментов текста %1"
 
-#: editrepository.cpp:79
+#: editrepository.cpp:83
 #, kde-format
 msgid "Create New Snippet Repository"
 msgstr "Создание комплекта фрагментов текста"
 
-#: editrepository.cpp:126
+#: editrepository.cpp:142
 #, kde-format
 msgid "<i>leave empty for general purpose snippets</i>"
 msgstr "<i>можно не задавать для фрагментов общего назначения</i>"
@@ -91,33 +92,38 @@ msgstr "Короткое название комплекта фрагменто�
 msgid "Prefix to show in code completion"
 msgstr "Префикс для списка автодополнения"
 
-#: editsnippet.cpp:96 editsnippet.cpp:175
+#: editsnippet.cpp:97 editsnippet.cpp:174
 #, kde-format
 msgid "Edit Snippet %1 in %2"
 msgstr "Фрагмент текста %1 из %2"
 
-#: editsnippet.cpp:106
+#: editsnippet.cpp:107
 #, kde-format
 msgid "Create New Snippet in Repository %1"
 msgstr "Создание фрагмента текста в комплекте %1"
 
-#: editsnippet.cpp:143
+#: editsnippet.cpp:146
 #, kde-format
-msgid "Snippet name cannot contain spaces"
-msgstr "Название фрагмента не должно содержать пробелов"
+msgid "Snippet names with spaces may not work well in completions"
+msgstr ""
+"Содержащие пробелы названия фрагментов могут некорректно работать при "
+"автодополнении"
 
-#: editsnippet.cpp:182
+#: editsnippet.cpp:186
 #, kde-format
 msgid ""
-"The snippet contains unsaved changes. Do you want to continue and lose all "
-"changes?"
-msgstr ""
-"Изменения в этом фрагменте не сохранены. Вы хотите продолжить и потерять их?"
+"The snippet contains unsaved changes. Do you want to discard all changes?"
+msgstr "Изменения в этом фрагменте не сохранены. Отбросить все изменения?"
 
-#: editsnippet.cpp:183
+#: editsnippet.cpp:187
 #, kde-format
 msgid "Warning - Unsaved Changes"
 msgstr "Предупреждение: несохранённые изменения"
+
+#: editsnippet.cpp:189
+#, kde-format
+msgid "Continue editing"
+msgstr "Продолжить редактирование"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, snippetNameEdit)
 #: editsnippet.ui:42
@@ -149,6 +155,21 @@ msgid ""
 "information.<br><tt>${cursor}</tt> can be used to mark the end position of "
 "the cursor after everything else was filled in.\">More...</a>"
 msgstr ""
+"Текст, который фрагмент вставит в документ. <a href=\"Фрагмент может "
+"содержать редактируемые поля. Для их цикличного перебора нажимайте клавишу "
+"Tab. В тексте шаблона возможно использовать следующие выражения для создания "
+"полей: <br><tt>${field_name}</tt> создаёт простое редактируемое поле. Все "
+"последующие вхождения того же самого field_name (названия_поля) создают "
+"поля, которые полностью копируют содержимое первого поля на момент "
+"редактирования.<br><tt>${field_name=default}</tt> позволяет указать значение "
+"по умолчанию для поля. Значением <tt>default</tt> может быть любое выражение "
+"JavaScript.<br>Используйте <tt>${field_name=text}</tt> для указания "
+"фиксированной строки в качестве значения по умолчанию.<br><tt>"
+"${func(other_field1, other_field2, ...)}</tt> позволяет создать поле, "
+"которое будет содержать результат выполнения функции JavaScript на момент "
+"редактирования. Дополнительные сведения доступны на вкладке «Сценарии»."
+"<br><tt>${cursor}</tt> позволяет обозначить начальную и конечную позиции "
+"курсора после указания всех других данных.\">Подробнее...</a>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptTab)
 #: editsnippet.ui:82
@@ -174,6 +195,20 @@ msgid ""
 "tt> objects. Refer to the scripting API documentation for more information."
 "\">More...</a>"
 msgstr ""
+"Здесь возможно указать вспомогательные функции JavaScript для использования "
+"во фрагментах. <a href=\"Все функции JavaScript должны возвращать "
+"содержимое, которое следут поместить в поле шаблона как строку.<br>Функции "
+"вызываются в области, которая включает содержимое всех редактируемых полей "
+"как локальные переменные. Например, в шаблоне, содержащем <tt>${field}</tt>, "
+"будет присутствовать переменная с названием <tt>field</tt>, которая содержит "
+"актуальное содержимое поля шаблона. Эти переменные возможно либо "
+"использовать в функции статически, либо передать в качестве аргументов, "
+"используя в строке фрагмента синтаксическую конструкцию <tt>${func(field)}</"
+"tt> или <tt>${field2=func(field)}</tt>.<br>Программный интерфейс сценариев "
+"Kate позволяет получить выделенный текст, весь текст, имя файла и многое "
+"другое; для этого используются соответствующие методы объектов <tt>document</"
+"tt> и <tt>view</tt>. Дополнительные сведения доступны в документации по "
+"программному интерфейсу сценариев.\">Подробнее...</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, dotest_button)
 #: editsnippet.ui:105
@@ -181,79 +216,70 @@ msgstr ""
 msgid "Test this snippet"
 msgstr "Проверить этот фрагмент"
 
-#: katesnippetglobal.cpp:104
+#: katesnippetglobal.cpp:103
 #, kde-format
 msgctxt "Autogenerated repository name for a programming language"
 msgid "%1 snippets"
 msgstr "Фрагменты %1"
 
-#: katesnippets.cpp:47
-#, kde-format
-msgid "Snippets tool view"
-msgstr "Панель фрагментов текста"
-
-#: katesnippets.cpp:55 snippetcompletionmodel.cpp:43 snippetview.cpp:80
-#: snippetview.cpp:194
+#: katesnippets.cpp:44 katesnippets.cpp:52 snippetcompletionmodel.cpp:43
+#: snippetview.cpp:76 snippetview.cpp:202
 #, kde-format
 msgid "Snippets"
 msgstr "Фрагменты"
 
-#: katesnippets.cpp:66
+#: katesnippets.cpp:63
 #, kde-format
 msgid "Create Snippet"
 msgstr "Создать фрагмент"
 
-#: snippet.cpp:24
+#: snippet.cpp:23
 #, kde-format
 msgid "<empty snippet>"
 msgstr "<пустой фрагмент текста>"
 
-#: snippet.cpp:62
+#: snippet.cpp:61
 #, kde-format
 msgid "insert snippet %1"
 msgstr "вставить фрагмент %1"
 
-#: snippetrepository.cpp:45
+#: snippetrepository.cpp:46
 #, kde-format
 msgid "<empty repository>"
 msgstr "<пустой комплект>"
 
-#: snippetrepository.cpp:230
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have edited a data file not located in your personal data directory; "
-#| "as such, a renamed clone of the original data file has been created "
-#| "within your personal data directory."
+#: snippetrepository.cpp:233
+#, kde-format
 msgid ""
 "You have edited a snippet repository file not located in your personal "
 "directory; as such, a copy of the original file has been created within your "
 "personal data directory."
 msgstr ""
-"Вы редактировали файл данных, находящийся не в вашем домашнем каталоге. "
-"Теперь в нём создана переименованная копия исходного файла."
+"Вы редактировали файл комплекта фрагментов текста, находящийся не в вашем "
+"домашнем каталоге. Теперь в нём создана копия исходного файла."
 
-#: snippetrepository.cpp:236
+#: snippetrepository.cpp:239
 #, kde-format
 msgid "Output file '%1' could not be opened for writing"
 msgstr "Не удалось открыть для записи файл вывода «%1»"
 
-#: snippetrepository.cpp:271
+#: snippetrepository.cpp:274
 #, kde-format
 msgid "Cannot open snippet repository %1."
 msgstr "Не удалось открыть комплект фрагментов %1."
 
-#: snippetrepository.cpp:284
+#: snippetrepository.cpp:281
 #, kde-format
 msgid ""
 "<qt>The error <b>%4</b><br /> has been detected in the file %1 at %2/%3</qt>"
 msgstr "<qt>В файле %1 (%2/%3) была обнаружена ошибка <b>%4</b><br /></qt>"
 
-#: snippetrepository.cpp:291
+#: snippetrepository.cpp:292
 #, kde-format
 msgid "Invalid XML snippet file: %1"
 msgstr "Некорректный файл фрагмента в формате XML: %1"
 
-#: snippetrepository.cpp:357
+#: snippetrepository.cpp:354
 #, kde-format
 msgid ""
 "Repository is disabled, the contained snippets will not be shown during code-"
@@ -262,72 +288,67 @@ msgstr ""
 "Комплект отключён, содержащиеся в нём фрагменты не будут показываться при "
 "автодополнении кода."
 
-#: snippetrepository.cpp:360
+#: snippetrepository.cpp:357
 #, kde-format
 msgid "Applies to all filetypes"
 msgstr "Применяется для всех типов файлов"
 
-#: snippetrepository.cpp:362
+#: snippetrepository.cpp:359
 #, kde-format
 msgid "Applies to the following filetypes: %1"
 msgstr "Применяется для следующих типов файлов: %1"
 
-#: snippetview.cpp:96
+#: snippetview.cpp:93
 #, kde-format
 msgid "Add Repository"
 msgstr "Создать комплект"
 
-#: snippetview.cpp:99
+#: snippetview.cpp:96
 #, kde-format
 msgid "Edit Repository"
 msgstr "Изменить комплект"
 
-#: snippetview.cpp:102
+#: snippetview.cpp:99
 #, kde-format
 msgid "Remove Repository"
 msgstr "Удалить комплект"
 
-#: snippetview.cpp:108
-#, kde-format
-msgid "Publish Repository"
-msgstr "Опубликовать комплект"
-
-#: snippetview.cpp:117
+#: snippetview.cpp:109
 #, kde-format
 msgid "Add Snippet"
 msgstr "Создать фрагмент"
 
-#: snippetview.cpp:120
+#: snippetview.cpp:112
 #, kde-format
 msgid "Edit Snippet"
 msgstr "Изменить фрагмент"
 
-#: snippetview.cpp:123
+#: snippetview.cpp:115
 #, kde-format
 msgid "Remove Snippet"
 msgstr "Удалить фрагмент"
 
-#: snippetview.cpp:129
+#: snippetview.cpp:121
 #, kde-format
 msgid "Get New Snippets"
 msgstr "Загрузить фрагменты"
 
-#: snippetview.cpp:202
+#: snippetview.cpp:210
 #, kde-format
 msgid "Snippet: %1"
 msgstr "Фрагмент: %1"
 
-#: snippetview.cpp:210
+#: snippetview.cpp:218
 #, kde-format
 msgid "Repository: %1"
 msgstr "Комплект: %1"
 
-#: snippetview.cpp:275
+#: snippetview.cpp:283
 #, kde-format
 msgid "Do you really want to delete the snippet \"%1\"?"
 msgstr "Удалить фрагмент текста «%1»?"
 
-#: snippetview.cpp:317
+#: snippetview.cpp:327
 #, kde-format
 msgid ""
 "Do you really want to delete the repository \"%1\" with all its snippets?"
@@ -350,6 +371,15 @@ msgstr "Фильтр..."
 #, kde-format
 msgid "&Tools"
 msgstr "С&ервис"
+
+#~ msgid "Snippet name cannot contain spaces"
+#~ msgstr "Название фрагмента не должно содержать пробелов"
+
+#~ msgid "Snippets tool view"
+#~ msgstr "Панель фрагментов текста"
+
+#~ msgid "Publish Repository"
+#~ msgstr "Опубликовать комплект"
 
 #~ msgid "Snippets..."
 #~ msgstr "Фрагменты..."

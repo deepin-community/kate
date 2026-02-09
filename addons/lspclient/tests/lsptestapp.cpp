@@ -30,7 +30,7 @@ int main(int argc, char **argv)
         }
     };
     auto conn = QObject::connect(&lsp, &LSPClientServer::stateChanged, state_h);
-    lsp.start();
+    lsp.start(true);
     q.exec();
     QObject::disconnect(conn);
 
@@ -50,8 +50,8 @@ int main(int argc, char **argv)
     QString content = in.readAll();
     lsp.didOpen(document, 0, QString(), content);
 
-    auto ds_h = [&q](const QList<LSPSymbolInformation> &syms) {
-        std::cout << "symbol count: " << syms.length() << std::endl;
+    auto ds_h = [&q](const std::list<LSPSymbolInformation> &syms) {
+        std::cout << "symbol count: " << syms.size() << std::endl;
         q.quit();
     };
     lsp.documentSymbols(document, &app, ds_h);
@@ -106,7 +106,7 @@ int main(int argc, char **argv)
         std::cout << "edits: " << edits.length() << std::endl;
         q.quit();
     };
-    lsp.documentFormatting(document, {2, true, QJsonObject()}, &app, fmt_h);
+    lsp.documentFormatting(document, {.tabSize = 2, .insertSpaces = true, .extra = QJsonObject()}, &app, fmt_h);
     q.exec();
 
     // lsp.didOpen(document, 0, QStringLiteral("blah"));

@@ -10,11 +10,11 @@
 <author
 >&Lauri.Watts; &Lauri.Watts.mail;</author>
 <date
->2016-04-26</date>
+>2021-07-12</date>
 <releaseinfo
->Aplicaciones 16.04</releaseinfo>
+>KDE Gear 21.08</releaseinfo>
 <productname
->KDE Applications</productname>
+>KDE Gear</productname>
 </refentryinfo>
 
 <refmeta>
@@ -106,9 +106,7 @@
 <para
 >&kate; también proporciona la parte de edición para varias aplicaciones bajo el nombre &kwrite;.</para>
 <para
->Algunas de las muchas características de &kate; son: resaltado de sintaxis configurable para lenguajes que abarcan desde C y C++ hasta <acronym
->HTML</acronym
-> y guiones bash, la posibilidad de crear y mantener proyectos, una interfaz de múltiples documentos (<acronym
+>Algunas de las muchas características de &kate; son: resaltado de sintaxis configurable para lenguajes que abarcan desde C y C++ hasta &HTML; y guiones bash, la posibilidad de crear y mantener proyectos, una interfaz de múltiples documentos (<acronym
 >MDI</acronym
 >), y un emulador de terminal integrado. </para>
 
@@ -200,7 +198,7 @@
 ></term>
 <listitem
 ><para
->Establece la codificación para el archivo a abrir</para
+>Definir la codificación del archivo que se va a abrir.</para
 ><para
 >Puede utilizar esto para forzar la apertura de un archivo en formato UTF-8, por ejemplo. (La orden <command
 >iconv -l</command
@@ -216,7 +214,7 @@
 ></term>
 <listitem
 ><para
->Se desplaza hasta esta línea</para
+>Navegar hasta esta línea.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
@@ -228,7 +226,7 @@
 ></term>
 <listitem
 ><para
->Se desplaza hasta esta columna</para
+>Navegar hasta esta columna.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
@@ -238,9 +236,9 @@
 ></term>
 <listitem
 ><para
->Lee el contenido de <filename
+>Leer el contenido de <filename
 >stdin</filename
-></para
+>.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
@@ -250,7 +248,7 @@
 ></term>
 <listitem
 ><para
->Los archivos o &URL; abiertos por la aplicación se borrarán después de haberlos utilizado.</para
+>Los archivos o &URL; abiertos por la aplicación se borrarán después de haberlos usado.</para
 ></listitem>
 </varlistentry>
 <varlistentry>
@@ -262,7 +260,7 @@
 ></term>
 <listitem
 ><para
->Archivo que se quiere abrir</para
+>Archivo a abrir.</para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -277,9 +275,7 @@
 ><member
 >Se dispone de documentación de usuario más detallada en <ulink url="help:/kate"
 >help:/kate</ulink
-> (puede introducir esta <acronym
->URL</acronym
-> en &konqueror;, o ejecutar <userinput
+> (puede introducir esta &URL; en &konqueror;, o ejecutar <userinput
 ><command
 >khelpcenter</command
 > <parameter
@@ -287,11 +283,11 @@
 ></userinput
 >).</member>
 <member
->kf5options(7)</member>
+>kf6options(7)</member>
 <member
->qt5options(7)</member>
+>qt6options(7)</member>
 <member
->También existe más información disponible en <ulink url="http://kate-editor.org/"
+>También existe más información disponible en <ulink url="https://kate-editor.org/"
 >el sitio web de &kate;</ulink
 >.</member>
 </simplelist>
@@ -312,24 +308,22 @@
 > <option
 >-c 15</option
 > <option
->-l
-25</option
-> <option
->-u</option
+>-l 25</option
 > <filename
 >source.cpp</filename
 ></userinput
-> </screen>
+>
+</screen>
 
 <para
->Si dispone de una conexión permanente a Internet, puede aprovechar la característica de transparencia de red de &kde; para abrir un archivo de un sitio FTP. Si no tiene permiso de escritura en el servidor remoto, podrá abrir el archivo en modo de lectura, y se le preguntará por una ubicación local para guardarlo en caso de que lo modifique. Si tiene permiso de escritura en el servidor, los cambios se guardarán transparentemente sobre la red.</para>
+>Si dispone de una conexión permanente a Internet, puede aprovechar la característica de transparencia de red de &kde; para abrir un archivo de un sitio &FTP;. Si no tiene permiso de escritura en el servidor remoto, podrá abrir el archivo en modo de lectura, y se le preguntará por una ubicación local para guardarlo en caso de que lo modifique. Si tiene permiso de escritura en el servidor, los cambios se guardarán transparentemente sobre la red.</para>
 <screen
 ><userinput
 ><command
 >kate</command
 > <option
 ><replaceable
->ftp://ftp.kde.org/pub/kde/README</replaceable
+>&kde-ftp;README</replaceable
 ></option
 ></userinput
 ></screen>

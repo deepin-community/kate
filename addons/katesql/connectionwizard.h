@@ -4,8 +4,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef CONNECTIONWIZARD_H
-#define CONNECTIONWIZARD_H
+#pragma once
 
 class SQLManager;
 class KComboBox;
@@ -16,13 +15,17 @@ class KUrlRequester;
 
 #include "connection.h"
 
-#include <KWallet>
 #include <qwizard.h>
 
 class ConnectionWizard : public QWizard
 {
 public:
-    enum { Page_Driver, Page_Standard_Server, Page_SQLite_Server, Page_Save };
+    enum {
+        Page_Driver,
+        Page_Standard_Server,
+        Page_SQLite_Server,
+        Page_Save
+    };
 
     ConnectionWizard(SQLManager *manager, Connection *conn, QWidget *parent = nullptr, Qt::WindowFlags flags = {});
     ~ConnectionWizard() override;
@@ -44,7 +47,7 @@ private:
 class ConnectionDriverPage : public QWizardPage
 {
 public:
-    ConnectionDriverPage(QWidget *parent = nullptr);
+    explicit ConnectionDriverPage(QWidget *parent = nullptr);
     void initializePage() override;
     int nextId() const override;
 
@@ -55,7 +58,7 @@ private:
 class ConnectionStandardServerPage : public QWizardPage
 {
 public:
-    ConnectionStandardServerPage(QWidget *parent = nullptr);
+    explicit ConnectionStandardServerPage(QWidget *parent = nullptr);
     ~ConnectionStandardServerPage() override;
     void initializePage() override;
     bool validatePage() override;
@@ -73,7 +76,7 @@ private:
 class ConnectionSQLiteServerPage : public QWizardPage
 {
 public:
-    ConnectionSQLiteServerPage(QWidget *parent = nullptr);
+    explicit ConnectionSQLiteServerPage(QWidget *parent = nullptr);
     void initializePage() override;
     bool validatePage() override;
     int nextId() const override;
@@ -88,7 +91,7 @@ private:
 class ConnectionSavePage : public QWizardPage
 {
 public:
-    ConnectionSavePage(QWidget *parent = nullptr);
+    explicit ConnectionSavePage(QWidget *parent = nullptr);
     void initializePage() override;
     bool validatePage() override;
     int nextId() const override;
@@ -96,5 +99,3 @@ public:
 private:
     KLineEdit *connectionNameLineEdit;
 };
-
-#endif // CONNECTIONWIZARD_H

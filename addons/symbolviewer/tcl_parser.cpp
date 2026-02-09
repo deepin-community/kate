@@ -12,7 +12,6 @@
  ***************************************************************************/
 
 #include "plugin_katesymbolviewer.h"
-#include <QPixmap>
 
 void KatePluginSymbolViewerView::parseTclSymbols(void)
 {
@@ -20,26 +19,23 @@ void KatePluginSymbolViewerView::parseTclSymbols(void)
         return;
     }
 
-    QString currline, prevline;
+    QString prevline;
     bool prevComment = false;
     QString varStr(QStringLiteral("set "));
     QString procStr(QStringLiteral("proc"));
     QString stripped;
-    int i, j, args_par = 0, graph = 0;
+    int args_par = 0, graph = 0;
     char block = 0, parse_func = 0;
 
     QTreeWidgetItem *node = nullptr;
     QTreeWidgetItem *mcrNode = nullptr, *clsNode = nullptr;
     QTreeWidgetItem *lastMcrNode = nullptr, *lastClsNode = nullptr;
 
-    QPixmap mcr(macro_xpm);
-    QPixmap cls(class_xpm);
-
     if (m_treeOn->isChecked()) {
         clsNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Functions")));
         mcrNode = new QTreeWidgetItem(m_symbols, QStringList(i18n("Globals")));
-        clsNode->setIcon(0, QIcon(cls));
-        mcrNode->setIcon(0, QIcon(mcr));
+        clsNode->setIcon(0, m_icon_function);
+        mcrNode->setIcon(0, m_icon_variable);
 
         lastMcrNode = mcrNode;
         lastClsNode = clsNode;
@@ -58,8 +54,8 @@ void KatePluginSymbolViewerView::parseTclSymbols(void)
     // positions.resize(kDoc->numLines() + 3); // Maximum m_symbols number o.O
     // positions.fill(0);
 
-    for (i = 0; i < kDoc->lines(); i++) {
-        currline = kDoc->line(i);
+    for (int i = 0; i < kDoc->lines(); i++) {
+        QString currline = kDoc->line(i);
         currline = currline.trimmed();
         bool comment = false;
         // qDebug(13000)<<currline;
@@ -97,7 +93,7 @@ void KatePluginSymbolViewerView::parseTclSymbols(void)
                         node = new QTreeWidgetItem(m_symbols);
                     }
                     node->setText(0, stripped);
-                    node->setIcon(0, QIcon(mcr));
+                    node->setIcon(0, m_icon_function);
                     node->setText(1, QString::number(i, 10));
                     stripped.clear();
                 } // macro
@@ -108,7 +104,7 @@ void KatePluginSymbolViewerView::parseTclSymbols(void)
             }
 
             if (parse_func == 1) {
-                for (j = 0; j < currline.length(); j++) {
+                for (int j = 0; j < currline.length(); j++) {
                     if (block == 1) {
                         if (currline.at(j) == QLatin1Char('{')) {
                             graph++;
@@ -139,7 +135,7 @@ void KatePluginSymbolViewerView::parseTclSymbols(void)
                                         node = new QTreeWidgetItem(m_symbols);
                                     }
                                     node->setText(0, stripped);
-                                    node->setIcon(0, QIcon(cls));
+                                    node->setIcon(0, m_icon_variable);
                                     node->setText(1, QString::number(i, 10));
                                 }
                                 stripped.clear();

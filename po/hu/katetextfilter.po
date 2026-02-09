@@ -2,22 +2,23 @@
 # Tamas Szanto <tszanto@interware.hu>, 2001.
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2011, 2015.
 # Balázs Úr <urbalazs@gmail.com>, 2013.
+# Kristof Kiszel <ulysses@fsf.hu>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-03-11 03:13+0100\n"
-"PO-Revision-Date: 2015-09-07 10:47+0200\n"
-"Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
+"POT-Creation-Date: 2024-10-21 00:42+0000\n"
+"PO-Revision-Date: 2021-12-07 13:01+0100\n"
+"Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 21.12.0\n"
 
-#: plugin_katetextfilter.cpp:90
+#: plugin_katetextfilter.cpp:89
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -27,7 +28,12 @@ msgstr ""
 "<title>Eredménye:</title><nl /><pre><code>$ %1\n"
 "<nl />%2</code></pre>"
 
-#: plugin_katetextfilter.cpp:153
+#: plugin_katetextfilter.cpp:142
+#, kde-format
+msgid "Failed to start process"
+msgstr ""
+
+#: plugin_katetextfilter.cpp:156
 #, kde-format
 msgid ""
 "You are not allowed to execute arbitrary external applications. If you want "
@@ -36,22 +42,22 @@ msgstr ""
 "Nincs jogosultsága tetszőleges külső program végrehajtásához. Ha valóban "
 "erre van szüksége, kérjen segítséget a rendszergazdától."
 
-#: plugin_katetextfilter.cpp:155
+#: plugin_katetextfilter.cpp:158
 #, kde-format
 msgid "Access Restrictions"
 msgstr "Hozzáférési korlátozás"
 
-#: plugin_katetextfilter.cpp:173 plugin_katetextfilter.cpp:261
+#: plugin_katetextfilter.cpp:176 plugin_katetextfilter.cpp:264
 #, kde-format
 msgid "Text Filter"
 msgstr "Szövegszűrő"
 
-#: plugin_katetextfilter.cpp:239
+#: plugin_katetextfilter.cpp:242
 #, kde-format
 msgid "Usage: textfilter COMMAND"
 msgstr "Használat: textfilter PARANCS"
 
-#: plugin_katetextfilter.cpp:250
+#: plugin_katetextfilter.cpp:253
 #, kde-format
 msgid ""
 "<qt><p>Usage: <code>textfilter COMMAND</code></p><p>Replace the selection "
@@ -60,10 +66,10 @@ msgstr ""
 "<qt><p>Használat: <code>textfilter PARANCS</code></p><p>A kijelölt "
 "szövegrészt lecseréli a megadott parancs kimenetére.</p></qt>"
 
-#: plugin_katetextfilter.cpp:266
+#: plugin_katetextfilter.cpp:269
 #, kde-format
 msgid "&Filter Through Command..."
-msgstr ""
+msgstr "S&zűrés paranccsal…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, TextFilterWidget)
 #: textfilterwidget.ui:14
@@ -83,7 +89,7 @@ msgstr ""
 #: textfilterwidget.ui:39
 #, kde-format
 msgid "Open results in a new document"
-msgstr ""
+msgstr "Eredmények megnyitása új dokumentumban"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, copyResult)
 #: textfilterwidget.ui:46
@@ -95,7 +101,7 @@ msgstr "Az eredmény vágólapra másolása a dokumentum változatlanul hagyás�
 #: textfilterwidget.ui:49
 #, kde-format
 msgid "Copy the result instead of pasting it"
-msgstr "Az eredmány másolása beillesztés helyett"
+msgstr "Az eredmény másolása beillesztés helyett"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mergeOutput)
 #: textfilterwidget.ui:57

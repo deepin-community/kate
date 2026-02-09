@@ -71,9 +71,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->10 d'octubre de 2020</date>
+>2 de maig de 2022</date>
 <releaseinfo
->&frameworks; 5.75</releaseinfo>
+>&frameworks; 5.94</releaseinfo>
 
 <abstract>
 <para
@@ -124,7 +124,7 @@
 >Crèdits i llicència</title>
 
 <para
->Copyright de la &katepart; i el &kwrite;, 2001-2021 per l'equip del &kate;.</para>
+>Copyright de la &katepart; i el &kwrite;, 2001-2022 per l'equip del &kate;.</para>
 
 <para
 >Basat en el &kwrite; original, Copyright 2000 per en Jochen Wilhelmy <email

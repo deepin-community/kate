@@ -836,7 +836,7 @@
 ><guimenu
 >Verktyg</guimenu
 > <guimenuitem
->Justera</guimenuitem
+>Formatera indentering</guimenuitem
 ></menuchoice
 > som beräknar indenteringen för markeringen eller nuvarande rad igen. Alltså kan du indentera om hela dokumentet genom att markera all text och utföra åtgärden.</para>
 
@@ -994,6 +994,103 @@
 > eller permanent i <link linkend="appearance-borders"
 >avdelningen Utseende i &kappname;s inställningar</link
 >.</para>
+
+</sect1>
+
+<sect1 id="kate-part-multiple-cursors">
+<title
+>Flera markörer</title>
+
+<para
+>Stöd för flera markörer introducerades med version 5.93 av Kate-delprogrammet.</para>
+
+<sect2 id="kate-part-create-multiple-cursors">
+<title
+>Skapa flera markörer</title>
+
+<itemizedlist>
+<listitem
+><para
+>För att skapa dem med musen, använda &Alt; + vänster musknapp. Väljaren går att ställa in, se <link linkend="multicursor-modifier-configure"
+>Anpassa väljare för flera markörer</link
+>.</para
+></listitem>
+
+<listitem
+><para
+>För att skapa dem med tangentbordet, tryck på <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Upp</keycap
+></keycombo
+> för att skapa en markör ovanför den primära markören och <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Ner</keycap
+></keycombo
+> för att skapa en markör nedanför den. Genvägarna är också inställningsbara.</para
+></listitem>
+
+<listitem
+><para
+>För att skapa markörer från en markering, markera först text och tryck sedan på <keycombo action="simul"
+>&Shift;&Alt;<keycap
+>I</keycap
+></keycombo
+>. Det skapar en markör sist på varje rad i markeringen.</para
+></listitem>
+
+<listitem
+><para
+>Använd <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> för att söka efter nästa förekomst av ordet under markören och markera det samt skapa en markör. Om du vill hoppa över det aktuella ordet under markören, tryck på <keycombo action="simul"
+>&Alt;<keycap
+>K</keycap
+></keycombo
+> så markeras det aktuella ordet som överhoppat. När du trycker på <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> igen avmarkeras det aktuella ordet och sökningen efter nästa ord utförs.</para>
+</listitem>
+
+<listitem
+><para
+>Använd <keycombo action="simul"
+>&Ctrl;&Alt;&Shift;<keycap
+>J</keycap
+></keycombo
+> för att söka efter alla förekomster av ordet under markören, och markera dem med en markör i slutet av varje markering. Du kan använda <keycombo action="simul"
+>&Alt;<keycap
+>J</keycap
+></keycombo
+> för att gå igenom de markerade orden och använda <keycombo action="simul"
+>&Alt;<keycap
+>K</keycap
+></keycombo
+> för att avmarkera vilket ord som helst, som nämnt i föregående stycke.</para
+></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2
+><title
+>Arbeta med flera markörer</title>
+<para
+>När du väl har skapat några markörer, kan du utföra de flesta redigeringsåtgärder med dem som man skulle med en enda markör. Genom att exempelvis skriva en bokstav, skrivs den vid varje markör. På liknande sätt kan du utföra textomvandlingar, t.ex. göra om alla positionerna eller markeringarna till stora bokstäver.</para>
+
+<para
+>Ibland vill man ta bort markörer. Du kan använda &Alt; + vänster musknapp på markören som du vill ta bort. Om du bara vill ta bort markörer på tomma rader, finns det en färdig åtgärd för det som gör det åt dig. Öppna kommandoraden genom att använda <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>I</keycap
+></keycombo
+> och leta reda på <guimenuitem
+>Ta bort markörer från tomma rader</guimenuitem
+> för att utföra åtgärden,</para>
+
+</sect2>
 
 </sect1>
 

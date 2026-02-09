@@ -5,14 +5,13 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_WORKER_H
-#define KATE_PROJECT_WORKER_H
+#pragma once
 
 #include "kateproject.h"
 
 #include <QHash>
 #include <QRunnable>
-#include <QStandardItemModel>
+#include <QSet>
 
 class QDir;
 class KateProjectItem;
@@ -40,8 +39,15 @@ public:
 Q_SIGNALS:
     void loadDone(KateProjectSharedQStandardItem topLevel, KateProjectSharedQHashStringItem file2Item);
     void loadIndexDone(KateProjectSharedProjectIndex index);
+    void errorOccurred(const QString &);
 
 private:
+    struct FileEntry {
+        QString filePath;
+        QString fullFilePath = QString(); // the explicit QString() is for clangd
+        KateProjectItem *projectItem = nullptr;
+    };
+
     /**
      * Load one project inside the project tree.
      * Fill data from JSON storage to model and recurse to sub-projects.
@@ -49,7 +55,7 @@ private:
      * @param project variant map for this group
      * @param file2Item mapping file => item, will be filled
      */
-    static void loadProject(QStandardItem *parent, const QVariantMap &project, QHash<QString, KateProjectItem *> *file2Item, const QString &baseDir);
+    void loadProject(QStandardItem *parent, const QVariantMap &project, QHash<QString, KateProjectItem *> *file2Item, const QString &baseDir);
 
     /**
      * Load one files entry in the current parent item.
@@ -57,23 +63,21 @@ private:
      * @param filesEntry one files entry specification to load
      * @param file2Item mapping file => item, will be filled
      */
-    static void loadFilesEntry(QStandardItem *parent, const QVariantMap &filesEntry, QHash<QString, KateProjectItem *> *file2Item, const QString &baseDir);
+    void loadFilesEntry(QStandardItem *parent, const QVariantMap &filesEntry, QHash<QString, KateProjectItem *> *file2Item, const QString &baseDir);
 
-    static QVector<QString> findFiles(const QDir &dir, const QVariantMap &filesEntry);
+    void findFiles(const QDir &dir, const QVariantMap &filesEntry, std::vector<FileEntry> &outFiles);
 
-    static QVector<QString> filesFromGit(const QDir &dir, bool recursive);
-    static QVector<QString> filesFromMercurial(const QDir &dir, bool recursive);
-    static QVector<QString> filesFromSubversion(const QDir &dir, bool recursive);
-    static QVector<QString> filesFromDarcs(const QDir &dir, bool recursive);
-    static QVector<QString> filesFromDirectory(const QDir &dir, bool recursive, const QStringList &filters);
+    void filesFromGit(const QDir &dir, bool recursive, std::vector<FileEntry> &outFiles);
+    void filesFromMercurial(const QDir &dir, bool recursive, std::vector<FileEntry> &outFiles);
+    void filesFromSubversion(const QDir &dir, bool recursive, std::vector<FileEntry> &outFiles);
+    void filesFromDarcs(const QDir &dir, bool recursive, std::vector<FileEntry> &outFiles);
+    void filesFromFossil(const QDir &dir, bool recursive, std::vector<FileEntry> &outFiles);
+    static void filesFromDirectory(QDir dir, bool recursive, const QVariantMap &filesEntry, std::vector<FileEntry> &outFiles);
 
-    static QVector<QString> gitFiles(const QDir &dir, bool recursive, const QStringList &args);
+    static void gitFiles(const QDir &dir, bool recursive, const QStringList &args, std::vector<FileEntry> &outFiles);
 
 private:
-    /**
-     * our project, only as QObject, we only send messages back and forth!
-     */
-    QObject *m_project = nullptr;
+    static QString notInstalledErrorString(const QString &program);
 
     /**
      * project base directory name
@@ -88,5 +92,3 @@ private:
     const QVariantMap m_projectMap;
     const bool m_force;
 };
-
-#endif

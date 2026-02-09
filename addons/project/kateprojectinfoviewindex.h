@@ -5,8 +5,7 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_INFO_VIEW_INDEX_H
-#define KATE_PROJECT_INFO_VIEW_INDEX_H
+#pragma once
 
 #include <QLineEdit>
 #include <QTreeView>
@@ -47,7 +46,7 @@ public:
         return m_project;
     }
 
-private Q_SLOTS:
+private:
     /**
      * Called if text in lineedit changes, then we need to search
      * @param text new text
@@ -110,5 +109,3 @@ private:
      */
     QStandardItemModel *m_model;
 };
-
-#endif

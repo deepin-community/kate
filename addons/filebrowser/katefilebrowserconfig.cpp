@@ -34,7 +34,7 @@
 class ActionLBItem : public QListWidgetItem
 {
 public:
-    ActionLBItem(QListWidget *lb = nullptr, const QIcon &pm = QIcon(), const QString &text = QString(), const QString &str = QString())
+    explicit ActionLBItem(QListWidget *lb = nullptr, const QIcon &pm = QIcon(), const QString &text = QString(), const QString &str = QString())
         : QListWidgetItem(pm, text, lb, 0)
         , _str(str)
     {
@@ -54,18 +54,19 @@ KateFileBrowserConfigPage::KateFileBrowserConfigPage(QWidget *parent, KateFileBr
     : KTextEditor::ConfigPage(parent)
     , fileBrowser(kfb)
 {
-    QVBoxLayout *lo = new QVBoxLayout(this);
+    auto *lo = new QVBoxLayout(this);
     int spacing = QApplication::style()->pixelMetric(QStyle::PM_LayoutVerticalSpacing);
     lo->setSpacing(spacing);
     lo->setContentsMargins(0, 0, 0, 0);
 
     // Toolbar - a lot for a little...
-    QGroupBox *gbToolbar = new QGroupBox(i18n("Toolbar"), this);
+    auto *gbToolbar = new QGroupBox(i18n("Toolbar"), this);
+    gbToolbar->setFlat(true);
     acSel = new KActionSelector(gbToolbar);
     acSel->setAvailableLabel(i18n("A&vailable actions:"));
     acSel->setSelectedLabel(i18n("S&elected actions:"));
 
-    QVBoxLayout *vbox = new QVBoxLayout;
+    auto *vbox = new QVBoxLayout;
     vbox->addWidget(acSel);
     gbToolbar->setLayout(vbox);
 
@@ -90,7 +91,7 @@ QString KateFileBrowserConfigPage::fullName() const
 
 QIcon KateFileBrowserConfigPage::icon() const
 {
-    return QIcon::fromTheme(QStringLiteral("document-open"));
+    return QIcon::fromTheme(QStringLiteral("document-open-folder"));
 }
 
 void KateFileBrowserConfigPage::apply()
@@ -101,7 +102,7 @@ void KateFileBrowserConfigPage::apply()
 
     m_changed = false;
 
-    KConfigGroup config(KSharedConfig::openConfig(), "filebrowser");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("filebrowser"));
     QStringList l;
     ActionLBItem *aItem;
     const QList<QListWidgetItem *> list = acSel->selectedListWidget()->findItems(QStringLiteral("*"), Qt::MatchWildcard);
@@ -123,7 +124,7 @@ void KateFileBrowserConfigPage::reset()
 
 void KateFileBrowserConfigPage::init()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "filebrowser");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("filebrowser"));
     // toolbar
     QStringList l = config.readEntry("toolbar actions", QStringList());
     if (l.isEmpty()) { // default toolbar
@@ -149,7 +150,7 @@ void KateFileBrowserConfigPage::init()
                                  QStringLiteral("sync_dir"),
                                  QStringLiteral("configure")};
 
-    QRegularExpression re(QStringLiteral("&(?=[^&])"));
+    static const QRegularExpression re(QStringLiteral("&(?=[^&])"));
     QAction *ac = nullptr;
     QListWidget *lb;
     for (const auto &actionName : allActions) {
@@ -158,7 +159,7 @@ void KateFileBrowserConfigPage::init()
         if (actionName == QLatin1String("bookmarks") || actionName == QLatin1String("sync_dir") || actionName == QLatin1String("configure")) {
             ac = fileBrowser->actionCollection()->action(actionName);
         } else {
-            ac = fileBrowser->dirOperator()->actionCollection()->action(actionName);
+            ac = fileBrowser->dirOperator()->action(KateFileBrowser::actionFromName(actionName));
         }
 
         if (ac) {
@@ -180,5 +181,3 @@ void KateFileBrowserConfigPage::slotMyChanged()
     Q_EMIT changed();
 }
 // END KateFileBrowserConfigPage
-
-// kate: space-indent on; indent-width 2; replace-tabs on;

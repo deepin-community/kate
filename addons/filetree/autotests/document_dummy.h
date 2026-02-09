@@ -5,19 +5,19 @@
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef DOCUMENT_DUMMY_H
-#define DOCUMENT_DUMMY_H
+#pragma once
 
 #include <KTextEditor/Document>
-#include <KTextEditor/ModificationInterface>
+#include <QPixmap>
+#include <qicon.h>
 
 class DummyDocument : public KTextEditor::Document
 {
     Q_OBJECT
 
 public:
-    DummyDocument(const QString &url = QString())
-        : KTextEditor::Document(nullptr, nullptr)
+    explicit DummyDocument(const QString &url = QString())
+        : KTextEditor::Document(nullptr, KPluginMetaData(), nullptr)
         , m_name(QStringLiteral("foo"))
         , m_encoding()
         , m_views()
@@ -25,7 +25,7 @@ public:
         setUrl(url);
         m_name = url.section(QLatin1Char('/'), -1); // some nice default to mimic the KateDocument
     }
-    DummyDocument(const char *url)
+    explicit DummyDocument(const char *url)
         : DummyDocument(QString::fromLatin1(url))
     {
     }
@@ -89,27 +89,27 @@ public:
     {
         return QString();
     }
-    QString text(const KTextEditor::Range &, bool = false) const override
+    QString text(KTextEditor::Range, bool = false) const override
     {
         return QString();
     }
-    QChar characterAt(const KTextEditor::Cursor &) const override
+    QChar characterAt(KTextEditor::Cursor) const override
     {
         return QChar();
     }
-    QString wordAt(const KTextEditor::Cursor &) const override
+    QString wordAt(KTextEditor::Cursor) const override
     {
         return QString();
     }
-    KTextEditor::Range wordRangeAt(const KTextEditor::Cursor &) const override
+    KTextEditor::Range wordRangeAt(KTextEditor::Cursor) const override
     {
         return KTextEditor::Range();
     }
-    bool isValidTextPosition(const KTextEditor::Cursor &) const override
+    bool isValidTextPosition(KTextEditor::Cursor) const override
     {
         return true;
     }
-    QStringList textLines(const KTextEditor::Range &, bool = false) const override
+    QStringList textLines(KTextEditor::Range, bool = false) const override
     {
         return QStringList();
     }
@@ -125,7 +125,7 @@ public:
     {
         return KTextEditor::Cursor();
     }
-    int totalCharacters() const override
+    qsizetype totalCharacters() const override
     {
         return 0;
     }
@@ -146,15 +146,15 @@ public:
     {
         return true;
     }
-    bool insertText(const KTextEditor::Cursor &, const QString &, bool = false) override
+    bool insertText(KTextEditor::Cursor, const QString &, bool = false) override
     {
         return false;
     }
-    bool insertText(const KTextEditor::Cursor &, const QStringList &, bool = false) override
+    bool insertText(KTextEditor::Cursor, const QStringList &, bool = false) override
     {
         return false;
     }
-    bool removeText(const KTextEditor::Range &, bool = false) override
+    bool removeText(KTextEditor::Range, bool = false) override
     {
         return false;
     }
@@ -170,9 +170,9 @@ public:
     {
         return false;
     }
-    KTextEditor::DefaultStyle defaultStyleAt(const KTextEditor::Cursor &) const override
+    KSyntaxHighlighting::Theme::TextStyle defaultStyleAt(KTextEditor::Cursor) const override
     {
-        return KTextEditor::dsNormal;
+        return KSyntaxHighlighting::Theme::TextStyle::Normal;
     }
     QString mode() const override
     {
@@ -217,7 +217,7 @@ public:
     {
         return QStringList();
     }
-    QString highlightingModeAt(const KTextEditor::Cursor &) override
+    QString highlightingModeAt(KTextEditor::Cursor) override
     {
         return QString();
     }
@@ -240,9 +240,106 @@ public:
         return false;
     }
 
-    // make QObject happy
-Q_SIGNALS:
-    void modifiedOnDisk(KTextEditor::Document *, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason);
+    KTextEditor::MovingCursor *newMovingCursor(KTextEditor::Cursor, KTextEditor::MovingCursor::InsertBehavior) override
+    {
+        return nullptr;
+    }
+    KTextEditor::MovingRange *newMovingRange(KTextEditor::Range, KTextEditor::MovingRange::InsertBehaviors, KTextEditor::MovingRange::EmptyBehavior) override
+    {
+        return nullptr;
+    }
+    qint64 revision() const override
+    {
+        return 0;
+    };
+    qint64 lastSavedRevision() const override
+    {
+        return 0;
+    };
+    void lockRevision(qint64) override
+    {
+    }
+    void unlockRevision(qint64) override
+    {
+    }
+    void transformCursor(KTextEditor::Cursor &, KTextEditor::MovingCursor::InsertBehavior, qint64, qint64 = -1) override
+    {
+    }
+    void transformCursor(int &, int &, KTextEditor::MovingCursor::InsertBehavior, qint64, qint64 = -1) override
+    {
+    }
+    void transformRange(KTextEditor::Range &, KTextEditor::MovingRange::InsertBehaviors, KTextEditor::MovingRange::EmptyBehavior, qint64, qint64 = -1) override
+    {
+    }
+    QStringList configKeys() const override
+    {
+        return {};
+    }
+    QVariant configValue(const QString &) override
+    {
+        return {};
+    }
+    void setConfigValue(const QString &, const QVariant &) override
+    {
+    }
+    void setModifiedOnDisk(ModifiedOnDiskReason) override
+    {
+    }
+    void setModifiedOnDiskWarning(bool) override
+    {
+    }
+    uint mark(int) override
+    {
+        return 0;
+    }
+    void setMark(int, uint) override
+    {
+    }
+    void clearMark(int) override
+    {
+    }
+    void addMark(int, uint) override
+    {
+    }
+    void removeMark(int, uint) override
+    {
+    }
+    const QHash<int, KTextEditor::Mark *> &marks() override
+    {
+        static const QHash<int, KTextEditor::Mark *> s;
+        return s;
+    }
+    void clearMarks() override
+    {
+    }
+    void setMarkDescription(MarkTypes, const QString &) override
+    {
+    }
+    QString markDescription(MarkTypes) const override
+    {
+        return {};
+    }
+    void setEditableMarks(uint) override
+    {
+    }
+    uint editableMarks() const override
+    {
+        return 0;
+    }
+    void setMarkIcon(MarkTypes, const QIcon &) override
+    {
+    }
+    QIcon markIcon(MarkTypes) const override
+    {
+        return {};
+    }
+    void setAnnotationModel(KTextEditor::AnnotationModel *) override
+    {
+    }
+    KTextEditor::AnnotationModel *annotationModel() const override
+    {
+        return nullptr;
+    }
 
 public:
     void setUrl(const QString &url)
@@ -277,11 +374,16 @@ public:
     {
     }
 
+    qsizetype cursorToOffset(KTextEditor::Cursor) const override
+    {
+        return 0;
+    }
+    KTextEditor::Cursor offsetToCursor(qsizetype) const override
+    {
+        return {};
+    }
+
 private:
     QString m_name, m_encoding;
     QList<KTextEditor::View *> m_views;
 };
-
-#endif
-
-// kate: space-indent on; indent-width 2; replace-tabs on;

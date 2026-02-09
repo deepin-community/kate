@@ -1,17 +1,17 @@
 # Translation of katesnippetsplugin.po to Catalan
-# Copyright (C) 2012-2020 This_file_is_part_of_KDE
+# Copyright (C) 2012-2024 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep Ma. Ferrer <txemaq@gmail.com>, 2012, 2014, 2015, 2016, 2020.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2015, 2019, 2020.
+# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2014, 2015, 2016, 2020, 2023, 2024.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2015, 2019, 2020, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kate\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-01-30 03:20+0100\n"
-"PO-Revision-Date: 2020-09-13 10:09+0100\n"
-"Last-Translator: Josep Ma. Ferrer <txemaq@gmail.com>\n"
+"POT-Creation-Date: 2024-06-09 00:41+0000\n"
+"PO-Revision-Date: 2024-06-04 13:56+0200\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31,17 +31,17 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "antonibella5@yahoo.com"
 
-#: editrepository.cpp:77 editrepository.cpp:115
+#: editrepository.cpp:81 editrepository.cpp:126
 #, kde-format
 msgid "Edit Snippet Repository %1"
 msgstr "Edita el repositori de retalls %1"
 
-#: editrepository.cpp:79
+#: editrepository.cpp:83
 #, kde-format
 msgid "Create New Snippet Repository"
 msgstr "Crea un repositori nou de retalls"
 
-#: editrepository.cpp:126
+#: editrepository.cpp:142
 #, kde-format
 msgid "<i>leave empty for general purpose snippets</i>"
 msgstr "<i>deixeu-ho buit per als retalls d'ús general</i>"
@@ -89,33 +89,37 @@ msgstr "Un nom curt per al repositori"
 msgid "Prefix to show in code completion"
 msgstr "Prefix a mostrar en la compleció de codi"
 
-#: editsnippet.cpp:96 editsnippet.cpp:175
+#: editsnippet.cpp:97 editsnippet.cpp:174
 #, kde-format
 msgid "Edit Snippet %1 in %2"
 msgstr "Edita el retall %1 a %2"
 
-#: editsnippet.cpp:106
+#: editsnippet.cpp:107
 #, kde-format
 msgid "Create New Snippet in Repository %1"
 msgstr "Crea un retall nou al repositori %1"
 
-#: editsnippet.cpp:143
+#: editsnippet.cpp:146
 #, kde-format
-msgid "Snippet name cannot contain spaces"
-msgstr "El nom del retall no pot contenir espais"
+msgid "Snippet names with spaces may not work well in completions"
+msgstr ""
+"Els noms de retalls amb espais potser no funcionin bé a les complecions"
 
-#: editsnippet.cpp:182
+#: editsnippet.cpp:186
 #, kde-format
 msgid ""
-"The snippet contains unsaved changes. Do you want to continue and lose all "
-"changes?"
-msgstr ""
-"El retall conté canvis sense desar. Voleu continuar i perdre tots els canvis?"
+"The snippet contains unsaved changes. Do you want to discard all changes?"
+msgstr "El retall conté canvis sense desar. Voleu descartar tots els canvis?"
 
-#: editsnippet.cpp:183
+#: editsnippet.cpp:187
 #, kde-format
 msgid "Warning - Unsaved Changes"
 msgstr "Avís: Canvis sense desar"
+
+#: editsnippet.cpp:189
+#, kde-format
+msgid "Continue editing"
+msgstr "Continua l'edició"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, snippetNameEdit)
 #: editsnippet.ui:42
@@ -147,16 +151,16 @@ msgid ""
 "information.<br><tt>${cursor}</tt> can be used to mark the end position of "
 "the cursor after everything else was filled in.\">More...</a>"
 msgstr ""
-"El text que heu retallat s'inserirà en el document. <a href=\"Un retall pot "
-"contenir camps editables. Es poden recórrer prement Tab. Es poden emprar les "
-"expressions següents en el text de plantilla per a crear camps: <br><tt>"
-"${nom_camp}</tt> crea un camp editable senzill. totes les ocurrències "
-"subsegüents del mateix nom_camp crearan camps que reflectiran el contingut "
-"del primer durant l'edició.<br><tt>${nom_camp=defecte}</tt> es pot emprar "
-"per indicar un valor per defecte del camp. <tt>defecte</tt> pot ser "
-"qualsevol expressió JavaScript.<br>Useu <tt>${nom_camp=text}</tt> per "
+"El text amb el qual heu creat un retall s'inserirà en el document. <a href="
+"\"Un retall pot contenir camps editables. Es poden recórrer prement Tab. Es "
+"poden emprar les expressions següents en el text de plantilla per a crear "
+"camps:<br><tt>${nom_camp}</tt> crea un camp editable senzill. totes les "
+"ocurrències subsegüents del mateix nom_camp crearan camps que reflectiran el "
+"contingut del primer durant l'edició.<br><tt>${nom_camp=defecte}</tt> es pot "
+"emprar per a indicar un valor per defecte del camp. <tt>defecte</tt> pot ser "
+"qualsevol expressió JavaScript.<br>Useu <tt>${nom_camp=text}</tt> per a "
 "indicar una cadena fixa com a valor per defecte.<br><tt>${func(altre_camp1, "
-"altre_camp2, ...)}</tt> es pot emprar per crear un camp que avaluï una "
+"altre_camp2, ...)}</tt> es pot emprar per a crear un camp que avaluï una "
 "funció JavaScript en cada edició i contingui el seu contingut. Vegeu la "
 "pestanya «Scripts» per a més informació.<br><tt>${cursor}</tt> es pot emprar "
 "per a marcar la posició final del cursor després d'omplir-ho tot.\">Més...</"
@@ -186,20 +190,20 @@ msgid ""
 "tt> objects. Refer to the scripting API documentation for more information."
 "\">More...</a>"
 msgstr ""
-"Escriviu aquí les funcions auxiliars en JavaScript per usar en els retalls. "
-"<a href=\"Totes les funcions en JavaScript han de retornar el contingut que "
-"voleu per situar-lo en un camp de plantilla com una cadena.<br>Les funcions "
-"s'invoquen en un àmbit que conté el contingut de tots els camps de plantilla "
-"editables com a variables locals. Per exemple, en un retall que contingui "
-"<tt>${camp}</tt>, es presentarà una variable anomenada <tt>camp</tt> que "
-"contindrà el contingut actualitzat del camp de plantilla. Aquestes variables "
-"es poden usar estàticament en la funció o es pot passar com arguments, usant "
-"la sintaxi <tt>${func(camp)}</tt> o <tt>${camp2=func(camp)}</tt> en la "
-"cadena retallada.<br>Podeu usar l'API per a crear scripts del Kate per a "
-"obtenir el text seleccionat, tot el text, el nom del fitxer i més usant els "
-"mètodes adequats dels objectes <tt>document</tt> i <tt>view</tt>. Per a més "
-"informació, consulteu la documentació de l'API per a crear scripts.\">Més..."
-"</a>"
+"Escriviu aquí les funcions auxiliars en JavaScript per a usar-les en els "
+"retalls. <a href=\"Totes les funcions en JavaScript han de retornar el "
+"contingut que voleu per a situar-lo en un camp de plantilla com una cadena."
+"<br>Les funcions s'invoquen en un àmbit que conté el contingut de tots els "
+"camps de plantilla editables com a variables locals. Per exemple, en un "
+"retall que contingui <tt>${camp}</tt>, es presentarà una variable anomenada "
+"<tt>camp</tt> que contindrà el contingut actualitzat del camp de plantilla. "
+"Aquestes variables es poden usar estàticament en la funció o es poden passar "
+"com arguments, usant la sintaxi <tt>${func(camp)}</tt> o <tt>"
+"${camp2=func(camp)}</tt> en la cadena del retall.<br>Podeu usar l'API per a "
+"crear scripts del Kate per a obtenir el text seleccionat, tot el text, el "
+"nom del fitxer i més usant els mètodes adequats dels objectes <tt>document</"
+"tt> i <tt>view</tt>. Per a més informació, consulteu la documentació de "
+"l'API per a crear scripts.\">Més...</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, dotest_button)
 #: editsnippet.ui:105
@@ -207,44 +211,39 @@ msgstr ""
 msgid "Test this snippet"
 msgstr "Prova aquest retall"
 
-#: katesnippetglobal.cpp:104
+#: katesnippetglobal.cpp:103
 #, kde-format
 msgctxt "Autogenerated repository name for a programming language"
 msgid "%1 snippets"
 msgstr "%1 retalls"
 
-#: katesnippets.cpp:47
-#, kde-format
-msgid "Snippets tool view"
-msgstr "Vista d'eina de retalls"
-
-#: katesnippets.cpp:55 snippetcompletionmodel.cpp:43 snippetview.cpp:80
-#: snippetview.cpp:194
+#: katesnippets.cpp:44 katesnippets.cpp:52 snippetcompletionmodel.cpp:43
+#: snippetview.cpp:76 snippetview.cpp:202
 #, kde-format
 msgid "Snippets"
 msgstr "Retalls"
 
-#: katesnippets.cpp:66
+#: katesnippets.cpp:63
 #, kde-format
 msgid "Create Snippet"
 msgstr "Crea un retall"
 
-#: snippet.cpp:24
+#: snippet.cpp:23
 #, kde-format
 msgid "<empty snippet>"
 msgstr "<retall buit>"
 
-#: snippet.cpp:62
+#: snippet.cpp:61
 #, kde-format
 msgid "insert snippet %1"
 msgstr "insereix el retall %1"
 
-#: snippetrepository.cpp:45
+#: snippetrepository.cpp:46
 #, kde-format
 msgid "<empty repository>"
 msgstr "<repositori buit>"
 
-#: snippetrepository.cpp:230
+#: snippetrepository.cpp:233
 #, kde-format
 msgid ""
 "You have edited a snippet repository file not located in your personal "
@@ -255,29 +254,29 @@ msgstr ""
 "vostre directori de dades personal; per tant, s'ha creat una còpia del "
 "fitxer de dades original en el vostre directori personal de dades."
 
-#: snippetrepository.cpp:236
+#: snippetrepository.cpp:239
 #, kde-format
 msgid "Output file '%1' could not be opened for writing"
 msgstr "No s'ha pogut obrir el fitxer de sortida «%1» per a escriptura"
 
-#: snippetrepository.cpp:271
+#: snippetrepository.cpp:274
 #, kde-format
 msgid "Cannot open snippet repository %1."
 msgstr "No s'ha pogut obrir el repositori de retalls %1."
 
-#: snippetrepository.cpp:284
+#: snippetrepository.cpp:281
 #, kde-format
 msgid ""
 "<qt>The error <b>%4</b><br /> has been detected in the file %1 at %2/%3</qt>"
 msgstr ""
 "<qt>S'ha detectat l'error <b>%4</b><br /> en el fitxer %1 en %2/%3</qt>"
 
-#: snippetrepository.cpp:291
+#: snippetrepository.cpp:292
 #, kde-format
 msgid "Invalid XML snippet file: %1"
-msgstr "Fitxer de retall XML no vàlid: %1"
+msgstr "Fitxer de retall en XML no vàlid: %1"
 
-#: snippetrepository.cpp:357
+#: snippetrepository.cpp:354
 #, kde-format
 msgid ""
 "Repository is disabled, the contained snippets will not be shown during code-"
@@ -286,72 +285,67 @@ msgstr ""
 "El repositori està inhabilitat, els retalls que conté no es mostraran durant "
 "la compleció de codi."
 
-#: snippetrepository.cpp:360
+#: snippetrepository.cpp:357
 #, kde-format
 msgid "Applies to all filetypes"
 msgstr "Aplica a tots els tipus de fitxer"
 
-#: snippetrepository.cpp:362
+#: snippetrepository.cpp:359
 #, kde-format
 msgid "Applies to the following filetypes: %1"
 msgstr "Aplica als següents tipus de fitxer: %1"
 
-#: snippetview.cpp:96
+#: snippetview.cpp:93
 #, kde-format
 msgid "Add Repository"
 msgstr "Afegeix un repositori"
 
-#: snippetview.cpp:99
+#: snippetview.cpp:96
 #, kde-format
 msgid "Edit Repository"
 msgstr "Edita el repositori"
 
-#: snippetview.cpp:102
+#: snippetview.cpp:99
 #, kde-format
 msgid "Remove Repository"
 msgstr "Elimina el repositori"
 
-#: snippetview.cpp:108
-#, kde-format
-msgid "Publish Repository"
-msgstr "Publica el repositori"
-
-#: snippetview.cpp:117
+#: snippetview.cpp:109
 #, kde-format
 msgid "Add Snippet"
 msgstr "Afegeix un retall"
 
-#: snippetview.cpp:120
+#: snippetview.cpp:112
 #, kde-format
 msgid "Edit Snippet"
 msgstr "Edita el retall"
 
-#: snippetview.cpp:123
+#: snippetview.cpp:115
 #, kde-format
 msgid "Remove Snippet"
 msgstr "Elimina el retall"
 
-#: snippetview.cpp:129
+#: snippetview.cpp:121
 #, kde-format
 msgid "Get New Snippets"
 msgstr "Obtén retalls nous"
 
-#: snippetview.cpp:202
+#: snippetview.cpp:210
 #, kde-format
 msgid "Snippet: %1"
 msgstr "Retall: %1"
 
-#: snippetview.cpp:210
+#: snippetview.cpp:218
 #, kde-format
 msgid "Repository: %1"
 msgstr "Repositori: %1"
 
-#: snippetview.cpp:275
+#: snippetview.cpp:283
 #, kde-format
 msgid "Do you really want to delete the snippet \"%1\"?"
 msgstr "Realment voleu suprimir el retall «%1»?"
 
-#: snippetview.cpp:317
+#: snippetview.cpp:327
 #, kde-format
 msgid ""
 "Do you really want to delete the repository \"%1\" with all its snippets?"
@@ -374,9 +368,3 @@ msgstr "Filtre..."
 #, kde-format
 msgid "&Tools"
 msgstr "&Eines"
-
-#~ msgid "Snippets..."
-#~ msgstr "Retalls..."
-
-#~ msgid "Help"
-#~ msgstr "Ajuda"

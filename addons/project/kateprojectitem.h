@@ -5,10 +5,9 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_ITEM_H
-#define KATE_PROJECT_ITEM_H
+#pragma once
 
-#include <KTextEditor/ModificationInterface>
+#include <KTextEditor/Document>
 #include <QStandardItem>
 
 namespace KTextEditor
@@ -28,19 +27,27 @@ public:
      * Possible Types
      * We start with 1 to have 0 as invalid value!
      */
-    enum Type { LinkedProject = 1, Project = 2, Directory = 3, File = 4 };
+    enum Type {
+        LinkedProject = 1,
+        Project = 2,
+        Directory = 3,
+        File = 4
+    };
 
     /**
      * Our defined roles
      */
-    enum Role { TypeRole = Qt::UserRole + 42, ProjectRole };
+    enum Role {
+        TypeRole = Qt::UserRole + 42,
+        ProjectRole
+    };
 
     /**
      * construct new item with given text
      * @param type type for this item
      * @param text text for this item
      */
-    KateProjectItem(Type type, const QString &text);
+    KateProjectItem(Type type, const QString &text, const QString &path);
 
     /**
      * deconstruct project
@@ -64,7 +71,7 @@ public:
 
 public:
     void slotModifiedChanged(KTextEditor::Document *);
-    void slotModifiedOnDisk(KTextEditor::Document *document, bool isModified, KTextEditor::ModificationInterface::ModifiedOnDiskReason reason);
+    void slotModifiedOnDisk(KTextEditor::Document *document, bool isModified, KTextEditor::Document::ModifiedOnDiskReason reason);
 
 private:
     QIcon *icon() const;
@@ -74,6 +81,9 @@ private:
      * type
      */
     const Type m_type;
+
+    // File path this item represents
+    QString m_path;
 
     /**
      * cached icon
@@ -85,5 +95,3 @@ private:
      */
     QString m_emblem;
 };
-
-#endif

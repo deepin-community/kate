@@ -11,19 +11,19 @@
 #include <KLocalizedString>
 #include <KSharedConfig>
 
-#include <QBoxLayout>
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QVBoxLayout>
 
 KateSQLConfigPage::KateSQLConfigPage(QWidget *parent)
     : KTextEditor::ConfigPage(parent)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    auto *layout = new QVBoxLayout(this);
 
     m_box = new QCheckBox(i18nc("@option:check", "Save and restore connections in Kate session"), this);
 
-    QGroupBox *stylesGroupBox = new QGroupBox(i18nc("@title:group", "Output Customization"), this);
-    QVBoxLayout *stylesLayout = new QVBoxLayout(stylesGroupBox);
+    auto *stylesGroupBox = new QGroupBox(i18nc("@title:group", "Output Customization"), this);
+    auto *stylesLayout = new QVBoxLayout(stylesGroupBox);
 
     m_outputStyleWidget = new OutputStyleWidget(this);
 
@@ -36,7 +36,11 @@ KateSQLConfigPage::KateSQLConfigPage(QWidget *parent)
 
     reset();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     connect(m_box, &QCheckBox::stateChanged, this, &KateSQLConfigPage::changed);
+#else
+    connect(m_box, &QCheckBox::checkStateChanged, this, &KateSQLConfigPage::changed);
+#endif
     connect(m_outputStyleWidget, &OutputStyleWidget::changed, this, &KateSQLConfigPage::changed);
 }
 
@@ -61,7 +65,7 @@ QIcon KateSQLConfigPage::icon() const
 
 void KateSQLConfigPage::apply()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "KateSQLPlugin");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("KateSQLPlugin"));
 
     config.writeEntry("SaveConnections", m_box->isChecked());
 
@@ -74,7 +78,7 @@ void KateSQLConfigPage::apply()
 
 void KateSQLConfigPage::reset()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "KateSQLPlugin");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("KateSQLPlugin"));
 
     m_box->setChecked(config.readEntry("SaveConnections", true));
 
@@ -83,8 +87,10 @@ void KateSQLConfigPage::reset()
 
 void KateSQLConfigPage::defaults()
 {
-    KConfigGroup config(KSharedConfig::openConfig(), "KateSQLPlugin");
+    KConfigGroup config(KSharedConfig::openConfig(), QStringLiteral("KateSQLPlugin"));
 
     config.revertToDefault("SaveConnections");
     config.revertToDefault("OutputCustomization");
 }
+
+#include "moc_katesqlconfigpage.cpp"

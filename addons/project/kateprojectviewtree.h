@@ -5,21 +5,23 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KATE_PROJECT_VIEW_TREE_H
-#define KATE_PROJECT_VIEW_TREE_H
+#pragma once
 
 #include <QTreeView>
 
 class KateProjectPluginView;
 class KateProject;
 
+namespace KTextEditor
+{
+class MainWindow;
+}
+
 /**
  * A tree like view of project content.
  */
 class KateProjectViewTree : public QTreeView
 {
-    Q_OBJECT
-
 public:
     /**
      * construct project view for given project
@@ -62,7 +64,7 @@ public:
      * Add a new directory
      */
     void addDirectory(const QModelIndex &idx, const QString &name);
-    
+
     /**
      * remove a file, the function isn't closing document before removing'
      */
@@ -73,7 +75,9 @@ public:
      */
     void openTerminal(const QString &dirPath);
 
-private Q_SLOTS:
+    KTextEditor::MainWindow *mainWindow();
+
+private:
     /**
      * item got clicked, do stuff, like open document
      * @param index model index of clicked item
@@ -104,8 +108,13 @@ private:
      */
     KateProject *m_project;
 
-Q_SIGNALS:
-    void showFileHistory(const QString &file);
-};
+    /**
+     * List of nodes that are expanded. This is used to restore expansion state after project reload
+     */
+    QSet<QString> m_expandedNodes;
 
-#endif
+    /**
+     * saved scroll position for restore later
+     */
+    int m_verticalScrollPosition = 0;
+};

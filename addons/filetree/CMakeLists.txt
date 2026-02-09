@@ -1,19 +1,14 @@
-find_package(KF5GuiAddons ${KF5_DEP_VERSION} QUIET)
-set_package_properties(KF5GuiAddons PROPERTIES PURPOSE "Required to build the katefiletree addon")
+kate_add_plugin(katefiletreeplugin)
 
-if(NOT KF5GuiAddons_FOUND)
-  return()
-endif()
-
-add_library(katefiletreeplugin MODULE "")
 target_compile_definitions(katefiletreeplugin PRIVATE TRANSLATION_DOMAIN="katefiletree")
 
 target_link_libraries(
   katefiletreeplugin
   PUBLIC
-    KF5::I18n
-    KF5::TextEditor
-    KF5::GuiAddons
+    kateprivate
+    KF6::I18n
+    KF6::TextEditor
+    KF6::GuiAddons
 )
 
 target_sources(
@@ -28,9 +23,9 @@ target_sources(
     plugin.qrc
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(katefiletreeplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS katefiletreeplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(katefiletreeplugin REUSE_FROM katepch)
+endif()
 
 if(BUILD_TESTING)
   add_subdirectory(autotests)

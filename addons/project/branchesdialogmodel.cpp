@@ -1,14 +1,11 @@
-/*  SPDX-License-Identifier: LGPL-2.0-or-later
-
+/*
     SPDX-FileCopyrightText: 2021 Waqar Ahmed <waqar.17a@gmail.com>
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 #include "branchesdialogmodel.h"
 
-#include <KTextEditor/Document>
-#include <KTextEditor/View>
-
+#include <QFont>
 #include <QIcon>
 
 BranchesDialogModel::BranchesDialogModel(QObject *parent)
@@ -41,8 +38,6 @@ QVariant BranchesDialogModel::data(const QModelIndex &idx, int role) const
         return branch.name;
     } else if (role == Role::FuzzyScore) {
         return branch.score;
-    } else if (role == Role::OriginalSorting) {
-        return branch.dateSort;
     } else if (role == Qt::DecorationRole) {
         if (branch.itemType == BranchItem) {
             static const auto branchIcon = QIcon::fromTheme(QStringLiteral("vcs-branch"));
@@ -65,19 +60,20 @@ QVariant BranchesDialogModel::data(const QModelIndex &idx, int role) const
     return {};
 }
 
-void BranchesDialogModel::refresh(const QVector<GitUtils::Branch> &branches, bool checkingOut)
+void BranchesDialogModel::refresh(const QList<GitUtils::Branch> &branches, bool checkingOut)
 {
-    QVector<Branch> temp;
+    QList<Branch> temp;
     if (checkingOut) {
-        Branch create{branches.at(0).name, {}, {}, 0, 0, ItemType::CreateBranch};
-        Branch createFrom{branches.at(1).name, {}, {}, 0, 1, ItemType::CreateBranchFrom};
+        Branch create{.name = branches.at(0).name, .remote = {}, .refType = {}, .score = 0, .itemType = ItemType::CreateBranch};
+        Branch createFrom{.name = branches.at(1).name, .remote = {}, .refType = {}, .score = 0, .itemType = ItemType::CreateBranchFrom};
         temp.push_back(create);
         temp.push_back(createFrom);
     }
 
     int i = checkingOut ? 2 : 0;
     for (; i < branches.size(); ++i) {
-        temp.append({branches.at(i).name, branches.at(i).remote, branches.at(i).type, -1, i, ItemType::BranchItem});
+        temp.append(
+            {.name = branches.at(i).name, .remote = branches.at(i).remote, .refType = branches.at(i).type, .score = -1, .itemType = ItemType::BranchItem});
     }
 
     beginResetModel();
@@ -88,7 +84,7 @@ void BranchesDialogModel::refresh(const QVector<GitUtils::Branch> &branches, boo
 void BranchesDialogModel::clear()
 {
     beginResetModel();
-    QVector<Branch>().swap(m_modelEntries);
+    QList<Branch>().swap(m_modelEntries);
     endResetModel();
 }
 

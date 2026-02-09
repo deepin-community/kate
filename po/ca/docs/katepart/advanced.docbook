@@ -29,7 +29,7 @@
 >Les regles que determinen com hauran de ser els comentaris s'estableixen en les definicions de sintaxi, de manera que si no s'utilitza el ressaltat de la sintaxi, no serà possible fer això. </para>
 
 <para
->Alguns formats defineixen marques de comentaris d'una sola línia, d'altres de múltiples línies i d'altres utilitzen ambdues possibilitats. Si no hi ha disponibles les marques de comentaris de múltiples línies, no serà possible comentar una selecció en que l'última línia d'aquesta no estigui inclosa completament.</para>
+>Alguns formats defineixen marques de comentaris d'una sola línia, d'altres de múltiples línies i d'altres utilitzen ambdues possibilitats. Si no hi ha disponibles les marques de comentaris de múltiples línies, no serà possible comentar una selecció en què l'última línia d'aquesta no estigui inclosa completament.</para>
 
 <para
 >Si hi ha disponible una marca de comentari d'una sola línia, és preferible comentar les línies individualment, atès que així s'eviten problemes de comentaris imbricats.</para>
@@ -75,7 +75,7 @@
 
 <sect1 id="advanced-editing-tools-commandline">
 <title
->El component línia d'ordres de l'editor</title>
+>El component de la línia d'ordres de l'editor</title>
 
 <para
 >El component editor de la &kappname; té una línia d'ordres interna, permetent-vos dur a terme diverses accions des d'una &IGU; mínima. La línia d'ordres és una entrada de text a la part inferior de l'àrea d'edició, i per a veure-la només haureu de seleccionar <menuchoice
@@ -98,7 +98,7 @@
 > altra vegada.</para>
 
 <para
->La línia d'ordres té un sistema d'ajuda inclòs, escriviu l'ordre <command
+>La línia d'ordres té un sistema d'ajuda integrat, escriviu l'ordre <command
 >help</command
 > per a iniciar-la. Per a veure una llista de totes les ordres disponibles escriviu <command
 >help list</command
@@ -293,7 +293,7 @@
 ></term>
 <listitem
 ><para
->Si està activat, els espais en blanc finals seran eliminats en el moment en que el cursor surti d'una línia.</para
+>Si està activat, els espais en blanc finals seran eliminats en el moment en què el cursor surti d'una línia.</para
 ></listitem>
 </varlistentry>
 
@@ -604,7 +604,7 @@
 ></term>
 <listitem
 ><para
->Elimina la línia actual.</para
+>Suprimeix la línia actual.</para
 ></listitem>
 </varlistentry>
 
@@ -621,7 +621,7 @@
 ></term>
 <listitem
 ><para
->Substitueix el text en que coincideixi el <userinput
+>Substitueix el text en què coincideixi el <userinput
 >patró</userinput
 > amb el valor de <userinput
 >substitució</userinput
@@ -743,9 +743,7 @@
 ><para
 >Insereix una cadena de data/hora definida d'acord amb el <userinput
 >format</userinput
->, o si aquest no s'especifica s'utilitzarà el format <quote
->aaaa-MM-dd hh:mm:ss</quote
->. La interpretació del <userinput
+>, o si aquest no s'especifica s'utilitzarà el format «aaaa-MM-dd hh:mm:ss». La interpretació del <userinput
 >format</userinput
 > serà la següent: <informaltable
 > <tgroup cols="2"
@@ -1007,7 +1005,7 @@
 <para
 >Si poseu una <userinput
 >i</userinput
-> al final de l'expressió, les coincidències seran sensibles a majúscules i minúscules. Si poseu una <userinput
+> al final de l'expressió, les coincidències distingiran majúscules i minúscules. Si poseu una <userinput
 >g</userinput
 > al final, se substituiran totes les ocurrències del patró, en qualsevol altre cas només se substituirà la primera ocurrència.</para>
 
@@ -1037,15 +1035,7 @@
 >Substitució de text en tot el fitxer</title>
 
 <para
->Imagineu que teniu un fitxer, en el que mencioneu a <quote
->Miss Jensen</quote
-> diverses vegades, quan resulta que algú ve i us diu que s'acaba de casar amb <quote
->Mr Jones</quote
->. Per descomptat, voldreu substituir cada ocurrència de <quote
->Miss Jensen</quote
-> per <quote
->Ms Jones</quote
->.</para>
+>Imagineu que teniu un fitxer, en el que mencioneu a «Miss Jensen» diverses vegades, quan resulta que algú ve i us diu que s'acaba de casar amb «Mr Jones». Per descomptat, voldreu substituir cada ocurrència de «Miss Jensen» per «Ms Jones».</para>
 
 <para
 >Entreu a la línia d'ordres, escriviu l'ordre <userinput
@@ -1072,9 +1062,7 @@
 <para
 >Però us adoneu que aquest codi no està bé i decidiu que voleu utilitzar la paraula clau <constant
 >const</constant
-> per a tots els arguments <quote
->adreça de</quote
->, que es caracteritzen per tenir un operador &amp; al davant del nom de l'argument. També voldreu simplificar l'espai en blanc, de manera que només n'hi hagi un entre cada paraula.</para>
+> per a tots els arguments «adreça de», que es caracteritzen per tenir un operador &amp; al davant del nom de l'argument. També voldreu simplificar l'espai en blanc, de manera que només n'hi hagi un entre cada paraula.</para>
 
 <para
 >Obriu el diàleg Ordre d'edició i introduïu: <userinput
@@ -1099,24 +1087,18 @@
 >\w+</literal
 >) seguits d'algun espai en blanc (<literal
 >\s+</literal
->) seguit del símbol «&amp;», i en el procés hem desat el bloc alfabètic i el caràcter «&amp;» per a tornar a emprar-los en l'operació de substitució. Aleshores hem substituït la part coincident de la nostra línia per un espai en blanc seguit de <quote
->const</quote
-> seguit d'un espai en blanc seguit del nostre bloc alfabètic (<literal
+>) seguit del símbol «&amp;», i en el procés hem desat el bloc alfabètic i el caràcter «&amp;» per a tornar a emprar-los en l'operació de substitució. Aleshores hem substituït la part coincident de la nostra línia per un espai en blanc seguit de «const» seguit d'un espai en blanc seguit del nostre bloc alfabètic (<literal
 >\1</literal
 >) seguit d'un espai en blanc seguit del nostre caràcter «&amp;» emmagatzemat (<literal
 >\2</literal
 >)</para>
 
 <para
->En alguns casos el bloc alfabètic era <quote
->String</quote
->, en d'altres <quote
->int</quote
->, de manera que emprant la classe de caràcter <literal
+>En alguns casos el bloc alfabètic era «String», en d'altres «int», de manera que emprant la classe de caràcter <literal
 >\w</literal
 > i el quantificador <literal
 >+</literal
-> ens ha proveït d'un valuós actiu.</para>
+> ens ha proveït d'un recurs valuós.</para>
 
 </example>
 
@@ -1276,6 +1258,35 @@
 <term
 ><cmdsynopsis
 ><command
+>alignon</command
+></cmdsynopsis
+></term>
+<listitem>
+<para
+>Aquesta ordre alinea les línies del bloc seleccionat o de tot el document a la columna indicada per una expressió regular proporcionada com a argument.</para>
+<para
+>Si proporcioneu un patró buit, s'alinearà al primer caràcter no blanc de manera predeterminada.</para>
+<para
+>Si el patró té una captura, se sagnarà en la coincidència capturada.</para>
+<para
+><emphasis
+>Exemples:</emphasis
+></para>
+<para
+><userinput
+>alignon -</userinput
+> inserirà espais abans del primer «-» de cada línia per a alinear-les totes a la mateixa columna.</para>
+<para
+><userinput
+>alignon :\\s+(.)</userinput
+> inserirà espais abans del primer caràcter no blanc que hi hagi després de dos punts (:) per a alinear-les totes a la mateixa columna.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><cmdsynopsis
+><command
 >unwrap</command
 ></cmdsynopsis
 ></term>
@@ -1296,7 +1307,7 @@
 ></term>
 <listitem
 ><para
->Dóna una funció de &javascript; com un argument, aquesta crida a la llista de línies seleccionades i les substitueix pel valor retornat per aquesta crida.</para>
+>Dona una funció de &javascript; com un argument, aquesta crida a la llista de línies seleccionades i les substitueix pel valor retornat per aquesta crida.</para>
 
 <example>
 <title
@@ -1334,7 +1345,7 @@
 ></term>
 <listitem
 ><para
->Dóna una funció de &javascript; com un argument, aquesta crida a la llista de línies seleccionades i elimina les que el valor retornat és «false».</para>
+>Dona una funció de &javascript; com un argument, aquesta crida a la llista de línies seleccionades i elimina les que el valor retornat és «false».</para>
 
 <example>
 <title
@@ -1372,7 +1383,7 @@
 ></term>
 <listitem
 ><para
->Dóna una funció de &javascript; com un argument, aquesta crida a la llista de línies seleccionades i substitueix la línia amb el valor de la crida.</para>
+>Dona una funció de &javascript; com un argument, aquesta crida a la llista de línies seleccionades i substitueix la línia amb el valor de la crida.</para>
 
 <example>
 <title
@@ -1578,9 +1589,7 @@
 ></term>
 <listitem
 ><para
->Aquesta ordre proveeix cerca <quote
->quan-escriviu</quote
->. Podeu configurar-ne el comportament o la cerca afegint dos punts seguits per a una o més opcions, de forma similar a: <userinput
+>Aquesta ordre proveeix cerca «quan-escriviu». Podeu configurar-ne el comportament o la cerca afegint dos punts seguits per a una o més opcions, de forma similar a: <userinput
 >ifind:patró d'opcions</userinput
 >. Les opcions permeses són: <variablelist>
 <varlistentry>

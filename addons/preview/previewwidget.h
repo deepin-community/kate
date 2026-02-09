@@ -4,8 +4,7 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef KTEXTEDITORPREVIEW_PREVIEWWIDGET_H
-#define KTEXTEDITORPREVIEW_PREVIEWWIDGET_H
+#pragma once
 
 // KF
 #include <KPluginMetaData>
@@ -49,8 +48,6 @@ class KPartView;
  */
 class PreviewWidget : public QStackedWidget, public KXMLGUIBuilder
 {
-    Q_OBJECT
-
 public:
     /**
      * Constructor
@@ -59,7 +56,7 @@ public:
      * @param mainWindow the main window with all the texteditor views
      * @param parent widget object taking the ownership
      */
-    PreviewWidget(KTextEditorPreviewPlugin *core, KTextEditor::MainWindow *mainWindow, QWidget *parent);
+    PreviewWidget(KTextEditor::MainWindow *mainWindow, QWidget *parent);
     ~PreviewWidget() override;
 
     void readSessionConfig(const KConfigGroup &configGroup);
@@ -95,7 +92,7 @@ private:
     void updatePreview();
     void showAboutKPartPlugin();
     void clearMenu();
-    std::optional<KPluginMetaData> findPreviewPart(const QStringList mimeTypes);
+    static std::optional<KPluginMetaData> findPreviewPart(const QStringList &mimeTypes);
 
 private:
     KToggleAction *m_lockAction;
@@ -105,7 +102,6 @@ private:
     QMenu *m_kPartMenu;
     QAction *m_aboutKPartAction;
 
-    KTextEditorPreviewPlugin *const m_core;
     KTextEditor::MainWindow *const m_mainWindow;
 
     KTextEditor::Document *m_previewedTextEditorDocument = nullptr;
@@ -115,7 +111,4 @@ private:
     QPointer<KPartView> m_partView;
     KXMLGUIFactory *m_xmlGuiFactory;
 };
-
 }
-
-#endif

@@ -1,9 +1,8 @@
-add_library(textfilterplugin MODULE "")
+kate_add_plugin(textfilterplugin)
 target_compile_definitions(textfilterplugin PRIVATE TRANSLATION_DOMAIN="katetextfilter")
-target_link_libraries(textfilterplugin PRIVATE KF5::I18n KF5::TextEditor)
+target_link_libraries(textfilterplugin PRIVATE KF6::I18n KF6::TextEditor)
 
-ki18n_wrap_ui(UI_SOURCES textfilterwidget.ui)
-target_sources(textfilterplugin PRIVATE ${UI_SOURCES})
+ki18n_wrap_ui(textfilterplugin textfilterwidget.ui)
 
 target_sources(
   textfilterplugin
@@ -12,6 +11,6 @@ target_sources(
     plugin.qrc
 )
 
-# ensure we are able to load plugins pre-install, too, directories must match!
-set_target_properties(textfilterplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ktexteditor")
-install(TARGETS textfilterplugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/ktexteditor)
+if (ENABLE_PCH)
+    target_precompile_headers(textfilterplugin REUSE_FROM katepch)
+endif()

@@ -14,14 +14,12 @@
 #include <KLocalizedString>
 #include <QGridLayout>
 #include <QLabel>
-#include <QLayout>
-#include <QTabWidget>
 
 ReplicodeConfigPage::ReplicodeConfigPage(QWidget *parent)
     : KTextEditor::ConfigPage(parent)
     , m_config(new ReplicodeConfig(this))
 {
-    QGridLayout *gridlayout = new QGridLayout;
+    auto *gridlayout = new QGridLayout;
     setLayout(gridlayout);
     gridlayout->addWidget(new QLabel(i18n("Path to replicode executor:")), 0, 0);
 
@@ -44,6 +42,11 @@ QString ReplicodeConfigPage::name() const
 QString ReplicodeConfigPage::fullName() const
 {
     return i18n("Replicode configuration");
+}
+
+QIcon ReplicodeConfigPage::icon() const
+{
+    return QIcon::fromTheme(QLatin1String("code-block"));
 }
 
 void ReplicodeConfigPage::apply()

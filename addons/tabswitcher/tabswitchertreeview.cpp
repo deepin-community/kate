@@ -8,7 +8,6 @@
 #include "tabswitchertreeview.h"
 #include "tabswitcher.h"
 
-#include <QDebug>
 #include <QKeyEvent>
 
 TabSwitcherTreeView::TabSwitcherTreeView()
@@ -61,3 +60,5 @@ void TabSwitcherTreeView::showEvent(QShowEvent *event)
     resizeColumnsToContents();
     QTreeView::showEvent(event);
 }
+
+#include "moc_tabswitchertreeview.cpp"

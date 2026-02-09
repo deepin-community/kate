@@ -30,9 +30,8 @@
 #include <KConfigGroup>
 #include <KLocalizedString> /// \todo Where is \c i18n() defined?
 #include <KSharedConfig>
-#include <QBoxLayout>
+#include <KWindowConfig>
 #include <QHeaderView>
-#include <QLabel>
 #include <QPushButton>
 #include <QStyle>
 
@@ -78,7 +77,7 @@ CloseConfirmDialog::CloseConfirmDialog(QList<KTextEditor::Document *> &docs, KTo
     m_docs_tree->setSelectionMode(QAbstractItemView::SingleSelection);
     m_docs_tree->setRootIsDecorated(false);
 
-    for (auto &doc : qAsConst(m_docs)) {
+    for (auto &doc : std::as_const(m_docs)) {
         new KateDocItem(doc, m_docs_tree);
     }
     m_docs_tree->header()->setStretchLastSection(false);
@@ -95,13 +94,13 @@ CloseConfirmDialog::CloseConfirmDialog(QList<KTextEditor::Document *> &docs, KTo
     // Update documents list according checkboxes
     connect(this, &CloseConfirmDialog::accepted, this, &CloseConfirmDialog::updateDocsList);
 
-    KConfigGroup gcg(KSharedConfig::openConfig(), "kate-close-except-like-CloseConfirmationDialog");
+    KConfigGroup gcg(KSharedConfig::openConfig(), QStringLiteral("kate-close-except-like-CloseConfirmationDialog"));
     KWindowConfig::restoreWindowSize(windowHandle(), gcg); // restore dialog geometry from config
 }
 
 CloseConfirmDialog::~CloseConfirmDialog()
 {
-    KConfigGroup gcg(KSharedConfig::openConfig(), "kate-close-except-like-CloseConfirmationDialog");
+    KConfigGroup gcg(KSharedConfig::openConfig(), QStringLiteral("kate-close-except-like-CloseConfirmationDialog"));
     KWindowConfig::saveWindowSize(windowHandle(), gcg); // write dialog geometry to config
     gcg.sync();
 }
@@ -112,7 +111,7 @@ CloseConfirmDialog::~CloseConfirmDialog()
 void CloseConfirmDialog::updateDocsList()
 {
     for (QTreeWidgetItemIterator it(m_docs_tree, QTreeWidgetItemIterator::NotChecked); *it; ++it) {
-        KateDocItem *item = static_cast<KateDocItem *>(*it);
+        auto *item = static_cast<KateDocItem *>(*it);
         m_docs.removeAll(item->document);
         qDebug() << "do not close the file " << item->document->url().toString();
     }

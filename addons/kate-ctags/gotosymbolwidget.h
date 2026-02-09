@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef GOTOSYMBOLWIDGET_H
-#define GOTOSYMBOLWIDGET_H
+#pragma once
 
 #include <KTextEditor/Cursor>
 #include <QWidget>
@@ -12,7 +11,7 @@
 class GotoSymbolTreeView;
 class GotoSymbolModel;
 class QLineEdit;
-class QuickOpenFilterProxyModel;
+class CtagsGotoSymbolProxyModel;
 class QTreeView;
 class GotoGlobalSymbolModel;
 class KateCTagsView;
@@ -25,8 +24,6 @@ class MainWindow;
 
 class GotoSymbolWidget : public QWidget
 {
-    Q_OBJECT
-
 public:
     explicit GotoSymbolWidget(KTextEditor::MainWindow *mainWindow, KateCTagsView *pluginView, QWidget *parent = nullptr);
 
@@ -37,7 +34,10 @@ public:
     void loadGlobalSymbols(const QString &text);
     void reselectFirst();
 
-    enum Mode { Global, Local };
+    enum Mode {
+        Global,
+        Local
+    };
 
 private Q_SLOTS:
     void slotReturnPressed();
@@ -51,12 +51,10 @@ private:
     GotoStyleDelegate *m_styleDelegate;
     KTextEditor::MainWindow *m_mainWindow;
     GotoSymbolTreeView *m_treeView;
-    QuickOpenFilterProxyModel *m_proxyModel;
+    CtagsGotoSymbolProxyModel *m_proxyModel;
     GotoSymbolModel *m_symbolsModel;
     GotoGlobalSymbolModel *m_globalSymbolsModel;
     QLineEdit *m_lineEdit;
     KTextEditor::Cursor oldPos;
     QString m_tagFile;
 };
-
-#endif // GOTOSYMBOLWIDGET_H

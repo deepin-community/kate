@@ -4,8 +4,7 @@ SPDX-FileCopyrightText: 2010 Marco Mentasti <marcomentasti@gmail.com>
 SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef CACHEDSQLQUERYMODEL_H
-#define CACHEDSQLQUERYMODEL_H
+#pragma once
 
 #include <QContiguousCache>
 #include <QSqlQueryModel>
@@ -13,7 +12,6 @@ SPDX-License-Identifier: LGPL-2.0-only
 
 class CachedSqlQueryModel : public QSqlQueryModel
 {
-    Q_OBJECT
 public:
     explicit CachedSqlQueryModel(QObject *parent = nullptr, int cacheCapacity = 1000);
 
@@ -35,5 +33,3 @@ private:
 
     mutable QContiguousCache<QSqlRecord> cache;
 };
-
-#endif // CACHEDSQLQUERYMODEL_H

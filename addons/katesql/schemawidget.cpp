@@ -15,7 +15,6 @@
 
 #include <QApplication>
 #include <QDrag>
-#include <QEvent>
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
@@ -24,7 +23,6 @@
 #include <QSqlIndex>
 #include <QSqlRecord>
 #include <QStringList>
-#include <QVariant>
 
 SchemaWidget::SchemaWidget(QWidget *parent, SQLManager *manager)
     : QTreeWidget(parent)
@@ -89,12 +87,12 @@ void SchemaWidget::buildDatabase(QTreeWidgetItem *databaseItem)
     databaseItem->setText(0, dbname);
     databaseItem->setIcon(0, QIcon::fromTheme(QStringLiteral("server-database")));
 
-    QTreeWidgetItem *tablesItem = new QTreeWidgetItem(databaseItem, TablesFolderType);
+    auto *tablesItem = new QTreeWidgetItem(databaseItem, TablesFolderType);
     tablesItem->setText(0, i18nc("@title Folder name", "Tables"));
     tablesItem->setIcon(0, QIcon::fromTheme(QStringLiteral("folder")));
     tablesItem->setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
 
-    QTreeWidgetItem *viewsItem = new QTreeWidgetItem(databaseItem, ViewsFolderType);
+    auto *viewsItem = new QTreeWidgetItem(databaseItem, ViewsFolderType);
     viewsItem->setText(0, i18nc("@title Folder name", "Views"));
     viewsItem->setIcon(0, QIcon::fromTheme(QStringLiteral("folder")));
     viewsItem->setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
@@ -108,7 +106,7 @@ void SchemaWidget::buildTables(QTreeWidgetItem *tablesItem)
         return;
     }
 
-    QTreeWidgetItem *systemTablesItem = new QTreeWidgetItem(tablesItem, SystemTablesFolderType);
+    auto *systemTablesItem = new QTreeWidgetItem(tablesItem, SystemTablesFolderType);
     systemTablesItem->setText(0, i18nc("@title Folder name", "System Tables"));
     systemTablesItem->setIcon(0, QIcon::fromTheme(QStringLiteral("folder")));
     systemTablesItem->setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
@@ -116,8 +114,8 @@ void SchemaWidget::buildTables(QTreeWidgetItem *tablesItem)
     QSqlDatabase db = QSqlDatabase::database(m_connectionName);
     QStringList tables = db.tables(QSql::SystemTables);
 
-    for (const QString &table : qAsConst(tables)) {
-        QTreeWidgetItem *item = new QTreeWidgetItem(systemTablesItem, SystemTableType);
+    for (const QString &table : std::as_const(tables)) {
+        auto *item = new QTreeWidgetItem(systemTablesItem, SystemTableType);
         item->setText(0, table);
         item->setIcon(0, QIcon(QLatin1String(":/katesql/pics/16-actions-sql-table.png")));
         item->setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
@@ -125,8 +123,8 @@ void SchemaWidget::buildTables(QTreeWidgetItem *tablesItem)
 
     tables = db.tables(QSql::Tables);
 
-    for (const QString &table : qAsConst(tables)) {
-        QTreeWidgetItem *item = new QTreeWidgetItem(tablesItem, TableType);
+    for (const QString &table : std::as_const(tables)) {
+        auto *item = new QTreeWidgetItem(tablesItem, TableType);
         item->setText(0, table);
         item->setIcon(0, QIcon(QLatin1String(":/katesql/pics/16-actions-sql-table.png")));
         item->setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
@@ -146,7 +144,7 @@ void SchemaWidget::buildViews(QTreeWidgetItem *viewsItem)
     const QStringList views = db.tables(QSql::Views);
 
     for (const QString &view : views) {
-        QTreeWidgetItem *item = new QTreeWidgetItem(viewsItem, ViewType);
+        auto *item = new QTreeWidgetItem(viewsItem, ViewType);
         item->setText(0, view);
         item->setIcon(0, QIcon(QLatin1String(":/katesql/pics/16-actions-sql-view.png")));
         item->setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
@@ -173,7 +171,7 @@ void SchemaWidget::buildFields(QTreeWidgetItem *tableItem)
 
         QString fieldName = f.name();
 
-        QTreeWidgetItem *item = new QTreeWidgetItem(tableItem, FieldType);
+        auto *item = new QTreeWidgetItem(tableItem, FieldType);
         item->setText(0, fieldName);
 
         if (pk.contains(fieldName)) {
@@ -213,8 +211,8 @@ void SchemaWidget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
 
-    QDrag *drag = new QDrag(this);
-    QMimeData *mimeData = new QMimeData;
+    auto *drag = new QDrag(this);
+    auto *mimeData = new QMimeData;
 
     if (item->type() == SchemaWidget::FieldType) {
         mimeData->setText(QStringLiteral("%1.%2").arg(item->parent()->text(0), item->text(0)));
@@ -262,32 +260,34 @@ void SchemaWidget::slotItemExpanded(QTreeWidgetItem *item)
 
 void SchemaWidget::slotCustomContextMenuRequested(const QPoint &pos)
 {
-    QMenu menu;
-
-    menu.addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18nc("@action:inmenu Context menu", "Refresh"), this, &SchemaWidget::refresh);
-
+    QMenu menu(this);
     QTreeWidgetItem *item = itemAt(pos);
 
     if (item) {
         if (item->type() == SchemaWidget::SystemTableType || item->type() == SchemaWidget::TableType || item->type() == SchemaWidget::ViewType
             || item->type() == SchemaWidget::FieldType) {
-            menu.addSeparator();
+            menu.addAction(QIcon::fromTheme(QStringLiteral("view-sort-descending")),
+                           i18nc("@action:inmenu Context menu", "Select Data"),
+                           this,
+                           &SchemaWidget::executeSelect);
             QMenu *submenu = menu.addMenu(QIcon::fromTheme(QStringLiteral("tools-wizard")), i18nc("@action:inmenu Submenu title", "Generate"));
 
-            submenu->addAction(i18n("SELECT"), this, &SchemaWidget::generateSelect);
-            submenu->addAction(i18n("UPDATE"), this, &SchemaWidget::generateUpdate);
-            submenu->addAction(i18n("INSERT"), this, &SchemaWidget::generateInsert);
-            submenu->addAction(i18n("DELETE"), this, &SchemaWidget::generateDelete);
+            submenu->addAction(i18n("SELECT"), this, &SchemaWidget::generateSelectIntoView);
+            submenu->addAction(i18n("UPDATE"), this, &SchemaWidget::generateUpdateIntoView);
+            submenu->addAction(i18n("INSERT"), this, &SchemaWidget::generateInsertIntoView);
+            submenu->addAction(i18n("DELETE"), this, &SchemaWidget::generateDeleteIntoView);
+            menu.addSeparator();
         }
     }
+    menu.addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18nc("@action:inmenu Context menu", "Refresh"), this, &SchemaWidget::refresh);
 
-    menu.exec(QCursor::pos());
+    menu.exec(mapToGlobal(pos));
 }
 
-void SchemaWidget::generateStatement(QSqlDriver::StatementType statementType)
+QString SchemaWidget::generateStatement(QSqlDriver::StatementType statementType)
 {
     if (!isConnectionValidAndOpen()) {
-        return;
+        return {};
     }
 
     QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -295,13 +295,13 @@ void SchemaWidget::generateStatement(QSqlDriver::StatementType statementType)
     QSqlDriver *drv = db.driver();
 
     if (!drv) {
-        return;
+        return {};
     }
 
     QTreeWidgetItem *item = currentItem();
 
     if (!item) {
-        return;
+        return {};
     }
 
     QString statement;
@@ -348,37 +348,57 @@ void SchemaWidget::generateStatement(QSqlDriver::StatementType statementType)
     } break;
     }
 
-    KTextEditor::MainWindow *mw = KTextEditor::Editor::instance()->application()->activeMainWindow();
-    KTextEditor::View *kv = mw->activeView();
-
     // replace NULL with a more generic '?'
     statement.replace(QLatin1String("NULL"), QLatin1String("?"));
+    return statement;
+}
 
-    if (kv) {
-        // paste statement in the active view
-        kv->insertText(statement);
-        kv->setFocus();
-    }
-
+void SchemaWidget::pasteStatementIntoActiveView(const QString &statement)
+{
+    KTextEditor::MainWindow *mw = KTextEditor::Editor::instance()->application()->activeMainWindow();
+    KTextEditor::View *kv = mw->activeView();
     qDebug() << "Generated statement:" << statement;
+
+    if (!kv) {
+        return;
+    }
+    // paste statement in the active view
+    kv->insertText(statement);
+    kv->setFocus();
+}
+void SchemaWidget::executeStatement(QSqlDriver::StatementType statementType)
+{
+    const QString statement = generateStatement(statementType);
+    if (statement.length()) {
+        m_manager->runQuery(statement, m_connectionName);
+    }
+}
+void SchemaWidget::executeSelect()
+{
+    executeStatement(QSqlDriver::SelectStatement);
 }
 
-void SchemaWidget::generateSelect()
+void SchemaWidget::generateAndPasteStatement(QSqlDriver::StatementType statementType)
 {
-    generateStatement(QSqlDriver::SelectStatement);
+    QString statement = generateStatement(statementType);
+    pasteStatementIntoActiveView(statement);
+}
+void SchemaWidget::generateSelectIntoView()
+{
+    generateAndPasteStatement(QSqlDriver::SelectStatement);
 }
 
-void SchemaWidget::generateUpdate()
+void SchemaWidget::generateUpdateIntoView()
 {
-    generateStatement(QSqlDriver::UpdateStatement);
+    generateAndPasteStatement(QSqlDriver::UpdateStatement);
 }
 
-void SchemaWidget::generateInsert()
+void SchemaWidget::generateInsertIntoView()
 {
-    generateStatement(QSqlDriver::InsertStatement);
+    generateAndPasteStatement(QSqlDriver::InsertStatement);
 }
 
-void SchemaWidget::generateDelete()
+void SchemaWidget::generateDeleteIntoView()
 {
-    generateStatement(QSqlDriver::DeleteStatement);
+    generateAndPasteStatement(QSqlDriver::DeleteStatement);
 }

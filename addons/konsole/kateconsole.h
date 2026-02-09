@@ -7,8 +7,7 @@
    SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef __KATE_CONSOLE_H__
-#define __KATE_CONSOLE_H__
+#pragma once
 
 #include <KTextEditor/Plugin>
 #include <ktexteditor/configpage.h>
@@ -28,6 +27,7 @@ class ReadOnlyPart;
 
 class KateConsole;
 class KateKonsolePluginView;
+class KPluginFactory;
 
 class KateKonsolePlugin : public KTextEditor::Plugin
 {
@@ -36,7 +36,7 @@ class KateKonsolePlugin : public KTextEditor::Plugin
     friend class KateKonsolePluginView;
 
 public:
-    explicit KateKonsolePlugin(QObject *parent = nullptr, const QList<QVariant> & = QList<QVariant>());
+    explicit KateKonsolePlugin(QObject *parent = nullptr, const QVariantList & = QVariantList());
     ~KateKonsolePlugin() override;
 
     QObject *createView(KTextEditor::MainWindow *mainWindow) override;
@@ -103,6 +103,15 @@ public:
      */
     ~KateConsole() override;
 
+    /**
+     * sync mode
+     */
+    enum SyncMode {
+        SyncNothing = 0,
+        SyncCurrentTab = 1,
+        SyncCreateTabPerDir = 2
+    };
+
     void readConfig();
 
     /**
@@ -120,6 +129,15 @@ public:
     KTextEditor::MainWindow *mainWindow()
     {
         return m_mw;
+    }
+
+    bool eventFilter(QObject *w, QEvent *e) override;
+
+    static KPluginFactory *pluginFactory();
+
+    bool hasKonsole() const
+    {
+        return pluginFactory() != nullptr;
     }
 
 public Q_SLOTS:
@@ -148,6 +166,21 @@ public Q_SLOTS:
      */
     void slotRun();
 
+    /**
+     * split terminal view vertically
+     */
+    void slotSplitVertical();
+
+    /**
+     * split terminal view horizontally
+     */
+    void slotSplitHorizontal();
+
+    /**
+     * open a new tab
+     */
+    void slotNewTab();
+
 private Q_SLOTS:
     /**
      * the konsole exited ;)
@@ -158,7 +191,7 @@ private Q_SLOTS:
     /**
      * construct console if needed
      */
-    void loadConsoleIfNeeded();
+    void loadConsoleIfNeeded(QString directory = QString());
 
     /**
      * Show or hide the konsole view as appropriate.
@@ -171,9 +204,14 @@ private Q_SLOTS:
     void slotToggleFocus();
 
     /**
+     * changes the menu actions text based on focus
+     */
+    void focusChanged(QWidget *, QWidget *now);
+
+    /**
      * Handle that shortcuts are not eaten by console
      */
-    void overrideShortcut(QKeyEvent *event, bool &override);
+    static void overrideShortcut(QKeyEvent *event, bool &override);
 
     /**
      * hide terminal on Esc key press
@@ -187,7 +225,14 @@ protected:
      */
     void showEvent(QShowEvent *ev) override;
 
+    void paintEvent(QPaintEvent *e) override;
+
 private:
+    /**
+     * plugin factory for the terminal
+     */
+    static inline KPluginFactory *s_pluginFactory = nullptr;
+
     /**
      * console part
      */
@@ -206,6 +251,9 @@ private:
     KateKonsolePlugin *m_plugin;
     QString m_currentPath;
     QMetaObject::Connection m_urlChangedConnection;
+
+    // current sync mode as read from the config
+    SyncMode m_syncMode = SyncNothing;
 };
 
 class KateKonsoleConfigPage : public KTextEditor::ConfigPage
@@ -228,7 +276,7 @@ public:
     }
 
 private:
-    class QCheckBox *cbAutoSyncronize;
+    class QButtonGroup *m_syncMode;
     class QCheckBox *cbRemoveExtension;
     class QLineEdit *lePrefix;
     class QCheckBox *cbSetEditor;
@@ -240,7 +288,7 @@ private Q_SLOTS:
     /**
      * Enable the warning dialog for the next "Run in terminal"
      */
-    void slotEnableRunWarning();
+    static void slotEnableRunWarning();
 };
-#endif
-// kate: space-indent on; indent-width 2; replace-tabs on;
+
+Q_DECLARE_METATYPE(KateConsole::SyncMode)

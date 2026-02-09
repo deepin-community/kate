@@ -265,7 +265,7 @@
 ></term>
 <listitem>
 <para
->Desa el document obert com un fitxer &HTML;, el qual serà formatat amb la configuració actual per al ressaltat de la sintaxi i l'esquema de color.</para>
+>Desa el document obert com un fitxer &HTML;, el qual se li donarà format amb la configuració actual per al ressaltat de la sintaxi i l'esquema de color.</para>
 </listitem>
 </varlistentry>
 
@@ -504,7 +504,7 @@
 <para
 >Això enganxarà el contingut de la <ulink url="https://ca.wikipedia.org/wiki/Porta-retalls"
 >selecció del ratolí</ulink
-> que s'ha triar prèviament. Marqueu algun text amb el punter del ratolí per a enganxar-lo en el fitxer obert utilitzant aquest element de menú.</para>
+> que s'ha triat prèviament. Marqueu algun text amb el punter del ratolí per a enganxar-lo en el fitxer obert utilitzant aquest element de menú.</para>
 </listitem>
 </varlistentry>
 
@@ -551,7 +551,7 @@
 ></term>
 <listitem>
 <para
->Copia la selecció com a &HTML;, formatat utilitzant la configuració actual per al ressaltat de la sintaxi i l'esquema de color.</para>
+>Copia la selecció com a &HTML;, amb format utilitzant la configuració actual per al ressaltat de la sintaxi i l'esquema de color.</para>
 </listitem>
 </varlistentry>
 
@@ -662,7 +662,7 @@
 >INS</guilabel
 >, inseriu els caràcters on està el cursor. Quan el mode és <guilabel
 >SOB</guilabel
->, els caràcters escrits substituiran als caràcters actuals, si el cursor es col·loca abans de qualsevol caràcter. La barra d'estat mostra l'estat actual del Mode sobreescriure, ja sigui <guilabel
+>, els caràcters escrits substituiran als caràcters actuals, si el cursor es col·loca abans de qualsevol caràcter. La barra d'estat mostra l'estat actual del Mode sobreescriure, sigui <guilabel
 >INS</guilabel
 > o <guilabel
 >SOB</guilabel
@@ -898,9 +898,9 @@
 > <guimenu
 >Edita</guimenu
 > <guisubmenu
->Vés a</guisubmenu
+>Ves a</guisubmenu
 > <guimenuitem
->Mou al parèntesi que coincideixi</guimenuitem
+>Ves al parèntesi que coincideixi</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -921,7 +921,7 @@
 > <guimenu
 >Edita</guimenu
 > <guisubmenu
->Vés a</guisubmenu
+>Ves a</guisubmenu
 > <guimenuitem
 >Selecciona fins al parèntesi que coincideixi</guimenuitem
 > </menuchoice
@@ -938,9 +938,9 @@
 ><guimenu
 >Edita</guimenu
 > <guisubmenu
->Vés a</guisubmenu
+>Ves a</guisubmenu
 > <guimenuitem
->Mou a la línia modificada anterior</guimenuitem
+>Ves a la línia modificada anterior</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -955,9 +955,9 @@
 ><guimenu
 >Edita</guimenu
 > <guisubmenu
->Vés a</guisubmenu
+>Ves a</guisubmenu
 > <guimenuitem
->Mou a la línia modificada següent</guimenuitem
+>Ves a la línia modificada següent</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -978,14 +978,14 @@
 > <guimenu
 >Edita</guimenu
 > <guisubmenu
->Vés a</guisubmenu
+>Ves a</guisubmenu
 > <guimenuitem
->Vés a la línia...</guimenuitem
+>Ves a la línia...</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
 <para
->Obre la barra de línia «vés a» a la part inferior de la finestra que s'utilitza per a tenir el salt del cursor a una línia en particular (especificada pel número) en el document. El número de la línia es pot introduir directament en el quadre de text o gràficament fent clic sobre les fletxes amunt i avall situades al costat del quadre de text. La fletxa cap amunt incrementarà el número de la línia i la fletxa cap avall la disminuirà. Tanqueu la barra amb un clic al botó amb una icona al costat esquerre de la barra. </para>
+>Obre la barra de línia «ves a» a la part inferior de la finestra que s'utilitza per a tenir el salt del cursor a una línia en particular (especificada pel número) en el document. El número de la línia es pot introduir directament en el quadre de text o gràficament fent clic sobre les fletxes amunt i avall situades al costat del quadre de text. La fletxa cap amunt incrementarà el número de la línia i la fletxa cap avall la disminuirà. Tanqueu la barra amb un clic al botó amb una icona al costat esquerre de la barra. </para>
 </listitem>
 </varlistentry>
 
@@ -1054,6 +1054,27 @@
 </listitem>
 </varlistentry>
 
+<varlistentry id="reopen-latest-closed-document">
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Torna a obrir el/s darrer/s document/s tancat/s</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Torna a obrir el darrer document o documents tancats.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry id="view-quick-open">
 <term
 ><menuchoice
@@ -1075,7 +1096,7 @@
 <para
 >Aquesta acció també està disponible emprant la icona <inlinemediaobject
 ><imageobject
-><imagedata fileref="tab-duplicate-22.png" format="PNG"/></imageobject
+><imagedata fileref="quickopen-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > a la part superior dreta de la finestra de l'editor.</para>
 </listitem>
@@ -1100,7 +1121,7 @@
 ></term>
 <listitem>
 <para
->Dóna el focus a la vista de document anterior, si teniu dividida l'àrea d'edició en més vistes.</para>
+>Dona el focus a la vista de document anterior, si teniu dividida l'àrea d'edició en més vistes.</para>
 </listitem>
 </varlistentry>
 
@@ -1121,7 +1142,75 @@
 </term
 ><listitem>
 <para
->Dóna el focus a la vista de document següent, si teniu dividida l'àrea d'edició en més vistes.</para>
+>Dona el focus a la vista de document següent, si teniu dividida l'àrea d'edició en més vistes.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-left">
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Divideix la vista</guisubmenu
+> <guimenuitem
+>Vista dividida a l'esquerra</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Enfoca la vista dividida intuïtivament a l'esquerra, utilitzant la posició del cursor per a desambiguar si cal.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-right">
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Divideix la vista</guisubmenu
+> <guimenuitem
+>Vista dividida a la dreta</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Enfoca la vista dividida intuïtivament a la dreta, utilitzant la posició del cursor per a desambiguar si cal.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-upward">
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Divideix la vista</guisubmenu
+> <guimenuitem
+>Mou el divisor a dalt</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Enfoca la vista dividida intuïtivament a dalt, utilitzant la posició del cursor per a desambiguar si cal.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="view-split-downward">
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Divideix la vista</guisubmenu
+> <guimenuitem
+>Vista dividida a baix</guimenuitem
+> </menuchoice>
+</term
+><listitem>
+<para
+>Enfoca la vista dividida intuïtivament a baix, utilitzant la posició del cursor per a desambiguar si cal.</para>
 </listitem>
 </varlistentry>
 
@@ -1172,6 +1261,48 @@
 <listitem>
 <para
 >Divideix el marc actual (el qual pot ser l'àrea d'edició principal) en dos marcs de la mateixa mida, el nou a sota de l'actual. El nou marc obtindrà el focus, i mostrarà el mateix document que l'antic.</para>
+<para
+>Vegeu també, <link linkend="kate-mdi"
+>Treballar amb el MDI del &kate;</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="move-document-to-new-vertical-split">
+<term>
+<menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Divideix la vista</guisubmenu
+> <guimenuitem
+>Mou el document a una divisió vertical nova</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+>Això dividirà verticalment en dues parts la vista actualment activa i mou el document actualment actiu a la vista dreta.</para>
+<para
+>Vegeu també, <link linkend="kate-mdi"
+>Treballar amb el MDI del &kate;</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="move-document-to-new-horizontal-split">
+<term>
+<menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Divideix la vista</guisubmenu
+> <guimenuitem
+>Mou el document a una divisió horitzontal nova</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+>Això dividirà horitzontalment en dues parts la vista actualment activa i mou el document actualment actiu a la vista inferior.</para>
 <para
 >Vegeu també, <link linkend="kate-mdi"
 >Treballar amb el MDI del &kate;</link
@@ -1429,7 +1560,7 @@
 <listitem
 ><para
 >Aquesta ordre canvia la presentació de la <ulink url="help:/katepart/advanced-editing-tools-commandline.html"
->línia d'ordres encastada</ulink
+>línia d'ordres integrada</ulink
 >. </para
 ></listitem>
 </varlistentry>
@@ -1445,13 +1576,13 @@
 > </shortcut
 > <guimenu
 >Visualitza</guimenu
-><guimenuitem
->Augmenta el tipus de lletra</guimenuitem
+> <guimenuitem
+>Augmenta la lletra</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Augmenta la mida del tipus de lletra a visualitzar.</para
+>Augmenta la mida de la lletra a visualitzar.</para
 ></listitem>
 </varlistentry>
 
@@ -1466,13 +1597,13 @@
 > </shortcut
 > <guimenu
 >Visualitza</guimenu
-><guimenuitem
->Minva el tipus de lletra</guimenuitem
+> <guimenuitem
+>Minva la lletra</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Minva la mida del tipus de lletra a visualitzar.</para
+>Minva la mida de la lletra a visualitzar.</para
 ></listitem>
 </varlistentry>
 
@@ -1488,7 +1619,7 @@
 <listitem
 ><para
 >Aquest menú llista els esquemes de color disponibles. Aquí el podeu canviar per a la vista actual. Per a canviar l'esquema predeterminat necessitareu utilitzar la pàgina <ulink url="/help:katepart/config-dialog-editor.html#prefcolors"
->Tipus de lletra i colors</ulink
+>Lletra i colors</ulink
 > del diàleg de configuració.</para>
 </listitem>
 </varlistentry>
@@ -1550,7 +1681,7 @@
 ><para
 >Mostra o oculta una línia vertical indicativa de la posició de l'ajust de les paraules tal com s'ha configurat al <ulink url="help:/katepart/config-dialog-editor.html#pref-wrap-words-at"
 >diàleg de configuració</ulink
->. Aquesta característica necessita que utilitzeu un tipus de lletra d'amplada fixa. </para>
+>. Aquesta característica necessita que utilitzeu una lletra d'amplada fixa. </para>
 </listitem>
 </varlistentry>
 
@@ -2322,184 +2453,236 @@ depends on the <link linkend="pref-edit-indent"
 </listitem>
 </varlistentry>
 -->
+
+<!-- <Pablo
+> These are in the selection menu now, and are documented in doc/katepart/menus.docbook -->
+<!--
 <varlistentry id="tools-cleanindent">
 <term
-><menuchoice
-><guimenu
->Eines</guimenu
-> <guimenuitem
->Neteja el sagnat</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Clean Indentation</guimenuitem>
+</menuchoice
 ></term>
 <listitem>
 <para
->Neteja el sagnat per a la selecció actual o per a la línia en la qual es trobi el cursor. Netejar el sagnat assegura que tot el text seleccionat segueixi el mode de sagnat que heu escollit.</para>
+>This cleans the indentation for the current selection or for the
+line the cursor is currently in. Cleaning the indentation ensures that
+all your selected text follows the indentation mode you choose.</para>
 </listitem>
 </varlistentry>
 
-<varlistentry id="tools-align">
+<varlistentry id="tools-formatindent">
 <term
-><menuchoice
-><guimenu
->Eines</guimenu
-> <guimenuitem
->Alinea</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Format Indent</guimenuitem>
+</menuchoice
 ></term>
 <listitem>
 <para
->Causa una realineació de la línia actual o de les línies seleccionades utilitzant el mode de sagnat i la configuració del sagnat en el document.</para>
+>Causes a realign of the current line or selected lines using the
+indentation mode and indentation settings in the document.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry id="tools-alignon">
+<term
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Align On...</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>This command aligns lines in the selected block or whole document on the column given by a regular expression that you will be prompted for.</para>
+<para
+>If you give an empty pattern it will align on the first non-blank character by default.</para>
+<para
+>If the pattern has a capture it will indent on the captured match.</para>
+<para
+><emphasis
+>Examples:</emphasis
+></para>
+<para
+>With '<userinput
+>-</userinput
+>' it will insert spaces before the first '-' of each lines to align them all on the same column.</para>
+<para
+>With '<userinput
+>alignon :\\s+(.)</userinput
+>' it will insert spaces before the first non-blank character that occurs after a colon to align them all on the same column.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry id="tools-comment">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >D</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Eines</guimenu
-> <guimenuitem
->Comenta</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Comment</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Afegeix un espai al començament de la línia en la qual es trobi el cursor de text o al començament del conjunt de qualsevol línia seleccionada.</para>
+>This adds one space to the beginning of the line
+where the text cursor is located or to the beginning of any
+selected lines.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry id="tools-uncomment">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;&Maj;<keycap
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
+>&Ctrl;&Shift;<keycap
 >D</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Eines</guimenu
-> <guimenuitem
->Descomenta</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Uncomment</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Elimina un espai (si n'hi ha cap) del començament de la línia en la qual es trobi el cursor de text o des del començament del conjunt de qualsevol línia seleccionada.</para
+>This removes one space (if any exist) from the beginning of the
+line where the text cursor is located or from the beginning of any
+selected lines.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-uppercase">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Eines</guimenu
-> <guimenuitem
->Majúscules</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Uppercase</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Canvia el text seleccionat o la lletra després del cursor a majúscules.</para
+>Put the selected text or the letter after the cursor in
+uppercase.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-lowercase">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
->&Ctrl;&Maj;<keycap
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
+>&Ctrl;&Shift;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Eines</guimenu
-> <guimenuitem
->Minúscules</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Lowercase</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Canvia el text seleccionat o la lletra després del cursor a minúscules.</para
+>Put the selected text or the letter after the cursor in
+lowercase.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-capitalize">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;&Alt;<keycap
 >U</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Eines</guimenu
-> <guimenuitem
->Capitalitza</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Capitalize</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Capitalitza el text seleccionat o la paraula actual.</para
+>Capitalize the selected text or the current
+word.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-join-lines">
 <term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
 >&Ctrl;<keycap
 >J</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Eines</guimenu
-> <guimenuitem
->Uneix les línies</guimenuitem
-> </menuchoice
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Join Lines</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Uneix les línies seleccionades, o la línia actual i la línia anterior amb un espai en blanc com a separació. Eliminarà els espais en blanc inicials/finals unint les línies pels extrems afectats.</para
+>Joins the selected lines, or the current line and the line below
+with one white space character as a separator. Leading/trailing white space on
+joined lines is removed in the affected ends.</para
 ></listitem>
 </varlistentry>
 
 <varlistentry id="tools-word-wrap-document">
 <term
-><menuchoice
-><guimenu
->Eines</guimenu
-> <guimenuitem
->Aplica l'ajust de les paraules</guimenuitem
-> </menuchoice
+><menuchoice>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>Apply Word Wrap</guimenuitem>
+</menuchoice
 ></term>
 <listitem
 ><para
->Aplica l'ajust estàtic de les línies en tot el document. Això vol dir que s'iniciarà automàticament una nova línia de text quan la línia excedeixi de la longitud especificada per l'opció <guilabel
->Ajusta les paraules a:</guilabel
-> a la pestanya Edició a <menuchoice
-> <guimenu
->Arranjament</guimenu
+>Apply static word wrapping on all the document. That means that
+a new line of text will automatically start when the current
+line exceeds the length specified by the <guilabel
+>Wrap words at</guilabel
+> option
+in the Editing tab in <menuchoice>
+<guimenu
+>Settings</guimenu
 ><guimenuitem
->Configura l'editor...</guimenuitem
+>Configure
+Editor...</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
 </varlistentry>
+-->
 
 </variablelist>
 </sect1>
@@ -2551,7 +2734,7 @@ depends on the <link linkend="pref-edit-indent"
 ><para
 >Les pestanyes són mòbils emprant el &BER; i tenen accions en el menú contextual per a tancar els documents, copiar el camí al porta-retalls o obrir la carpeta del document en el gestor de fitxers. Utilitzant el botó <inlinemediaobject
 ><imageobject
-><imagedata fileref="tab-duplicate-22.png" format="PNG"/></imageobject
+><imagedata fileref="quickopen-22.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > <link linkend="view-quick-open"
 ><guibutton

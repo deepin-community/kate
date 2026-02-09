@@ -9,8 +9,8 @@
 #include "dataoutputview.h"
 #include "exportwizard.h"
 
+#include <KTextEditor/Document>
 #include <ktexteditor/application.h>
-#include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
 #include <ktexteditor/mainwindow.h>
 #include <ktexteditor/view.h>
@@ -43,10 +43,10 @@ DataOutputWidget::DataOutputWidget(QWidget *parent)
 {
     m_view->setModel(m_model);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    auto *layout = new QHBoxLayout(this);
     m_dataLayout = new QVBoxLayout();
 
-    KToolBar *toolbar = new KToolBar(this);
+    auto *toolbar = new KToolBar(this);
     toolbar->setOrientation(Qt::Vertical);
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
@@ -83,7 +83,7 @@ DataOutputWidget::DataOutputWidget(QWidget *parent)
 
     toolbar->addSeparator();
 
-    KToggleAction *toggleAction =
+    auto *toggleAction =
         new KToggleAction(QIcon::fromTheme(QStringLiteral("applications-education-language")), i18nc("@action:intoolbar", "Use system locale"), this);
     toolbar->addAction(toggleAction);
     connect(toggleAction, &QAction::triggered, this, &DataOutputWidget::slotToggleLocale);
@@ -112,7 +112,7 @@ void DataOutputWidget::showQueryResultSets(QSqlQuery &query)
         return;
     }
 
-    m_model->setQuery(query);
+    m_model->setQuery(std::move(query));
 
     m_isEmpty = false;
 
@@ -296,8 +296,8 @@ void DataOutputWidget::exportData(QTextStream &stream,
     QElapsedTimer t;
     t.start();
 
-    QSet<int> columns;
-    QSet<int> rows;
+    std::vector<int> columns;
+    std::vector<int> rows;
     QHash<QPair<int, int>, QString> snapshot;
 
     const QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
@@ -310,14 +310,10 @@ void DataOutputWidget::exportData(QTextStream &stream,
         const int col = index.column();
         const int row = index.row();
 
-        if (!columns.contains(col)) {
-            columns.insert(col);
-        }
-        if (!rows.contains(row)) {
-            rows.insert(row);
-        }
+        columns.push_back(col);
+        rows.push_back(row);
 
-        if (data.type() < 7) // is numeric or boolean
+        if (data.typeId() < 7) // is numeric or boolean
         {
             if (numbersQuoteChar != QLatin1Char('\0')) {
                 snapshot[qMakePair(row, col)] = numbersQuoteChar + data.toString() + numbersQuoteChar;
@@ -333,14 +329,19 @@ void DataOutputWidget::exportData(QTextStream &stream,
         }
     }
 
+    // uniquify
+    std::sort(rows.begin(), rows.end());
+    std::sort(columns.begin(), columns.end());
+    rows.erase(std::unique(rows.begin(), rows.end()), rows.end());
+    columns.erase(std::unique(columns.begin(), columns.end()), columns.end());
+
     if (opt.testFlag(ExportColumnNames)) {
         if (opt.testFlag(ExportLineNumbers)) {
             stream << fixedFieldDelimiter;
         }
 
-        QSetIterator<int> j(columns);
-        while (j.hasNext()) {
-            const QVariant data = m_model->headerData(j.next(), Qt::Horizontal);
+        for (auto it = columns.begin(); it != columns.end(); ++it) {
+            const QVariant data = m_model->headerData(*it, Qt::Horizontal);
 
             if (stringsQuoteChar != QLatin1Char('\0')) {
                 stream << stringsQuoteChar + data.toString() + stringsQuoteChar;
@@ -348,23 +349,22 @@ void DataOutputWidget::exportData(QTextStream &stream,
                 stream << data.toString();
             }
 
-            if (j.hasNext()) {
+            if (it + 1 != columns.end()) {
                 stream << fixedFieldDelimiter;
             }
         }
         stream << "\n";
     }
 
-    for (const int row : qAsConst(rows)) {
+    for (const int row : std::as_const(rows)) {
         if (opt.testFlag(ExportLineNumbers)) {
             stream << row + 1 << fixedFieldDelimiter;
         }
 
-        QSetIterator<int> j(columns);
-        while (j.hasNext()) {
-            stream << snapshot.value(qMakePair(row, j.next()));
+        for (auto it = columns.begin(); it != columns.end(); ++it) {
+            stream << snapshot.value(qMakePair(row, *it));
 
-            if (j.hasNext()) {
+            if (it + 1 != columns.end()) {
                 stream << fixedFieldDelimiter;
             }
         }
@@ -373,3 +373,5 @@ void DataOutputWidget::exportData(QTextStream &stream,
 
     qDebug() << "Export in" << t.elapsed() << "msecs";
 }
+
+#include "moc_dataoutputwidget.cpp"

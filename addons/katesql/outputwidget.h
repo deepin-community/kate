@@ -5,8 +5,7 @@
  *  SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-#ifndef _OUTPUTWIDGET_H_
-#define _OUTPUTWIDGET_H_
+#pragma once
 
 #include <QTabWidget>
 
@@ -15,8 +14,6 @@ class DataOutputWidget;
 
 class KateSQLOutputWidget : public QTabWidget
 {
-    Q_OBJECT
-
 public:
     KateSQLOutputWidget(QWidget *parent);
 
@@ -35,6 +32,3 @@ private:
     TextOutputWidget *m_textOutputWidget;
     DataOutputWidget *m_dataOutputWidget;
 };
-
-#endif
-// kate: space-indent on; indent-width 2; replace-tabs on;
