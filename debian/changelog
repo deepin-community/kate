@@ -1,3 +1,9 @@
+kate (4:25.04.3-2deepin1) unstable; urgency=medium
+
+  * Reduce dependencies since deepin currently don't have some of them
+
+ -- Wang Zichong <wangzichong@deepin.com>  Tue, 24 Mar 2026 10:52:03 +0800
+
 kate (4:25.04.3-2) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
